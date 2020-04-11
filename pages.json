@@ -1,0 +1,346 @@
+{
+	"pages": [
+		//pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		
+		{
+			"path": "pages/tabbar/tabbar-1/tabbar-1",
+			"style": {
+				"navigationBarTitleText": "uni-app"
+			}
+		},
+		{
+			"path": "pages/tabbar/tabbar-2/tabbar-2",
+			"style": {
+				// "app-plus":{
+				// 	 "titleNView":{
+				// 		 "searchInput":{
+				// 			 "align":"center",
+				// 			 "backgroundColor":"#eee",
+				// 			 "borderRadius":"5px", // 只能用px作单位
+				// 			 "placeholder":"请输入内容",
+				// 			 "placeholderColor":"#ccc"
+				// 		 }
+				// 	 }
+				// }
+			 "navigationStyle":"custom",
+				
+			   "app-plus":{
+		
+			   "titleNView":false
+		
+			   }
+			}
+		},
+		{
+			"path": "pages/tabbar/tabbar-2/search/search",
+			"style": {
+				"app-plus":{
+					 "titleNView":{
+						 "searchInput":{
+							 "autoFocus": true,
+							 "align":"left",
+							 "backgroundColor":"#eee",
+							 "borderRadius":"5px", // 只能用px作单位
+							 "placeholder":"请输入群ID或群名",
+							 "placeholderColor":"#ccc"
+						 }
+					 }
+				}
+			}
+		},
+		{
+			"path":"pages/tabbar/tabbar-2/newCrowd/newCrowd",
+			"style":{
+				"navigationBarTitleText": "创建俱乐部"
+			}
+		},
+		{
+			"path":"pages/tabbar/tabbar-2/newCrowd/wanfashezhi/wanfashezhi",
+			"style":{
+				"navigationBarTitleText": "玩法设置",
+				"app-plus": {
+					"titleNView":{
+						"buttons":[
+							{
+								"text": "确定",
+								"fontSize": "16px",
+								"float": "right",
+								"width": "60px"
+							}
+						]
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/tabbar/tabbar-4/tabbar-4",
+			"style": {
+				"navigationBarTitleText": "客服咨询"
+			}
+		},
+		{
+			"path": "pages/tabbar/tabbar-4/query/query1",
+			"style": {
+				"navigationBarTitleText": "联系客服"
+			}
+		},
+		{
+			"path": "pages/tabbar/tabbar-4/query/query2",
+			"style": {
+				"navigationBarTitleText": "群架构"
+			}
+		},
+		{
+			"path": "pages/tabbar/tabbar-4/query/query3",
+			"style": {
+				"navigationBarTitleText": "如何充值提现？"
+			}
+		},
+		{
+			"path": "pages/tabbar/tabbar-4/query/query4",
+			"style": {
+				"navigationBarTitleText": "群ID靓号"
+			}
+		},
+		{
+			"path": "pages/tabbar/tabbar-4/query/query5",
+			"style": {
+				"navigationBarTitleText": "娱乐平台"
+			}
+		},
+		{
+			"path": "pages/tabbar/tabbar-4/query/query6",
+			"style": {
+				"navigationBarTitleText": "开群如何盈利"
+			}
+		},
+		{
+			"path": "pages/tabbar/tabbar-4/query/query7",
+			"style": {
+				"navigationBarTitleText": "投诉与建议"
+			}
+		},
+		{
+			"path": "pages/tabbar/tabbar-4/query/query8",
+			"style": {
+				"navigationBarTitleText": "靓号推荐码"
+			}
+		},
+		{
+			"path": "pages/tabbar/tabbar-5/tabbar-5",
+			"style": {
+				"navigationBarTitleText": "个人中心"
+				// "backgroundColor":"#000"
+			}
+		},
+		{
+			"path": "pages/tabbar/tabbar-5/myCenter/myCenter",
+			"style": {
+				"navigationBarTitleText": "个人信息",
+				"app-plus": {
+					"titleNView":{
+						"buttons":[
+							{
+								"text": "保存",
+								"fontSize": "16px",
+								"float": "right",
+								"width": "60px"
+							}
+						]
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/tabbar/tabbar-5/fenxiang/fenxiang",
+			"style": {
+				"navigationBarTitleText": "",
+				"transparentTitle": "always"
+				
+			}
+		},
+		{
+			"path": "pages/tabbar/tabbar-5/gerenshezhi/gerenshezhi",
+			"style": {
+				"navigationBarTitleText": "个人设置"
+				
+			}
+		},
+		{
+			"path": "pages/tabbar/tabbar-5/gerenshezhi/mimashezhi/mimashezhi",
+			"style": {
+				"navigationBarTitleText": "密码设置",
+				"app-plus": {    
+					"titleNView": {    
+						"splitLine": {  
+							"color":"#ccc"  
+						}    
+					}    
+				}
+			}
+		},
+		{
+			"path": "pages/tabbar/tabbar-5/gerenshezhi/mimashezhi/xiugaimima/xiugaimima",
+			"style": {
+				"navigationBarTitleText": "修改支付密码"
+				
+			}
+		},
+		{
+			"path": "pages/tabbar/tabbar-5/qunliao/qunliao",
+			"style": {
+				"navigationBarTitleText": "我的群聊",
+				"enablePullDownRefresh": true
+				
+			}
+		},
+		{
+			"path": "pages/tabbar/tabbar-5/qunzhushezhi/qunzhushezhi",
+			"style": {
+				"navigationBarTitleText": "群主设置",
+				"enablePullDownRefresh": true
+			}
+		},
+		{
+			"path": "pages/tabbar/tabbar-5/qunzhushezhi/liaotianxinxi/liaotianxinxi",
+			"style": {
+				"navigationBarTitleText": "聊天信息",
+				"app-plus":{
+					"scrollIndicator":"none"
+				}
+			}
+		},
+		{
+			"path": "pages/tabbar/tabbar-5/qunzhushezhi/liaotianxinxi/shanchurenyuan/shenchurenyuan",
+			"style": {
+				"navigationBarTitleText": "删除成员",
+				"scrollIndicator":"none",
+				"app-plus": {
+					"titleNView":{
+						"buttons":[
+							{
+								"text": "完成",
+								"fontSize": "16px",
+								"float": "right",
+								"width": "60px"
+							}
+						]
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/tabbar/tabbar-5/qunzhushezhi/liaotianxinxi/renyuan/renyuan",
+			"style": {
+				"navigationBarTitleText": "群成员",
+				"app-plus":{
+					"scrollIndicator":"none"
+				}
+			}
+		},
+		{
+			"path": "pages/tabbar/tabbar-5/qunzhushezhi/liaotianxinxi/tongyong/tongyong",
+			"style": {
+				"navigationBarTitleText": "",
+				"app-plus": {
+					"titleNView":{
+						"buttons":[
+							{
+								"text": "完成",
+								"fontSize": "16px",
+								"float": "right",
+								"width": "60px"
+							}
+						]
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/tabbar/tabbar-5/qunzhushezhi/liaotianxinxi/tiaozhengguizhe/tiaozhengguizhe",
+			"style": {
+				"navigationBarTitleText": "调整规则",
+				"app-plus":{
+					"scrollIndicator":"none"
+				}
+			}
+		},
+		{
+			"path": "pages/tabbar/tabbar-5/qunzhushezhi/liaotianxinxi/shangchuanma/shangchuanma",
+			"style": {
+				"navigationBarTitleText": "上传收款码",
+				"app-plus":{
+					"scrollIndicator":"none",
+					"titleNView":{
+						"buttons":[
+							{
+								"text": "保存",
+								"fontSize": "16px",
+								"float": "right",
+								"width": "60px"
+							}
+						]
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/login/login",
+			"style": {
+				"app-plus": {
+					"titleNView":false
+				}
+			}
+		},
+		{
+			"path": "pages/login/forgetPassword",
+			"style": {
+				"navigationBarTitleText": "忘记密码"
+				
+			}
+		},
+		{
+			"path": "pages/login/register",
+			"style": {
+				"navigationBarTitleText": "注册"
+			}
+		}
+	],
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "uni-app",
+		"navigationBarBackgroundColor": "#fff",
+		"backgroundColor": "#C0C0C0"
+	},
+	"tabBar": {
+		"borderStyle": "black",
+		"backgroundColor": "#333",
+		"color": "#8F8F94",
+		"selectedColor": "#f33e54",
+		"list": [{
+				"pagePath": "pages/tabbar/tabbar-1/tabbar-1",
+				"iconPath": "static/img/tabbar/home.png",
+				"selectedIconPath": "static/img/tabbar/homeactive.png",
+				"text": "首页"
+			},
+			{
+				"pagePath": "pages/tabbar/tabbar-2/tabbar-2",
+				"iconPath": "static/img/tabbar/guanzhu.png",
+				"selectedIconPath": "static/img/tabbar/guanzhuactive.png",
+				"text": "关注"
+			},
+			{
+				"pagePath": "pages/tabbar/tabbar-4/tabbar-4",
+				"iconPath": "static/img/tabbar/news.png",
+				"selectedIconPath": "static/img/tabbar/newsactive.png",
+				"text": "消息"
+			},
+			{
+				"pagePath": "pages/tabbar/tabbar-5/tabbar-5",
+				"iconPath": "static/img/tabbar/me.png",
+				"selectedIconPath": "static/img/tabbar/meactive.png",
+				"text": "我"
+			}
+		]
+	}
+}

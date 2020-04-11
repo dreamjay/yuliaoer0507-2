@@ -1,0 +1,25 @@
+ul,li{ padding:0;margin:0;list-style:none}
+
+.listBorderTop {
+	margin-top: 20upx;
+}
+
+.listBorderBottom {
+	margin-bottom: 20upx;
+}
+.breakLine{
+	position: relative;
+}
+.breakLine::after{
+	content: "";
+	position: absolute;
+	height: 1upx ;
+	background-color: #eee;
+	width: 640upx;
+	right: 0;
+	bottom: 1upx;
+}
+body{
+	color: #333;
+	/* box-sizing: border-box; */
+}
