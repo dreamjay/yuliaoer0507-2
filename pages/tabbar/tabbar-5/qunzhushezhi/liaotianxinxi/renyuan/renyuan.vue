@@ -62,6 +62,22 @@
 				}
 			}
 		},
+		onBackPress(e){
+			if(this.value){ //模态框打开了，先关掉在返回
+				if(e.from == 'backbutton') {//实体键
+					this.value = false
+					// setTimeout(()=>{
+					// 	uni.navigateBack({})
+					// },10)
+					return true
+				}
+				if(e.from == 'navigateBack'){
+					return false
+				}
+			} else{
+				return false
+			}
+		},
 		onLoad(option) {
 			// console.log(JSON.parse(option.userList))
 			this.crowdId = option.crowdId
@@ -107,7 +123,7 @@
 				}).then(res => {
 					
 					if(res.data.success){
-						console.log(this.showUserList)
+						// console.log(this.showUserList)
 						this.showUserList.find((item)=>(item.userId == userId)).role = type
 						uni.$emit('updateInfo',{msg:'页面更新1'})
 					}else{

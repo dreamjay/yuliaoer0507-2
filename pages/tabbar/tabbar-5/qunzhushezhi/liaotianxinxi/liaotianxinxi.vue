@@ -426,7 +426,7 @@
 				}).then(res => {
 					this.$store.commit('watchLoading', false)
 					if(res.data.success){
-						console.log('群成员',res.data.data)
+						// console.log('群成员',res.data.data)
 						this.userList = res.data.data
 					}else{
 						uni.showToast({
