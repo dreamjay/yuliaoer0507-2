@@ -44,15 +44,101 @@
     export default {
         data() {
             return {
+				type:'',
+				
             }
         },
+		onLoad(option) {
+			if(option.type == 'zhifu'){
+				this.type = 'zhifu'
+				uni.setNavigationBarTitle({
+					title:"修改支付密码"
+				})
+			}else if(option.type == 'denglu'){
+				this.type = 'denglu'
+				uni.setNavigationBarTitle({
+					title:"修改登录密码"
+				})
+			}
+		},
         methods: {
+			xiugaiZhifu(obj){
+				
+				this.$http.httpTokenRequest({
+					url: '/user/updatePayPassword',
+					method: 'post'
+				}, {
+					oldPayPassword:obj.jiu,
+					payPassword:obj.xin
+				}).then(res => {
+					
+					if(res.data.success){
+						uni.showToast({
+							title:'修改成功'
+						})
+						setTimeout(()=>{
+							uni.hideToast()
+							uni.navigateBack()
+						},1500)
+						
+					}else{
+						uni.showToast({
+							title:res.data.msg,
+							icon:'none'
+						})
+						
+					}
+				},error => {
+					uni.showToast({
+						title:'错误'+error,
+						icon:'none'
+					})
+				}) 
+			},
+			xiugaiDenglu(obj){
+				this.$http.httpTokenRequest({
+					url: '/user/updatePassword',
+					method: 'post'
+				}, {
+					oldPassword:obj.jiu,
+					password:obj.xin
+				}).then(res => {
+					
+					if(res.data.success){
+						uni.showToast({
+							title:'修改成功'
+						})
+						setTimeout(()=>{
+							uni.hideToast()
+							uni.navigateBack()
+						},1500)
+						
+					}else{
+						uni.showToast({
+							title:res.data.msg,
+							icon:'none'
+						})
+						
+					}
+				},error => {
+					uni.showToast({
+						title:'错误'+error,
+						icon:'none'
+					})
+				}) 
+			},
             formSubmit: function(e) {
-                console.log('form发生了submit事件，携带数据为：' + JSON.stringify(e.detail.value))
-                var formdata = e.detail.value
-                uni.showToast({
-					title:"修改成功"
-                });
+                // console.log('form发生了submit事件，携带数据为：' + JSON.stringify(e.detail.value))
+                if(e.detail.value.xin != e.detail.value.xin1){
+					uni.showToast({
+						title:'两次密码不一致',
+						icon:'none'
+					})
+				}else{
+					this.type == 'zhifu' && this.xiugaiZhifu(e.detail.value)
+					this.type == 'denglu' && this.xiugaiDenglu(e.detail.value)
+				}
+                
             },
             formReset: function(e) {
                 console.log('清空数据')
@@ -62,7 +148,10 @@
 </script>
 
 <style>
+	.uni-form-item{
+		padding: 20upx 0;
+	}
     .uni-form-item .title {
-        padding: 20rpx 0;
+        padding: 20upx 0;
     }
 </style>

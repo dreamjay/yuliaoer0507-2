@@ -5,7 +5,7 @@
 			<view class="ulBox" >
 				
 				<ul class="userList">
-					<li v-for="(item,index) in userList" :key="index" v-if="index<19" @click='liClick(index)'>
+					<li v-for="(item,index) in userList" :key="index" v-if="index<19" @click='liClick(index)' @longtap="longtap(index)">
 						<image :src="item.headUrl ? item.headUrl : '/static/img/weixin.png'" style="" mode="aspectFill"></image>
 						<text>{{item.nickName}}</text>
 						<span class="after" v-show="item.role" :style="{backgroundColor:handleText(item.role,'color')}">{{handleText(item.role)}}</span>
@@ -14,7 +14,7 @@
 				</ul>
 				
 				<view>
-					<navigator :url="'./renyuan/renyuan?userList='+JSON.stringify(userList)+''" open-type="navigate" hover-class="">
+					<navigator :url="'./renyuan/renyuan?crowdId='+this.crowdId+'&userList='+JSON.stringify(userList)+''" open-type="navigate" hover-class="">
 						<view class="bottom"><text>查看全部成员 ></text></view>
 					</navigator>
 				</view>
@@ -141,25 +141,67 @@
 				
 			</view>
 		</view>
+		
+		<chunLei-modal v-model="value" :mData="data" :type="type" @onConfirm="onConfirm" @cancel="cancel" :navHeight="height" :tabbarHeight="0">
+			
+			<view class="custom-view" @tap.stop>
+				<view class="hongbao" style="text-align: center;" :class="hideButton ? null : 'miniHongbao'">
+					<view><text>设置权限</text></view>
+					<view v-if="hideButton"><button :plain='true' size='mini' style="margin-top: 15upx;" :class="setRole == 'KE_FU' ? 'active' : null" @click="setClick('KE_FU')">设为客服</button></view>
+					<view v-if="hideButton"><button :plain='true' size='mini' style="margin-top: 15upx;" :class="setRole == 'CAI_WU' ? 'active' : null" @click="setClick('CAI_WU')">设为财务</button></view>
+					<view v-if="hideButton"><button :plain='true' size='mini' style="margin-top: 15upx;" :class="setRole == 'MIAN_SI' ? 'active' : null" @click="setClick('MIAN_SI')">设为免死号</button></view>
+					<view v-if="hideButton"><button :plain='true' size='mini' style="margin-top: 15upx;" :class="setRole == 'GU_KE' ? 'active' : null" @click="setClick('GU_KE')">设为普通用户</button></view>
+					<view v-if="hideButton"><button :plain='true' size='mini' style="margin-top: 15upx;" :class="setRole == 'ZONG_DAI' ? 'active' : null" @click="setClick('ZONG_DAI')">设为总代</button></view>
+					<view v-if="hideButton"><button :plain='true' size='mini' style="margin-top: 15upx;" :class="setRole == 'GU_DONG' ? 'active' : null" @click="setClick('GU_DONG')">设为股东</button></view>
+					<view><button :plain='true' size='mini' style="margin-top: 15upx;" @click="setClick('DONG_JIE')">冻结</button></view>
+				</view>
+				
+			</view>
+		</chunLei-modal>
 	</view>
 </template>
 
 <script>
 	import Loading from '@/components/loading/loading.vue'
+	import chunLeiModal from '@/components/chunLei-modal/chunLei-modal.vue'
 	export default{
-		components:{Loading},
+		components:{Loading,chunLeiModal},
 		data(){
 			return{
+				data:{},
+				value:false,
+				type:'custom',
+				height:0, //状态栏加导航栏的高度
+				setRole:'',//被设置人的角色
+				hideButton: true, //股东就一个按钮
+				userId: null, //设置角色时的USERID
 				userList:[], //群成员
 				crowdInfo:null, //群信息
 				jiangliguizheList:null, //奖励规则
 				crowdId:null,
-				switchStatus:{} //置顶，消息免打扰，中雷提示 开关状态
+				switchStatus:{} ,//置顶，消息免打扰，中雷提示 开关状态
+				
 			}
 		},
 		computed:{
 			isLoading:function(){
 				return this.$store.state.isLoading
+			}
+		},
+		onBackPress(e){
+			if(this.value){ //模态框打开了，先关掉在返回
+				if(e.from == 'backbutton') {//实体键
+					this.value = false
+					// setTimeout(()=>{
+					// 	uni.navigateBack({})
+					// },10)
+					return true
+				}
+				if(e.from == 'navigateBack'){
+					return false
+				}
+			} else{
+				return false
 			}
 		},
 		onLoad(option) {
@@ -178,9 +220,21 @@
 				this.getCrowdInfo(option.crowdId)
 				this.getJiangliguizhe(option.crowdId)
 			})
+			uni.getSystemInfo({
+			    success: (e) => {
+			      
+			      // #ifdef APP-PLUS
+			      // console.log('app-plus', e)
+			      
+			      this.height = e.statusBarHeight + 44
+			      // #endif
+				}
+			})
 		},
 		
 		methods:{
+			onConfirm(){},
+			cancel(){},
 			qunjinyan(e){
 				const is = e.detail.value ? 1 : 0
 				this.handleSwitch('bannedPost',is,'/crowd/updateBannedPost')
@@ -257,6 +311,62 @@
 					url:'./shanchurenyuan/shenchurenyuan?userList='+JSON.stringify(this.userList)+''
 				})
 			},
+			setClick(type){ //设置角色
+				this.value = false
+				switch(type){
+					case'KE_FU': {this.httpSetRole('/crowd/setUserKefu', this.crowdId, this.userId) ;break}
+					case'CAI_WU': {this.httpSetRole('/crowd/setUserCaiwu', this.crowdId, this.userId) ;break}
+					case'MIAN_SI': {this.httpSetRole('/crowd/setUserMianSi', this.crowdId, this.userId) ;break}
+					// case'GU_KE': {this.httpSetRole('/crowd/setUserKefu', this.crowdId, this.userId) ;break}
+					case'ZONG_DAI': {this.httpSetRole('/crowd/setUserZongdai', this.crowdId, this.userId) ;break}
+					case'GU_DONG': {this.httpSetRole('/crowd/setUserGudong', this.crowdId, this.userId) ;break}
+					// case'DONG_JIE': {this.httpSetRole('/crowd/setUserKefu', this.crowdId, this.userId) ;break}
+					
+				}
+				
+			},
+			httpSetRole(url,crowdId,userId){
+				
+				this.$http.httpTokenRequest({
+					url: url,
+					method: 'post'
+				}, {
+					userId:userId,
+					crowdId:crowdId
+				}).then(res => {
+					
+					if(res.data.success){
+						this.getCrowdInfo(this.crowdId)
+					}else{
+						uni.showToast({
+							title:res.data.msg,
+							icon:'none'
+						})
+					}
+				},error => {
+					uni.showToast({
+						title:'错误'+error,
+						icon:'none'
+					})
+				}) 
+			},
+			longtap(index){
+				// console.log(this.userList[index].role)
+				if(this.userList[index].role == 'QUN_ZHU'){
+					this.hideButton = true
+				} else if(this.userList[index].role == 'GU_DONG'){
+					this.hideButton = false
+					this.value = true
+					this.userId = this.userList[index].userId
+				}
+				else{
+					this.hideButton = true
+					this.userId = this.userList[index].userId
+					this.setRole = this.userList[index].role
+					this.value = true
+				}
+				
+			},
 			liClick(index){
 				
 			},
@@ -316,11 +426,8 @@
 				}).then(res => {
 					this.$store.commit('watchLoading', false)
 					if(res.data.success){
-						// console.log('群成员',res.data.data)
+						console.log('群成员',res.data.data)
 						this.userList = res.data.data
-						
-						
-						
 					}else{
 						uni.showToast({
 							title:res.data.msg,
@@ -366,6 +473,38 @@
 <style lang="scss" >
 	page{
 		background-color: #eee;
+	}
+	.custom-view{
+		overflow: hidden;
+		z-index: 999;
+		position: absolute;
+		top: 40%;
+		transform: translateY(-50%);
+		.hongbao{
+			padding: 50upx;
+			width: 300upx;
+			height: 666.66upx;
+			border-radius: 5px;
+			background: #fff;
+			view{
+				height:83upx;
+				line-height: 83upx;
+			}
+			button{
+				width: 300upx;
+				
+				border-color: #4CB964;
+				color: #4CB964;
+			}
+			.active{
+				color: #fff;
+				background-color: #4CB964;
+			}
+		}
+		.miniHongbao{
+			height: 183.33upx;
+		}
+		
 	}
 	.myList .guizhi{
 		display: flex;

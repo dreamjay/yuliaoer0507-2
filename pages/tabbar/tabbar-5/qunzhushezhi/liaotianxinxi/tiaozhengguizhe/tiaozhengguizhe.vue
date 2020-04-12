@@ -10,9 +10,9 @@
 		</view>
 		<view class="content">
 			<view class="guizhe" v-for="(item,index) in guizheList" :key="index" :class="index != disabledKey ? '' : 'active'">
-				<input type="text" v-model="item.name" :disabled='index != disabledKey'>
-				<input type="number" v-model="item.ruleCode" :disabled='index != disabledKey'>
-				<input type="number" v-model="item.amount" :disabled='index != disabledKey'>
+				<input type="text" v-model="item.name" :disabled='index != disabledKey' @confirm="confirm(index)">
+				<input type="number" v-model="item.ruleCode" :disabled='index != disabledKey' @confirm="confirm(index)">
+				<input type="number" v-model="item.amount" :disabled='index != disabledKey' @confirm="confirm(index)">
 				<view class="image">
 					<image :src='index != disabledKey ? "/static/img/bianji.png" : "/static/img/gou.png"' @click='edit(index)'></image>
 					<text>66</text>
@@ -38,6 +38,9 @@
 			this.guizheList = JSON.parse(option.guizheList)
 		},
 		methods:{
+			confirm(index){
+				this.edit(index)
+			},
 			getGuizhe(crowdId,isAdd){
 				this.$http.httpTokenRequest({
 					url: '/crowd/ruleList',
