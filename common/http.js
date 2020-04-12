@@ -56,7 +56,6 @@ const httpTokenRequest = (opts, data) => {
 	// });
 	token = JSON.parse(uni.getStorageSync('userInfo')).token
 	
-	
 	//此token是登录成功后后台返回保存在storage中的
 	let httpDefaultOpts = {
 		url: baseUrl+opts.url,
@@ -77,57 +76,30 @@ const httpTokenRequest = (opts, data) => {
 		
 		let promise = new Promise(function(resolve, reject) {
 			
-			
 			uni.request(httpDefaultOpts).then(
 			(res) => {
-				resolve(res[1])
-			}
-			).catch(
-				(response) => {
-					reject(response)
+				
+				// console.log('看看res',res[1].data)
+				try{
+					if(res[1].data.data && res[1].data.data.code == "TOKEN_INVALID"){
+						store.commit('watchLoading',false)
+						uni.showToast({
+							title:'token失效请重新登录',
+							icon:'none'
+						})
+						setTimeout(()=>{
+							uni.hideToast()
+							uni.reLaunch({
+							    url: '/pages/login/login'
+							});
+						},1500)
+					} else{
+						resolve(res[1])
+					}
+				} catch(err){
+					console.log('http.js解析token报错')
 				}
-			)
-		})
-		return promise
-};
-
-
-//带Token请求,消息推送
-const httpPushTokenRequest = (opts, data) => {
-	let token = "";
-	// uni.getStorage({
-	// 	key: 'token',
-	// 	success: function(ress) {
-	// 		token = ress.data
-	// 	}
-	// });
-	token = JSON.parse(uni.getStorageSync('userInfo')).token
-	
-	
-	//此token是登录成功后后台返回保存在storage中的
-	let httpDefaultOpts = {
-		url: basePushUrl+opts.url,
-		data: data,
-		method: opts.method,
-		header: opts.method == 'get' ? {
-			'Token': token,
-			'X-Requested-With': 'XMLHttpRequest',
-			"Accept": "application/json",
-			"Content-Type": "application/json; charset=UTF-8"
-		} : {
-			'Token': token,
-			'X-Requested-With': 'XMLHttpRequest',
-			'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-		},
-		dataType: 'json',
-		}
-		
-		let promise = new Promise(function(resolve, reject) {
-			
-			
-			uni.request(httpDefaultOpts).then(
-			(res) => {
-				resolve(res[1])
+				
 			}
 			).catch(
 				(response) => {
@@ -141,6 +113,5 @@ const httpPushTokenRequest = (opts, data) => {
 export default {
 	baseUrl,
 	httpRequest,
-	httpTokenRequest,
-	httpPushTokenRequest
+	httpTokenRequest
 }

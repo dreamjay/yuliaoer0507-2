@@ -7,7 +7,7 @@
 				
 				<li v-for="(item,index) in xuanran" :key="index" >
 					<navigator :url="'./liaotianxinxi/liaotianxinxi?crowdId='+item.crowdId+''" open-type="navigate" hover-class="">
-					<view class="imageBox">
+					<view class="imageBox" :class="headimgClass(item.imgs ? item.imgs.length : null)">
 						<image v-for="(itemm,indexx) in item.imgs" :key="indexx" :src="itemm" mode="scaleToFill"></image>
 					</view>
 					
@@ -72,6 +72,19 @@
 			}
 		},
 		methods:{
+			headimgClass(number){
+				switch(Number(number)){
+					case 1:{return 'yi';break}
+					case 2:{return 'er';break}
+					case 3:{return 'san';break}
+					case 4:{return 'si';break}
+					case 5:{return 'wu';break}
+					case 6:{return 'liu';break}
+					case 7:{return 'qi';break}
+					case 8:{return 'ba';break}
+					case 9:{return 'jiu';break}
+				}
+			},
 			getCrowd(isShowToast){
 				this.$http.httpTokenRequest({
 					url: '/crowd/listByUserId',
@@ -187,51 +200,20 @@
 				height: 110upx;
 				display: inline-block;
 				border-radius: 5px;
-				border: 1upx solid #eee;
+				// border: 1upx solid #eee;
+				background-color: #eee;
 				overflow: hidden;
+				position: relative;
+				vertical-align: middle;
 				image{
 					box-sizing: border-box;
-					
-					float: left;
-					width: 33.33%;
-					height: 33.33%;
 				}
-				image:nth-of-type(1) {
-					border-right:4upx solid #eee;
-					border-bottom: 4upx solid #eee;
-				}
-				image:nth-of-type(2) {
-					border-right:4upx solid #eee;
-					border-bottom: 4upx solid #eee;
-				}
-				image:nth-of-type(3) {
-					border-bottom: 4upx solid #eee;
-				}
-				image:nth-of-type(4) {
-					border-right:4upx solid #eee;
-					border-bottom: 4upx solid #eee;
-				}
-				image:nth-of-type(5) {
-					border-right:4upx solid #eee;
-					border-bottom: 4upx solid #eee;
-				}
-				image:nth-of-type(6) {
-					border-bottom: 4upx solid #eee;
-				}
-				image:nth-of-type(7) {
-					border-right:4upx solid #eee;
-					
-				}
-				image:nth-of-type(8) {
-					border-right:4upx solid #eee;
-				}
-				image:nth-of-type(9) {
-					
-				}
+				
 			}
+			
 			text{
 				margin-left: 20upx;
-				vertical-align: text-bottom;
+				vertical-align: sub;
 			}
 		}
 	}

@@ -79,7 +79,7 @@ export default {
 	}
 	.maxBox{
 		width: 100vw;
-		height: 95vh;
+		/* height: 95vh; */
 		.left{
 			float: left;
 		}
@@ -95,6 +95,7 @@ export default {
 			width: 50%;
 			.box {
 				position: relative;
+				margin-top: 70upx;
 				width: 50px;
 				height: 86.6px;
 				// margin: 50px auto;

@@ -218,9 +218,9 @@
 					// 进度条等于 上传到的进度
 					// _self.percent = res.progress
 					
-					console.log('上传进度' + res.progress)
-					console.log('已经上传的数据长度' + res.totalBytesSent)
-					console.log('预期需要上传的数据总长度' + res.totalBytesExpectedToSend)
+					// console.log('上传进度' + res.progress)
+					// console.log('已经上传的数据长度' + res.totalBytesSent)
+					// console.log('预期需要上传的数据总长度' + res.totalBytesExpectedToSend)
 					
 				})
 			}

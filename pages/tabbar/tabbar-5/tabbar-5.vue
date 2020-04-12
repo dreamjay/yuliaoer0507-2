@@ -72,7 +72,8 @@
 				        "appid": plus.runtime.appid,  
 				    };
 					uni.showToast({
-						title:"已是最新版本"
+						title:"已是最新版本",
+						icon:'none'
 					})
 					return
 				    uni.request({

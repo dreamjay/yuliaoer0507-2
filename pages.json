@@ -51,6 +51,7 @@
 		{
 			"path":"pages/tabbar/tabbar-2/newCrowd/newCrowd",
 			"style":{
+				"scrollIndicator":"none",
 				"navigationBarTitleText": "创建俱乐部"
 			}
 		},

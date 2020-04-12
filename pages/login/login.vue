@@ -21,7 +21,7 @@
 				<navigator url="./forgetPassword" open-type="navigate" hover-class="">
 					<text>忘记密码？</text>
 				</navigator>
-			</view>
+			</view>`
 			<button @click="login" style="background-color:#4cb964; margin-top: 100upx;" type="primary">登录</button>
 			
 			<view class="weixin">
@@ -38,8 +38,6 @@
 
 <script>
 	import Loading from '@/components/loading/loading.vue'
-	
-	
 	
 	export default{
 		components:{Loading},
@@ -86,8 +84,8 @@
 						if(res.data.success){
 							try{
 								uni.setStorageSync("userInfo",JSON.stringify(res.data.data))
+								uni.$emit('updateWs',{msg:'页面更新'})
 								
-								uni.$emit('stomp_connect')
 							} catch(err){
 								uni.showToast({
 									icon:"none",

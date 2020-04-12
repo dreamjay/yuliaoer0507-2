@@ -513,7 +513,7 @@
 				.after{
 					color:#fff;
 					padding: 1upx 5upx;
-					font-size: 1upx;
+					font-size: 8px;
 					line-height: 20upx;
 					position: absolute;
 					height: 20upx;
