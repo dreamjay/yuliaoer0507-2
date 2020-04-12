@@ -17,7 +17,7 @@
 			<div class="custom-view" @tap.stop>
 				<div class="hongbao" style="text-align: center;">
 					<text style="color:#4CB964; margin-top: 50upx;">请输入推荐码</text>
-					<input type="text" :focus='true' v-model="inputVal">
+					<input type="text" :focus='true' v-model="inputVal" @confirm='shenqingjiaqun' confirm-type='完成'>
 					<button @click="shenqingjiaqun" style="width: 400upx; background-color:#4cb964; margin-top: 50upx;" type="primary">确定</button>
 				</div>
 				
@@ -83,7 +83,7 @@
 			}
 			// #ifdef APP-PLUS
 				var webView = this.$mp.page.$getAppWebview();  
-				webView.setTitleNViewSearchInputFocus(false) 
+				webView.setTitleNViewSearchInputFocus(false)  //点搜索去焦点
 			// #endif
 			
 			this.$http.httpTokenRequest({
@@ -125,14 +125,13 @@
 				})
 			}) 
 		},
-		
 		onBackPress(e){
 			if(this.value){ //模态框打开了，先关掉在返回
 				if(e.from == 'backbutton') {//实体键
 					this.value = false
-					setTimeout(()=>{
-						uni.navigateBack({})
-					},10)
+					// setTimeout(()=>{
+					// 	uni.navigateBack({})
+					// },10)
 					return true
 				}
 				if(e.from == 'navigateBack'){
@@ -185,6 +184,7 @@
 				}).then(res => {
 					if(res.data.success){
 						// console.log(res.data.data)
+						uni.hideKeyboard()
 						this.value = !this.value
 						uni.showToast({
 							title:'已申请'

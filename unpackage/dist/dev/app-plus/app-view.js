@@ -2312,7 +2312,17 @@ var render = function() {
                     [_vm._v("请输入推荐码")]
                   ),
                   _c("v-uni-input", {
-                    attrs: { type: "text", focus: true, _i: 10 },
+                    attrs: {
+                      type: "text",
+                      focus: true,
+                      "confirm-type": "完成",
+                      _i: 10
+                    },
+                    on: {
+                      confirm: function($event) {
+                        return _vm.$handleViewEvent($event)
+                      }
+                    },
                     model: {
                       value: _vm._$g(10, "v-model"),
                       callback: function($$v) {
@@ -3782,7 +3792,17 @@ var render = function() {
                 { attrs: { _i: 10 } },
                 [
                   _c("v-uni-input", {
-                    attrs: { type: "number", placeholder: "最小金额", _i: 11 },
+                    attrs: {
+                      type: "number",
+                      placeholder: "最小金额",
+                      "confirm-type": "完成",
+                      _i: 11
+                    },
+                    on: {
+                      confirm: function($event) {
+                        return _vm.$handleViewEvent($event)
+                      }
+                    },
                     model: {
                       value: _vm._$g(11, "v-model"),
                       callback: function($$v) {
@@ -3793,7 +3813,17 @@ var render = function() {
                   }),
                   _c("v-uni-text", { attrs: { _i: 12 } }, [_vm._v("-")]),
                   _c("v-uni-input", {
-                    attrs: { type: "number", placeholder: "最大金额", _i: 13 },
+                    attrs: {
+                      type: "number",
+                      placeholder: "最大金额",
+                      "confirm-type": "完成",
+                      _i: 13
+                    },
+                    on: {
+                      confirm: function($event) {
+                        return _vm.$handleViewEvent($event)
+                      }
+                    },
                     model: {
                       value: _vm._$g(13, "v-model"),
                       callback: function($$v) {
@@ -3818,7 +3848,13 @@ var render = function() {
                 attrs: {
                   type: "number",
                   placeholder: "请设置红包个数",
+                  "confirm-type": "完成",
                   _i: 16
+                },
+                on: {
+                  confirm: function($event) {
+                    return _vm.$handleViewEvent($event)
+                  }
                 },
                 model: {
                   value: _vm._$g(16, "v-model"),
@@ -3841,7 +3877,13 @@ var render = function() {
                 attrs: {
                   type: "number",
                   placeholder: "请设置红包倍数",
+                  "confirm-type": "完成",
                   _i: 19
+                },
+                on: {
+                  confirm: function($event) {
+                    return _vm.$handleViewEvent($event)
+                  }
                 },
                 model: {
                   value: _vm._$g(19, "v-model"),
@@ -7700,19 +7742,36 @@ var render = function() {
           attrs: { _i: 1 }
         },
         [
-          _c(
-            "v-uni-navigator",
-            {
-              attrs: {
-                url: "./xiugaimima/xiugaimima",
-                "open-type": "navigate",
-                "hover-class": "",
-                _i: 2
-              }
-            },
-            [_c("uni-list-item", { attrs: { _i: 3 } })],
-            1
-          )
+          _vm._$g(2, "i")
+            ? _c(
+                "v-uni-navigator",
+                {
+                  attrs: {
+                    url: "./xiugaimima/xiugaimima?type=denglu",
+                    "open-type": "navigate",
+                    "hover-class": "",
+                    _i: 2
+                  }
+                },
+                [_c("uni-list-item", { attrs: { _i: 3 } })],
+                1
+              )
+            : _vm._e(),
+          _vm._$g(4, "i")
+            ? _c(
+                "v-uni-navigator",
+                {
+                  attrs: {
+                    url: "./xiugaimima/xiugaimima?type=zhifu",
+                    "open-type": "navigate",
+                    "hover-class": "",
+                    _i: 4
+                  }
+                },
+                [_c("uni-list-item", { attrs: { _i: 5 } })],
+                1
+              )
+            : _vm._e()
         ],
         1
       )
@@ -7812,7 +7871,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../../../../Downl
 
 
 // module
-exports.push([module.i, "\nbody {\n\tbackground-color: #eee;\n}\n.listBorderTop .uni-switch-input-checked{\n\tbackground-color: #4cB964!important;\n\tborder-color: #4cB964!important;\n}\n", ""]);
+exports.push([module.i, "\nbody {\n\tbackground-color: #eee;\n}\n.listBorderTop .uni-switch-input-checked{\n\tbackground-color: #4cB964!important;\n\tborder-color: #4cB964!important;\n}\n\n", ""]);
 
 // exports
 
@@ -8196,7 +8255,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../../../../../Do
 
 
 // module
-exports.push([module.i, "\n.uni-form-item .title {\n    padding: 20rpx 0;\n}\n", ""]);
+exports.push([module.i, "\n.uni-form-item{\n\t\tpadding: 20upx 0;\n}\n.uni-form-item .title {\n        padding: 20upx 0;\n}\n", ""]);
 
 // exports
 
@@ -8779,7 +8838,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "recyclableRender", function() { return recyclableRender; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "components", function() { return components; });
-var components
+var components = {
+  "chunLei-modal": __webpack_require__(/*! @/components/chunLei-modal/chunLei-modal.vue */ 57)
+    .default
+}
 var render = function() {
   var _vm = this
   var _h = _vm.$createElement
@@ -8820,6 +8882,9 @@ var render = function() {
                             attrs: { _i: "5-" + $30 },
                             on: {
                               click: function($event) {
+                                return _vm.$handleViewEvent($event)
+                              },
+                              longpress: function($event) {
                                 return _vm.$handleViewEvent($event)
                               }
                             }
@@ -9522,6 +9587,223 @@ var render = function() {
           )
         ],
         1
+      ),
+      _c(
+        "chunLei-modal",
+        {
+          attrs: { _i: 107 },
+          on: {
+            onConfirm: function($event) {
+              return _vm.$handleViewEvent($event)
+            },
+            cancel: function($event) {
+              return _vm.$handleViewEvent($event)
+            }
+          },
+          model: {
+            value: _vm._$g(107, "v-model"),
+            callback: function() {},
+            expression: "value"
+          }
+        },
+        [
+          _c(
+            "v-uni-view",
+            {
+              staticClass: _vm._$g(108, "sc"),
+              attrs: { _i: 108 },
+              on: {
+                click: function($event) {
+                  return _vm.$handleViewEvent($event, { stop: true })
+                }
+              }
+            },
+            [
+              _c(
+                "v-uni-view",
+                {
+                  staticClass: _vm._$g(109, "sc"),
+                  class: _vm._$g(109, "c"),
+                  staticStyle: { "text-align": "center" },
+                  attrs: { _i: 109 }
+                },
+                [
+                  _c(
+                    "v-uni-view",
+                    { attrs: { _i: 110 } },
+                    [
+                      _c("v-uni-text", { attrs: { _i: 111 } }, [
+                        _vm._v("设置权限")
+                      ])
+                    ],
+                    1
+                  ),
+                  _vm._$g(112, "i")
+                    ? _c(
+                        "v-uni-view",
+                        { attrs: { _i: 112 } },
+                        [
+                          _c(
+                            "v-uni-button",
+                            {
+                              class: _vm._$g(113, "c"),
+                              staticStyle: { "margin-top": "15upx" },
+                              attrs: { plain: true, size: "mini", _i: 113 },
+                              on: {
+                                click: function($event) {
+                                  return _vm.$handleViewEvent($event)
+                                }
+                              }
+                            },
+                            [_vm._v("设为客服")]
+                          )
+                        ],
+                        1
+                      )
+                    : _vm._e(),
+                  _vm._$g(114, "i")
+                    ? _c(
+                        "v-uni-view",
+                        { attrs: { _i: 114 } },
+                        [
+                          _c(
+                            "v-uni-button",
+                            {
+                              class: _vm._$g(115, "c"),
+                              staticStyle: { "margin-top": "15upx" },
+                              attrs: { plain: true, size: "mini", _i: 115 },
+                              on: {
+                                click: function($event) {
+                                  return _vm.$handleViewEvent($event)
+                                }
+                              }
+                            },
+                            [_vm._v("设为财务")]
+                          )
+                        ],
+                        1
+                      )
+                    : _vm._e(),
+                  _vm._$g(116, "i")
+                    ? _c(
+                        "v-uni-view",
+                        { attrs: { _i: 116 } },
+                        [
+                          _c(
+                            "v-uni-button",
+                            {
+                              class: _vm._$g(117, "c"),
+                              staticStyle: { "margin-top": "15upx" },
+                              attrs: { plain: true, size: "mini", _i: 117 },
+                              on: {
+                                click: function($event) {
+                                  return _vm.$handleViewEvent($event)
+                                }
+                              }
+                            },
+                            [_vm._v("设为免死号")]
+                          )
+                        ],
+                        1
+                      )
+                    : _vm._e(),
+                  _vm._$g(118, "i")
+                    ? _c(
+                        "v-uni-view",
+                        { attrs: { _i: 118 } },
+                        [
+                          _c(
+                            "v-uni-button",
+                            {
+                              class: _vm._$g(119, "c"),
+                              staticStyle: { "margin-top": "15upx" },
+                              attrs: { plain: true, size: "mini", _i: 119 },
+                              on: {
+                                click: function($event) {
+                                  return _vm.$handleViewEvent($event)
+                                }
+                              }
+                            },
+                            [_vm._v("设为普通用户")]
+                          )
+                        ],
+                        1
+                      )
+                    : _vm._e(),
+                  _vm._$g(120, "i")
+                    ? _c(
+                        "v-uni-view",
+                        { attrs: { _i: 120 } },
+                        [
+                          _c(
+                            "v-uni-button",
+                            {
+                              class: _vm._$g(121, "c"),
+                              staticStyle: { "margin-top": "15upx" },
+                              attrs: { plain: true, size: "mini", _i: 121 },
+                              on: {
+                                click: function($event) {
+                                  return _vm.$handleViewEvent($event)
+                                }
+                              }
+                            },
+                            [_vm._v("设为总代")]
+                          )
+                        ],
+                        1
+                      )
+                    : _vm._e(),
+                  _vm._$g(122, "i")
+                    ? _c(
+                        "v-uni-view",
+                        { attrs: { _i: 122 } },
+                        [
+                          _c(
+                            "v-uni-button",
+                            {
+                              class: _vm._$g(123, "c"),
+                              staticStyle: { "margin-top": "15upx" },
+                              attrs: { plain: true, size: "mini", _i: 123 },
+                              on: {
+                                click: function($event) {
+                                  return _vm.$handleViewEvent($event)
+                                }
+                              }
+                            },
+                            [_vm._v("设为股东")]
+                          )
+                        ],
+                        1
+                      )
+                    : _vm._e(),
+                  _c(
+                    "v-uni-view",
+                    { attrs: { _i: 124 } },
+                    [
+                      _c(
+                        "v-uni-button",
+                        {
+                          staticStyle: { "margin-top": "15upx" },
+                          attrs: { plain: true, size: "mini", _i: 125 },
+                          on: {
+                            click: function($event) {
+                              return _vm.$handleViewEvent($event)
+                            }
+                          }
+                        },
+                        [_vm._v("冻结")]
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ],
+        1
       )
     ],
     1
@@ -9558,7 +9840,8 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;
-var _loading = _interopRequireDefault(__webpack_require__(/*! @/components/loading/loading.vue */ 171));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var _default =
+var _loading = _interopRequireDefault(__webpack_require__(/*! @/components/loading/loading.vue */ 171));
+var _chunLeiModal = _interopRequireDefault(__webpack_require__(/*! @/components/chunLei-modal/chunLei-modal.vue */ 57));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var _default =
 {
 
   data: function data() {
@@ -9567,7 +9850,8 @@ var _loading = _interopRequireDefault(__webpack_require__(/*! @/components/loadi
 
   },
   components: {
-    'Loading': _loading.default } };exports.default = _default;
+    'Loading': _loading.default,
+    'chunLeiModal': _chunLeiModal.default } };exports.default = _default;
 
 /***/ }),
 /* 237 */
@@ -9617,7 +9901,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../../../../Downl
 
 
 // module
-exports.push([module.i, "@charset \"UTF-8\";\n/**\r\n * 这里是uni-app内置的常用样式变量\r\n *\r\n * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量\r\n * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App\r\n *\r\n */\n/**\r\n * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能\r\n *\r\n * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件\r\n */\n/* 颜色变量 */\n/* 行为相关颜色 */\n/* 文字基本颜色 */\n/* 背景颜色 */\n/* 边框颜色 */\n/* 尺寸变量 */\n/* 文字尺寸 */\n/* 图片尺寸 */\n/* Border Radius */\n/* 水平间距 */\n/* 垂直间距 */\n/* 透明度 */\n/* 文章场景相关 */\nbody {\n  background-color: #eee;\n}\n.myList .guizhi {\n  display: -webkit-box;\n  display: -webkit-flex;\n  display: flex;\n  -webkit-justify-content: space-around;\n          justify-content: space-around;\n  padding: 10px 0px;\n  background-color: #fff;\n  color: #999;\n}\n.myList {\n  font-size: 28upx;\n  color: #333;\n}\n.myList ul {\n  border-top: 1upx solid #ddd;\n  border-bottom: 1upx solid #ddd;\n}\n.myList .SelectList {\n  position: relative;\n  height: 120upx;\n  line-height: 120upx;\n  padding: 0upx 25upx;\n  background-color: #fff;\n  /* border-bottom: 1px solid #ddd; */\n}\n.myList .SelectList::before {\n  content: '';\n  position: absolute;\n  height: 1upx;\n  background-color: #ddd;\n  width: calc(100% - 0upx);\n  bottom: 0;\n  right: 0;\n}\n.myList .nullBottom::before {\n  content: '';\n  position: absolute;\n  height: 0upx;\n  background-color: #ddd;\n  width: calc(100% - 0upx);\n  bottom: 0;\n  right: 0;\n}\n.myList .SelectList uni-image {\n  width: 40upx;\n  height: 40upx;\n}\n.myList uni-text {\n  vertical-align: middle;\n  margin-left: 15upx;\n}\n.myList .SelectList uni-image:last-of-type {\n  float: right;\n  margin-top: 40upx;\n}\n.myList .SelectList uni-text:nth-of-type(2) {\n  position: absolute;\n  right: 80upx;\n  color: #666;\n}\n.myList .SelectList uni-switch {\n  float: right;\n}\n.uni-switch-input-checked {\n  background-color: #4cb964 !important;\n  border-color: #4cb964 !important;\n}\n.myList .SelectListMax uni-image {\n  width: 40upx;\n  height: 40upx;\n}\n.myList .SelectListMax uni-image:last-of-type {\n  float: right;\n  margin-top: 50upx;\n}\n.myList .SelectListMax {\n  position: relative;\n  height: 140upx;\n  padding: 0upx 25upx;\n  background-color: #fff;\n  border-bottom: 1px solid #ddd;\n}\n.myList .SelectListMax uni-text {\n  line-height: 70upx;\n}\n.myList .SelectListMax .bottom {\n  border: 0;\n  width: 650upx;\n}\n.myList .SelectListMax .bottom uni-text {\n  color: #999;\n  white-space: nowrap;\n  text-overflow: ellipsis;\n  overflow: hidden;\n  word-break: break-all;\n  display: inline-block;\n  width: 100%;\n}\n.ulBox {\n  text-align: center;\n  padding: 20upx 0;\n  background-color: #fff;\n}\n.ulBox .userList {\n    padding: 0 25upx;\n}\n.ulBox .userList li {\n      float: left;\n      width: 140upx;\n      height: 140upx;\n      padding: 0 0 30upx 0;\n      position: relative;\n}\n.ulBox .userList li uni-image {\n        width: 100upx;\n        height: 100upx;\n        border-radius: 5px;\n        display: inline-block;\n        vertical-align: top;\n}\n.ulBox .userList li uni-text {\n        white-space: nowrap;\n        text-overflow: ellipsis;\n        overflow: hidden;\n        word-break: break-all;\n        display: inline-block;\n        width: 120upx;\n        height: 30upx;\n        line-height: 30upx;\n        color: #999;\n        font-size: 12px;\n        vertical-align: top;\n        margin-top: 10upx;\n}\n.ulBox .userList li .after {\n        color: #fff;\n        padding: 1upx 5upx;\n        font-size: 8px;\n        line-height: 20upx;\n        position: absolute;\n        height: 20upx;\n        right: 20upx;\n        top: 10upx;\n        border-radius: 10upx 0 0 10upx;\n}\n.ulBox .userList .deleteClass uni-image {\n      display: none;\n}\n.ulBox .userList .deleteClass uni-text {\n      display: none;\n}\n.ulBox .userList .deleteClass .after {\n      display: none;\n}\n.ulBox .userList .deleteClass::before {\n      content: '';\n      position: absolute;\n      height: 2px;\n      width: 70upx;\n      top: 49upx;\n      left: 35upx;\n      background-color: #ccc;\n      border-radius: 1px;\n}\n.ulBox .userList .deleteClass::after {\n      content: '';\n      position: absolute;\n      width: 100upx;\n      height: 100upx;\n      border-radius: 5px;\n      box-sizing: border-box;\n      border: 1px solid #eee;\n      top: 0;\n      left: 20upx;\n}\n.ulBox .userList::after {\n    content: '';\n    display: block;\n    clear: both;\n}\n.ulBox .bottom uni-text {\n    color: #999;\n}\n", ""]);
+exports.push([module.i, "@charset \"UTF-8\";\n/**\r\n * 这里是uni-app内置的常用样式变量\r\n *\r\n * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量\r\n * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App\r\n *\r\n */\n/**\r\n * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能\r\n *\r\n * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件\r\n */\n/* 颜色变量 */\n/* 行为相关颜色 */\n/* 文字基本颜色 */\n/* 背景颜色 */\n/* 边框颜色 */\n/* 尺寸变量 */\n/* 文字尺寸 */\n/* 图片尺寸 */\n/* Border Radius */\n/* 水平间距 */\n/* 垂直间距 */\n/* 透明度 */\n/* 文章场景相关 */\nbody {\n  background-color: #eee;\n}\n.custom-view {\n  overflow: hidden;\n  z-index: 999;\n  position: absolute;\n  top: 40%;\n  -webkit-transform: translateY(-50%);\n          transform: translateY(-50%);\n}\n.custom-view .hongbao {\n    padding: 50upx;\n    width: 300upx;\n    height: 666.66upx;\n    border-radius: 5px;\n    background: #fff;\n}\n.custom-view .hongbao uni-view {\n      height: 83upx;\n      line-height: 83upx;\n}\n.custom-view .hongbao uni-button {\n      width: 300upx;\n      border-color: #4CB964;\n      color: #4CB964;\n}\n.custom-view .hongbao .active {\n      color: #fff;\n      background-color: #4CB964;\n}\n.custom-view .miniHongbao {\n    height: 183.33upx;\n}\n.myList .guizhi {\n  display: -webkit-box;\n  display: -webkit-flex;\n  display: flex;\n  -webkit-justify-content: space-around;\n          justify-content: space-around;\n  padding: 10px 0px;\n  background-color: #fff;\n  color: #999;\n}\n.myList {\n  font-size: 28upx;\n  color: #333;\n}\n.myList ul {\n  border-top: 1upx solid #ddd;\n  border-bottom: 1upx solid #ddd;\n}\n.myList .SelectList {\n  position: relative;\n  height: 120upx;\n  line-height: 120upx;\n  padding: 0upx 25upx;\n  background-color: #fff;\n  /* border-bottom: 1px solid #ddd; */\n}\n.myList .SelectList::before {\n  content: '';\n  position: absolute;\n  height: 1upx;\n  background-color: #ddd;\n  width: calc(100% - 0upx);\n  bottom: 0;\n  right: 0;\n}\n.myList .nullBottom::before {\n  content: '';\n  position: absolute;\n  height: 0upx;\n  background-color: #ddd;\n  width: calc(100% - 0upx);\n  bottom: 0;\n  right: 0;\n}\n.myList .SelectList uni-image {\n  width: 40upx;\n  height: 40upx;\n}\n.myList uni-text {\n  vertical-align: middle;\n  margin-left: 15upx;\n}\n.myList .SelectList uni-image:last-of-type {\n  float: right;\n  margin-top: 40upx;\n}\n.myList .SelectList uni-text:nth-of-type(2) {\n  position: absolute;\n  right: 80upx;\n  color: #666;\n}\n.myList .SelectList uni-switch {\n  float: right;\n}\n.uni-switch-input-checked {\n  background-color: #4cb964 !important;\n  border-color: #4cb964 !important;\n}\n.myList .SelectListMax uni-image {\n  width: 40upx;\n  height: 40upx;\n}\n.myList .SelectListMax uni-image:last-of-type {\n  float: right;\n  margin-top: 50upx;\n}\n.myList .SelectListMax {\n  position: relative;\n  height: 140upx;\n  padding: 0upx 25upx;\n  background-color: #fff;\n  border-bottom: 1px solid #ddd;\n}\n.myList .SelectListMax uni-text {\n  line-height: 70upx;\n}\n.myList .SelectListMax .bottom {\n  border: 0;\n  width: 650upx;\n}\n.myList .SelectListMax .bottom uni-text {\n  color: #999;\n  white-space: nowrap;\n  text-overflow: ellipsis;\n  overflow: hidden;\n  word-break: break-all;\n  display: inline-block;\n  width: 100%;\n}\n.ulBox {\n  text-align: center;\n  padding: 20upx 0;\n  background-color: #fff;\n}\n.ulBox .userList {\n    padding: 0 25upx;\n}\n.ulBox .userList li {\n      float: left;\n      width: 140upx;\n      height: 140upx;\n      padding: 0 0 30upx 0;\n      position: relative;\n}\n.ulBox .userList li uni-image {\n        width: 100upx;\n        height: 100upx;\n        border-radius: 5px;\n        display: inline-block;\n        vertical-align: top;\n}\n.ulBox .userList li uni-text {\n        white-space: nowrap;\n        text-overflow: ellipsis;\n        overflow: hidden;\n        word-break: break-all;\n        display: inline-block;\n        width: 120upx;\n        height: 30upx;\n        line-height: 30upx;\n        color: #999;\n        font-size: 12px;\n        vertical-align: top;\n        margin-top: 10upx;\n}\n.ulBox .userList li .after {\n        color: #fff;\n        padding: 1upx 5upx;\n        font-size: 8px;\n        line-height: 20upx;\n        position: absolute;\n        height: 20upx;\n        right: 20upx;\n        top: 10upx;\n        border-radius: 10upx 0 0 10upx;\n}\n.ulBox .userList .deleteClass uni-image {\n      display: none;\n}\n.ulBox .userList .deleteClass uni-text {\n      display: none;\n}\n.ulBox .userList .deleteClass .after {\n      display: none;\n}\n.ulBox .userList .deleteClass::before {\n      content: '';\n      position: absolute;\n      height: 2px;\n      width: 70upx;\n      top: 49upx;\n      left: 35upx;\n      background-color: #ccc;\n      border-radius: 1px;\n}\n.ulBox .userList .deleteClass::after {\n      content: '';\n      position: absolute;\n      width: 100upx;\n      height: 100upx;\n      border-radius: 5px;\n      box-sizing: border-box;\n      border: 1px solid #eee;\n      top: 0;\n      left: 20upx;\n}\n.ulBox .userList::after {\n    content: '';\n    display: block;\n    clear: both;\n}\n.ulBox .bottom uni-text {\n    color: #999;\n}\n", ""]);
 
 // exports
 
@@ -9957,7 +10241,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "recyclableRender", function() { return recyclableRender; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "components", function() { return components; });
-var components
+var components = {
+  "chunLei-modal": __webpack_require__(/*! @/components/chunLei-modal/chunLei-modal.vue */ 57)
+    .default
+}
 var render = function() {
   var _vm = this
   var _h = _vm.$createElement
@@ -9994,7 +10281,15 @@ var render = function() {
             _vm._l(_vm._$g(6, "f"), function(item, index, $20, $30) {
               return _c(
                 "li",
-                { key: item, attrs: { _i: "6-" + $30 } },
+                {
+                  key: item,
+                  attrs: { _i: "6-" + $30 },
+                  on: {
+                    longpress: function($event) {
+                      return _vm.$handleViewEvent($event)
+                    }
+                  }
+                },
                 [
                   _c("v-uni-image", {
                     attrs: {
@@ -10027,6 +10322,223 @@ var render = function() {
                 1
               )
             }),
+            1
+          )
+        ],
+        1
+      ),
+      _c(
+        "chunLei-modal",
+        {
+          attrs: { _i: 10 },
+          on: {
+            onConfirm: function($event) {
+              return _vm.$handleViewEvent($event)
+            },
+            cancel: function($event) {
+              return _vm.$handleViewEvent($event)
+            }
+          },
+          model: {
+            value: _vm._$g(10, "v-model"),
+            callback: function() {},
+            expression: "value"
+          }
+        },
+        [
+          _c(
+            "v-uni-view",
+            {
+              staticClass: _vm._$g(11, "sc"),
+              attrs: { _i: 11 },
+              on: {
+                click: function($event) {
+                  return _vm.$handleViewEvent($event, { stop: true })
+                }
+              }
+            },
+            [
+              _c(
+                "v-uni-view",
+                {
+                  staticClass: _vm._$g(12, "sc"),
+                  class: _vm._$g(12, "c"),
+                  staticStyle: { "text-align": "center" },
+                  attrs: { _i: 12 }
+                },
+                [
+                  _c(
+                    "v-uni-view",
+                    { attrs: { _i: 13 } },
+                    [
+                      _c("v-uni-text", { attrs: { _i: 14 } }, [
+                        _vm._v("设置权限")
+                      ])
+                    ],
+                    1
+                  ),
+                  _vm._$g(15, "i")
+                    ? _c(
+                        "v-uni-view",
+                        { attrs: { _i: 15 } },
+                        [
+                          _c(
+                            "v-uni-button",
+                            {
+                              class: _vm._$g(16, "c"),
+                              staticStyle: { "margin-top": "15upx" },
+                              attrs: { plain: true, size: "mini", _i: 16 },
+                              on: {
+                                click: function($event) {
+                                  return _vm.$handleViewEvent($event)
+                                }
+                              }
+                            },
+                            [_vm._v("设为客服")]
+                          )
+                        ],
+                        1
+                      )
+                    : _vm._e(),
+                  _vm._$g(17, "i")
+                    ? _c(
+                        "v-uni-view",
+                        { attrs: { _i: 17 } },
+                        [
+                          _c(
+                            "v-uni-button",
+                            {
+                              class: _vm._$g(18, "c"),
+                              staticStyle: { "margin-top": "15upx" },
+                              attrs: { plain: true, size: "mini", _i: 18 },
+                              on: {
+                                click: function($event) {
+                                  return _vm.$handleViewEvent($event)
+                                }
+                              }
+                            },
+                            [_vm._v("设为财务")]
+                          )
+                        ],
+                        1
+                      )
+                    : _vm._e(),
+                  _vm._$g(19, "i")
+                    ? _c(
+                        "v-uni-view",
+                        { attrs: { _i: 19 } },
+                        [
+                          _c(
+                            "v-uni-button",
+                            {
+                              class: _vm._$g(20, "c"),
+                              staticStyle: { "margin-top": "15upx" },
+                              attrs: { plain: true, size: "mini", _i: 20 },
+                              on: {
+                                click: function($event) {
+                                  return _vm.$handleViewEvent($event)
+                                }
+                              }
+                            },
+                            [_vm._v("设为免死号")]
+                          )
+                        ],
+                        1
+                      )
+                    : _vm._e(),
+                  _vm._$g(21, "i")
+                    ? _c(
+                        "v-uni-view",
+                        { attrs: { _i: 21 } },
+                        [
+                          _c(
+                            "v-uni-button",
+                            {
+                              class: _vm._$g(22, "c"),
+                              staticStyle: { "margin-top": "15upx" },
+                              attrs: { plain: true, size: "mini", _i: 22 },
+                              on: {
+                                click: function($event) {
+                                  return _vm.$handleViewEvent($event)
+                                }
+                              }
+                            },
+                            [_vm._v("设为普通用户")]
+                          )
+                        ],
+                        1
+                      )
+                    : _vm._e(),
+                  _vm._$g(23, "i")
+                    ? _c(
+                        "v-uni-view",
+                        { attrs: { _i: 23 } },
+                        [
+                          _c(
+                            "v-uni-button",
+                            {
+                              class: _vm._$g(24, "c"),
+                              staticStyle: { "margin-top": "15upx" },
+                              attrs: { plain: true, size: "mini", _i: 24 },
+                              on: {
+                                click: function($event) {
+                                  return _vm.$handleViewEvent($event)
+                                }
+                              }
+                            },
+                            [_vm._v("设为总代")]
+                          )
+                        ],
+                        1
+                      )
+                    : _vm._e(),
+                  _vm._$g(25, "i")
+                    ? _c(
+                        "v-uni-view",
+                        { attrs: { _i: 25 } },
+                        [
+                          _c(
+                            "v-uni-button",
+                            {
+                              class: _vm._$g(26, "c"),
+                              staticStyle: { "margin-top": "15upx" },
+                              attrs: { plain: true, size: "mini", _i: 26 },
+                              on: {
+                                click: function($event) {
+                                  return _vm.$handleViewEvent($event)
+                                }
+                              }
+                            },
+                            [_vm._v("设为股东")]
+                          )
+                        ],
+                        1
+                      )
+                    : _vm._e(),
+                  _c(
+                    "v-uni-view",
+                    { attrs: { _i: 27 } },
+                    [
+                      _c(
+                        "v-uni-button",
+                        {
+                          staticStyle: { "margin-top": "15upx" },
+                          attrs: { plain: true, size: "mini", _i: 28 },
+                          on: {
+                            click: function($event) {
+                              return _vm.$handleViewEvent($event)
+                            }
+                          }
+                        },
+                        [_vm._v("冻结")]
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
             1
           )
         ],
@@ -10066,8 +10578,8 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default =
-
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;
+var _chunLeiModal = _interopRequireDefault(__webpack_require__(/*! @/components/chunLei-modal/chunLei-modal.vue */ 57));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var _default =
 {
 
   data: function data() {
@@ -10075,7 +10587,8 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
       wxsProps: {} };
 
   },
-  components: {} };exports.default = _default;
+  components: {
+    'chunLeiModal': _chunLeiModal.default } };exports.default = _default;
 
 /***/ }),
 /* 253 */
@@ -10125,7 +10638,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../../../../../Do
 
 
 // module
-exports.push([module.i, "@charset \"UTF-8\";\n/**\r\n * 这里是uni-app内置的常用样式变量\r\n *\r\n * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量\r\n * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App\r\n *\r\n */\n/**\r\n * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能\r\n *\r\n * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件\r\n */\n/* 颜色变量 */\n/* 行为相关颜色 */\n/* 文字基本颜色 */\n/* 背景颜色 */\n/* 边框颜色 */\n/* 尺寸变量 */\n/* 文字尺寸 */\n/* 图片尺寸 */\n/* Border Radius */\n/* 水平间距 */\n/* 垂直间距 */\n/* 透明度 */\n/* 文章场景相关 */\n.search[data-v-65884db6] {\n  padding: 0upx 20upx 20upx 20upx;\n  border-bottom: 1upx solid #eee;\n  position: fixed;\n  top: 0;\n  left: 0;\n  height: 40upx;\n  z-index: 8;\n  background-color: #fff;\n}\n.search uni-image[data-v-65884db6] {\n    width: 40upx;\n    height: 40upx;\n    vertical-align: middle;\n}\n.search uni-input[data-v-65884db6] {\n    display: inline-block;\n    vertical-align: middle;\n    width: 655upx;\n    padding-left: 15upx;\n}\n.ulBox[data-v-65884db6] {\n  text-align: center;\n  padding: 20upx 0;\n  background-color: #fff;\n  margin-top: 60upx;\n}\n.ulBox .userList[data-v-65884db6] {\n    padding: 0 25upx;\n}\n.ulBox .userList li[data-v-65884db6] {\n      float: left;\n      width: 140upx;\n      height: 140upx;\n      padding: 0 0 30upx 0;\n      position: relative;\n}\n.ulBox .userList li uni-image[data-v-65884db6] {\n        width: 100upx;\n        height: 100upx;\n        border-radius: 5px;\n        display: inline-block;\n        vertical-align: top;\n}\n.ulBox .userList li uni-text[data-v-65884db6] {\n        white-space: nowrap;\n        text-overflow: ellipsis;\n        overflow: hidden;\n        word-break: break-all;\n        display: inline-block;\n        width: 120upx;\n        height: 30upx;\n        line-height: 30upx;\n        color: #999;\n        font-size: 12px;\n        vertical-align: top;\n        margin-top: 10upx;\n}\n.ulBox .userList li .after[data-v-65884db6] {\n        color: #fff;\n        padding: 1upx 5upx;\n        font-size: 1upx;\n        line-height: 20upx;\n        position: absolute;\n        height: 20upx;\n        right: 20upx;\n        top: 10upx;\n        border-radius: 10upx 0 0 10upx;\n}\n.ulBox .userList[data-v-65884db6]::before {\n    content: '';\n    display: block;\n    clear: both;\n}\n", ""]);
+exports.push([module.i, "@charset \"UTF-8\";\n/**\r\n * 这里是uni-app内置的常用样式变量\r\n *\r\n * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量\r\n * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App\r\n *\r\n */\n/**\r\n * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能\r\n *\r\n * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件\r\n */\n/* 颜色变量 */\n/* 行为相关颜色 */\n/* 文字基本颜色 */\n/* 背景颜色 */\n/* 边框颜色 */\n/* 尺寸变量 */\n/* 文字尺寸 */\n/* 图片尺寸 */\n/* Border Radius */\n/* 水平间距 */\n/* 垂直间距 */\n/* 透明度 */\n/* 文章场景相关 */\n.custom-view[data-v-65884db6] {\n  overflow: hidden;\n  z-index: 999;\n  position: absolute;\n  top: 40%;\n  -webkit-transform: translateY(-50%);\n          transform: translateY(-50%);\n}\n.custom-view .hongbao[data-v-65884db6] {\n    padding: 50upx;\n    width: 300upx;\n    height: 666.66upx;\n    border-radius: 5px;\n    background: #fff;\n}\n.custom-view .hongbao uni-view[data-v-65884db6] {\n      height: 83upx;\n      line-height: 83upx;\n}\n.custom-view .hongbao uni-button[data-v-65884db6] {\n      width: 300upx;\n      border-color: #4CB964;\n      color: #4CB964;\n}\n.custom-view .hongbao .active[data-v-65884db6] {\n      color: #fff;\n      background-color: #4CB964;\n}\n.custom-view .miniHongbao[data-v-65884db6] {\n    height: 183.33upx;\n}\n.search[data-v-65884db6] {\n  padding: 0upx 20upx 20upx 20upx;\n  border-bottom: 1upx solid #eee;\n  position: fixed;\n  top: 0;\n  left: 0;\n  height: 40upx;\n  z-index: 8;\n  background-color: #fff;\n}\n.search uni-image[data-v-65884db6] {\n    width: 40upx;\n    height: 40upx;\n    vertical-align: middle;\n}\n.search uni-input[data-v-65884db6] {\n    display: inline-block;\n    vertical-align: middle;\n    width: 655upx;\n    padding-left: 15upx;\n}\n.ulBox[data-v-65884db6] {\n  text-align: center;\n  padding: 20upx 0;\n  background-color: #fff;\n  margin-top: 60upx;\n}\n.ulBox .userList[data-v-65884db6] {\n    padding: 0 25upx;\n}\n.ulBox .userList li[data-v-65884db6] {\n      float: left;\n      width: 140upx;\n      height: 140upx;\n      padding: 0 0 30upx 0;\n      position: relative;\n}\n.ulBox .userList li uni-image[data-v-65884db6] {\n        width: 100upx;\n        height: 100upx;\n        border-radius: 5px;\n        display: inline-block;\n        vertical-align: top;\n}\n.ulBox .userList li uni-text[data-v-65884db6] {\n        white-space: nowrap;\n        text-overflow: ellipsis;\n        overflow: hidden;\n        word-break: break-all;\n        display: inline-block;\n        width: 120upx;\n        height: 30upx;\n        line-height: 30upx;\n        color: #999;\n        font-size: 12px;\n        vertical-align: top;\n        margin-top: 10upx;\n}\n.ulBox .userList li .after[data-v-65884db6] {\n        color: #fff;\n        padding: 1upx 5upx;\n        font-size: 1upx;\n        line-height: 20upx;\n        position: absolute;\n        height: 20upx;\n        right: 20upx;\n        top: 10upx;\n        border-radius: 10upx 0 0 10upx;\n}\n.ulBox .userList[data-v-65884db6]::before {\n    content: '';\n    display: block;\n    clear: both;\n}\n", ""]);
 
 // exports
 
@@ -10221,9 +10734,15 @@ var render = function() {
             staticClass: _vm._$g(1, "sc"),
             attrs: {
               type: "text",
+              "confirm-type": "完成",
               focus: true,
               cursor: _vm._$g(1, "a-cursor"),
               _i: 1
+            },
+            on: {
+              confirm: function($event) {
+                return _vm.$handleViewEvent($event)
+              }
             },
             model: {
               value: _vm._$g(1, "v-model"),
@@ -10249,10 +10768,16 @@ var render = function() {
                   _c("v-uni-input", {
                     class: _vm._$g(5, "c"),
                     attrs: {
+                      "confirm-type": "完成",
                       type: "number",
                       cursor: _vm._$g(5, "a-cursor"),
                       focus: true,
                       _i: 5
+                    },
+                    on: {
+                      confirm: function($event) {
+                        return _vm.$handleViewEvent($event)
+                      }
                     },
                     model: {
                       value: _vm._$g(5, "v-model"),
@@ -10288,9 +10813,15 @@ var render = function() {
                 [
                   _c("v-uni-input", {
                     attrs: {
+                      "confirm-type": "完成",
                       type: "number",
                       cursor: _vm._$g(10, "a-cursor"),
                       _i: 10
+                    },
+                    on: {
+                      confirm: function($event) {
+                        return _vm.$handleViewEvent($event)
+                      }
                     },
                     model: {
                       value: _vm._$g(10, "v-model"),
@@ -10303,10 +10834,16 @@ var render = function() {
                   _c("v-uni-text", { attrs: { _i: 11 } }, [_vm._v("-")]),
                   _c("v-uni-input", {
                     attrs: {
+                      "confirm-type": "完成",
                       type: "number",
                       cursor: _vm._$g(12, "a-cursor"),
                       focus: true,
                       _i: 12
+                    },
+                    on: {
+                      confirm: function($event) {
+                        return _vm.$handleViewEvent($event)
+                      }
                     },
                     model: {
                       value: _vm._$g(12, "v-model"),
@@ -10590,6 +11127,11 @@ var render = function() {
                   disabled: _vm._$g("11-" + $30, "a-disabled"),
                   _i: "11-" + $30
                 },
+                on: {
+                  confirm: function($event) {
+                    return _vm.$handleViewEvent($event)
+                  }
+                },
                 model: {
                   value: _vm._$g("11-" + $30, "v-model"),
                   callback: function($$v) {
@@ -10604,6 +11146,11 @@ var render = function() {
                   disabled: _vm._$g("12-" + $30, "a-disabled"),
                   _i: "12-" + $30
                 },
+                on: {
+                  confirm: function($event) {
+                    return _vm.$handleViewEvent($event)
+                  }
+                },
                 model: {
                   value: _vm._$g("12-" + $30, "v-model"),
                   callback: function($$v) {
@@ -10617,6 +11164,11 @@ var render = function() {
                   type: "number",
                   disabled: _vm._$g("13-" + $30, "a-disabled"),
                   _i: "13-" + $30
+                },
+                on: {
+                  confirm: function($event) {
+                    return _vm.$handleViewEvent($event)
+                  }
                 },
                 model: {
                   value: _vm._$g("13-" + $30, "v-model"),
@@ -12357,7 +12909,7 @@ exports = module.exports = __webpack_require__(/*! ../../../Downloads/HBuilderX.
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\r\n/*每个页面公共css */ \r\n/* ul,li{ padding:0;margin:0;list-style:none} */\nul,li{ padding:0;margin:0;list-style:none}\n.listBorderTop {\r\n\tmargin-top: 20upx;\n}\n.listBorderBottom {\r\n\tmargin-bottom: 20upx;\n}\n.breakLine{\r\n\tposition: relative;\n}\n.breakLine::after{\r\n\tcontent: \"\";\r\n\tposition: absolute;\r\n\theight: 1upx ;\r\n\tbackground-color: #eee;\r\n\twidth: 640upx;\r\n\tright: 0;\r\n\tbottom: 1upx;\n}\nbody{\r\n\tcolor: #333;\r\n\tfont-size: 14px;\r\n\t/* box-sizing: border-box; */\n}\n.yi uni-image{\r\n\twidth: 33.33%;\r\n\theight: 33.33%;\r\n\tborder:4upx solid #eee;\r\n\tposition: absolute;\r\n\ttop: 50%;\r\n\tleft:50%;\r\n\t-webkit-transform: translate(-50%,-50%);\r\n\t        transform: translate(-50%,-50%);\n}\n.er uni-image{\r\n\twidth: 33.33%;\r\n\theight: 33.33%;\r\n\tborder:4upx solid #eee;\r\n\tposition: absolute;\n}\n.er uni-image:first-of-type{\r\n\ttop: 50%;\r\n\tleft:16.66%;\r\n\t-webkit-transform: translateY(-50%);\r\n\t        transform: translateY(-50%);\n}\n.er uni-image:last-of-type{\r\n\ttop: 50%;\r\n\tright:16.66%;\r\n\t-webkit-transform: translateY(-50%);\r\n\t        transform: translateY(-50%);\n}\n.san uni-image{\r\n\twidth: 33.33%;\r\n\theight: 33.33%;\r\n\tborder:4upx solid #eee;\r\n\tposition: absolute;\n}\n.san uni-image:nth-of-type(1){\r\n\ttop: 33.34%;\r\n\tleft:50%;\r\n\t-webkit-transform: translate(-50%,-50%);\r\n\t        transform: translate(-50%,-50%);\n}\n.san uni-image:nth-of-type(2){\r\n\ttop: 66.66%;\r\n\tleft:16.66%;\r\n\t-webkit-transform: translateY(-50%);\r\n\t        transform: translateY(-50%);\n}\n.san uni-image:nth-of-type(3){\r\n\ttop: 66.66%;\r\n\tright:16.66%;\r\n\t-webkit-transform: translateY(-50%);\r\n\t        transform: translateY(-50%);\n}\n.si uni-image{\r\n\twidth: 33.33%;\r\n\theight: 33.33%;\r\n\tborder:4upx solid #eee;\r\n\tposition: absolute;\n}\n.si uni-image:nth-of-type(1){\r\n\ttop: 33.34%;\r\n\tleft:16.66%;\r\n\t-webkit-transform: translateY(-50%);\r\n\t        transform: translateY(-50%);\n}\n.si uni-image:nth-of-type(2){\r\n\ttop: 33.34%;\r\n\tright:16.66%;\r\n\t-webkit-transform: translateY(-50%);\r\n\t        transform: translateY(-50%);\n}\n.si uni-image:nth-of-type(3){\r\n\ttop: 66.66%;\r\n\tleft:16.66%;\r\n\t-webkit-transform: translateY(-50%);\r\n\t        transform: translateY(-50%);\n}\n.si uni-image:nth-of-type(4){\r\n\ttop: 66.66%;\r\n\tright:16.66%;\r\n\t-webkit-transform: translateY(-50%);\r\n\t        transform: translateY(-50%);\n}\n.wu uni-image{\r\n\twidth: 33.33%;\r\n\theight: 33.33%;\r\n\tborder:4upx solid #eee;\r\n\tposition: absolute;\n}\n.wu uni-image:nth-of-type(1){\r\n\ttop: 33.34%;\r\n\tleft:16.66%;\r\n\t-webkit-transform: translateY(-50%);\r\n\t        transform: translateY(-50%);\n}\n.wu uni-image:nth-of-type(2){\r\n\ttop: 33.34%;\r\n\tright:16.66%;\r\n\t-webkit-transform: translateY(-50%);\r\n\t        transform: translateY(-50%);\n}\n.wu uni-image:nth-of-type(3){\r\n\ttop: 66.66%;\r\n\tleft:0%;\r\n\t-webkit-transform: translateY(-50%);\r\n\t        transform: translateY(-50%);\n}\n.wu uni-image:nth-of-type(4){\r\n\ttop: 66.66%;\r\n\tleft:33.33%;\r\n\t-webkit-transform: translateY(-50%);\r\n\t        transform: translateY(-50%);\n}\n.wu uni-image:nth-of-type(5){\r\n\ttop: 66.66%;\r\n\tright:0%;\r\n\t-webkit-transform: translateY(-50%);\r\n\t        transform: translateY(-50%);\n}\n.liu uni-image{\r\n\twidth: 33.33%;\r\n\theight: 33.33%;\r\n\tborder:4upx solid #eee;\r\n\tposition: absolute;\n}\n.liu uni-image:nth-of-type(1){\r\n\ttop: 33.34%;\r\n\tleft:0%;\r\n\t-webkit-transform: translateY(-50%);\r\n\t        transform: translateY(-50%);\n}\n.liu uni-image:nth-of-type(2){\r\n\ttop: 33.34%;\r\n\tleft:33.33%;\r\n\t-webkit-transform: translateY(-50%);\r\n\t        transform: translateY(-50%);\n}\n.liu uni-image:nth-of-type(3){\r\n\ttop: 33.34%;\r\n\tright:0%;\r\n\t-webkit-transform: translateY(-50%);\r\n\t        transform: translateY(-50%);\n}\n.liu uni-image:nth-of-type(4){\r\n\ttop: 66.66%;\r\n\tleft:0%;\r\n\t-webkit-transform: translateY(-50%);\r\n\t        transform: translateY(-50%);\n}\n.liu uni-image:nth-of-type(5){\r\n\ttop: 66.66%;\r\n\tleft:33.33%;\r\n\t-webkit-transform: translateY(-50%);\r\n\t        transform: translateY(-50%);\n}\n.liu uni-image:nth-of-type(6){\r\n\ttop: 66.66%;\r\n\tright:0%;\r\n\t-webkit-transform: translateY(-50%);\r\n\t        transform: translateY(-50%);\n}\n.qi uni-image,\r\n.ba uni-image,\r\n.jiu uni-image{\r\n\t\r\n\tfloat: left;\r\n\twidth: 33.33%;\r\n\theight: 33.33%;\n}\n.qi uni-image:nth-of-type(1),\r\n.ba uni-image:nth-of-type(1),\r\n.jiu uni-image:nth-of-type(1) {\r\n\tborder-right:4upx solid #eee;\r\n\tborder-bottom: 4upx solid #eee;\n}\n.qi uni-image:nth-of-type(2),\r\n.ba uni-image:nth-of-type(2),\r\n.jiu uni-image:nth-of-type(2) {\r\n\tborder-right:4upx solid #eee;\r\n\tborder-bottom: 4upx solid #eee;\n}\n.qi uni-image:nth-of-type(3),\r\n.ba uni-image:nth-of-type(3),\r\n.jiu uni-image:nth-of-type(3) {\r\n\tborder-bottom: 4upx solid #eee;\n}\n.qi uni-image:nth-of-type(4),\r\n.ba uni-image:nth-of-type(4),\r\n.jiu uni-image:nth-of-type(4) {\r\n\tborder-right:4upx solid #eee;\r\n\tborder-bottom: 4upx solid #eee;\n}\n.qi uni-image:nth-of-type(5),\r\n.ba uni-image:nth-of-type(5),\r\n.jiu uni-image:nth-of-type(5) {\r\n\tborder-right:4upx solid #eee;\r\n\tborder-bottom: 4upx solid #eee;\n}\n.qi uni-image:nth-of-type(6),\r\n.ba uni-image:nth-of-type(6),\r\n.jiu uni-image:nth-of-type(6) {\r\n\tborder-bottom: 4upx solid #eee;\n}\n.qi uni-image:nth-of-type(7),\r\n.ba uni-image:nth-of-type(7),\r\n.jiu uni-image:nth-of-type(7) {\r\n\tborder-right:4upx solid #eee;\n}\n.qi uni-image:nth-of-type(8),\r\n.ba uni-image:nth-of-type(8),\r\n.jiu uni-image:nth-of-type(8) {\r\n\tborder-right:4upx solid #eee;\n}\n.qi uni-image:nth-of-type(9),\r\n.ba uni-image:nth-of-type(9),\r\n.jiu uni-image:nth-of-type(9) {\n}\r\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\r\n/*每个页面公共css */ \r\n/* ul,li{ padding:0;margin:0;list-style:none} */\nul,li{ padding:0;margin:0;list-style:none}\n.listBorderTop {\r\n\tmargin-top: 20upx;\n}\n.listBorderBottom {\r\n\tmargin-bottom: 20upx;\n}\n.breakLine{\r\n\tposition: relative;\n}\n.breakLine::after{\r\n\tcontent: \"\";\r\n\tposition: absolute;\r\n\theight: 1upx ;\r\n\tbackground-color: #eee;\r\n\twidth: 640upx;\r\n\tright: 0;\r\n\tbottom: 1upx;\n}\nbody{\r\n\tcolor: #333;\r\n\tfont-size: 14px;\r\n\t/* box-sizing: border-box; */\n}\n.yi uni-image{\r\n\twidth: 33.33%;\r\n\theight: 33.33%;\r\n\tborder:4upx solid #eee;\r\n\tposition: absolute;\r\n\ttop: 50%;\r\n\tleft:50%;\r\n\t-webkit-transform: translate(-50%,-50%);\r\n\t        transform: translate(-50%,-50%);\n}\n.er uni-image{\r\n\twidth: 33.33%;\r\n\theight: 33.33%;\r\n\tborder:4upx solid #eee;\r\n\tposition: absolute;\n}\n.er uni-image:first-of-type{\r\n\ttop: 50%;\r\n\tleft:16.66%;\r\n\t-webkit-transform: translateY(-50%);\r\n\t        transform: translateY(-50%);\n}\n.er uni-image:last-of-type{\r\n\ttop: 50%;\r\n\tright:16.66%;\r\n\t-webkit-transform: translateY(-50%);\r\n\t        transform: translateY(-50%);\n}\n.san uni-image{\r\n\twidth: 33.33%;\r\n\theight: 33.33%;\r\n\tborder:4upx solid #eee;\r\n\tposition: absolute;\n}\n.san uni-image:nth-of-type(1){\r\n\ttop: 33.34%;\r\n\tleft:50%;\r\n\t-webkit-transform: translate(-50%,-50%);\r\n\t        transform: translate(-50%,-50%);\n}\n.san uni-image:nth-of-type(2){\r\n\ttop: 66.66%;\r\n\tleft:16.66%;\r\n\t-webkit-transform: translateY(-50%);\r\n\t        transform: translateY(-50%);\n}\n.san uni-image:nth-of-type(3){\r\n\ttop: 66.66%;\r\n\tright:16.66%;\r\n\t-webkit-transform: translateY(-50%);\r\n\t        transform: translateY(-50%);\n}\n.si uni-image{\r\n\twidth: 33.33%;\r\n\theight: 33.33%;\r\n\tborder:4upx solid #eee;\r\n\tposition: absolute;\n}\n.si uni-image:nth-of-type(1){\r\n\ttop: 33.34%;\r\n\tleft:16.66%;\r\n\t-webkit-transform: translateY(-50%);\r\n\t        transform: translateY(-50%);\n}\n.si uni-image:nth-of-type(2){\r\n\ttop: 33.34%;\r\n\tright:16.66%;\r\n\t-webkit-transform: translateY(-50%);\r\n\t        transform: translateY(-50%);\n}\n.si uni-image:nth-of-type(3){\r\n\ttop: 66.66%;\r\n\tleft:16.66%;\r\n\t-webkit-transform: translateY(-50%);\r\n\t        transform: translateY(-50%);\n}\n.si uni-image:nth-of-type(4){\r\n\ttop: 66.66%;\r\n\tright:16.66%;\r\n\t-webkit-transform: translateY(-50%);\r\n\t        transform: translateY(-50%);\n}\n.wu uni-image{\r\n\twidth: 33.33%;\r\n\theight: 33.33%;\r\n\tborder:4upx solid #eee;\r\n\tposition: absolute;\n}\n.wu uni-image:nth-of-type(1){\r\n\ttop: 33.34%;\r\n\tleft:16.66%;\r\n\t-webkit-transform: translateY(-50%);\r\n\t        transform: translateY(-50%);\n}\n.wu uni-image:nth-of-type(2){\r\n\ttop: 33.34%;\r\n\tright:16.66%;\r\n\t-webkit-transform: translateY(-50%);\r\n\t        transform: translateY(-50%);\n}\n.wu uni-image:nth-of-type(3){\r\n\ttop: 66.66%;\r\n\tleft:0%;\r\n\t-webkit-transform: translateY(-50%);\r\n\t        transform: translateY(-50%);\n}\n.wu uni-image:nth-of-type(4){\r\n\ttop: 66.66%;\r\n\tleft:33.33%;\r\n\t-webkit-transform: translateY(-50%);\r\n\t        transform: translateY(-50%);\n}\n.wu uni-image:nth-of-type(5){\r\n\ttop: 66.66%;\r\n\tright:0%;\r\n\t-webkit-transform: translateY(-50%);\r\n\t        transform: translateY(-50%);\n}\n.liu uni-image{\r\n\twidth: 33.33%;\r\n\theight: 33.33%;\r\n\tborder:4upx solid #eee;\r\n\tposition: absolute;\n}\n.liu uni-image:nth-of-type(1){\r\n\ttop: 33.34%;\r\n\tleft:0%;\r\n\t-webkit-transform: translateY(-50%);\r\n\t        transform: translateY(-50%);\n}\n.liu uni-image:nth-of-type(2){\r\n\ttop: 33.34%;\r\n\tleft:33.33%;\r\n\t-webkit-transform: translateY(-50%);\r\n\t        transform: translateY(-50%);\n}\n.liu uni-image:nth-of-type(3){\r\n\ttop: 33.34%;\r\n\tright:0%;\r\n\t-webkit-transform: translateY(-50%);\r\n\t        transform: translateY(-50%);\n}\n.liu uni-image:nth-of-type(4){\r\n\ttop: 66.66%;\r\n\tleft:0%;\r\n\t-webkit-transform: translateY(-50%);\r\n\t        transform: translateY(-50%);\n}\n.liu uni-image:nth-of-type(5){\r\n\ttop: 66.66%;\r\n\tleft:33.33%;\r\n\t-webkit-transform: translateY(-50%);\r\n\t        transform: translateY(-50%);\n}\n.liu uni-image:nth-of-type(6){\r\n\ttop: 66.66%;\r\n\tright:0%;\r\n\t-webkit-transform: translateY(-50%);\r\n\t        transform: translateY(-50%);\n}\n.qi uni-image,\r\n.ba uni-image,\r\n.jiu uni-image{\r\n\t\r\n\tfloat: left;\r\n\twidth: 33.33%;\r\n\theight: 33.33%;\n}\n.qi uni-image:nth-of-type(1),\r\n.ba uni-image:nth-of-type(1),\r\n.jiu uni-image:nth-of-type(1) {\r\n\tborder-right:4upx solid #eee;\r\n\tborder-bottom: 4upx solid #eee;\n}\n.qi uni-image:nth-of-type(2),\r\n.ba uni-image:nth-of-type(2),\r\n.jiu uni-image:nth-of-type(2) {\r\n\tborder-right:4upx solid #eee;\r\n\tborder-bottom: 4upx solid #eee;\n}\n.qi uni-image:nth-of-type(3),\r\n.ba uni-image:nth-of-type(3),\r\n.jiu uni-image:nth-of-type(3) {\r\n\tborder-bottom: 4upx solid #eee;\n}\n.qi uni-image:nth-of-type(4),\r\n.ba uni-image:nth-of-type(4),\r\n.jiu uni-image:nth-of-type(4) {\r\n\tborder-right:4upx solid #eee;\r\n\tborder-bottom: 4upx solid #eee;\n}\n.qi uni-image:nth-of-type(5),\r\n.ba uni-image:nth-of-type(5),\r\n.jiu uni-image:nth-of-type(5) {\r\n\tborder-right:4upx solid #eee;\r\n\tborder-bottom: 4upx solid #eee;\n}\n.qi uni-image:nth-of-type(6),\r\n.ba uni-image:nth-of-type(6),\r\n.jiu uni-image:nth-of-type(6) {\r\n\tborder-bottom: 4upx solid #eee;\n}\n.qi uni-image:nth-of-type(7),\r\n.ba uni-image:nth-of-type(7),\r\n.jiu uni-image:nth-of-type(7) {\r\n\tborder-right:4upx solid #eee;\n}\n.qi uni-image:nth-of-type(8),\r\n.ba uni-image:nth-of-type(8),\r\n.jiu uni-image:nth-of-type(8) {\r\n\tborder-right:4upx solid #eee;\n}\n.qi uni-image:nth-of-type(9),\r\n.ba uni-image:nth-of-type(9),\r\n.jiu uni-image:nth-of-type(9) {\n}\r\n", ""]);
 
 // exports
 

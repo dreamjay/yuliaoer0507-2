@@ -14,18 +14,18 @@
 			<li class="SelectList double" >
 				<text>红包金额范围</text>
 				<view>
-					<input  type="number" placeholder="最小金额" v-model="min">
+					<input  type="number" placeholder="最小金额" v-model="min" confirm-type="完成" @confirm='confirm'>
 					<text>-</text>
-					<input  type="number" placeholder="最大金额" v-model="max">
+					<input  type="number" placeholder="最大金额" v-model="max" confirm-type="完成" @confirm='confirm'>
 				</view>
 			</li>
 			<li class="SelectList" >
 				<text>红包几包</text>
-				<input class="right" type="number" placeholder="请设置红包个数" v-model="beishu">
+				<input class="right" type="number" placeholder="请设置红包个数" v-model="beishu" confirm-type="完成" @confirm='confirm'>
 			</li>
 			<li class="SelectList" >
 				<text>红包几倍</text>
-				<input class="right" type="number" placeholder="请设置红包倍数" v-model="shuliang">
+				<input class="right" type="number" placeholder="请设置红包倍数" v-model="shuliang" confirm-type="完成" @confirm='confirm'>
 			</li>
 			
 		</ul>
@@ -97,41 +97,47 @@
 		},
 		onNavigationBarButtonTap:function() {
 			
-			uni.showModal({
-				title: "提示",
-				content: '是否确定保存',
-				success:  (res)=> {
-					if (res.confirm) {
-						
-						if(!this.shuliang){
-							this.showToast('红包数量')
-							return
-						} else if(!this.beishu){
-							this.showToast('红包数量')
-							return
-						}else if(!this.max){
-							this.showToast('红包最大金额')
-							return
-						}else if(!this.min){
-							this.showToast('红包最小金额')
-							return
-						}
-						uni.$emit('redUpdate',{
-							playerType:this.game,
-							redCount: this.shuliang,
-							redMaxAmount: this.max,
-							redMinAmount: this.min,
-							redOdds: this.beishu
-						})
-						uni.navigateBack({})
-					} else if (res.cancel) {
-						console.log('用户点击取消');
-					}
-				}
-			})
+			this.save()
 		},
 		methods:{
-			
+			confirm(){
+				this.save()
+			},
+			save(){
+				uni.showModal({
+					title: "提示",
+					content: '是否确定保存',
+					success:  (res)=> {
+						if (res.confirm) {
+							
+							if(!this.shuliang){
+								this.showToast('红包数量')
+								return
+							} else if(!this.beishu){
+								this.showToast('红包数量')
+								return
+							}else if(!this.max){
+								this.showToast('红包最大金额')
+								return
+							}else if(!this.min){
+								this.showToast('红包最小金额')
+								return
+							}
+							uni.hideKeyboard()
+							uni.$emit('redUpdate',{
+								playerType:this.game,
+								redCount: this.shuliang,
+								redMaxAmount: this.max,
+								redMinAmount: this.min,
+								redOdds: this.beishu
+							})
+							uni.navigateBack({})
+						} else if (res.cancel) {
+							console.log('用户点击取消');
+						}
+					}
+				})
+			},
 			showToast(val){
 				uni.showToast({
 					title:val+'不能为空',

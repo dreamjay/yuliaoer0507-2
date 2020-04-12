@@ -1,12 +1,12 @@
 <template>
 	<view>
 		
-		<input type="text" v-model="val" :focus="true" v-if="type == '群名称' || type=='群公告' || type=='群须知'" class="defultInput" :cursor='Number(val.length)'>
+		<input type="text" confirm-type="完成" @confirm='confirm' v-model="val" :focus="true" v-if="type == '群名称' || type=='群公告' || type=='群须知'" class="defultInput" :cursor='Number(val.length)'>
 		
 		<view v-if="!(type == '群名称' || type=='群公告' || type=='群须知' || type == '发包金额修改')" class="else">
 			<text>{{minTitle}}</text>
 			<view>
-				<input type="number" v-model="val" :cursor='Number(val.length)' :focus="true" :class="!unit ? 'hiddenText' : null">
+				<input confirm-type="完成" @confirm='confirm' type="number" v-model="val" :cursor='Number(val.length)' :focus="true" :class="!unit ? 'hiddenText' : null">
 				<text v-if="unit">{{unit}}</text>
 			</view>
 			
@@ -15,9 +15,9 @@
 		<view v-if="type == '发包金额修改'" class="hongbaofanwei">
 			<text>{{minTitle}}</text>
 			<view class="right">
-				<input type="number" v-model="minVal" :cursor='Number(minVal.length)'>
+				<input confirm-type="完成" @confirm='confirm' type="number" v-model="minVal" :cursor='Number(minVal.length)'>
 				<text>-</text>
-				<input type="number" v-model="maxVal" :cursor='Number(maxVal.length)' :focus="true">
+				<input confirm-type="完成" @confirm='confirm' type="number" v-model="maxVal" :cursor='Number(maxVal.length)' :focus="true">
 			</view>
 		</view>
 	</view>
@@ -45,6 +45,7 @@
 			})
 			this.val = option.val
 			this.type = option.title
+			
 			this.crowdId = option.crowdId
 			if(option.title == '发包金额修改'){
 				
@@ -77,56 +78,70 @@
 			
 		},
 		onNavigationBarButtonTap:function() {
-			let url = ''
-			let key = ''
-			switch(this.type){
-				case '群名称':{
-					url = '/crowd/updateName'
-					key = 'name'
-					break
-				}
-				case '群公告':{
-					url = '/crowd/updateNotice'
-					key = 'notice'
-					break
-				}
-				case '群须知':{
-					url = '/crowd/updateInNotice'
-					key = 'inNotice'
-					break
-				}
-				case '发包金额修改':{
-					url = '/crowd/updateRedAmount'
-					key = ['redMaxAmount','redMinAmount']
-				}
-				case '修改群赔率倍数':{
-					url = '/crowd/updateRedOdds'
-					key = 'redOdds'
-				}
-				case '红包返点':{
-					url = '/crowd/updateRedRebate'
-					key = 'redRebate'
-				}
-				case '推荐人返点':{
-					url = '/crowd/updateReferrerRebate'
-					key = 'referrerRebate'
-				}
-				case '推荐人上级返点':{
-					url = '/crowd/updateReferrerUpRebate'
-					key = 'referrerUpRebate'
-				}
-				case '上分最低金额':{
-					url = '/crowd/updateShangfenMinAmount'
-					key = 'shangfenMinAmount'
-				}
-				case '下分最低金额':{
-					url = '/crowd/updateXiafenMinAmount'
-					key = 'xiafenMinAmount'
-				}
-			}
-			this.http(url, key)
+			this.handleSave()
 		},
 		methods:{
+			confirm(){
+				this.handleSave()
+			},
+			handleSave(){
+				let url = ''
+				let key = ''
+				switch(this.type){
+					case '群名称':{
+						url = '/crowd/updateName'
+						key = 'name'
+						break
+					}
+					case '群公告':{
+						url = '/crowd/updateNotice'
+						key = 'notice'
+						break
+					}
+					case '群须知':{
+						url = '/crowd/updateInNotice'
+						key = 'inNotice'
+						break
+					}
+					case '发包金额修改':{
+						
+						url = '/crowd/updateRedAmount'
+						key = ['redMaxAmount','redMinAmount']
+						break
+					}
+					case '修改群赔率倍数':{
+						url = '/crowd/updateRedOdds'
+						key = 'redOdds'
+						break
+					}
+					case '红包返点':{
+						url = '/crowd/updateRedRebate'
+						key = 'redRebate'
+						break
+					}
+					case '推荐人返点':{
+						url = '/crowd/updateReferrerRebate'
+						key = 'referrerRebate'
+						break
+					}
+					case '推荐人上级返点':{
+						url = '/crowd/updateReferrerUpRebate'
+						key = 'referrerUpRebate'
+						break
+					}
+					case '上分最低金额':{
+						url = '/crowd/updateShangfenMinAmount'
+						key = 'shangfenMinAmount'
+						break
+					}
+					case '下分最低金额':{
+						url = '/crowd/updateXiafenMinAmount'
+						key = 'xiafenMinAmount'
+						break
+					}
+				}
+				this.http(url, key)
+			},
 			http(url, key){
 				let obj = {crowdId:this.crowdId}
 				if(typeof(key) === 'string'){
@@ -142,6 +157,7 @@
 				}, obj).then(res => {
 					
 					if(res.data.success){
+						uni.hideKeyboard()
 						uni.$emit('updateInfo',{msg:'页面更新1'})
 						uni.showToast({
 							title:'修改成功'
