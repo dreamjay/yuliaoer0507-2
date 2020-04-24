@@ -1,0 +1,83 @@
+{
+  "pages": [
+    "pages/tabbar/tabbar-1/tabbar-1",
+    "pages/tabbar/tabbar-2/tabbar-2",
+    "pages/tabbar/tabbar-2/search/search",
+    "pages/tabbar/tabbar-2/newCrowd/newCrowd",
+    "pages/tabbar/tabbar-2/newCrowd/wanfashezhi/wanfashezhi",
+    "pages/tabbar/tabbar-2/qunliao/qunliao",
+    "pages/tabbar/tabbar-4/tabbar-4",
+    "pages/tabbar/tabbar-4/query/query1",
+    "pages/tabbar/tabbar-4/query/query2",
+    "pages/tabbar/tabbar-4/query/query3",
+    "pages/tabbar/tabbar-4/query/query4",
+    "pages/tabbar/tabbar-4/query/query5",
+    "pages/tabbar/tabbar-4/query/query6",
+    "pages/tabbar/tabbar-4/query/query7",
+    "pages/tabbar/tabbar-4/query/query8",
+    "pages/tabbar/tabbar-5/tabbar-5",
+    "pages/tabbar/tabbar-5/myCenter/myCenter",
+    "pages/tabbar/tabbar-5/fenxiang/fenxiang",
+    "pages/tabbar/tabbar-5/gerenshezhi/gerenshezhi",
+    "pages/tabbar/tabbar-5/gerenshezhi/mimashezhi/mimashezhi",
+    "pages/tabbar/tabbar-5/gerenshezhi/mimashezhi/xiugaimima/xiugaimima",
+    "pages/tabbar/tabbar-5/qunliao/qunliao",
+    "pages/tabbar/tabbar-5/qunzhushezhi/qunzhushezhi",
+    "pages/tabbar/tabbar-5/qunzhushezhi/liaotianxinxi/liaotianxinxi",
+    "pages/tabbar/tabbar-5/qunzhushezhi/liaotianxinxi/shanchurenyuan/shenchurenyuan",
+    "pages/tabbar/tabbar-5/qunzhushezhi/liaotianxinxi/renyuan/renyuan",
+    "pages/tabbar/tabbar-5/qunzhushezhi/liaotianxinxi/tongyong/tongyong",
+    "pages/tabbar/tabbar-5/qunzhushezhi/liaotianxinxi/tiaozhengguizhe/tiaozhengguizhe",
+    "pages/tabbar/tabbar-5/qunzhushezhi/liaotianxinxi/shangchuanma/shangchuanma",
+    "pages/login/login",
+    "pages/login/forgetPassword",
+    "pages/login/register"
+  ],
+  "window": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "uni-app",
+    "navigationBarBackgroundColor": "#fff",
+    "backgroundColor": "#C0C0C0"
+  },
+  "tabBar": {
+    "borderStyle": "black",
+    "backgroundColor": "#333",
+    "color": "#8F8F94",
+    "selectedColor": "#f33e54",
+    "list": [
+      {
+        "pagePath": "pages/tabbar/tabbar-1/tabbar-1",
+        "iconPath": "static/img/tabbar/home.png",
+        "selectedIconPath": "static/img/tabbar/homeactive.png",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/tabbar/tabbar-2/tabbar-2",
+        "iconPath": "static/img/tabbar/guanzhu.png",
+        "selectedIconPath": "static/img/tabbar/guanzhuactive.png",
+        "text": "关注"
+      },
+      {
+        "pagePath": "pages/tabbar/tabbar-4/tabbar-4",
+        "iconPath": "static/img/tabbar/news.png",
+        "selectedIconPath": "static/img/tabbar/newsactive.png",
+        "text": "消息"
+      },
+      {
+        "pagePath": "pages/tabbar/tabbar-5/tabbar-5",
+        "iconPath": "static/img/tabbar/me.png",
+        "selectedIconPath": "static/img/tabbar/meactive.png",
+        "text": "我"
+      }
+    ]
+  },
+  "nvueCompiler": "uni-app",
+  "renderer": "auto",
+  "splashscreen": {
+    "alwaysShowBeforeRender": true,
+    "autoclose": false
+  },
+  "appname": "米友/伟信",
+  "compilerVersion": "2.6.5",
+  "usingComponents": {}
+}

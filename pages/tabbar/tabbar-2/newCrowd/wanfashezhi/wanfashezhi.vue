@@ -14,18 +14,18 @@
 			<li class="SelectList double" >
 				<text>红包金额范围</text>
 				<view>
-					<input  type="number" placeholder="最小金额" v-model="min" confirm-type="完成" @confirm='confirm'>
+					<input  type="number" placeholder="最小金额" v-model="min"   @confirm='confirm'>
 					<text>-</text>
-					<input  type="number" placeholder="最大金额" v-model="max" confirm-type="完成" @confirm='confirm'>
+					<input  type="number" placeholder="最大金额" v-model="max"   @confirm='confirm'>
 				</view>
 			</li>
 			<li class="SelectList" >
 				<text>红包几包</text>
-				<input class="right" type="number" placeholder="请设置红包个数" v-model="beishu" confirm-type="完成" @confirm='confirm'>
+				<input class="right" type="number" placeholder="请设置红包个数" v-model="beishu"   @confirm='confirm'>
 			</li>
 			<li class="SelectList" >
 				<text>红包几倍</text>
-				<input class="right" type="number" placeholder="请设置红包倍数" v-model="shuliang" confirm-type="完成" @confirm='confirm'>
+				<input class="right" type="number" placeholder="请设置红包倍数" v-model="shuliang"   @confirm='confirm'>
 			</li>
 			
 		</ul>
@@ -190,7 +190,7 @@
 		background-color: rgba(0,0,0,0.1)/*透明度默认为1*/
 	}
 	.myList ul{
-		border-top: 1upx solid #ddd;
+		/* border-top: 1upx solid #ddd; */
 		/* border-bottom: 1upx solid #ddd; */
 	}
 	.myList .SelectList{

@@ -21,8 +21,8 @@
 				<navigator url="./forgetPassword" open-type="navigate" hover-class="">
 					<text>忘记密码？</text>
 				</navigator>
-			</view>`
-			<button @click="login" style="background-color:#4cb964; margin-top: 100upx;" type="primary">登录</button>
+			</view>
+			<button @click="login" style="background-color:#4cb964; margin-top: 100upx; font-size: 16px;" type="primary">登录</button>
 			
 			<view class="weixin">
 				<text>微信登录</text>

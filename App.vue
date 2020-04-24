@@ -10,12 +10,10 @@ export default {
 	},
 	
 	onLaunch: function() {
-		
-		
 		setTimeout(() => {
 			uni.setTabBarBadge({
 				index: 1,
-				text: '31'
+				text: '99+'
 			});
 			uni.showTabBarRedDot({
 				index: 3
@@ -40,7 +38,7 @@ export default {
 		
 		}else{
 			let token = JSON.parse(uni.getStorageSync('userInfo')).token
-			// this.openWs(token)
+			this.openWs(token)
 		}
 		
 		uni.$on('updateWs',(data)=>{
@@ -59,7 +57,7 @@ export default {
 		openWs(token){
 			
 			uni.connectSocket({ //连接
-			    url: 'ws://zc3t.vipgz5.idcfengye.com/yuliao?token='+token+'',
+			    url: 'ws://zc.vip3gz.idcfengye.com/yuliao?token='+token+'',
 				fail(err){
 					console.log(err)
 				}
@@ -67,7 +65,7 @@ export default {
 			uni.onSocketOpen(function (res) { //连成功
 			  console.log('WebSocket连接已打开！');
 			});
-			uni.onSocketError(function (res) { //连失败
+			uni.onSocketError( (res) =>{ //连失败
 				console.log('WebSocket连接打开失败，请检查！');
 				setTimeout(()=>{
 					uni.getNetworkType({
@@ -93,6 +91,7 @@ export default {
 									}
 								})
 							} else{
+								
 								uni.closeSocket({})
 								uni.showToast({
 									title:'token失效请重新登录',
@@ -110,7 +109,16 @@ export default {
 				},1000)
 			});
 			uni.onSocketMessage(function (res) {
-			  console.log('收到服务器内容：' + res.data);
+				console.log('收到服务器内容：' + res.data);
+				if(!res.data){
+					return
+				}
+				switch(JSON.parse(res.data).messageType){
+					case 'CROWD':{
+						uni.$emit('CROWD',JSON.parse(res.data))
+						break
+					}
+				}
 			  
 			});
 		}
@@ -122,4 +130,5 @@ export default {
 /*每个页面公共css */ 
 /* ul,li{ padding:0;margin:0;list-style:none} */
 @import 'common/pageCommon.css';
+@import 'common/icon.css'
 </style>

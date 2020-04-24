@@ -2,12 +2,12 @@
 	<view class="content">
 		<view class="myCenter">
 			<navigator url="./myCenter/myCenter" open-type="navigate" hover-class="">
-				<image class="touxiang" :src="userInfo.headUrl ? userInfo.headUrl : '../../../static/moren.jpg'"></image>
+				<image class="touxiang" :src="userInfo.headUrl ? userInfo.headUrl : '/static/moren.jpg'"></image>
 				<view class="text">
 					<p>{{userInfo.nickName ? userInfo.nickName : '新用户'}}</p>
 					<p>推荐码：{{userInfo.referralCode}}</p>
 				</view>
-				<image class="bianji" src='../../../static/img/wo/bianji.png'></image>
+				<image class="bianji" src='/static/img/wo/bianji.png'></image>
 			</navigator>
 		</view>
 		
@@ -15,25 +15,25 @@
 			<ul>
 				<li class="SelectList listBorderTop nullBottom" v-if="userInfo.showCrowd">
 					<navigator url="./qunzhushezhi/qunzhushezhi" open-type="navigate" hover-class="">
-						<image src="../../../static/img/wo/qunzhu.png" mode=""></image><text>群主设置</text><image src="../../../static/img/wo/youjiantou.png"></image>
+						<image src="/static/img/wo/qunzhu.png" mode=""></image><text>群主设置</text><image src="/static/img/wo/youjiantou.png"></image>
 					</navigator>
 				</li>
 				<li class="SelectList listBorderTop">
 					<navigator url="./fenxiang/fenxiang" open-type="navigate" hover-class="">
-						<image src="../../../static/img/wo/fenxiang.png" mode=""></image><text>推荐分享</text><image src="../../../static/img/wo/youjiantou.png"></image>
+						<image src="/static/img/wo/fenxiang.png" mode=""></image><text>推荐分享</text><image src="/static/img/wo/youjiantou.png"></image>
 					</navigator>
 				</li>
 				<li class="SelectList">
 					<navigator url="./qunliao/qunliao" open-type="navigate" hover-class="">
-						<image src="../../../static/img/wo/qunliao.png" mode=""></image><text>我的群聊</text><image src="../../../static/img/wo/youjiantou.png"></image>
+						<image src="/static/img/wo/qunliao.png" mode=""></image><text>我的群聊</text><image src="/static/img/wo/youjiantou.png"></image>
 					</navigator>
 				</li>
 				<li class="SelectList nullBottom" @click="updataApp">
-					<image src="../../../static/img/wo/gengxin.png" mode=""></image><text>版本更新</text><image src="../../../static/img/wo/youjiantou.png"></image>
+					<image src="/static/img/wo/gengxin.png" mode=""></image><text>版本更新</text><image src="/static/img/wo/youjiantou.png"></image>
 				</li>
 				<li class="SelectList nullBottom listBorderTop">
 					<navigator url="./gerenshezhi/gerenshezhi" open-type="navigate" hover-class="">
-						<image src="../../../static/img/wo/shezhi.png" mode=""></image><text>个人设置</text><image src="../../../static/img/wo/youjiantou.png"></image>
+						<image src="/static/img/wo/shezhi.png" mode=""></image><text>个人设置</text><image src="/static/img/wo/youjiantou.png"></image>
 					</navigator>
 				</li>
 			</ul>

@@ -1,0 +1,15 @@
+{
+  "titleNView": {
+    "searchInput": {
+      "autoFocus": true,
+      "align": "left",
+      "backgroundColor": "#eee",
+      "borderRadius": "5px",
+      "placeholder": "请输入群ID或群名",
+      "placeholderColor": "#ccc"
+    }
+  },
+  "usingComponents": {
+    "chun-lei-modal": "/components/chunLei-modal/chunLei-modal"
+  }
+}

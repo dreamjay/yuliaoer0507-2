@@ -1,6 +1,5 @@
 <template>
 	<view>
-		
 		<!-- 一般用法 -->
 		<Loading v-show="isLoading"></Loading>
 		<uni-list >
@@ -11,7 +10,7 @@
 		    </uni-list-item>
 		    <uni-list-item title="昵称" @click="changName" >
 				<template v-slot:right="">
-					<input type="text" :focus="isClick" style="width: 200upx; text-align: right;" :cursor="String(valueName).length" v-model="valueName">
+					<input   @confirm='confirm' type="text" :focus="isClick" style="width: 200upx; text-align: right;" :cursor="String(valueName).length" v-model="valueName" >
 				</template>
 			</uni-list-item>
 		    <uni-list-item title="推荐码" :showArrow="false" :rightText="tuijianma"></uni-list-item>
@@ -52,31 +51,8 @@
 			
 		},
 		onNavigationBarButtonTap:function() {
+			this.save()
 			
-			uni.showModal({
-				title: "提示",
-				content: '是否确定保存',
-				success:  (res)=> {
-					if (res.confirm) {
-						if(String(this.valueName).length > 8){
-							uni.showToast({
-								title:'昵称长度不要太长',
-								icon:'none'
-								
-							})
-							return
-						}
-						if(this.imgFiles){//改头像
-							this.updataImg(this.imgFiles)
-						} else{ //改名字-要把原来的头像转成base64 传一样的头像
-							
-							this.updateName(this.valueName)
-						}
-					} else if (res.cancel) {
-						console.log('用户点击取消');
-					}
-				}
-			})
 		},
 		computed:{
 			isLoading:function(){
@@ -84,6 +60,35 @@
 			}
 		},
 		methods: {
+			confirm(){
+				this.save()
+			},
+			save(){
+				uni.showModal({
+					title: "提示",
+					content: '是否确定保存',
+					success:  (res)=> {
+						if (res.confirm) {
+							if(String(this.valueName).length > 8){
+								uni.showToast({
+									title:'昵称长度不要太长',
+									icon:'none'
+									
+								})
+								return
+							}
+							if(this.imgFiles){//改头像
+								this.updataImg(this.imgFiles)
+							} else{ //改名字-要把原来的头像转成base64 传一样的头像
+								
+								this.updateName(this.valueName)
+							}
+						} else if (res.cancel) {
+							console.log('用户点击取消');
+						}
+					}
+				})
+			},
 			openImage(){ //相册或者拍图片
 				uni.chooseImage({
 					count:1,
@@ -112,6 +117,7 @@
 					if(res.data.success){
 						
 						// console.log('原来的1',JSON.parse(uni.getStorageSync('userInfo')))
+						console.log('修改信息TOken',this.token)
 						uni.setStorageSync("userInfo",JSON.stringify({
 								user:res.data.data,
 								token:this.token
@@ -120,7 +126,7 @@
 						uni.$emit('update',{msg:'页面更新1'})
 					}else{
 						uni.showToast({
-						    title: '没token',
+						    title: res.data.msg,
 							icon:'none'
 						})
 					}
@@ -142,11 +148,12 @@
 				}).then(res => {
 					
 					if(res.data.success){
+						uni.hideKeyboard()
 						uni.showToast({
 							title: '保存成功',
 							icon:'none',
 							complete: () => {
-								 then.getNewUserInfo()
+								 then.getNewUserInfo()
 									
 							}
 						})
@@ -174,7 +181,7 @@
 				this.$store.commit('watchLoading',true)
 				var uper = uni.uploadFile({
 					// 需要上传的地址
-					url:'http://zcttt.vipgz5.idcfengye.com/user/fileUpload',
+					url:''+then.$http.baseUrl+'/user/fileUpload',
 					// filePath  需要上传的文件
 					filePath: imgFiles,
 					name: 'file',
@@ -189,12 +196,12 @@
 						// 显示上传信息
 						then.$store.commit('watchLoading',false)
 						if(JSON.parse(res1.data).success){
-							
+							uni.hideKeyboard()
 							uni.showToast({
 								title: '保存成功',
 								icon:'none',
 								complete: () => {
-									   then.getNewUserInfo()
+									   then.getNewUserInfo()
 										
 								}
 							})
@@ -229,4 +236,10 @@
 </script>
 
 <style>
+	page {
+		background-color: #eee;
+	}
+	.uni-list-item:nth-of-type(2) .uni-list-item__container::after{
+		display: none;
+	}
 </style>

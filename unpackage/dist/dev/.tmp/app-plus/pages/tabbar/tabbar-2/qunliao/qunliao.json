@@ -1,0 +1,8 @@
+{
+  "scrollIndicator": "none",
+  "navigationBarTitleText": "",
+  "usingComponents": {
+    "chat-input": "/components/liaotian/chatinput",
+    "message-show": "/components/liaotian/messageshow"
+  }
+}

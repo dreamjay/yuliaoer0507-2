@@ -129,6 +129,7 @@
 
 			//#ifdef APP-PLUS
 			this.tabMask = new TabMask({
+				maskEnable:this.maskEnable,
 				tabbarHeight:this.tabbarHeight,
 				navHeight:this.navHeight,
 				opacity:this.opacity,

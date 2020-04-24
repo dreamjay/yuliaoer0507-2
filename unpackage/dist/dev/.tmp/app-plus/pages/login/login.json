@@ -1,0 +1,6 @@
+{
+  "titleNView": false,
+  "usingComponents": {
+    "loading": "/components/loading/loading"
+  }
+}

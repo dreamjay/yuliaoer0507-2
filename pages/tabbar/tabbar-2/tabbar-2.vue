@@ -1,57 +1,23 @@
 <template>
     <view >
-		
-		<view class="search" :style="{marginTop: zhuangtailan+'px'}">
-			
-			<view @click="openNewPage"><text>请输入群ID码</text></view>
-			
-			<view class="imageBox" >
-				<image src="/static/img/jiahao.png" @click="open(false)"></image>
-				<uni-transition @click="open(true)" :mode-class="['zoom-in']" :duration="100" :styles="{
-					'zIndex':'8',
-					'width':'100px',
-					'height':'60px',
-					'line-height':'60px',
-					'backgroundColor':'black',
-					'borderRadius':'4px',
-					'top':'32px',
-					'right':'0px',
-					'position':'absolute',
-					}" :show="show" @change="change">
-						<view style="width: 10px!important; height: 10px; border-radius:0 4px 0 0; background-color: black; position: absolute; right: 0; top:0; transform: rotate(45deg);"></view>
-						<image src="/static/img/xiaoxi.png" style="height:20px; width: 20px; position: absolute; left: 10px; top: 20px;" ></image>
-						<text style="color:#fff; margin-left: 30px; vertical-align: super;">我要建群</text>
-					
-				</uni-transition>
-			</view>
-		</view>
+		<Search></Search>
 		<view class="qunliaoBox" @click="wodequnliao">
-			
 			<view class="qunliao breakLine">
-				<view class="imgBox">
-					<image src="/static/img/weixinqunliao.png" mode="scaleToFill" ></image>
-				</view>
+				<image src="/static/icon_ql.png" mode="scaleToFill" ></image>
 				<text>群聊</text>
-				
 			</view>
 		</view>
-		
-		<uni-indexed-list :style="{top:'104px'}" :options="list" :showSelect="false" @click="bindClick"></uni-indexed-list>
-		
-		
-    </view>
+		<uni-indexed-list :style="{top:''+(zhuangtailan+92)+'px'}" :options="list" :showSelect="false" @click="bindClick"></uni-indexed-list>
+	</view>
 </template>
 <script>
 	import uniIndexedList from "@/components/uni-indexed-list/uni-indexed-list.vue"
-	import uniTransition from "@/components/uni-transition/uni-transition.vue"
-	
-	
+	import Search from "@/components/search/search.vue"
 	export default {
-		components: {uniIndexedList, uniTransition},
+		components: {uniIndexedList,Search},
 		data(){
 			return{
-				zhuangtailan:'',
-				show: false,
+				zhuangtailan:0,
 				list:[
 					{
 					"letter": "A",
@@ -112,23 +78,7 @@
 		},
 		mounted() {
 			this.$nextTick( ()=> {
-			 //    let height = document.querySelector('#list').offsetHeight+'px'
-				// console.log(height)
-				// #ifdef APP-PLUS  
-					let height
-					
-					const query = uni.createSelectorQuery().in(this);
-					query.select('#uni-indexed-list-0').boundingClientRect(data => {
-					  console.log("得到布局位置信息" + JSON.stringify(data));
-					  console.log("节点离页面顶部的距离为" + data.top);
-					  
-					  uni.showModal({
-					  	title:"提示",
-					  	content: String(data.height)
-					  })
-					}).exec();
-					
-				// #endif
+				
 			})
 		},
 		onLoad() {
@@ -144,23 +94,6 @@
 					url:'../tabbar-5/qunliao/qunliao'
 				})
 			},
-			openNewPage(){
-				uni.navigateTo({
-					url:'./search/search'
-				})
-			},
-			open(is) {
-				
-				if(is) {
-					uni.navigateTo({
-						url:'./newCrowd/newCrowd'
-					})
-				}
-				this.show = !this.show
-			},
-			change(){
-				
-			},
 			bindClick(){
 				
 			}
@@ -168,76 +101,30 @@
 	};
 </script>
 <style lang="scss">
-	.search{
-		height: 30px;
-		padding: 6px 120upx 6px 60upx;
-		position: relative;
-		// box-sizing: border-box;
-		border-bottom: 1upx solid #eee;
-		view:first-of-type{
-			height: 30px;
-			line-height: 30px;
-			// background-color: #cfdad8;
-			background-color: #d3dcdd;
-			border-radius: 15px;
-			width: 570upx;
-			padding-left: 10px;
-			text{
-				
-				color: #888;
-				font-size: 14px;
-			}
-		}
-		.imageBox{
-			
-			height: 26px;
-			width: 26px;
-			position: absolute;
-			right: 30upx;
-			top:8px;
-			image{
-				height: 26px;
-				width: 26px;
-				position: absolute;
-				right: 0upx;
-				top:0px;
-				z-index: 2;
-			}
-			
-		}
+	page{
+		background-color: #EEEEEE;
 	}
 	.qunliaoBox{
+		background-color: #FFFFFF;
 		.qunliao{
-			height: 42px;
+			height: 50px;
 			padding: 0 15px;
-			line-height: 42px;
-			.imgBox{
-				background-color: #4cB964;
-				border-radius: 5px;
+			line-height: 50px;
+			image{
+				// position: absolute;
+				// z-index: 2;
+				vertical-align: middle;
 				height: 32px;
 				width: 32px;
-				display: inline-block;
-				position: relative;
-				z-index: 1;
-				margin-top: 5px;
-				image{
-					position: absolute;
-					border-radius: 5px;
-					z-index: 2;
-					left: 5px;
-					top: 5px;
-					height: 22px;
-					width: 22px;
-				}
 			}
+			
 			text{
 				font-size: 14px;
 				margin-left: 20upx;
-				vertical-align: text-bottom;
+				vertical-align: middle;
 			}
 		}
 	}
-	
 	#list{
 		
 		.uni-indexed-list__item-border{

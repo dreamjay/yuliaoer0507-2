@@ -1,0 +1,134 @@
+
+page{
+	background-color: #eee;
+}
+.myList{
+	
+	font-size: 28rpx;
+	color: #333;
+}
+.myList ._ul{
+	border-top: 1rpx solid #ddd;
+	/* border-bottom: 1upx solid #ddd; */
+}
+.myList .SelectList{
+	position: relative;
+	height: 120rpx;
+	line-height: 120rpx;
+	padding: 0rpx 50rpx;
+	background-color: #fff;
+	/* border-bottom: 1px solid #ddd; */
+}
+.myList .SelectList::before{
+	content: '';
+	position: absolute;
+	height: 1rpx;
+	background-color: #ddd;
+	width: calc(100% - 0rpx);
+	bottom: 0;
+	right: 0;
+}
+.myList .nullBottom::before{
+	content: '';
+	position: absolute;
+	height: 0rpx;
+	background-color: #ddd;
+	width: calc(100% - 0rpx);
+	bottom: 0;
+	right: 0;
+}
+.myList text{
+	vertical-align: middle;
+	margin-left: 10rpx;
+}
+.myList .SelectList .right{
+	text-align: right;
+	border: 0;
+	/* border:1px solid #ccc; */
+	float: right;
+	margin-top: 40rpx;
+}
+.myList .SelectList image{
+	width: 30rpx;
+	height: 30rpx;
+	float: right;
+	margin-top: 45rpx;
+}
+.myList .SelectListMax{
+	position: relative;
+	height: 160rpx;
+	/* line-height: 120upx; */
+	padding: 0rpx 50rpx;
+	background-color: #fff;
+	border-bottom: 1px solid #ddd;
+}
+.myList .SelectListMax text{
+	line-height: 80rpx;
+}
+.myList .SelectListMax .bottom{
+	border: 0;
+	width: 650rpx;
+	/* border:1px solid #ccc; */
+	/* margin-bottom: 15px; */
+}
+.myList .SelectListMax .bottom input{
+	border:0;
+}
+.myList .SelectListMax1{
+	position: relative;
+	height: 300rpx;
+	/* line-height: 120upx; */
+	padding: 0rpx 50rpx;
+	background-color: #fff;
+	border-bottom: 1px solid #ddd;
+}
+.myList .SelectListMax1 text{
+	line-height: 80rpx;
+}
+.myList .SelectListMax1 .bottom{
+	border: 0;
+	width: 650rpx;
+	/* margin-top: 15px; */
+}
+.myList .SelectListMax1 .bottom textarea{
+	background-color: #EEEEEE;
+	width: calc(100% - 30px);
+	height: 120rpx;
+	padding: 15px;
+	border-radius: 5px;
+}
+.shizhi view{
+	width: 130rpx;
+	height: 120rpx;
+	line-height: 120rpx;
+	display: inline-block;
+	float: right;
+	/* margin-top: 20px; */
+	/* margin-top: 40px; */
+}
+.shizhi view input{
+	width: 100rpx;
+	text-align: right;
+	display: inline-block;
+	vertical-align: text-bottom;
+	color: #888;
+}
+.bottomBox{
+	padding-top: 100rpx;
+	padding-bottom: 120rpx;
+	background-color: #fff;
+	color:#999;
+}
+.bottomBox ._p{
+	text-align: center;
+	padding: 10rpx;
+}
+.bottomBox ._p:first-of-type{
+	margin-top: 20rpx;
+}
+.bottomBox ._p:last-of-type{
+}
+.bottomBox ._p:last-of-type text:last-of-type{
+	text-decoration:underline;
+}
+

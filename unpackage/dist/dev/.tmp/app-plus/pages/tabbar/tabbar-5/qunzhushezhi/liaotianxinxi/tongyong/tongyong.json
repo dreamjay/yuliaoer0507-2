@@ -1,0 +1,14 @@
+{
+  "navigationBarTitleText": "",
+  "titleNView": {
+    "buttons": [
+      {
+        "text": "完成",
+        "fontSize": "16px",
+        "float": "right",
+        "width": "60px"
+      }
+    ]
+  },
+  "usingComponents": {}
+}

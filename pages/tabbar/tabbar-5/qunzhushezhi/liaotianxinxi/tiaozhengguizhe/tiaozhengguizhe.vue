@@ -1,7 +1,7 @@
 <template>
-	<view>
+	<view >
 		<view class="box">
-			<view class="top"><text>修改奖励规则</text> <button  type="primary" @click="httpAdd(index)">添加</button></view>
+			<view class="top"><text>修改奖励规则</text> <button style="" type="primary" @click="httpAdd(index)">添加</button></view>
 			<view class="input"> 
 				<input type="text" v-model="addName">
 				<input type="number" v-model="addRuleCode">
@@ -35,6 +35,7 @@
 			}
 		},
 		onLoad(option){
+			console.log(JSON.parse(option.guizheList))
 			this.guizheList = JSON.parse(option.guizheList)
 		},
 		methods:{
@@ -211,7 +212,8 @@
 		position: fixed;
 		padding-bottom: 10upx;
 		left: 0;
-		top:0;
+		top:0px;
+		padding-top: 5px;
 		z-index: 2;
 		background-color: #fff;
 		.top{
@@ -242,7 +244,7 @@
 		}
 	}
 	.content{
-		margin-top: 150upx;
+		margin-top: 155upx;
 		.guizhe{
 			display: flex;
 			justify-content: space-around;

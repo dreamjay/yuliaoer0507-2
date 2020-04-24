@@ -6,10 +6,11 @@
 		</view>
 		<view class="ulBox" >
 			<ul class="userList">
-				<li v-for="(item,index) in showUserList" :key="index" @longtap="longtap(index)">
-					<image :src="item.headUrl ? item.headUrl : '/static/img/weixin.png'" style="" mode="aspectFill"></image>
+				<li v-for="(item,index) in showUserList" :key="index" @longpress="longtap(index)">
+					<image :src="item.headUrl ? item.headUrl : '/static/moren.png'" style="" mode="aspectFill"></image>
 					<text>{{item.nickName}}</text>
-					<span class="after" v-show="item.role" :style="{backgroundColor:handleText(item.role,'color')}">{{handleText(item.role)}}</span>
+					<span class="after" v-if="item.status" :style="{backgroundColor:'red'}">冻结</span>
+					<span class="after" v-if="!item.status" v-show="item.role" :style="{backgroundColor:handleText(item.role,'color')}">{{handleText(item.role)}}</span>
 				</li>
 				
 			</ul>
@@ -26,7 +27,7 @@
 					<view v-if="hideButton"><button :plain='true' size='mini' style="margin-top: 15upx;" :class="setRole == 'GU_KE' ? 'active' : null" @click="setClick('GU_KE')">设为普通用户</button></view>
 					<view v-if="hideButton"><button :plain='true' size='mini' style="margin-top: 15upx;" :class="setRole == 'ZONG_DAI' ? 'active' : null" @click="setClick('ZONG_DAI')">设为总代</button></view>
 					<view v-if="hideButton"><button :plain='true' size='mini' style="margin-top: 15upx;" :class="setRole == 'GU_DONG' ? 'active' : null" @click="setClick('GU_DONG')">设为股东</button></view>
-					<view><button :plain='true' size='mini' style="margin-top: 15upx;" @click="setClick('DONG_JIE')">冻结</button></view>
+					<view><button :plain='true' size='mini' style="margin-top: 15upx;" @click="setClick('DONG_JIE')">{{isDongjieText}}</button></view>
 				</view>
 				
 			</view>
@@ -51,6 +52,8 @@
 				userList:[],
 				val:'',
 				crowdId:null,
+				isDongjieText:'', //冻结还是解冻
+				isSet:false, //true就是群主
 			}
 		},
 		watch:{
@@ -83,8 +86,10 @@
 			this.crowdId = option.crowdId
 			this.userList = JSON.parse(option.userList)
 			this.showUserList = [...this.userList]
+			this.isSet = JSON.parse(option.isSet).isSet
+			
 			uni.setNavigationBarTitle({
-				title:"群成员（53645）"
+				title:"群成员（99）"
 			})
 			uni.getSystemInfo({
 			    success: (e) => {
@@ -98,33 +103,57 @@
 			})
 		},
 		methods:{
+			onConfirm(){},
+			cancel(){},
 			setClick(type){ //设置角色
 				this.value = false
 				switch(type){
 					case'KE_FU': {this.httpSetRole('/crowd/setUserKefu', this.crowdId, this.userId,type) ;break}
 					case'CAI_WU': {this.httpSetRole('/crowd/setUserCaiwu', this.crowdId, this.userId,type) ;break}
 					case'MIAN_SI': {this.httpSetRole('/crowd/setUserMianSi', this.crowdId, this.userId,type) ;break}
-					// case'GU_KE': {this.httpSetRole('/crowd/setUserKefu', this.crowdId, this.userId,type) ;break}
+					case'GU_KE': {this.httpSetRole('/crowd/setUserGuke', this.crowdId, this.userId,type) ;break}
 					case'ZONG_DAI': {this.httpSetRole('/crowd/setUserZongdai', this.crowdId, this.userId,type) ;break}
 					case'GU_DONG': {this.httpSetRole('/crowd/setUserGudong', this.crowdId, this.userId,type) ;break}
-					// case'DONG_JIE': {this.httpSetRole('/crowd/setUserKefu', this.crowdId, this.userId,type) ;break}
+					case'DONG_JIE': {this.httpSetRole('/crowd/setUserStatus', this.crowdId, this.userId,type) ;break}
 					
 				}
 				
 			},
 			httpSetRole(url,crowdId,userId,type){
-				console.log(url,crowdId,userId)
+				let obj = {
+					userId:userId,
+					crowdId:crowdId
+				}
+				
+				if(url == '/crowd/setUserStatus'){ //解冻还是冻结
+					let is = !this.userList.find((item)=>(item.userId == userId)).status
+					obj.status = is ? 1 : 0
+				}
 				this.$http.httpTokenRequest({
 					url: url,
 					method: 'post'
-				}, {
-					userId:userId,
-					crowdId:crowdId
-				}).then(res => {
+				}, obj).then(res => {
 					
 					if(res.data.success){
 						// console.log(this.showUserList)
-						this.showUserList.find((item)=>(item.userId == userId)).role = type
+						
+						if(url == '/crowd/setUserStatus'){ //解冻还是冻结
+							let is = !this.showUserList.find((item)=>(item.userId == userId)).status
+							this.showUserList.find((item)=>(item.userId == userId)).status = is ? 1 : 0
+						}else{
+							this.showUserList.find((item)=>(item.userId == userId)).role = type
+						}
+						
+						if(url == '/crowd/setUserMianSi'){ //免死只有一个
+							if(this.showUserList.filter((item)=>(item.role == "MIAN_SI")).length > 1){
+								this.showUserList.filter((item)=>(item.role == "MIAN_SI")).find((item)=>(item.userId != userId)).role = "GU_KE"
+							}
+						}
+						if(url == '/crowd/setUserCaiwu'){ //财务只有一个
+							if(this.showUserList.filter((item)=>(item.role == "CAI_WU")).length > 1){
+								this.showUserList.filter((item)=>(item.role == "CAI_WU")).find((item)=>(item.userId != userId)).role = "GU_KE"
+							}
+						}
 						uni.$emit('updateInfo',{msg:'页面更新1'})
 					}else{
 						uni.showToast({
@@ -140,17 +169,22 @@
 				}) 
 			},
 			longtap(index){
+				if(!this.isSet){
+					return
+				}
 				// console.log(this.showUserList[index].role)
 				if(this.showUserList[index].role == 'QUN_ZHU'){
 					this.hideButton = true
-				} else if(this.showUserList[index].role == 'GU_DONG'){
-					this.hideButton = false
-					this.value = true
-					this.userId = this.showUserList[index].userId
-				}
+				} 
+				// else if(this.showUserList[index].role == 'GU_DONG'){
+				// 	this.hideButton = false
+				// 	this.value = true
+				// 	this.userId = this.showUserList[index].userId
+				// }
 				else{
 					this.hideButton = true
 					this.userId = this.showUserList[index].userId
+					this.isDongjieText = this.userList[index].status ? '解冻' : '冻结'
 					this.setRole = this.showUserList[index].role
 					this.value = true
 				}
@@ -241,7 +275,7 @@
 		
 	}
 	.search{
-		padding: 0upx 20upx 20upx 20upx;
+		padding: 20upx 20upx 20upx 20upx;
 		border-bottom: 1upx solid #eee;
 		position: fixed;
 		top: 0;
@@ -266,7 +300,7 @@
 		text-align: center;
 		padding: 20upx 0;
 		background-color: #fff;
-		margin-top: 60upx;
+		margin-top: 80upx;
 		.userList{
 			padding: 0 25upx;
 			li{

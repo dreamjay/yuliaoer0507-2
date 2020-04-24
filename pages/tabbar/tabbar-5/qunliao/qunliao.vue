@@ -3,11 +3,13 @@
 		<Loading v-if="isLoading"></Loading>
 		<ul class="ulBox" v-show="!isLoading">
 			<li v-for="(item,index) in xuanran" :key="index" >
-				<view class="imageBox" :class="headimgClass(item.imgs ? item.imgs.length : null)">
-					<image v-for="(itemm,indexx) in item.imgs" :key="indexx" :src="itemm" mode="scaleToFill"></image>
-				</view>
+				<navigator :url="'/pages/tabbar/tabbar-2/qunliao/qunliao?crowdInfo='+JSON.stringify(item)+''" open-type="navigate" hover-class="">
+					<view class="imageBox" :class="headimgClass(item.imgs ? item.imgs.length : null)">
+						<image v-for="(itemm,indexx) in item.imgs" :key="indexx" :src="itemm" mode="scaleToFill"></image>
+					</view>
+					<text>{{item.name}}</text>
+				</navigator>
 				
-				<text>{{item.name}}</text>
 			</li>
 		</ul>
 	</view>
@@ -137,7 +139,7 @@
 							resolve({data:res.data.data,crowdId:crowdId})
 							
 						}else{
-							resolve({data:res.data.data,crowdId:crowdId})
+							reject({data:res.data.data,crowdId:crowdId})
 							console.log(res.data.msg)
 						}
 					},error => {
@@ -154,8 +156,7 @@
 
 <style lang="scss" scoped>
 	.ulBox{
-		border-top: 1upx solid #eee;
-		
+		// border-top: 1upx solid #eee;
 		li{
 			height: 150upx;
 			padding: 0 30upx;

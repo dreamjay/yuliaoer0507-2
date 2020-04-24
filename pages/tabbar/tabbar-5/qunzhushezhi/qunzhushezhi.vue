@@ -58,7 +58,7 @@
 		},
 		onLoad() {
 			this.getCrowd()
-			uni.$on('updateInfo',(data)=>{ //删除成功重新拿数据才准确
+			uni.$on('updateInfo',(data)=>{ //拿数据才准确
 				// console.log('监听到事件来自 update ，携带参数 msg 为：' + data.msg);
 				
 				this.getCrowd()
@@ -99,7 +99,7 @@
 					}
 					
 					if(res.data.success){
-						// console.log('群信息',res.data.data)
+						console.log('群信息0',res.data.data)
 						
 						this.crowds = res.data.data.filter((item)=>(item.userId == this.userInfo.id)) //id一样他就是群主
 						let count = 0
@@ -159,7 +159,7 @@
 							resolve({data:res.data.data,crowdId:crowdId})
 							
 						}else{
-							resolve({data:res.data.data,crowdId:crowdId})
+							reject({data:res.data.data,crowdId:crowdId})
 							console.log(res.data.msg)
 						}
 					},error => {

@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "聊天信息",
+  "scrollIndicator": "none",
+  "usingComponents": {
+    "chun-lei-modal": "/components/chunLei-modal/chunLei-modal",
+    "loading": "/components/loading/loading"
+  }
+}

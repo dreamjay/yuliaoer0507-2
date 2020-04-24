@@ -31,7 +31,7 @@
 			</view>
 		</view>
 		
-		<button @click="ok" style="width: 650upx;  position: relative; bottom: -150upx; background-color:#4cB964;" type="primary">完成</button>
+		<button @click="ok" style="width: 650upx;  position: relative; bottom: -150upx; background-color:#4cB964; font-size: 16px;" type="primary">完成</button>
 		
 	</view>
 	

@@ -1,25 +1,99 @@
 <template>
-	<view class="content">
-		页面 - 1
+	<view>
+		<Search></Search>
+		<view class="liaotianList" v-for="(item,index) in messageList" :key="index">
+			<view class="item breakLine" >
+				<uni-swipe-action>
+					<uni-swipe-action-item :options="options" @click="onClick" @change="change">
+						<image  src="/static/icon_gftz.png" mode="scaleToFill" ></image>
+						<text class="left">{{item.text}}</text>
+						<text class="right">{{item.time}}</text>
+					</uni-swipe-action-item>
+				</uni-swipe-action>
+			</view>
+		</view>
 	</view>
 </template>
 
 <script>
-export default {
-	data() {
-		return {
-			title: 'Hello'
-		};
-	},
-	onLoad() {},
-	methods: {}
-};
+	import Search from '@/components/search/search.vue'
+	import uniSwipeAction from '@/components/uni-swipe-action/uni-swipe-action.vue'
+	import uniSwipeActionItem from '@/components/uni-swipe-action-item/uni-swipe-action-item.vue'
+	export default {
+		components:{Search,uniSwipeAction,uniSwipeActionItem},
+		data(){
+		    return {
+				
+				messageList:[
+					{
+						text:"官方通知",
+						type:'SYSTEM',
+						time:"4:00"
+					}
+				],
+				options:[
+					{
+						text: '删除',
+						style: {
+							backgroundColor: '#dd524d'
+						}
+					}
+					
+				]
+		    }
+		},
+		onLoad() {
+			uni.$emit('SYSTEM',(data)=>{
+				this.messageList.push({
+					text:"官方通知",
+					type:'SYSTEM',
+					time:"4:00"
+				})
+				
+			})
+		},
+		methods:{
+			onClick(e){
+			  console.log('当前点击的是第'+e.index+'个按钮，点击内容是'+e.content.text)
+			},
+			change(open){
+			  console.log('当前开启状态：'+ open)
+			}
+		}
+	};
 </script>
 
-<style>
-.content {
-	text-align: center;
-	height: 400upx;
-	margin-top: 200upx;
-}
+<style lang="scss">
+	page{
+		background-color: #eee;
+	}
+	.liaotianList{
+		// margin-top: 20upx;
+		background-color: #FFFFFF;
+		.item{
+			height: 50px;
+			position: relative;
+			line-height: 50px;
+			image{
+				margin-top: 9px;
+				height: 32px;
+				width: 32px;
+				margin-left: 15upx;
+			}
+			.left{
+				font-size: 14px;
+				margin-left: 20upx;
+				display: inline-block;
+				height: 100%;
+				vertical-align: top;
+			}
+			.right{
+				position: absolute;
+				height: 100%;
+				font-size: 10px;
+				right: 15upx;
+				color:#999;
+			}
+		}
+	}
 </style>

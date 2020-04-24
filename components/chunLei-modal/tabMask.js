@@ -2,7 +2,7 @@ export class TabMask{
 	constructor(option) {
 		this.navList = []
 		this.tabbarList = []
-		
+		this.maskEnable = option.maskEnable
 		option = option || {}
 	
 		let tabbarHeight = !option.tabbarHeight&&option.tabbarHeight!=0?50:option.tabbarHeight
@@ -41,7 +41,10 @@ export class TabMask{
 		]);
 		view.addEventListener("click", (e) => {
 			this.fn()
-			this.hide()
+			if(this.maskEnable){
+				this.hide()
+			}
+			
 		}, false);
 		return view
 	}
@@ -59,14 +62,15 @@ export class TabMask{
 		},time/10)
 	}
 	hide(){
-		
-		clearInterval(this.timer)
-		for (let item of this.navList) {
-			item.hide();
-		}
-		for (let item of this.tabbarList) {
-			item.hide();
-		}
+		setTimeout(()=>{
+			clearInterval(this.timer)
+			for (let item of this.navList) {
+				item.hide();
+			}
+			for (let item of this.tabbarList) {
+				item.hide();
+			}
+		},22)
 	}
 }
 

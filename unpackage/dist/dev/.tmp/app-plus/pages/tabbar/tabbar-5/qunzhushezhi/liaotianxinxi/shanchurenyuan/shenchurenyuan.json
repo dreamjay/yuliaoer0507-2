@@ -1,0 +1,15 @@
+{
+  "navigationBarTitleText": "删除成员",
+  "scrollIndicator": "none",
+  "titleNView": {
+    "buttons": [
+      {
+        "text": "完成",
+        "fontSize": "16px",
+        "float": "right",
+        "width": "60px"
+      }
+    ]
+  },
+  "usingComponents": {}
+}

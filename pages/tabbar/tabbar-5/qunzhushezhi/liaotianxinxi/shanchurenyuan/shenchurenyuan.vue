@@ -14,7 +14,7 @@
 				<checkbox-group @change="checkboxChange">
 					<li class="SelectList" v-for="(item,index) in showUserList" :key="index">
 						
-						<image :src="item.headUrl ? item.headUrl : '/static/img/weixin.png'" mode=""></image>
+						<image :src="item.headUrl ? item.headUrl : '/static/moren.png'" mode=""></image>
 						<text>{{item.nickName}}</text> 
 						<checkbox :value="String(index)" color='#4CB964'/>
 						
@@ -41,9 +41,9 @@
 		watch:{
 			searchVal(newVal){
 				if(newVal==''){
-					this.showUserList = this.userList
+					this.showUserList = this.userList.filter((item)=>(item.role == 'GU_KE'))
 				}else{
-					this.showUserList = this.userList.filter((item)=>(item.nickName.indexOf(newVal) != -1))
+					this.showUserList = this.showUserList.filter((item)=>(item.nickName.indexOf(newVal) != -1))
 				}
 			}
 		},
@@ -95,7 +95,7 @@
 				
 				this.deleteVal = this.showUserList.filter((item,index)=>(!!data.detail.value.find((itemm)=>(itemm == index))) === '0' ? true : data.detail.value.find((itemm)=>(itemm == index)))
 				
-				console.log('this.deleteVal',this.deleteVal)
+				// console.log('this.deleteVal',this.deleteVal)
 			},
 			handleText:(item,color)=>{
 				switch(item){
@@ -139,7 +139,7 @@
 		border: 1upx solid #d1d1d1!important;
 	}
 	.search{
-		padding: 0upx 20upx 20upx 20upx;
+		padding: 20upx 20upx 20upx 20upx;
 		border-bottom: 1upx solid #eee;
 		position: fixed;
 		top: 0;
@@ -161,7 +161,7 @@
 		}
 	}
 	.myList{
-		margin-top: 60upx;
+		margin-top: 80upx;
 		font-size: 28upx;
 		color: #333;
 	}

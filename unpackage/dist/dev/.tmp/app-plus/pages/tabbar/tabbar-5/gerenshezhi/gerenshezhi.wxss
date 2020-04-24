@@ -1,0 +1,15 @@
+
+page {
+	background-color: #eee;
+}
+.uni-list-item__extra ._span{
+	font-size: 14px;
+}
+.uni-list-item:nth-of-type(2) .uni-list-item__container::after{
+	display: none;
+}
+.listBorderTop .uni-switch-input-checked{
+	background-color: #4cb964!important;
+	border-color: #4cb964!important;
+}
+

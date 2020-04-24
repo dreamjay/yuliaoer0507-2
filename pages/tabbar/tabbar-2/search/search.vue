@@ -11,17 +11,18 @@
 			</li>
 			
 		</ul>
-		
+		<!-- 隐藏的用来自动聚焦 -->
+		<input style="position: absolute; left: -999px; top: 0;" :focus="true" v-if="value" v-model="inputVal" type="password">
 		<chunLei-modal v-model="value" :mData="data" :type="type" @onConfirm="onConfirm" @cancel="cancel" :navHeight="height" :tabbarHeight="0">
 			
-			<div class="custom-view" @tap.stop>
-				<div class="hongbao" style="text-align: center;">
-					<text style="color:#4CB964; margin-top: 50upx;">请输入推荐码</text>
-					<input type="text" :focus='true' v-model="inputVal" @confirm='shenqingjiaqun' confirm-type='完成'>
-					<button @click="shenqingjiaqun" style="width: 400upx; background-color:#4cb964; margin-top: 50upx;" type="primary">确定</button>
-				</div>
+			<view class="custom-view" @tap.stop>
+				<view class="hongbao" style="text-align: center;">
+					<text style="color:#4CB964;">请输入推荐码</text>
+					<input type="text" :focus='true' v-model="inputVal" @confirm='shenqingjiaqun' confirm-type='完成' >
+					<button @touchend.prevent="shenqingjiaqun" style="width: 400upx; background-color:#4cb964; margin-top: 50upx;" type="primary">确定</button>
+				</view>
 				
-			</div>
+			</view>
 		</chunLei-modal>
 	</view>
 </template>
@@ -29,7 +30,6 @@
 <script>
 	
 	import chunLeiModal from '@/components/chunLei-modal/chunLei-modal.vue'
-	import TabMask from '@/components/chunLei-modal/tabMask'
 	
 	export default{
 		components: {chunLeiModal},
@@ -40,7 +40,6 @@
 				type:'custom',
 				height:0, //状态栏加导航栏的高度
 				xuanran:[],
-				tabMask:null,
 				crowdCode:null, //群号
 				inputVal:'', //推荐码
 				crowds:[
@@ -187,7 +186,7 @@
 						uni.hideKeyboard()
 						this.value = !this.value
 						uni.showToast({
-							title:'已申请'
+							title:'群主审核中.'
 						})
 						setTimeout(()=>{
 							uni.navigateBack({})
@@ -239,7 +238,7 @@
 							resolve({data:res.data.data,crowdId:crowdId})
 							
 						}else{
-							resolve({data:res.data.data,crowdId:crowdId})
+							reject({data:res.data.data,crowdId:crowdId})
 							console.log(res.data.msg)
 						}
 					},error => {
@@ -259,7 +258,7 @@
 		overflow: hidden;
 		z-index: 999;
 		position: absolute;
-		top: 10%;
+		top: 5%;
 		
 		.hongbao{
 			width: 500upx;

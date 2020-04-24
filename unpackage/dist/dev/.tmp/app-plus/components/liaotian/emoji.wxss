@@ -1,0 +1,25 @@
+
+.emotion-box.data-v-eaa06bc4 {
+	margin: 0 auto;
+	width: 95%;
+	box-sizing: border-box;
+	padding: 5px;
+	border: 1px solid #b4b4b4;
+	overflow: hidden;
+	overflow-y: auto;
+}
+.emotion-box-line.data-v-eaa06bc4 {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+}
+.emotion-item.data-v-eaa06bc4 {
+	-webkit-box-flex: 1;
+	-webkit-flex: 1;
+	        flex: 1;
+	height: 80rpx;
+	line-height: 80rpx;
+	text-align: center;
+	cursor: pointer;
+}
+

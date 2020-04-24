@@ -28,9 +28,9 @@
 					
 					
 					<view class="uni-btn-v" style="margin-top: 100upx; text-align: center;">
-						<button form-type="reset" style="color: #fff; background-color:#666; width: 325upx; height:100upx; display: inline-block;">重置</button>
+						<button form-type="reset" style="color: #fff; background-color:#666; width: 325upx; height:100upx; line-height: 100upx; display: inline-block;">重置</button>
 						<text style="visibility: hidden;">2</text>
-						<button form-type="submit" style="color: #fff; background-color:#4cb964; width: 325upx; height:100upx; display: inline-block;">提交</button>
+						<button form-type="submit" style="color: #fff; background-color:#4cb964; width: 325upx; height:100upx; line-height: 100upx; display: inline-block;">提交</button>
 					</view>
 				</form>
 			</view>

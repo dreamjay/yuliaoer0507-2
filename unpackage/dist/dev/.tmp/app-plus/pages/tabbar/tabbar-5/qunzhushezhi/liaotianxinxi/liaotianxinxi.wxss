@@ -1,0 +1,245 @@
+@charset "UTF-8";
+/**
+ * 这里是uni-app内置的常用样式变量
+ *
+ * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量
+ * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App
+ *
+ */
+/**
+ * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能
+ *
+ * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件
+ */
+/* 颜色变量 */
+/* 行为相关颜色 */
+/* 文字基本颜色 */
+/* 背景颜色 */
+/* 边框颜色 */
+/* 尺寸变量 */
+/* 文字尺寸 */
+/* 图片尺寸 */
+/* Border Radius */
+/* 水平间距 */
+/* 垂直间距 */
+/* 透明度 */
+/* 文章场景相关 */
+page {
+  background-color: #eee;
+}
+.custom-view {
+  overflow: hidden;
+  z-index: 999;
+  position: absolute;
+  top: 40%;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+}
+.custom-view .hongbao {
+    padding: 50rpx;
+    width: 300rpx;
+    height: 666.66rpx;
+    border-radius: 5px;
+    background: #fff;
+}
+.custom-view .hongbao view {
+      height: 83rpx;
+      line-height: 83rpx;
+}
+.custom-view .hongbao button {
+      width: 300rpx;
+      border-color: #4CB964;
+      color: #4CB964;
+}
+.custom-view .hongbao .active {
+      color: #fff;
+      background-color: #4CB964;
+}
+.custom-view .miniHongbao {
+    height: 183.33rpx;
+}
+.myList .guizhi {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-justify-content: space-around;
+          justify-content: space-around;
+  padding: 10px 0px;
+  background-color: #fff;
+  color: #999;
+}
+.myList {
+  font-size: 28rpx;
+  color: #333;
+}
+.myList ._ul {
+  border-top: 1rpx solid #ddd;
+  border-bottom: 1rpx solid #ddd;
+}
+.myList .SelectList {
+  position: relative;
+  height: 120rpx;
+  line-height: 120rpx;
+  padding: 0rpx 25rpx;
+  background-color: #fff;
+  /* border-bottom: 1px solid #ddd; */
+}
+.myList .SelectList::before {
+  content: '';
+  position: absolute;
+  height: 1rpx;
+  background-color: #ddd;
+  width: calc(100% - 0rpx);
+  bottom: 0;
+  right: 0;
+}
+.myList .nullBottom::before {
+  content: '';
+  position: absolute;
+  height: 0rpx;
+  background-color: #ddd;
+  width: calc(100% - 0rpx);
+  bottom: 0;
+  right: 0;
+}
+.myList .SelectList image {
+  width: 40rpx;
+  height: 40rpx;
+}
+.myList text {
+  vertical-align: middle;
+  margin-left: 15rpx;
+}
+.myList .SelectList image:last-of-type {
+  float: right;
+  margin-top: 40rpx;
+}
+.myList .SelectList text:nth-of-type(2) {
+  position: absolute;
+  right: 80rpx;
+  color: #666;
+}
+.myList .SelectList switch {
+  float: right;
+}
+.uni-switch-input-checked {
+  background-color: #4cb964 !important;
+  border-color: #4cb964 !important;
+}
+.myList .SelectListMax image {
+  width: 40rpx;
+  height: 40rpx;
+}
+.myList .SelectListMax image:last-of-type {
+  float: right;
+  margin-top: 50rpx;
+}
+.myList .SelectListMax {
+  position: relative;
+  height: 140rpx;
+  padding: 0rpx 25rpx;
+  background-color: #fff;
+  border-bottom: 1px solid #ddd;
+}
+.myList .SelectListMax text {
+  line-height: 70rpx;
+}
+.myList .SelectListMax .bottom {
+  border: 0;
+  width: 650rpx;
+}
+.myList .SelectListMax .bottom text {
+  color: #999;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  word-break: break-all;
+  display: inline-block;
+  width: 100%;
+}
+.ulBox {
+  text-align: center;
+  padding: 20rpx 0;
+  background-color: #fff;
+}
+.ulBox .userList {
+    padding: 0 25rpx;
+}
+.ulBox .userList ._li {
+      float: left;
+      width: 140rpx;
+      height: 140rpx;
+      padding: 0 0 30rpx 0;
+      position: relative;
+}
+.ulBox .userList ._li image {
+        width: 100rpx;
+        height: 100rpx;
+        border-radius: 5px;
+        display: inline-block;
+        vertical-align: top;
+}
+.ulBox .userList ._li text {
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        word-break: break-all;
+        display: inline-block;
+        width: 120rpx;
+        height: 30rpx;
+        line-height: 30rpx;
+        color: #999;
+        font-size: 12px;
+        vertical-align: top;
+        margin-top: 10rpx;
+}
+.ulBox .userList ._li .after {
+        color: #fff;
+        padding: 1rpx 5rpx;
+        font-size: 8px;
+        line-height: 20rpx;
+        position: absolute;
+        height: 20rpx;
+        right: 20rpx;
+        top: 10rpx;
+        border-radius: 10rpx 0 0 10rpx;
+}
+.ulBox .userList .deleteClass image {
+      display: none;
+}
+.ulBox .userList .deleteClass text {
+      display: none;
+}
+.ulBox .userList .deleteClass .after {
+      display: none;
+}
+.ulBox .userList .deleteClass::before {
+      content: '';
+      position: absolute;
+      height: 2px;
+      width: 70rpx;
+      top: 49rpx;
+      left: 35rpx;
+      background-color: #ccc;
+      border-radius: 1px;
+}
+.ulBox .userList .deleteClass::after {
+      content: '';
+      position: absolute;
+      width: 100rpx;
+      height: 100rpx;
+      border-radius: 5px;
+      box-sizing: border-box;
+      border: 1px solid #eee;
+      top: 0;
+      left: 20rpx;
+}
+.ulBox .userList::after {
+    content: '';
+    display: block;
+    clear: both;
+}
+.ulBox .bottom text {
+    color: #999;
+}
+

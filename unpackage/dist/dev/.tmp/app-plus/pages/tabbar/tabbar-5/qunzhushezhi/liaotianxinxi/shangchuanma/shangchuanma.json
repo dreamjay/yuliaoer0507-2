@@ -1,0 +1,15 @@
+{
+  "navigationBarTitleText": "上传收款码",
+  "scrollIndicator": "none",
+  "titleNView": {
+    "buttons": [
+      {
+        "text": "保存",
+        "fontSize": "16px",
+        "float": "right",
+        "width": "60px"
+      }
+    ]
+  },
+  "usingComponents": {}
+}

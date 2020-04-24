@@ -13,11 +13,11 @@ ul,li{ padding:0;margin:0;list-style:none}
 .breakLine::after{
 	content: "";
 	position: absolute;
-	height: 1upx ;
+	height: 1px ;
 	background-color: #eee;
 	width: 640upx;
 	right: 0;
-	bottom: 1upx;
+	bottom: 0px;
 }
 body{
 	color: #333;

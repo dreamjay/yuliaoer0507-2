@@ -1,0 +1,111 @@
+
+page{
+	/* background-color: #eee; */
+}
+.myList{
+	position: absolute;
+	font-size: 28rpx;
+	color: #333;
+	left: 0;
+	right: 0;
+	top:0;
+	bottom: 0;
+	z-index: 0;
+}
+.gameOpen {
+	content:'';
+	position: absolute;
+	left: 0;
+	right: 0;
+	top:0;
+	bottom: 0;
+	z-index: 2;
+	background-color: rgba(0,0,0,0.1)/*透明度默认为1*/
+}
+.myList ._ul{
+	border-top: 1rpx solid #ddd;
+	/* border-bottom: 1upx solid #ddd; */
+}
+.myList .SelectList{
+	position: relative;
+	height: 120rpx;
+	line-height: 120rpx;
+	padding: 0rpx 50rpx;
+	background-color: #fff;
+	/* border-bottom: 1px solid #ddd; */
+}
+.myList .double view{
+	height: 40rpx;
+	width: 400rpx;
+	float: right;
+	margin-top: 40rpx;
+	display: inline-block;
+}
+.myList .double view text{
+	float: left;
+	vertical-align: middle;
+	height: 40rpx;
+	line-height: 40rpx;
+}
+.myList .double view input:first-of-type{
+	width: 150rpx;
+	float: left;
+}
+.myList .double view input:last-of-type{
+	width: 150rpx;
+	float: right;
+	margin-right: 30rpx;
+}
+.myList .SelectList::before{
+	content: '';
+	position: absolute;
+	height: 1rpx;
+	background-color: #ddd;
+	width: calc(100% - 0rpx);
+	bottom: 0;
+	right: 0;
+}
+.myList .nullBottom::before{
+	content: '';
+	position: absolute;
+	height: 0rpx;
+	background-color: #ddd;
+	width: calc(100% - 0rpx);
+	bottom: 0;
+	right: 0;
+}
+.myList text{
+	vertical-align: middle;
+	margin-left: 10rpx;
+}
+.myList .SelectList .right{
+	text-align: right;
+	border: 0;
+	/* border:1px solid #ccc; */
+	float: right;
+	margin-top: 40rpx;
+}
+.myList .SelectList image{
+	width: 30rpx;
+	height: 30rpx;
+	float: right;
+	margin-top: 45rpx;
+}
+.shizhi view{
+	width: 100rpx;
+	height: 120rpx;
+	line-height: 120rpx;
+	display: inline-block;
+	float: right;
+	/* margin-top: 20px; */
+	/* margin-top: 40px; */
+}
+.shizhi view input{
+	width: 70rpx;
+	text-align: right;
+	display: inline-block;
+	vertical-align: text-bottom;
+	color: #888;
+}
+
+

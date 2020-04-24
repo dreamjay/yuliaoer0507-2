@@ -1,24 +1,24 @@
 <template>
-	<view>
-		
-		<input type="text" confirm-type="完成" @confirm='confirm' v-model="val" :focus="true" v-if="type == '群名称' || type=='群公告' || type=='群须知'" class="defultInput" :cursor='Number(val.length)'>
-		
-		<view v-if="!(type == '群名称' || type=='群公告' || type=='群须知' || type == '发包金额修改')" class="else">
-			<text>{{minTitle}}</text>
-			<view>
-				<input confirm-type="完成" @confirm='confirm' type="number" v-model="val" :cursor='Number(val.length)' :focus="true" :class="!unit ? 'hiddenText' : null">
-				<text v-if="unit">{{unit}}</text>
-			</view>
-			
-		</view>
-		
+	<view style="padding-top: 5px;">
+		<!-- 前三个 -->
+		<input type="text"   @confirm='confirm' v-model="val" :focus="true" v-if="type == '群名称' || type=='群公告' || type=='群须知'" class="defultInput" :cursor='Number(val.length)'>
+		<!-- 发包金额修改 -->
 		<view v-if="type == '发包金额修改'" class="hongbaofanwei">
 			<text>{{minTitle}}</text>
 			<view class="right">
-				<input confirm-type="完成" @confirm='confirm' type="number" v-model="minVal" :cursor='Number(minVal.length)'>
+				<input   @confirm='confirm' type="number" v-model="minVal" :cursor='Number(minVal.length)'>
 				<text>-</text>
-				<input confirm-type="完成" @confirm='confirm' type="number" v-model="maxVal" :cursor='Number(maxVal.length)' :focus="true">
+				<input   @confirm='confirm' type="number" v-model="maxVal" :cursor='Number(maxVal.length)' :focus="true">
 			</view>
+		</view>
+		<!-- 剩下的 -->
+		<view v-if="!(type == '群名称' || type=='群公告' || type=='群须知' || type == '发包金额修改')" class="else">
+			<text>{{minTitle}}</text>
+			<view>
+				<input   @confirm='confirm' type="number" v-model="val" :cursor='Number(val.length)' :focus="true" :class="!unit ? 'hiddenText' : null">
+				<text v-if="unit">{{unit}}</text>
+			</view>
+			
 		</view>
 	</view>
 </template>
@@ -47,6 +47,7 @@
 			this.type = option.title
 			
 			this.crowdId = option.crowdId
+			console.log('进来是',this.crowdId)
 			if(option.title == '发包金额修改'){
 				
 				this.minTitle = '红包金额范围'
@@ -112,6 +113,11 @@
 					case '修改群赔率倍数':{
 						url = '/crowd/updateRedOdds'
 						key = 'redOdds'
+						break
+					}
+					case '红包失效时间':{
+						url = '/crowd/updateRedInavlidTime'
+						key = 'redInavlidTime'
 						break
 					}
 					case '红包返点':{

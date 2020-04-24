@@ -1,0 +1,18 @@
+{
+  "navigationBarTitleText": "个人信息",
+  "titleNView": {
+    "buttons": [
+      {
+        "text": "保存",
+        "fontSize": "16px",
+        "float": "right",
+        "width": "60px"
+      }
+    ]
+  },
+  "usingComponents": {
+    "uni-list": "/components/uni-list/uni-list",
+    "uni-list-item": "/components/uni-list-item/uni-list-item",
+    "loading": "/components/loading/loading"
+  }
+}

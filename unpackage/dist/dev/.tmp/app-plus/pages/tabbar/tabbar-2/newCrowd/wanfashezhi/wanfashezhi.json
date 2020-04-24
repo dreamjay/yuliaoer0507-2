@@ -1,0 +1,16 @@
+{
+  "navigationBarTitleText": "玩法设置",
+  "titleNView": {
+    "buttons": [
+      {
+        "text": "确定",
+        "fontSize": "16px",
+        "float": "right",
+        "width": "60px"
+      }
+    ]
+  },
+  "usingComponents": {
+    "uni-transition": "/components/uni-transition/uni-transition"
+  }
+}

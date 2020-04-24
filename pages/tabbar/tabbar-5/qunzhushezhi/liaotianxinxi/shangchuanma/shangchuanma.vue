@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<view class="content">
-			<view><image @click="openImage('wx')" :src="crowdInfo.wxUrl ? crowdInfo.wxUrl : '/static/moren.jpg'"></image></view>
+			<view><image @click="openImage('wx')" :src="crowdInfo.wxUrl ? crowdInfo.wxUrl : '/static/moren.png'"></image></view>
 			<view><text>上传微信收款码</text></view>
 			<view>
 				<text>微信号：</text>
@@ -10,7 +10,7 @@
 			</view>
 		</view>
 		<view class="content">
-			<view><image @click="openImage('zfb')" :src="crowdInfo.zfbUrl ? crowdInfo.zfbUrl : '/static/moren.jpg'"></image></view>
+			<view><image @click="openImage('zfb')" :src="crowdInfo.zfbUrl ? crowdInfo.zfbUrl : '/static/moren.png'"></image></view>
 			<view><text>上传支付宝收款码</text></view>
 			<view>
 				<text>支付包账号：</text>
@@ -19,7 +19,7 @@
 			</view>
 		</view>
 		<view class="content">
-			<view><image @click="openImage('qz')" :src="crowdInfo.qunZhuUrl ? crowdInfo.qunZhuUrl : '/static/moren.jpg'"></image></view>
+			<view><image @click="openImage('qz')" :src="crowdInfo.qunZhuUrl ? crowdInfo.qunZhuUrl : '/static/moren.png'"></image></view>
 			<view><text>上传群主收款码</text></view>
 			<view>
 				<text>群主微信号：</text>
@@ -141,7 +141,7 @@
 				var then = this
 				var uper = uni.uploadFile({
 					// 需要上传的地址
-					url:'http://zcttt.vipgz5.idcfengye.com'+url+'',
+					url:then.$http.baseUrl+url,
 					// filePath  需要上传的文件
 					filePath: imgFiles,
 					name: type,

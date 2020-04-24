@@ -1,0 +1,8 @@
+
+page {
+	background-color: #eee;
+}
+.uni-list-item:nth-of-type(2) .uni-list-item__container::after{
+	display: none;
+}
+

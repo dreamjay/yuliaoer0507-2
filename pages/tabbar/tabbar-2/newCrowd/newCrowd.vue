@@ -204,7 +204,7 @@
 		color: #333;
 	}
 	.myList ul{
-		border-top: 1upx solid #ddd;
+		/* border-top: 1upx solid #ddd; */
 		/* border-bottom: 1upx solid #ddd; */
 	}
 	.myList .SelectList{

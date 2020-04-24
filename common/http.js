@@ -1,6 +1,9 @@
 import store from '../store/store.js'
-const baseUrl = 'http://zcttt.vipgz5.idcfengye.com'; 
-const basePushUrl = 'http://zc3t.vipgz5.idcfengye.com';
+// const baseUrl = 'http://zcttt.vipgz5.idcfengye.com';
+ // const baseUrl = 'http://zcttt.5gzvip.idcfengye.com'
+  const baseUrl = 'http://z3t.vip3gz.idcfengye.com'
+  const baseUrlMeg = 'http://zc.vip3gz.idcfengye.com'
+
 var count = 0
 const httpRequest = (opts, data) => {
 
@@ -48,17 +51,11 @@ return promise
 //带Token请求
 const httpTokenRequest = (opts, data) => {
 	let token = "";
-	// uni.getStorage({
-	// 	key: 'token',
-	// 	success: function(ress) {
-	// 		token = ress.data
-	// 	}
-	// });
 	token = JSON.parse(uni.getStorageSync('userInfo')).token
 	
 	//此token是登录成功后后台返回保存在storage中的
 	let httpDefaultOpts = {
-		url: baseUrl+opts.url,
+		url: (data.msg ? baseUrlMeg : baseUrl)+opts.url,
 		data: data,
 		method: opts.method,
 		header: opts.method == 'get' ? {
@@ -87,6 +84,18 @@ const httpTokenRequest = (opts, data) => {
 							title:'token失效请重新登录',
 							icon:'none'
 						})
+						try{
+							uni.removeStorageSync('userInfo') //清空token
+							uni.$off('redUpdate')
+							uni.$off('updateInfo')
+							uni.$off('updateUserInfo')
+							uni.$off('update')
+							uni.$off('updateWs')
+							uni.$off('fahongbao')
+						}catch(err){
+							console.log('处理退出时出错',err)
+						}
+						
 						setTimeout(()=>{
 							uni.hideToast()
 							uni.reLaunch({
@@ -103,12 +112,14 @@ const httpTokenRequest = (opts, data) => {
 			}
 			).catch(
 				(response) => {
+					console.log("response",response)
 					reject(response)
 				}
 			)
 		})
 		return promise
 };
+
 
 export default {
 	baseUrl,

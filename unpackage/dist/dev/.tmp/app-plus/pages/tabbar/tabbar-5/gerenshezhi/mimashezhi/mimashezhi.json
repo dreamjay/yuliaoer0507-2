@@ -1,0 +1,12 @@
+{
+  "navigationBarTitleText": "密码设置",
+  "titleNView": {
+    "splitLine": {
+      "color": "#ccc"
+    }
+  },
+  "usingComponents": {
+    "uni-list": "/components/uni-list/uni-list",
+    "uni-list-item": "/components/uni-list-item/uni-list-item"
+  }
+}

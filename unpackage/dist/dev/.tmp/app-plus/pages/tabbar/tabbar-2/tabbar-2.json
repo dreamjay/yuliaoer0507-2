@@ -1,0 +1,8 @@
+{
+  "navigationStyle": "custom",
+  "titleNView": false,
+  "usingComponents": {
+    "uni-transition": "/components/uni-transition/uni-transition",
+    "uni-indexed-list": "/components/uni-indexed-list/uni-indexed-list"
+  }
+}

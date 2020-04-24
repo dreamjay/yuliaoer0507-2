@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "群成员",
+  "scrollIndicator": "none",
+  "usingComponents": {
+    "chun-lei-modal": "/components/chunLei-modal/chunLei-modal"
+  }
+}
