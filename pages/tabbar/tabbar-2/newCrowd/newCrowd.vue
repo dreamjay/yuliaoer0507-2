@@ -43,8 +43,8 @@
 				</navigator>
 			</li>
 			<li class="SelectList listBorderTop">
-				<text>推荐人微信号</text>
-				<input class="right" type="number" placeholder="请输入您的微信账号" v-model="wxAccount">
+				<text>申请人微信号</text>
+				<input class="right" type="text" placeholder="请输入您的微信账号" v-model="wxAccount">
 			</li>
 		</ul>
 		<view class="bottomBox">
@@ -52,7 +52,7 @@
 			<p>如审核不通过，请联系客服</p>
 			<p>
 				<text>客服微信：</text>
-				<text @click="copy('??????')">??????</text>
+				<text @click="copy('??????')">?????</text>
 			</p>
 		</view>
 	</view>

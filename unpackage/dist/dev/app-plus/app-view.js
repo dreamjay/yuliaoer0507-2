@@ -4397,11 +4397,11 @@ var render = function() {
             "li",
             { staticClass: _vm._$g(31, "sc"), attrs: { _i: 31 } },
             [
-              _c("v-uni-text", { attrs: { _i: 32 } }, [_vm._v("推荐人微信号")]),
+              _c("v-uni-text", { attrs: { _i: 32 } }, [_vm._v("申请人微信号")]),
               _c("v-uni-input", {
                 staticClass: _vm._$g(33, "sc"),
                 attrs: {
-                  type: "number",
+                  type: "text",
                   placeholder: "请输入您的微信账号",
                   _i: 33
                 },
@@ -4456,7 +4456,7 @@ var render = function() {
                     }
                   }
                 },
-                [_vm._v("??????")]
+                [_vm._v("?????")]
               )
             ],
             1
