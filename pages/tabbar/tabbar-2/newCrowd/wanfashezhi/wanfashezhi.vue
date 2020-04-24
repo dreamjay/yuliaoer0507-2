@@ -21,11 +21,11 @@
 			</li>
 			<li class="SelectList" >
 				<text>红包几包</text>
-				<input class="right" type="number" placeholder="请设置红包个数" v-model="beishu"   @confirm='confirm'>
+				<input class="right" type="number" placeholder="请设置红包个数" v-model="shuliang"   @confirm='confirm'>
 			</li>
 			<li class="SelectList" >
 				<text>红包几倍</text>
-				<input class="right" type="number" placeholder="请设置红包倍数" v-model="shuliang"   @confirm='confirm'>
+				<input class="right" type="number" placeholder="请设置红包倍数" v-model="beishu"   @confirm='confirm'>
 			</li>
 			
 		</ul>

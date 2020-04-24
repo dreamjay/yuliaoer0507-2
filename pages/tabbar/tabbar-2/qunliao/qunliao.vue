@@ -210,7 +210,7 @@
 					content: '',
 					hasSub: true,
 					// 红包状态： 0 未抢光 1 已抢光 2 已失效
-					subcontent: {name:'扫雷红包',val:data.money,lei:data.lei,isOpen:0},
+					subcontent: {name:'扫雷红包',val:data.money,lei:data.lei,isOpen:1},
 					userId: this.userInfo.userId,
 					nickName:this.userInfo.nickName,
 					headUrl:this.userInfo.headUrl,
@@ -218,8 +218,6 @@
 					type: 'head', //input,content 
 					isSucceed:true,
 				});
-				
-				
 			})
 			
 			// this.is_freshing = false;

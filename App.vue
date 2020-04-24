@@ -11,6 +11,7 @@ export default {
 	
 	onLaunch: function() {
 		setTimeout(() => {
+			
 			uni.setTabBarBadge({
 				index: 1,
 				text: '99+'
