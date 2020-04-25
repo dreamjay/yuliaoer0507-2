@@ -152,7 +152,7 @@
 							<view>
 								<text class="fontMax">{{item.nickName}}</text>
 								<br>
-								<text class="" style="font-size: 10px;">{{item.content}}</text>
+								<text class="" style="">{{item.content}}</text>
 								<br>
 								<text>微信：</text><text>{{item.wxAccount}}</text><text class="copy" @click="copy(item.wxAccount)">复制</text>
 								<br>
@@ -556,11 +556,12 @@
 						}
 						
 						this.dataGD = res.data.data
-						this.recordsGD = res.data.data.records.concat(this.recordsGD)
-						this.recordsGD.forEach(item=>{
+						res.data.data.records.forEach(item=>{
 							item.createTime = item.createTime.slice(5,item.createTime.length-3)
 						})
-						console.log('股东',this.recordsGD)
+						this.recordsGD = res.data.data.records.concat(this.recordsGD)
+						
+						// console.log('股东',this.recordsGD)
 					}else{
 						uni.showToast({
 							title:res.data.msg,

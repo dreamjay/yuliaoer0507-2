@@ -3095,10 +3095,7 @@ var render = function() {
                                   _c("br", { attrs: { _i: "97-" + $32 } }),
                                   _c(
                                     "v-uni-text",
-                                    {
-                                      staticStyle: { "font-size": "10px" },
-                                      attrs: { _i: "98-" + $32 }
-                                    },
+                                    { attrs: { _i: "98-" + $32 } },
                                     [_vm._v(_vm._$g("98-" + $32, "t0-0"))]
                                   ),
                                   _c("br", { attrs: { _i: "99-" + $32 } }),
