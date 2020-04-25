@@ -46,9 +46,11 @@
 		<scroll-view 
 			:scroll-y="isScroll" 
 			:style="{height:scrollHei+'px'}"
-			:refresher-enabled="true"
-			:refresher-threshold="60"
-			refresher-background="#EEEEEE"
+			:refresher-enabled="isActive"
+			:refresher-threshold="80"
+			refresher-default-style="white"
+			@scroll="scroll"
+			@scrolltoupper="scrolltoupper"
 			:refresher-triggered="triggered"
 			@refresherpulling="onPulling"
 			@refresherrefresh="onRefresh"
@@ -145,6 +147,7 @@
 				triggered:true,
 				is_freshing:false,//
 				isScroll:true,
+				isActive:true,
 				infos:[
 					{
 						text:'上分1200',
@@ -277,6 +280,21 @@
 			
 		},
 		methods:{
+			scrolltoupper(){
+				setTimeout(()=>{
+					// console.log("到顶部")
+					this.isActive = true
+				},100)
+			},
+			scroll(e){
+				// console.log("滚动",e.detail.scrollTop,e.detail.deltaY)
+				if(e.detail.scrollTop == 0) {
+					this.isActive = true
+				}
+				if(e.detail.deltaY < 0){
+					this.isActive = false
+				}
+			},
 			onPulling(e) { //下拉
 				// console.log("onpulling", e);
 				

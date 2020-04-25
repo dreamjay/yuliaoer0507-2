@@ -1,8 +1,8 @@
 
 <template>
 	<view>
-		<Loading v-show="isLoading"></Loading>
-		<view v-show="!isLoading">
+		<Loading v-if="isLoading"></Loading>
+		<view v-if="!isLoading">
 			<view class="badgeBox">
 				<uni-badge :text="badge.sf" type="error" class="shangfen" size="small" ></uni-badge>
 				<uni-badge :text="badge.xf" type="error" class="xiafen" size="small" ></uni-badge>
@@ -16,8 +16,11 @@
 					<scroll-view
 						:scroll-y="isScroll" 
 						:style="{height:scrollHei+'px'}"
-						:refresher-enabled="true"
+						:refresher-enabled="isActive"
 						:refresher-threshold="80"
+						refresher-default-style="white"
+						@scroll="scroll"
+						@scrolltoupper="scrolltoupper"
 						refresher-background="#EEEEEE"
 						:refresher-triggered="triggered"
 						@refresherpulling="onPulling"
@@ -74,8 +77,11 @@
 					<scroll-view
 						:scroll-y="isScroll" 
 						:style="{height:scrollHei+'px'}"
-						:refresher-enabled="true"
+						:refresher-enabled="isActive"
 						:refresher-threshold="80"
+						refresher-default-style="white"
+						@scroll="scroll"
+						@scrolltoupper="scrolltoupper"
 						refresher-background="#EEEEEE"
 						:refresher-triggered="triggered"
 						@refresherpulling="onPulling"
@@ -131,8 +137,11 @@
 					<scroll-view
 						:scroll-y="isScroll" 
 						:style="{height:scrollHei+'px'}"
-						:refresher-enabled="true"
+						:refresher-enabled="isActive"
 						:refresher-threshold="80"
+						refresher-default-style="white"
+						@scroll="scroll"
+						@scrolltoupper="scrolltoupper"
 						refresher-background="#EEEEEE"
 						:refresher-triggered="triggered"
 						@refresherpulling="onPulling"
@@ -183,7 +192,7 @@
 	import uniBadge from "@/components/uni-badge/uni-badge.vue"
 	import Loading from '@/components/loading/loading.vue'
 	export default {
-	    components: {uniSegmentedControl,Loading},
+	    components: {uniSegmentedControl,uniBadge,Loading},
 	    data() {
 	        return {
 	            items: ['上分申请','下分申请','股东申请'],
@@ -192,6 +201,7 @@
 				triggered:true,
 				is_freshing:false,//
 				isScroll:true,
+				isActive:true,
 				recordsSF:[],
 				dataSF:{}, 
 				pageIndexSF:1 ,// 上拉初始页
@@ -230,6 +240,21 @@
 			}
 		},
 	    methods: {
+			scrolltoupper(){
+				setTimeout(()=>{
+					// console.log("到顶部")
+					this.isActive = true
+				},100)
+			},
+			scroll(e){
+				// console.log("滚动",e.detail.scrollTop,e.detail.deltaY)
+				if(e.detail.scrollTop == 0) {
+					this.isActive = true
+				}
+				if(e.detail.deltaY < 0){
+					this.isActive = false
+				}
+			},
 			httpBadge(){
 				this.$http.httpTokenRequest({
 					url: '/shareholder-apply/statistics',
@@ -237,11 +262,10 @@
 				}, {}).then(res => {
 					this.initHttpTotal--
 					if(res.data.success){
+						this.badge.sf = res.data.data.rechargeCount? res.data.data.rechargeCount : 0
+						this.badge.xf = res.data.data.withdrawCount? res.data.data.withdrawCount : 0
+						this.badge.gd = res.data.data.shareholderCount? res.data.data.shareholderCount : 0
 						
-						// console.log(res.data)
-						this.badge.sf = res.data.data.rechargeCount
-						this.badge.xf = res.data.data.withdrawCount
-						this.badge.gd = res.data.data.shareholderCount
 					}else{
 						uni.showToast({
 							title:res.data.msg,

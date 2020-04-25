@@ -2,7 +2,7 @@
 	<view class="m-item" :id="'message'+cid">
 		
 		<view class="m-left">
-			<image class="head_icon" :src="message.headUrl" v-if="message.user=='him'"></image>
+			<image class="head_icon" :src="message.headUrl ? message.headUrl : '/static/moren.png'" v-if="message.user=='him'"></image>
 		</view>
 		<view class="m-content" v-if="!message.hasSub" >
 			<view class="m-content-head" :class="{'m-content-head-right':message.user=='customer'}">
@@ -25,7 +25,7 @@
 			</view>
 		</view>
 		<view class="m-right">
-			<image class="head_icon" :src="message.headUrl" v-if="message.user=='customer'"></image>
+			<image class="head_icon" :src="message.headUrl ? message.headUrl : '/static/moren.png'" v-if="message.user=='customer'"></image>
 		</view>
 	</view>
 </template>

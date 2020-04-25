@@ -7,10 +7,12 @@
 				:style="{height:style.contentViewHeight+'px'}" 
 				:scroll-with-animation="false"
 			    :scroll-top="scrollTop" 
-				@scroll="scroll" 
 				@click="scrollViewClick"
-				:refresher-enabled="true"
+				:refresher-enabled="isActive"
 				:refresher-threshold="80"
+				refresher-default-style="white"
+				@scroll="scroll"
+				@scrolltoupper="scrolltoupper"
 				refresher-background="#EEEEEE"
 				:refresher-triggered="triggered"
 				@refresherpulling="onPulling"
@@ -105,7 +107,7 @@
 				triggered:true,
 				is_freshing:false,//
 				isScroll:true,
-				
+				isActive:true,
 			}
 		},
 		onBackPress(e){
@@ -235,6 +237,22 @@
 			}
 		},
 		methods: {
+			scrolltoupper(){
+				setTimeout(()=>{
+					// console.log("到顶部")
+					this.isActive = true
+				},100)
+			},
+			scroll(e){
+				this.scrollTop = e.detail.scrollTop
+				// console.log("滚动",e.detail.scrollTop,e.detail.deltaY)
+				if(e.detail.scrollTop == 0) {
+					this.isActive = true
+				}
+				if(e.detail.deltaY < 0){
+					this.isActive = false
+				}
+			},
 			onPulling(e) { //下拉
 				// console.log("onpulling", e);
 				
@@ -313,9 +331,6 @@
 					this.isType = 'shouman'
 				}
 				
-			},
-			scroll: function(e) {
-				this.scrollTop = e.detail.scrollTop
 			},
 			getInputMessage: function (message) { //获取子组件的输入数据
 				// console.log(message);

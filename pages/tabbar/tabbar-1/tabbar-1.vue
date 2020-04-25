@@ -34,9 +34,13 @@
 					},
 					{
 						text:"群主消息",
-						type:'ALONE',
 						time:"4:00",
 						url:'./qunzhuxiaoxi/qunzhuxiaoxi'
+					},
+					{
+						text:"群消息",
+						time:"4:00",
+						url:'./qunxiaoxi/qunxiaoxi'
 					}
 				],
 				options:[

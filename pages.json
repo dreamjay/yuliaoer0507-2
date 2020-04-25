@@ -26,6 +26,19 @@
 			}
 		},
 		{
+			"path":"pages/tabbar/tabbar-1/qunxiaoxi/qunxiaoxi",
+			"style":{
+				"scrollIndicator":"none",
+				"navigationBarTitleText": "群消息",
+				"app-plus":{
+					"titleNView":{
+						"backgroundColor":"#EEEEEE",
+						"splitLine":{}
+					}
+				}
+			}
+		},
+		{
 			"path": "pages/tabbar/tabbar-2/tabbar-2",
 			"style": {
 				"navigationStyle":"custom",
