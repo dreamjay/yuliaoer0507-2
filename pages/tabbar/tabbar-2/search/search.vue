@@ -4,7 +4,7 @@
 		<ul class="ulBox">
 			<li v-for="(item,index) in xuanran" :key="index" @click='popupOpen(item)'>
 				<view class="imageBox" :class="headimgClass(item.imgs ? item.imgs.length : null)">
-					<image v-for="(itemm,indexx) in item.imgs" :key="indexx" :src="itemm" mode="scaleToFill"></image>
+					<image v-for="(itemm,indexx) in item.imgs" :key="indexx" :src="itemm ? itemm : '/static/moren.png'" mode="scaleToFill"></image>
 				</view>
 				
 				<text>{{item.name}}</text>

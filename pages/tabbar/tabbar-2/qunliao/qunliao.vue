@@ -95,7 +95,7 @@
 						name:'扫雷红包',
 						val:100,
 						lei:1,
-						isOpen:1,
+						isOpen:0,
 					}
 				}],
 				isType: null , //模拟数据，手慢还是积分不足

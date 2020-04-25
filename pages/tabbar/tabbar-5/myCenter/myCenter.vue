@@ -5,7 +5,7 @@
 		<uni-list >
 		    <uni-list-item title="头像" :showArrow="true" @click="openImage">
 		        <template v-slot:right="">
-		    		<image style="width: 100upx; height: 100upx; display: inline-block;" :src="touxiang ? touxiang : '/static/moren.jpg'" mode="scaleToFill"></image>
+		    		<image style="width: 100upx; height: 100upx; display: inline-block;" :src="touxiang ? touxiang : '/static/moren.png'" mode="scaleToFill"></image>
 		        </template>
 		    </uni-list-item>
 		    <uni-list-item title="昵称" @click="changName" >

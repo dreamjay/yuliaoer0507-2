@@ -1,16 +1,18 @@
 <template>
 	<view>
 		<Search></Search>
-		<view class="liaotianList" v-for="(item,index) in messageList" :key="index">
-			<view class="item breakLine" >
-				<uni-swipe-action>
-					<uni-swipe-action-item :options="options" @click="onClick" @change="change">
-						<image  src="/static/icon_gftz.png" mode="scaleToFill" ></image>
-						<text class="left">{{item.text}}</text>
-						<text class="right">{{item.time}}</text>
-					</uni-swipe-action-item>
-				</uni-swipe-action>
-			</view>
+		<view class="liaotianList" v-for="(item,index) in messageList" :key="index" v-if="item.isShow">
+			<navigator :url="item.url ? item.url : ''" open-type="navigate" hover-class="">
+				<view class="item breakLine" >
+					<uni-swipe-action>
+						<uni-swipe-action-item :options="options" @click="onClick" @change="change">
+							<image  src="/static/icon_gftz.png" mode="scaleToFill" ></image>
+							<text class="left">{{item.text}}</text>
+							<text class="right">{{item.time}}</text>
+						</uni-swipe-action-item>
+					</uni-swipe-action>
+				</view>
+			</navigator>
 		</view>
 	</view>
 </template>
@@ -23,12 +25,18 @@
 		components:{Search,uniSwipeAction,uniSwipeActionItem},
 		data(){
 		    return {
-				
+				userInfo:null,
 				messageList:[
 					{
 						text:"官方通知",
 						type:'SYSTEM',
 						time:"4:00"
+					},
+					{
+						text:"群主消息",
+						type:'ALONE',
+						time:"4:00",
+						url:'./qunzhuxiaoxi/qunzhuxiaoxi'
 					}
 				],
 				options:[
@@ -43,6 +51,15 @@
 		    }
 		},
 		onLoad() {
+			this.userInfo = JSON.parse(uni.getStorageSync('userInfo')).user
+			this.messageList.forEach((item)=>{
+				if(item.text == '群主消息' || item.text == '群消息'){
+					item.isShow = !!this.userInfo.showCrowd
+				}else{
+					item.isShow = true
+				}
+				
+			})
 			uni.$emit('SYSTEM',(data)=>{
 				this.messageList.push({
 					text:"官方通知",
