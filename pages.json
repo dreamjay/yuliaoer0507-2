@@ -402,7 +402,7 @@
 		{
 			"path": "pages/tabbar/tabbar-5/gerenshezhi/mimashezhi/xiugaimima/xiugaimima",
 			"style": {
-				"navigationBarTitleText": "修改支付密码",
+				"navigationBarTitleText": "修改登录密码",
 				"app-plus": {
 					"titleNView": {    
 						"backgroundColor":"#EEEEEE",
@@ -414,7 +414,7 @@
 		{
 			"path": "pages/tabbar/tabbar-5/gerenshezhi/mimashezhi/paypassword/paypassword",
 			"style": {
-				"navigationBarTitleText": "设置登录密码",
+				"navigationBarTitleText": "设置支付密码",
 				"app-plus": {
 					"titleNView": {    
 						"backgroundColor":"#EEEEEE",

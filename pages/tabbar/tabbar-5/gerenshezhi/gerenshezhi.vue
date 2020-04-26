@@ -41,6 +41,7 @@
 			this.userInfo = uni.getStorageSync('userInfo');
 			this.account = this.userInfo.nickName
 			this.mobile = this.userInfo.phone
+			
 		},
 		
 		created() {  

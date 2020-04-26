@@ -47,6 +47,7 @@ export default {
 		
 		if(!timer){
 			timer = setInterval(()=>{
+				console.log("ping");
 				if(!connectionStatus){
 					this.resetConnection();
 				}

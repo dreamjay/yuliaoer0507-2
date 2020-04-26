@@ -1,8 +1,7 @@
 <template>
 	<view class="maxBox">
 		<view  class="loadBox" >
-			<image  src="/static/loading.gif"></image>
-			<!-- <image  src="/static/loading1.gif"></image> -->
+			<image  src="/static/loading2.gif"></image>
 		</view>
 	</view>
 </template>
@@ -37,8 +36,8 @@
 	.loadBox{
 		/* width: 300upx; 
 		height: 200upx; */
-		width: 200upx;
-		height: 200upx;
+		width: 100upx;
+		height: 100upx;
 		position: absolute; 
 		/* background-color: rgba(76,185,100,1); */
 		background-color: rgba(255,255,255,1);
@@ -51,9 +50,9 @@
 	image{
 		z-index: 2; 
 		position: absolute;
-		left: 50upx;
-		top:50upx;
-		width:100upx; 
-		height:100upx;
+		left: 25upx;
+		top:25upx;
+		width:50upx; 
+		height:50upx;
 	}
 </style>

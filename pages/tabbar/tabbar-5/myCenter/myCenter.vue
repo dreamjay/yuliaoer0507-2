@@ -54,7 +54,7 @@
 			if(this.userInfo.headUrl){
 				this.touxiang = this.userInfo.headUrl;
 			}
-			
+			this.$store.state.isLoading = false;
 			this.token = uni.getStorageSync('token');
 		},
 		onNavigationBarButtonTap:function() {

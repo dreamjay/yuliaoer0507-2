@@ -62,6 +62,7 @@
 		onLoad(){
 			this.uuid = this.uuidFn()
 			this.yanzhengma = this.$http.baseUrl+"/yzm/getByImgCode?rnd="+Math.random()+"&uid="+this.uuid+""
+			this.$store.state.isLoading = false;
 		},
 		methods:{
 			yanzhengmaClick(){

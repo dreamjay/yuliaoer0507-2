@@ -3,7 +3,7 @@
 		
 		<!-- 一般用法 -->
 		<uni-list style="border-bottom:1upx solid #ccc;" >
-			<navigator url="./xiugaimima/xiugaimima?type=denglu" open-type="navigate" hover-class="" v-if="isPhone">
+			<navigator url="./xiugaimima/xiugaimima" open-type="navigate" hover-class="" v-if="isPhone">
 				<uni-list-item title="修改登录密码" :showArrow="true" ></uni-list-item>
 			</navigator>
 			

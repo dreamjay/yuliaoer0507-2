@@ -4,7 +4,7 @@
 		<view style="margin-left: 50upx; width: 650upx; margin-top: 300upx;">
 			<view class="uni-form-item uni-column" >
 				<text class="title" style="display: inline-block;" >账号：</text>
-				<input  type="number" placeholder="请输入账号/手机号" style="display: inline-block;  width: 350upx; vertical-align: middle;" v-model="accound"/>
+				<input  type="number" placeholder="请输入手机号" style="display: inline-block;  width: 350upx; vertical-align: middle;" v-model="accound"/>
 				
 			</view>
 			
@@ -54,14 +54,14 @@
 			}
 		},
 		onLoad(){
-			
+			this.$store.state.isLoading = false;
 			
 		},
 		methods:{
 			validateForm(){
 				if(!this.accound  || this.accound.trim() == ''){
 					uni.showToast({
-						title: "请输入账号/手机号",
+						title: "请输入手机号",
 						icon:"none"
 					});
 					return false;

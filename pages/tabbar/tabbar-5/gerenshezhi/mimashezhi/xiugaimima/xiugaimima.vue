@@ -57,7 +57,7 @@
 			}
 		},
 		onLoad(option) {
-			
+			this.$store.state.isLoading = false;
 		},
         methods: {
             formSubmit: function(e) {
