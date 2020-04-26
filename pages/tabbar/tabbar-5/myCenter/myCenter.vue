@@ -71,7 +71,7 @@
 						if (res.confirm) {
 							if(String(this.valueName).length > 8){
 								uni.showToast({
-									title:'昵称长度不要太长',
+									title:'昵称长度不能大于8',
 									icon:'none'
 									
 								})

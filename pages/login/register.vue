@@ -1,6 +1,7 @@
 <template>
+
 	<view style="background-color: #fff; position: absolute; width: 100%;">
-		
+		<Loading v-show="isLoading"></Loading>
 		<view style="margin-left: 50upx; width: 650upx;">
 			<view class="uni-form-item uni-column" >
 				<text class="title" style="display: inline-block;">手机号：</text>
@@ -38,7 +39,11 @@
 </template>
 
 <script>
+	
+	import Loading from '@/components/loading/loading.vue'
+	
 	export default{
+		components:{Loading},
 		data(){
 			return{
 				yanzhengma:"",
@@ -52,27 +57,19 @@
 				uuid:'',
 			}
 		},
+		computed:{
+			isLoading:function(){
+				return this.$store.state.isLoading
+			}
+		},
 		onLoad(){
 			this.uuid = this.uuidFn()
-			this.yanzhengma = this.$http.baseUrl+"/yzm/getByImgCode?rnd="+Math.random()+"&uid="+this.uuid+""
-			try {
-			    const token = uni.getStorageSync('token');
-				
-			    if (token) {
-			        console.log(value);
-			    } else{
-					// uni.switchTab({url:'../tabbar/tabbar-1/tabbar-1'})
-				}
-			} catch (e) {
-				
-				
-			    // error
-			}
+			this.yanzhengma = this.$http.baseUrl+"/yzm/getByImgCode?rnd="+Math.random()+"&uid="+this.uuid
 		},
 		methods:{
 			yanzhengmaClick(){
 				this.uuid = this.uuidFn()
-				this.yanzhengma = this.$http.baseUrl+"/yzm/getByImgCode?rnd="+Math.random()+"&uid="+this.uuid+""
+				this.yanzhengma = this.$http.baseUrl+"/yzm/getByImgCode?rnd="+Math.random()+"&uid="+this.uuid
 			},
 			shoujiYanzhengma(){
 				
@@ -93,37 +90,25 @@
 						icon:"none"
 					})
 				}else{
-					this.$http.httpRequest({
-						url:'/yzm/sendSmsYzm',
-						method:'post'
-					},{
+					this.$http.httpPost("/yzm/sendSmsYzm",
+					{
 						imgCode:this.yanzhengmaVal,
 						phone:this.shoujihaoVal,
 						uid:this.uuid
-					},
+					},(res) =>{
+						this.isSend = true;
+						let time = 60;
+						this.sendText = "已发送("+time+"s)";
+						let id = setInterval(()=>{
+							time--;
+							this.sendText = "已发送("+time+"s)";
+							if(time < 0) {
+								this.isSend = false;
+								clearInterval(id);
+							}
+						},1000)
+					},true);
 					
-					).then(res=>{
-						if(res.data.success){
-							this.isSend = true
-							let time = 59
-							this.sendText = "已发送("+time+"s)"
-							let id = setInterval(()=>{
-								time--
-								this.sendText = "已发送("+time+"s)"
-								if(time < 0) {
-									this.isSend = false
-									clearInterval(id)
-								}
-							},1000)
-						}else{
-							uni.showToast({
-								icon:"none",
-								title:res.data.msg
-							})
-						}
-					},err=>{
-						console.log(err)
-					})
 				}
 				
 			},
@@ -171,34 +156,21 @@
 					return
 				}
 				
-				this.$http.httpRequest({
-					url: '/user/registerToPhone',
-					method: 'post'
-				}, {
+				
+				this.$http.httpPost("/user/registerToPhone",
+				{
 					phone:this.shoujihaoVal,
 					password:this.denglumimaVal,
 					yzm:this.shoujiYanzhengmaVal
-				}).then(res => {
-					
-					if(res.data.success){
-						uni.showToast({
-							title:"注册成功",
-						})
-						setTimeout(()=>{
-							uni.navigateBack()
-						},1500)
-					}else{
-						uni.showToast({
-							title:res.data.msg,
-							icon:"none"
-						})
-					}
-
-				},error => {
-					console.log(error);
-					}
-				)   
+				},(res) =>{
 				
+					uni.showToast({
+						title:"注册成功",
+					})
+					setTimeout(()=>{
+						uni.navigateBack()
+					},1500)
+				},true);
 			}
 		}
 	}

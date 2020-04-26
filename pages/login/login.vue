@@ -4,7 +4,7 @@
 		<view style="margin-left: 50upx; width: 650upx; margin-top: 300upx;">
 			<view class="uni-form-item uni-column" >
 				<text class="title" style="display: inline-block;" >账号：</text>
-				<input  type="text" placeholder="请输入手机号/账号" style="display: inline-block;  width: 350upx; vertical-align: middle;" v-model="accound"/>
+				<input  type="tel" placeholder="请输入账号/手机号" style="display: inline-block;  width: 350upx; vertical-align: middle;" v-model="accound"/>
 				
 			</view>
 			
@@ -58,58 +58,46 @@
 			
 		},
 		methods:{
-			
-			
-			toastFun(val){
-				uni.showToast({
-					title:""+val+"不能为空",
-					icon:"none"
-				})
+			validateForm(){
+				if(!this.accound  || this.accound.trim() == ''){
+					uni.showToast({
+						title: "请输入账号/手机号",
+						icon:"none"
+					});
+					return false;
+				} 
+				if(!this.password  || this.password.trim() == '' ){
+					uni.showToast({
+						title: "请输入密码",
+						icon:"none"
+					});
+					return false;
+				} 
+				
+				return true;
 			},
 			login(){
-				if(this.accound == ''){
-					this.toastFun('账号')
-					return
-				} else if(this.password == ''){
-					this.toastFun('密码')
-					return
-				} else{
-					this.$http.httpRequest({
-						url:'/user/phoneLogin',
-						method:"post"
-					},{
-						password:this.password,
-						phone:this.accound
-					}).then((res)=>{
-						if(res.data.success){
-							try{
-								uni.setStorageSync("userInfo",JSON.stringify(res.data.data))
-								uni.$emit('updateWs',{msg:'页面更新'})
-								
-							} catch(err){
-								uni.showToast({
-									icon:"none",
-									title:"未知错误"
-								})
-							}
-							
-							uni.switchTab({
-								url:'../tabbar/tabbar-5/tabbar-5'
-							})
-							
-						} else{
-							uni.showToast({
-								title:res.data.msg,
-								icon:"none"
-							})
-						}
-					},(err)=>{
+				if(!this.validateForm()){
+					return;
+				}
+				this.$http.httpPost('/user/phoneLogin',{
+					password:this.password,
+					phone:this.accound
+				},(res)=>{
+					try{
+						uni.setStorageSync("userInfo",res.data.user);
+						uni.setStorageSync("token",res.data.token);
+						uni.$emit('loginSuccess');
+						uni.switchTab({
+							url:'../tabbar/tabbar-5/tabbar-5'
+						})
+					} catch(err){
 						uni.showToast({
 							icon:"none",
-							title:"服务器忙...等会再试"
+							title:"未知错误"
 						})
-					})
-				}
+					}
+				},true);
 			},
 			weixinLogin() {
 				var vm = this;
@@ -122,6 +110,7 @@
 							uni.login({
 								provider: 'weixin', 
 								success: function (loginRes) {
+									console.log(loginRes);
 									vm.$HTTP({
 									  method: 'GET',
 									  baseURL:'https://api.weixin.qq.com/sns/userinfo',

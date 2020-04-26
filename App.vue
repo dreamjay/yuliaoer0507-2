@@ -1,17 +1,24 @@
 
 <script>
-	
+
+let socketTask = null;	
+let timer = null;
+let connectionStatus = false;
 export default {
 	
 	data(){
 		return{
-			   
 		}
 	},
 	
 	onLaunch: function() {
+		
+		// 登录成功，重置连接
+		uni.$on("loginSuccess",this.resetConnection)
+		
+		uni.$on("logout",this.logout)
+		
 		setTimeout(() => {
-			
 			uni.setTabBarBadge({
 				index: 1,
 				text: '99+'
@@ -31,85 +38,80 @@ export default {
 		// 	plus.push.createMessage( str,'',{cover:true});
 			
 		// },5000)
-		if(!uni.getStorageSync('userInfo')){
-			
-			uni.reLaunch({
-				url: '/pages/login/login'
-			});
 		
-		}else{
-			let token = JSON.parse(uni.getStorageSync('userInfo')).token
-			this.openWs(token)
+		// uni.$on('updateWs',(data)=>{
+		// 	let token = JSON.parse(uni.getStorageSync('userInfo')).token
+		// 	this.openWs(token)
+		// })
+		// 检测token
+		this.checkToken();
+		if(!timer){
+			timer = setInterval(()=>{
+				if(!connectionStatus){
+					this.resetConnection();
+				}
+				
+			},5000)
 		}
-		
-		uni.$on('updateWs',(data)=>{
-			let token = JSON.parse(uni.getStorageSync('userInfo')).token
-			this.openWs(token)
-		})
 	},
 	onShow: function() {
 		console.log('App Show');
+	
 		
 	},
 	onHide: function() {
 		console.log('App Hide');
 	},
 	methods:{
-		openWs(token){
+		checkToken(){
+			var token = uni.getStorageSync("token");
+			if(!token){
+				this.toLogin();
+				return;
+			}
+			this.$http.httpPostToken('/user/checkToken',{},(res) => {
+		
+				if(res.data.success){
+					this.connection();
+				} else{
+					this.toLogin();
+				}
+			},false);
 			
-			uni.connectSocket({ //连接
-			    url: 'ws://zc.vip3gz.idcfengye.com/yuliao?token='+token+'',
+		},
+		connection(){
+			if(socketTask){
+				console.log("已连接")
+				return;
+			}
+			var token = uni.getStorageSync("token");
+			if(!token){
+				console.log("token为空，连接失败")
+				return;
+			}
+			
+			socketTask = uni.connectSocket({ //连接
+			    url: 'ws://zc.vip3gz.idcfengye.com/yuliao?token='+token,
 				fail(err){
 					console.log(err)
 				}
 			});
-			uni.onSocketOpen(function (res) { //连成功
+			socketTask.onOpen(function (res) {
 			  console.log('WebSocket连接已打开！');
-			});
-			uni.onSocketError( (res) =>{ //连失败
-				console.log('WebSocket连接打开失败，请检查！');
-				setTimeout(()=>{
-					uni.getNetworkType({
-					    success: function (res1) {
-							// uni.showToast({
-							// 		title:res1.networkType
-							// 	})
-					        if(res1.networkType == 'none'){
-								
-								uni.showModal({
-									title:'提示',
-									content:"请检查网络是否打开",
-									showCancel:false,
-									success(confirm) {
-										if(confirm){
-											// #ifdef APP-PLUS
-												plus.runtime.quit();  
-												return
-											// #endif
-											console.log('不是app环境')
-										}
-										
-									}
-								})
-							} else{
-								
-								uni.closeSocket({})
-								uni.showToast({
-									title:'token失效请重新登录',
-									icon:'none'
-								})
-								setTimeout(()=>{
-									uni.hideToast()
-									uni.reLaunch({
-										url: '/pages/login/login'
-									});
-								},1500)
-							}
-					    }
-					});
-				},1000)
-			});
-			uni.onSocketMessage(function (res) {
+			  connectionStatus = true;
+			})
+			
+			socketTask.onClose(function(){
+				  console.log('WebSocket连接已关闭！');
+				   connectionStatus = false;
+			})
+			
+			socketTask.onError(function(err){
+				  console.log('WebSocket连接错误',err);
+				    connectionStatus = false;
+			})
+					
+			socketTask.onMessage(function (res) {
 				console.log('收到服务器内容：' + res.data);
 				if(!res.data){
 					return
@@ -121,7 +123,27 @@ export default {
 					}
 				}
 			  
+			})
+		},
+		resetConnection(){
+			// 如果已经连接，就直接关闭
+			if(socketTask){
+				socketTask.close();
+				socketTask = null;
+			}
+			this.connection();
+		},
+		toLogin(){
+			uni.reLaunch({
+				url: '/pages/login/login'
 			});
+		},
+		// 退出
+		logout(){
+			uni.removeStorageSync("userInfo");
+			uni.removeStorageSync("token");
+			this.resetConnection();
+			this.toLogin();
 		}
 	}
 };

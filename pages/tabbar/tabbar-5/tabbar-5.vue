@@ -56,17 +56,20 @@
 		},
 		onLoad() {
 			
-			this.userInfo = JSON.parse(uni.getStorageSync('userInfo')).user
+			this.userInfo = uni.getStorageSync('userInfo')
+			console.log(this.userInfo)
 			uni.$on('update',(data)=>{
-				// console.log('监听到事件来自 update ，携带参数 msg 为：' + data.msg);
-				this.userInfo = JSON.parse(uni.getStorageSync('userInfo')).user
-				
+				this.$http.httpPostToken("/user/get",{},(res) => {
+					uni.setStorageSync("userInfo",res.data)
+					this.userInfo = res.data;
+				},false)
 			})
 		},
 		
 		methods: {
 			updataApp(){
 				//#ifdef APP-PLUS  
+					console.log(plus)
 				    var server = "http://zcttt.vipgz5.idcfengye.com/version/getVersionByAppid"; //检查更新地址  
 				    var req = { //升级检测数据  
 				        "appid": plus.runtime.appid,  

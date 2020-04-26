@@ -38,7 +38,7 @@
 			}
 		},
 		onLoad(option) {
-			this.userInfo = JSON.parse(uni.getStorageSync('userInfo')).user
+			this.userInfo = uni.getStorageSync('userInfo');
 			this.account = this.userInfo.nickName
 			this.mobile = this.userInfo.phone
 		},
@@ -53,26 +53,8 @@
 					content: '是否退出登录',
 					success:  (res)=> {
 						if (res.confirm) {
-							try{
-								uni.removeStorageSync('userInfo') //清空token
-								uni.$off('redUpdate')
-								uni.$off('updateInfo')
-								uni.$off('update')
-								uni.$off('updateWs')
-								uni.$off('updateUserInfo')
-								uni.$off('fahongbao')
-							}catch(err){
-								console.log('处理退出时出错',err)
-							}
-							
-							uni.reLaunch({
-							    url: '../../../login/login'
-							});
-						} else if (res.cancel) {
-							console.log('用户点击取消');
+							uni.$emit("logout");
 						}
-						
-						
 					}
 				})
 			}

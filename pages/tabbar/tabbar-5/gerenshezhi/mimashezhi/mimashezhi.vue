@@ -33,11 +33,11 @@
 		onLoad(option) {
 			// console.log(JSON.parse(uni.getStorageSync('userInfo')))
 			
-			if(JSON.parse(uni.getStorageSync('userInfo')).user.registerType == "PHONE") {
+			if(uni.getStorageSync('userInfo').registerType == "PHONE") {
 				
 				this.isPhone = true
 			}
-			if(JSON.parse(uni.getStorageSync('userInfo')).user.payPassword){
+			if(uni.getStorageSync('userInfo').payPassword){
 				this.isZhifu = true
 			}
 			
