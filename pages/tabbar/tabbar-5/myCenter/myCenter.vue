@@ -3,9 +3,9 @@
 		<!-- 一般用法 -->
 		<Loading v-show="isLoading"></Loading>
 		<uni-list >
-		    <uni-list-item title="头像" :showArrow="true">
+		    <uni-list-item title="头像" >
 		        <template v-slot:right="">
-					<avatar selWidth="200px" selHeight="200px"   @upload="doUpload" @avtinit="doBefore" quality="1" ref="avatar" :avatarSrc="touxiang"
+					<avatar selWidth="500upx" selHeight="500upx"   @upload="doUpload" @avtinit="doBefore" quality="1" ref="avatar" :avatarSrc="touxiang"
 					 avatarStyle="width: 100upx; height: 100upx; border-radius: 6%;"
 					></avatar>
 				</template>
@@ -112,13 +112,12 @@
 			},
 			
 			doBefore() {
-				console.log('doBefore');
-			},
-			clk(index) {
-				this.$refs.avatar.fChooseImg(index,{
-					selWidth: '350upx', selHeight: '350upx', 
-					expWidth: '260upx', expHeight: '260upx',
-					inner: index ? 'true' : 'false'
+				this.$refs.avatar.fChooseImg(0,{
+					selWidth: '500upx', selHeight: '500upx', 
+					expWidth: '500upx', expHeight: '500upx',
+					inner: 'true',
+					canRotate: 'false',
+					lock:'x'
 				});
 			},
 			
@@ -132,9 +131,6 @@
 					name: 'file',
 					header:{
 						token:this.token
-					},
-					formData: {
-						'file': rsp.path
 					},
 					success: (uploadFileRes) => {
 						console.log(uploadFileRes)
