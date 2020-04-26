@@ -71,11 +71,7 @@ export default {
 			}
 			this.$http.httpPostToken('/user/checkToken',{},(res) => {
 		
-				if(res.data.success){
-					this.connection();
-				} else{
-					this.toLogin();
-				}
+				this.connection();
 			},false);
 			
 		},

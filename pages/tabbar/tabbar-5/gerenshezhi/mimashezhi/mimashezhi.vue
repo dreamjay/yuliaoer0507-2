@@ -7,13 +7,16 @@
 				<uni-list-item title="修改登录密码" :showArrow="true" ></uni-list-item>
 			</navigator>
 			
-			<navigator url="./xiugaimima/xiugaimima?type=zhifu" open-type="navigate" hover-class="" v-if="isZhifu">
+			<navigator url="./paypassword/updatePayPassword" open-type="navigate" hover-class="" v-if="isZhifu">
 				<uni-list-item title="修改支付密码" :showArrow="true" ></uni-list-item>
 			</navigator>
+			
+			<navigator url="./paypassword/paypassword" open-type="navigate" hover-class="" v-if="!isZhifu">
+				<uni-list-item title="设置支付密码" :showArrow="true" ></uni-list-item>
+			</navigator>
+			
 		</uni-list>
 		
-		
-		<!-- <button style="background-color:#4cB964; position:absolute; bottom: 50upx; width: 690upx; left:30upx" type="primary">退出登录</button> -->
 	</view>
 </template>
 
@@ -31,8 +34,9 @@
 			}
 		},
 		onLoad(option) {
-			// console.log(JSON.parse(uni.getStorageSync('userInfo')))
 			
+		},
+		onShow(){
 			if(uni.getStorageSync('userInfo').registerType == "PHONE") {
 				
 				this.isPhone = true
@@ -40,9 +44,7 @@
 			if(uni.getStorageSync('userInfo').payPassword){
 				this.isZhifu = true
 			}
-			
 		},
-		
 		created() {  
 			
 		},  

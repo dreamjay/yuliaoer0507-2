@@ -5,6 +5,9 @@ const baseUrlMeg = 'http://zc.vip3gz.idcfengye.com'
 var count = 0
 
 const error = (res) => {
+	console.log(res);
+	
+	
 	uni.showToast({
 		title:res.msg,
 		icon:"none"
@@ -71,9 +74,9 @@ const httpPostToken = (url, data, success ,isLoading) => {
 		sslVerify: false,
 		success: function(res){
 			if(res.data.success){
-				success(res)
+				success(res.data)
 			}else{
-				error(res);
+				error(res.data);
 			}
 		},
 		fail: function(err) {
@@ -115,9 +118,9 @@ const httpGet = (url, data, success,isLoading  ) => {
 		sslVerify: false,
 		success: function(res){
 			if(res.data.success){
-				success(res)
+				success(res.data)
 			}else{
-				error(res);
+				error(res.data);
 			}
 		},
 		fail: function(err) {
@@ -158,9 +161,9 @@ const httpGetToken = (url, data, success,isLoading ) => {
 		sslVerify: false,
 		success: function(res){
 			if(res.data.success){
-				success(res)
+				success(res.data)
 			}else{
-				error(res);
+				error(res.data);
 			}
 		},
 		fail: function(err) {

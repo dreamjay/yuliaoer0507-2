@@ -1,5 +1,6 @@
 <template>
 	<view>
+		<Loading v-show="isLoading"></Loading>
 		<view>
 			<view style="margin-top: 50upx; ">
 				<form @submit="formSubmit" @reset="formReset">
@@ -26,11 +27,10 @@
 						</view>
 					</view>
 					
-					
 					<view class="uni-btn-v" style="margin-top: 100upx; text-align: center;">
-						<button form-type="reset" style="color: #fff; background-color:#666; width: 325upx; height:100upx; line-height: 100upx; display: inline-block;">重置</button>
+						<button type="default" form-type="reset" style="color: #fff; background-color:#666; width: 325upx;  display: inline-block;">重置</button>
 						<text style="visibility: hidden;">2</text>
-						<button form-type="submit" style="color: #fff; background-color:#4cb964; width: 325upx; height:100upx; line-height: 100upx; display: inline-block;">提交</button>
+						<button type="primary" form-type="submit" style="color: #fff; background-color:#4cb964; width: 325upx; display: inline-block;">提交</button>
 					</view>
 				</form>
 			</view>
@@ -41,107 +41,71 @@
 </template>
 
 <script>
+	
+	import Loading from '@/components/loading/loading.vue'
     export default {
+		components:{Loading},
         data() {
             return {
 				type:'',
 				
             }
         },
-		onLoad(option) {
-			if(option.type == 'zhifu'){
-				this.type = 'zhifu'
-				uni.setNavigationBarTitle({
-					title:"修改支付密码"
-				})
-			}else if(option.type == 'denglu'){
-				this.type = 'denglu'
-				uni.setNavigationBarTitle({
-					title:"修改登录密码"
-				})
+		computed:{
+			isLoading:function(){
+				return this.$store.state.isLoading
 			}
 		},
+		onLoad(option) {
+			
+		},
         methods: {
-			xiugaiZhifu(obj){
-				
-				this.$http.httpTokenRequest({
-					url: '/user/updatePayPassword',
-					method: 'post'
-				}, {
-					oldPayPassword:obj.jiu,
-					payPassword:obj.xin
-				}).then(res => {
-					
-					if(res.data.success){
-						uni.showToast({
-							title:'修改成功'
-						})
-						setTimeout(()=>{
-							uni.hideToast()
-							uni.navigateBack()
-						},1500)
-						
-					}else{
-						uni.showToast({
-							title:res.data.msg,
-							icon:'none'
-						})
-						
-					}
-				},error => {
-					uni.showToast({
-						title:'错误'+error,
-						icon:'none'
-					})
-				}) 
-			},
-			xiugaiDenglu(obj){
-				this.$http.httpTokenRequest({
-					url: '/user/updatePassword',
-					method: 'post'
-				}, {
-					oldPassword:obj.jiu,
-					password:obj.xin
-				}).then(res => {
-					
-					if(res.data.success){
-						uni.showToast({
-							title:'修改成功'
-						})
-						setTimeout(()=>{
-							uni.hideToast()
-							uni.navigateBack()
-						},1500)
-						
-					}else{
-						uni.showToast({
-							title:res.data.msg,
-							icon:'none'
-						})
-						
-					}
-				},error => {
-					uni.showToast({
-						title:'错误'+error,
-						icon:'none'
-					})
-				}) 
-			},
             formSubmit: function(e) {
-                // console.log('form发生了submit事件，携带数据为：' + JSON.stringify(e.detail.value))
-                if(e.detail.value.xin != e.detail.value.xin1){
+				
+				if(!e.detail.value.jiu || e.detail.value.jiu == ''){
+							uni.showToast({
+								title:'请输入旧登录密码',
+								icon:'none'
+							})
+							return;
+				}
+				 if(!e.detail.value.xin || e.detail.value.xin == ''){
+					uni.showToast({
+						title:'请输入登录密码',
+						icon:'none'
+					})
+					return;
+				 }
+				if(e.detail.value.xin != e.detail.value.xin1){
 					uni.showToast({
 						title:'两次密码不一致',
 						icon:'none'
 					})
-				}else{
-					this.type == 'zhifu' && this.xiugaiZhifu(e.detail.value)
-					this.type == 'denglu' && this.xiugaiDenglu(e.detail.value)
+					return;
 				}
+				
+				
+				this.$http.httpPostToken("/user/updatePassword",{
+					oldPassword:e.detail.value.jiu,
+					password:e.detail.value.xin
+				},(res) => {
+					uni.showToast({
+						title:'修改登录密码成功',
+						icon:'none',
+						duration: 1500,
+						complete:function(){
+							setTimeout(function() {  
+								uni.navigateBack({
+				
+								});
+							}, 1500);
+						},
+					})
+				},true)
                 
             },
             formReset: function(e) {
-                console.log('清空数据')
+             
             }
         }
     }

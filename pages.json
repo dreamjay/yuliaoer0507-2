@@ -412,6 +412,30 @@
 			}
 		},
 		{
+			"path": "pages/tabbar/tabbar-5/gerenshezhi/mimashezhi/paypassword/paypassword",
+			"style": {
+				"navigationBarTitleText": "设置登录密码",
+				"app-plus": {
+					"titleNView": {    
+						"backgroundColor":"#EEEEEE",
+						"splitLine":{} 
+					}    
+				}
+			}
+		},
+		{
+			"path": "pages/tabbar/tabbar-5/gerenshezhi/mimashezhi/paypassword/updatePayPassword",
+			"style": {
+				"navigationBarTitleText": "修改支付密码",
+				"app-plus": {
+					"titleNView": {    
+						"backgroundColor":"#EEEEEE",
+						"splitLine":{} 
+					}    
+				}
+			}
+		},
+		{
 			"path": "pages/tabbar/tabbar-5/qunliao/qunliao",
 			"style": {
 				"navigationBarTitleText": "我的群聊",
