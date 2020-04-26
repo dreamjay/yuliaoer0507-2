@@ -44,7 +44,7 @@ export default {
 		// 	this.openWs(token)
 		// })
 		// 检测token
-		this.checkToken();
+		
 		if(!timer){
 			timer = setInterval(()=>{
 				if(!connectionStatus){
@@ -56,6 +56,7 @@ export default {
 	},
 	onShow: function() {
 		console.log('App Show');
+		this.checkToken();
 	
 		
 	},
@@ -82,7 +83,6 @@ export default {
 			}
 			var token = uni.getStorageSync("token");
 			if(!token){
-				console.log("token为空，连接失败")
 				return;
 			}
 			

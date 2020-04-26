@@ -21948,7 +21948,11 @@ var render = function() {
                   width: "350upx",
                   "vertical-align": "middle"
                 },
-                attrs: { type: "tel", placeholder: "请输入账号/手机号", _i: 5 },
+                attrs: {
+                  type: "number",
+                  placeholder: "请输入账号/手机号",
+                  _i: 5
+                },
                 model: {
                   value: _vm._$g(5, "v-model"),
                   callback: function($$v) {
@@ -22300,7 +22304,7 @@ var render = function() {
                   width: "250upx",
                   "vertical-align": "middle"
                 },
-                attrs: { type: "tel", placeholder: "请输入手机号", _i: 5 },
+                attrs: { type: "number", placeholder: "请输入手机号", _i: 5 },
                 model: {
                   value: _vm._$g(5, "v-model"),
                   callback: function($$v) {
@@ -22371,7 +22375,7 @@ var render = function() {
                   width: "250upx",
                   "vertical-align": "middle"
                 },
-                attrs: { type: "text", placeholder: "请输入验证码", _i: 12 },
+                attrs: { type: "number", placeholder: "请输入验证码", _i: 12 },
                 model: {
                   value: _vm._$g(12, "v-model"),
                   callback: function($$v) {
@@ -22713,7 +22717,7 @@ var render = function() {
                   width: "250upx",
                   "vertical-align": "middle"
                 },
-                attrs: { type: "tel", placeholder: "请输入手机号", _i: 5 },
+                attrs: { type: "number", placeholder: "请输入手机号", _i: 5 },
                 model: {
                   value: _vm._$g(5, "v-model"),
                   callback: function($$v) {
@@ -22784,7 +22788,7 @@ var render = function() {
                   width: "250upx",
                   "vertical-align": "middle"
                 },
-                attrs: { type: "text", placeholder: "请输入验证码", _i: 12 },
+                attrs: { type: "number", placeholder: "请输入验证码", _i: 12 },
                 model: {
                   value: _vm._$g(12, "v-model"),
                   callback: function($$v) {

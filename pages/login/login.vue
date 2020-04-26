@@ -4,7 +4,7 @@
 		<view style="margin-left: 50upx; width: 650upx; margin-top: 300upx;">
 			<view class="uni-form-item uni-column" >
 				<text class="title" style="display: inline-block;" >账号：</text>
-				<input  type="tel" placeholder="请输入账号/手机号" style="display: inline-block;  width: 350upx; vertical-align: middle;" v-model="accound"/>
+				<input  type="number" placeholder="请输入账号/手机号" style="display: inline-block;  width: 350upx; vertical-align: middle;" v-model="accound"/>
 				
 			</view>
 			
