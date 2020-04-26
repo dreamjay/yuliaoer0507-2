@@ -3,10 +3,12 @@
 		<!-- 一般用法 -->
 		<Loading v-show="isLoading"></Loading>
 		<uni-list >
-		    <uni-list-item title="头像" :showArrow="true" @click="openImage">
+		    <uni-list-item title="头像" :showArrow="true">
 		        <template v-slot:right="">
-		    		<image style="width: 100upx; height: 100upx; display: inline-block;" :src="touxiang ? touxiang : '/static/moren.png'" mode="scaleToFill"></image>
-		        </template>
+					<avatar selWidth="200px" selHeight="200px"   @upload="doUpload" @avtinit="doBefore" quality="1" ref="avatar" :avatarSrc="touxiang"
+					 avatarStyle="width: 100upx; height: 100upx; border-radius: 6%;"
+					></avatar>
+				</template>
 		    </uni-list-item>
 		    <uni-list-item title="昵称" @click="changName" >
 				<template v-slot:right="">
@@ -26,9 +28,9 @@
 	import uniList from "@/components/uni-list/uni-list.vue"
 	import uniListItem from "@/components/uni-list-item/uni-list-item.vue"
 	import Loading from '@/components/loading/loading.vue'
-	
+	import avatar from "@/components/yq-avatar/yq-avatar.vue";
 	export default {
-		components: {uniList,uniListItem,Loading},
+		components: {uniList,uniListItem,Loading,avatar},
 		data() {
 			return {
 				tuijianma:'',
@@ -36,19 +38,24 @@
 				valueName: "",
 				isClick: false,
 				imgFiles:null,
-				touxiang:'',
+				touxiang:'/static/moren.png',
 				userInfo:null,
 				token:null,
+				
 			}
 		},
 		onLoad(option) {
 			
-			this.userInfo = JSON.parse(uni.getStorageSync('userInfo')).user
-			this.token = JSON.parse(uni.getStorageSync('userInfo')).token
-			this.valueName = this.userInfo.nickName
-			this.tuijianma = this.userInfo.referralCode
-			this.touxiang = this.userInfo.headUrl
+		},
+		onShow(){
+			this.userInfo = uni.getStorageSync('userInfo');
+			this.valueName = this.userInfo.nickName;
+			this.tuijianma = this.userInfo.referralCode;
+			if(this.userInfo.headUrl){
+				this.touxiang = this.userInfo.headUrl;
+			}
 			
+			this.token = uni.getStorageSync('token');
 		},
 		onNavigationBarButtonTap:function() {
 			this.save()
@@ -77,159 +84,88 @@
 								})
 								return
 							}
-							if(this.imgFiles){//改头像
-								this.updataImg(this.imgFiles)
-							} else{ //改名字-要把原来的头像转成base64 传一样的头像
-								
-								this.updateName(this.valueName)
-							}
-						} else if (res.cancel) {
-							console.log('用户点击取消');
-						}
+							this.updateName(this.valueName)
+						} 
 					}
 				})
 			},
-			openImage(){ //相册或者拍图片
-				uni.chooseImage({
-					count:1,
-					fail:()=>{
-						
-					},
-					success:(imgRes)=>{
-						//因为有一张图片， 输出下标[0]， 直接输出地址
-						this.imgFiles = imgRes.tempFilePaths[0]
-						// console.log('图片地址',this.imgFiles)
-						this.touxiang = this.imgFiles
-					}
-				})
-			},
+		
+			
 			changName(){
 				this.isClick = !this.isClick
 				
 			},
-			getNewUserInfo(){
-				// console.log('更新信息')
-				this.$http.httpTokenRequest({
-					url: '/user/get',
-					method: 'post'
-				}, {}).then(res => {
-					
-					if(res.data.success){
-						
-						// console.log('原来的1',JSON.parse(uni.getStorageSync('userInfo')))
-						console.log('修改信息TOken',this.token)
-						uni.setStorageSync("userInfo",JSON.stringify({
-								user:res.data.data,
-								token:this.token
-							}))
-						// console.log('现在的1',JSON.parse(uni.getStorageSync('userInfo')))
-						uni.$emit('update',{msg:'页面更新1'})
-					}else{
-						uni.showToast({
-						    title: res.data.msg,
-							icon:'none'
-						})
-					}
-				},error => {
-					uni.showToast({
-						title:'错误'+error,
-						icon:'none'
-					})
-				}) 
-			},
 			updateName(newVal){ //改用户名
 				let then = this
-				this.$http.httpTokenRequest({
-					url: '/user/updateNickName',
-					method: 'post'
-				}, {
-					token:this.token,
+				this.$http.httpPostToken('/user/updateNickName',{
 					nickName:newVal
-				}).then(res => {
-					
-					if(res.data.success){
-						uni.hideKeyboard()
-						uni.showToast({
-							title: '保存成功',
-							icon:'none',
-							complete: () => {
-								 then.getNewUserInfo()
-									
-							}
-						})
-						setTimeout(function(){
-							uni.hideToast()
-							uni.navigateBack()
-						},1500)
-						
-					}else{
-						uni.showToast({
-							title:'修改失败，等会试',
-							icon:'none'
-						})
-					}
-				},error => {
+				},(res) => {
+					uni.hideKeyboard()
 					uni.showToast({
-						title:'错误'+error,
+						title: '保存成功',
 						icon:'none'
 					})
-				}) 
+					var userInfo = uni.getStorageSync("userInfo");
+					userInfo.nickName = newVal;
+					uni.setStorageSync("userInfo",userInfo);
+				},true);
 			},
-			updataImg(imgFiles){ //修改头像和用户名
-				let valueName = this.valueName
-				var then = this
+			
+			doBefore() {
+				console.log('doBefore');
+			},
+			clk(index) {
+				this.$refs.avatar.fChooseImg(index,{
+					selWidth: '350upx', selHeight: '350upx', 
+					expWidth: '260upx', expHeight: '260upx',
+					inner: index ? 'true' : 'false'
+				});
+			},
+			
+			doUpload(rsp) {
+				let then = this
+				this.touxiang = rsp.path;
 				this.$store.commit('watchLoading',true)
-				var uper = uni.uploadFile({
-					// 需要上传的地址
-					url:''+then.$http.baseUrl+'/user/fileUpload',
-					// filePath  需要上传的文件
-					filePath: imgFiles,
+				uni.uploadFile({
+					url: this.$http.baseUrl+'/user/fileUpload', //仅为示例，非真实的接口地址
+					filePath: rsp.path,
 					name: 'file',
-					
 					header:{
 						token:this.token
 					},
 					formData: {
-						'nickName': valueName
+						'file': rsp.path
 					},
-					success(res1) {
-						// 显示上传信息
-						then.$store.commit('watchLoading',false)
-						if(JSON.parse(res1.data).success){
-							uni.hideKeyboard()
-							uni.showToast({
-								title: '保存成功',
-								icon:'none',
-								complete: () => {
-									   then.getNewUserInfo()
-										
-								}
-							})
-							setTimeout(function(){
-								uni.hideToast()
-								uni.navigateBack()
-							},1500)
-						}else{
-							uni.showToast({
-								title: JSON.parse(res1.data).msg,
-								icon:'none'
-							})
+					success: (uploadFileRes) => {
+						console.log(uploadFileRes)
+						if(uploadFileRes.data){
+							var obj = JSON.parse(uploadFileRes.data);
+							if(obj.success){
+								var userInfo = uni.getStorageSync("userInfo");
+								userInfo.headUrl = obj.data;
+								uni.setStorageSync("userInfo",userInfo);
+								this.touxiang =  obj.data;
+								uni.showToast({
+									title:'修改头像成功',
+									icon:'none',
+									duration: 1500
+								})
+							}else{
+								uni.showToast({
+									title:'上传头像失败',
+									icon:'none',
+									duration: 1500
+								})
+							}
 						}
+						
+					
 					},
-					fail(err){
+					complete(res) {
+						
 						then.$store.commit('watchLoading',false)
 					}
 				});
-				// onProgressUpdate 上传对象更新的方法
-				uper.onProgressUpdate((res)=>{
-					// 进度条等于 上传到的进度
-					// _self.percent = res.progress
-					
-					// console.log('上传进度' + res.progress)
-					// console.log('已经上传的数据长度' + res.totalBytesSent)
-					// console.log('预期需要上传的数据总长度' + res.totalBytesExpectedToSend)
-					
-				})
 			}
 		}
 	}

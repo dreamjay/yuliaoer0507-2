@@ -47,6 +47,7 @@
 
 <script>
 	
+
 	export default {
 		data() {
 			return {
@@ -56,16 +57,10 @@
 		},
 		onLoad() {
 			
-			this.userInfo = uni.getStorageSync('userInfo')
-			console.log(this.userInfo)
-			uni.$on('update',(data)=>{
-				this.$http.httpPostToken("/user/get",{},(res) => {
-					uni.setStorageSync("userInfo",res.data)
-					this.userInfo = res.data;
-				},false)
-			})
 		},
-		
+		onShow(){
+			this.userInfo = uni.getStorageSync('userInfo')
+		},
 		methods: {
 			updataApp(){
 				//#ifdef APP-PLUS  
