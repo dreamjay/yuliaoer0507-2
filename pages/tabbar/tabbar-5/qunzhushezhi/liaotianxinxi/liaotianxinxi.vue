@@ -55,7 +55,7 @@
 						<navigator :url="'./update/notice?crowdId='+(crowdInfo && crowdInfo.id)+'&val='+(crowdInfo && crowdInfo.notice)+''" :open-type="isSet?'navigate':null" hover-class="">
 							<text>群公告</text><image :src="isSet ? '/static/img/wo/youjiantou.png' : '/static/img/wo/youjiantouHuise.png'" ></image>
 							<view class="bottom">
-								<textarea class="defultInput" disabled="true" :value="(crowdInfo && crowdInfo.notice)"></textarea>
+								<textarea class="defultInput" disabled="true" :value="(crowdInfo? crowdInfo.notice:'')"></textarea>
 							</view>
 						</navigator>
 					</li>
@@ -74,7 +74,7 @@
 						<navigator :url="'./update/inNotice?crowdId='+(crowdInfo && crowdInfo.id)+'&val='+(crowdInfo && crowdInfo.inNotice)+''" :open-type="isSet?'navigate':null" hover-class="">
 							<text>群须知</text><image :src="isSet ? '/static/img/wo/youjiantou.png' : '/static/img/wo/youjiantouHuise.png'" ></image>
 							<view class="bottom">
-								<textarea class="defultInput" disabled="true" :value="crowdInfo && crowdInfo.inNotice"></textarea>
+								<textarea class="defultInput" disabled="true" :value="(crowdInfo ? crowdInfo.inNotice:'')"></textarea>
 							</view>
 						</navigator>
 					</li>
@@ -90,17 +90,17 @@
 					</li>
 					<li class="SelectList" v-if="isSet">
 						
-						<text>开启群禁言</text> <switch :checked='!!(crowdInfo && Number(crowdInfo.bannedPost))' @change="qunjinyan"/>
+						<text>开启群禁言</text> <switch :checked='!(crowdInfo && Number(crowdInfo.bannedPost))' @change="qunjinyan"/>
 						
 					</li>
 					<li class="SelectList" v-if="isSet">
 						
-						<text>开启封盘</text> <switch :checked='!!(crowdInfo && Number(crowdInfo.bannedClose))' @change="qunfengpan"/>
+						<text>开启封盘</text> <switch :checked='!(crowdInfo && Number(crowdInfo.bannedClose))' @change="qunfengpan"/>
 						
 					</li>
 					<li class="SelectList" v-if="isSet">
 						
-						<text>开启查功能</text> <switch :checked='!!(crowdInfo && Number(crowdInfo.bannedCha))' @change="quncha"/>
+						<text>开启查功能</text> <switch :checked='(crowdInfo && Number(crowdInfo.bannedCha))' @change="quncha"/>
 						
 					</li>
 					<li class="SelectList">
@@ -110,49 +110,78 @@
 					</li>
 					<li class="SelectList" v-if="isSet">
 						
-						<text>中雷提示</text> <switch :checked='switchStatus.zhonglei' @change="zhonglei"/>
+						<text>中雷提示</text> <switch :checked='(crowdInfo && Number(crowdInfo.bannedLei))' @change="zhonglei"/>
 						
 					</li>
 					
 					<li class="SelectList listBorderTop" v-if="isSet">
-						<navigator :url="'./tongyong/tongyong?title=发包金额修改&crowdId='+(crowdInfo && crowdInfo.id)+'&val='+(crowdInfo && JSON.stringify({redMaxAmount:crowdInfo.redMaxAmount,redMinAmount:crowdInfo.redMinAmount}))+''" open-type="navigate" hover-class="">
+						<navigator :url="'./update/fabao?crowdId='+(crowdInfo && crowdInfo.id)+'&minVal='+(crowdInfo && crowdInfo.redMinAmount)+'&maxVal='+(crowdInfo && crowdInfo.redMaxAmount)" open-type="navigate" hover-class="">
 						
-							<text>发包金额修改</text><image src="/static/img/wo/youjiantou.png"></image>
+							<text>发包金额修改</text>
+							<text>{{ crowdInfo? crowdInfo.redMinAmount:'' }} - {{ crowdInfo? crowdInfo.redMaxAmount:'' }}</text>
+							<image src="/static/img/wo/youjiantou.png"></image>
 						</navigator>
 					</li>
-					<li class="SelectList" v-if="isSet">
-						<navigator :url="'./tongyong/tongyong?title=修改群赔率倍数&crowdId='+(crowdInfo && crowdInfo.id)+'&val='+(crowdInfo && crowdInfo.redOdds)+''" open-type="navigate" hover-class="">
-							<text>修改群赔率倍数</text><image src="/static/img/wo/youjiantou.png"></image>
+					<li class="SelectList" v-if="isSet && (crowdInfo && crowdInfo.playerType=='SAO_LEI')">
+						<navigator :url="'./update/fabaopeilv?crowdId='+(crowdInfo && crowdInfo.id)+'&redOdds='+(crowdInfo && crowdInfo.redOdds)+''" open-type="navigate" hover-class="">
+							<text>修改群赔率倍数</text>
+							<text>{{ crowdInfo && crowdInfo.redOdds }}倍</text>
+							<image src="/static/img/wo/youjiantou.png"></image>
 						</navigator>
 					</li>
 					
-					<li class="SelectList" v-if="isSet">
-						<navigator :url="'./tongyong/tongyong?title=红包失效时间&crowdId='+(crowdInfo && crowdInfo.id)+'&val='+(crowdInfo && crowdInfo.redInavlidTime)+''" open-type="navigate" hover-class="">
+					<li class="SelectList" v-if="isSet && (crowdInfo && crowdInfo.playerType=='MORE_SAO_LEI')">
+						<navigator :url="'./update/fabaopeilv2?crowdId='+(crowdInfo && crowdInfo.id)+'&redOddsTwo='+(crowdInfo && crowdInfo.redOddsTwo)+''" open-type="navigate" hover-class="">
+							<text>修改2中2赔率</text>
+							<text>{{ crowdInfo && crowdInfo.redOddsTwo }}倍</text>
+							<image src="/static/img/wo/youjiantou.png"></image>
+						</navigator>
+					</li>
+					
+					<li class="SelectList" v-if="isSet && (crowdInfo && crowdInfo.playerType=='MORE_SAO_LEI')">
+						<navigator :url="'./update/fabaopeilv3?crowdId='+(crowdInfo && crowdInfo.id)+'&redOddsThree='+(crowdInfo && crowdInfo.redOddsThree)+''" open-type="navigate" hover-class="">
+							<text>修改3中3赔率</text>
+							<text>{{ crowdInfo && crowdInfo.redOddsThree }}倍</text>
+							<image src="/static/img/wo/youjiantou.png"></image>
+						</navigator>
+					</li>
+					
+					<li class="SelectList" v-if="isSet && (crowdInfo && crowdInfo.playerType=='MORE_SAO_LEI')">
+						<navigator :url="'./update/fabaopeilv4?crowdId='+(crowdInfo && crowdInfo.id)+'&redOddsFour='+(crowdInfo && crowdInfo.redOddsFour)+''" open-type="navigate" hover-class="">
+							<text>修改4中4赔率</text>
+							<text>{{ crowdInfo && crowdInfo.redOddsFour }}倍</text>
+							<image src="/static/img/wo/youjiantou.png"></image>
+						</navigator>
+					</li>
+					
+					
+					<li class="SelectList listBorderTop" v-if="isSet">
+						<navigator :url="'./update/hongbaotime?crowdId='+(crowdInfo && crowdInfo.id)+'&valueStr='+(crowdInfo && crowdInfo.redInavlidTime)+''" open-type="navigate" hover-class="">
 							<text>红包失效时间</text><text>{{crowdInfo && crowdInfo.redInavlidTime}}分</text><image src="/static/img/wo/youjiantou.png"></image>
 						</navigator>
 					</li>
 					<li class="SelectList" v-if="isSet">
-						<navigator :url="'./tongyong/tongyong?title=红包返点&crowdId='+(crowdInfo && crowdInfo.id)+'&val='+(crowdInfo && crowdInfo.redRebate)+''" open-type="navigate" hover-class="">
-							<text>红包返点</text><text>{{crowdInfo && crowdInfo.redRebate}}%</text><image src="/static/img/wo/youjiantou.png"></image>
+						<navigator :url="'./update/hongbaofandian?crowdId='+(crowdInfo && crowdInfo.id)+'&valueStr='+(crowdInfo && Number(crowdInfo.redRebate)*100)+''" open-type="navigate" hover-class="">
+							<text>红包返点</text><text>{{crowdInfo && Number(crowdInfo.redRebate)*100}}%</text><image src="/static/img/wo/youjiantou.png"></image>
 						</navigator>
 					</li>
 					<li class="SelectList" v-if="isSet">
-						<navigator :url="'./tongyong/tongyong?title=推荐人返点&crowdId='+(crowdInfo && crowdInfo.id)+'&val='+(crowdInfo && crowdInfo.referrerRebate)+''" open-type="navigate" hover-class="">
-							<text>推荐人返点</text><text>{{crowdInfo && crowdInfo.referrerRebate}}%</text><image src="/static/img/wo/youjiantou.png"></image>
+						<navigator :url="'./update/tjrfandian?crowdId='+(crowdInfo && crowdInfo.id)+'&valueStr='+(crowdInfo && Number(crowdInfo.referrerRebate) * 100)+''" open-type="navigate" hover-class="">
+							<text>推荐人返点</text><text>{{crowdInfo && Number(crowdInfo.referrerRebate) * 100}}%</text><image src="/static/img/wo/youjiantou.png"></image>
 						</navigator>
 					</li>
 					<li class="SelectList" v-if="isSet">
-						<navigator :url="'./tongyong/tongyong?title=推荐人上级返点&crowdId='+(crowdInfo && crowdInfo.id)+'&val='+(crowdInfo && crowdInfo.referrerUpRebate)+''" open-type="navigate" hover-class="">
-							<text>推荐人上级返点</text><text>{{crowdInfo && crowdInfo.referrerUpRebate}}%</text><image src="/static/img/wo/youjiantou.png"></image>
+						<navigator :url="'./update/tjrupfandian?crowdId='+(crowdInfo && crowdInfo.id)+'&valueStr='+(crowdInfo && Number(crowdInfo.referrerUpRebate) *100)+''" open-type="navigate" hover-class="">
+							<text>推荐人上级返点</text><text>{{crowdInfo && Number(crowdInfo.referrerUpRebate) *100 }}%</text><image src="/static/img/wo/youjiantou.png"></image>
 						</navigator>
 					</li>
-					<li class="SelectList" v-if="isSet">
-						<navigator :url="'./tongyong/tongyong?title=上分最低金额&crowdId='+(crowdInfo && crowdInfo.id)+'&val='+(crowdInfo && crowdInfo.shangfenMinAmount)+''" open-type="navigate" hover-class="">
+					<li class="SelectList listBorderTop" v-if="isSet">
+						<navigator :url="'./update/shangfen?crowdId='+(crowdInfo && crowdInfo.id)+'&valueStr='+(crowdInfo && crowdInfo.shangfenMinAmount)+''" open-type="navigate" hover-class="">
 							<text>上分最低金额</text><text>{{crowdInfo && crowdInfo.shangfenMinAmount}}</text><image src="/static/img/wo/youjiantou.png"></image>
 						</navigator>
 					</li>
 					<li class="SelectList" v-if="isSet">
-						<navigator :url="'./tongyong/tongyong?title=下分最低金额&crowdId='+(crowdInfo && crowdInfo.id)+'&val='+(crowdInfo && crowdInfo.xiafenMinAmount)+''" open-type="navigate" hover-class="">
+						<navigator :url="'./update/xiafen?crowdId='+(crowdInfo && crowdInfo.id)+'&valueStr='+(crowdInfo && crowdInfo.xiafenMinAmount)+''" open-type="navigate" hover-class="">
 							<text>下分最低金额</text><text>{{crowdInfo && crowdInfo.xiafenMinAmount}}</text><image src="/static/img/wo/youjiantou.png"></image>
 						</navigator>
 					</li>
@@ -243,6 +272,7 @@
 			this.userInfo = uni.getStorageSync('userInfo')
 			
 			this.getCrowdInfo(option.crowdId)
+			this.getUserList(option.crowdId)
 			this.getJiangliguizhe(option.crowdId)
 			uni.$on('updateName',(data)=>{
 				this.crowdInfo.name = data;
@@ -265,18 +295,68 @@
 			})
 			
 			uni.$on('wxFile',(data)=>{
+					console.log(data)
 				this.crowdInfo.wxUrl = data;
 			})
 			uni.$on('zfbFile',(data)=>{
+					console.log(data)
 				this.crowdInfo.zfbUrl = data;
 			})
 			uni.$on('qunZhuFile',(data)=>{
+				console.log(data)
 				this.crowdInfo.qunZhuUrl = data;
+			})
+			uni.$on('updateRedAmount',(data)=>{
+				console.log(data)
+				this.crowdInfo.redMinAmount = data.redMinAmount;
+				this.crowdInfo.redMaxAmount = data.redMaxAmount;
+			})
+			uni.$on('updateRedOdds',(data)=>{
+				console.log(data)
+				this.crowdInfo.redOdds = data;
+			})
+			uni.$on('updateRedOddsTwo',(data)=>{
+				console.log(data)
+				this.crowdInfo.redOddsTwo = data;
+			})
+			uni.$on('updateRedOddsThree',(data)=>{
+				console.log(data)
+				this.crowdInfo.redOddsThree = data;
+			})
+			uni.$on('updateRedOddsFour',(data)=>{
+				console.log(data)
+				this.crowdInfo.redOddsFour = data;
+			})
+			
+			uni.$on('updateRedInavlidTime',(data)=>{
+				console.log(data)
+				this.crowdInfo.redInavlidTime = data;
+			})
+			uni.$on('updateRedRebate',(data)=>{
+				console.log(data)
+				this.crowdInfo.redRebate = data;
+			})
+			uni.$on('updateReferrerRebate',(data)=>{
+				console.log(data)
+				this.crowdInfo.referrerRebate = data;
+			})
+			uni.$on('updateReferrerUpRebate',(data)=>{
+				console.log(data)
+				this.crowdInfo.referrerUpRebate = data;
+			})
+			uni.$on('updateShangfenMinAmount',(data)=>{
+				console.log(data)
+				this.crowdInfo.shangfenMinAmount = data;
+			})
+			
+			uni.$on('updateXiafenMinAmount',(data)=>{
+				console.log(data)
+				this.crowdInfo.xiafenMinAmount = data;
 			})
 			
 			uni.$on('updateInfo',(data)=>{ //数据变化后，重新拿才准确
 				// console.log('监听到事件来自 update ，携带参数 msg 为：' + data.msg);
-				this.getCrowdInfo(option.crowdId)
+				// this.getCrowdInfo(option.crowdId)
 				this.getJiangliguizhe(option.crowdId)
 			})
 			
@@ -298,51 +378,52 @@
 			onConfirm(){},
 			cancel(){},
 			qunjinyan(e){
-				const is = e.detail.value ? 1 : 0
-				this.handleSwitch('bannedPost',is,'/crowd/updateBannedPost')
+				const is = e.detail.value ? 0 : 1
+				this.$http.httpPostToken('/crowd/updateBannedPost',{
+					crowdId: this.crowdInfo.id,
+					bannedPost:is
+				},(res)=>{
+					this.crowdInfo.bannedPost = is;
+				},false);
 			},
 			qunfengpan(e){
-				const is = e.detail.value ? 1 : 0
-				this.handleSwitch('bannedClose',is,'/crowd/updateBannedClose')
+				const is = e.detail.value ? 0: 1
+				this.$http.httpPostToken('/crowd/updateBannedClose',{
+					crowdId: this.crowdInfo.id,
+					bannedClose:is
+				},(res)=>{
+					this.crowdInfo.bannedClose = is;
+				},false);
 			},
 			quncha(e){
 				const is = e.detail.value ? 1 : 0
-				this.handleSwitch('bannedCha',is,'/crowd/updateBannedCha')
+				
+				this.$http.httpPostToken('/crowd/updateBannedCha',{
+					crowdId: this.crowdInfo.id,
+					bannedCha:is
+				},(res)=>{
+					this.crowdInfo.bannedCha = is;
+				},false);
 			},
 			zhiding(e){
 				this.switchStatus.zhiding = e.detail.value
-				uni.setStorageSync('switchStatus'+this.crowdId+'', JSON.stringify(this.switchStatus))
+				uni.setStorageSync('switchStatus'+this.crowdId+'', this.switchStatus)
 			},
 			miandarao(e){
 				this.switchStatus.miandarao = e.detail.value
-				uni.setStorageSync('switchStatus'+this.crowdId+'', JSON.stringify(this.switchStatus))
+				uni.setStorageSync('switchStatus'+this.crowdId+'', this.switchStatus)
 			},
 			zhonglei(e){
-				this.switchStatus.zhonglei = e.detail.value
-				uni.setStorageSync('switchStatus'+this.crowdId+'', JSON.stringify(this.switchStatus))
-			},
-			handleSwitch(key,is,url){
-				let obj = {crowdId: this.crowdInfo.id}
-				obj[key] = is
-				this.$http.httpTokenRequest({
-					url: url,
-					method: 'post'
-				}, obj).then(res => {
-					
-					if(res.data.success){
-						
-					}else{
-						uni.showToast({
-							title:res.data.msg,
-							icon:'none'
-						})
-					}
-				},error => {
-					uni.showToast({
-						title:'错误'+error,
-						icon:'none'
-					})
-				})
+		
+				const is = e.detail.value ? 1 : 0
+				
+				this.$http.httpPostToken('/crowd/updateBannedLei',{
+					crowdId: this.crowdInfo.id,
+					bannedLei:is
+				},(res)=>{
+					this.crowdInfo.bannedLei = is;
+				},false);
+		
 			},
 			getJiangliguizhe(id){ //奖励规则
 				
@@ -493,8 +574,6 @@
 					this.isSet = this.userInfo.id == res.data.userId
 					this.crowdInfo = res.data
 				},true);
-				
-				this.getUserList(id)
 			}
 		}
 	}

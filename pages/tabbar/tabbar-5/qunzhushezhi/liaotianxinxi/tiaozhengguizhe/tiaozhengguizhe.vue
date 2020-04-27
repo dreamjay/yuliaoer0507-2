@@ -43,34 +43,17 @@
 				this.edit(index)
 			},
 			getGuizhe(crowdId,isAdd){
-				this.$http.httpTokenRequest({
-					url: '/crowd/ruleList',
-					method: 'post'
-				}, {
+				this.$http.httpPostToken('/crowd/ruleList',{
 					crowdId:crowdId
-				}).then(res => {
-					
-					if(res.data.success){
-						// console.log('奖励规则',res.data.data)
-						if(isAdd){
-							this.addName=''
-							this.addRuleCode=''
-							this.addAmount=''
-						}
-						
-						this.guizheList = res.data.data
-					}else{
-						uni.showToast({
-							title:res.data.msg,
-							icon:'none'
-						})
+				},(res)=>{
+					if(isAdd){
+						this.addName=''
+						this.addRuleCode=''
+						this.addAmount=''
 					}
-				},error => {
-					uni.showToast({
-						title:'错误'+error,
-						icon:'none'
-					})
-				})
+					this.guizheList = res.data
+				},true)
+			
 			},
 			showToast(val){
 				uni.showToast({
@@ -89,32 +72,18 @@
 					this.showToast('总数')
 					return
 				}
-				this.$http.httpTokenRequest({
-					url: '/crowd/ruleAdd',
-					method: 'post'
-				}, {
+				this.$http.httpPostToken('/crowd/ruleAdd',{
 					crowdId:this.guizheList[0].crowdId,
 					name:this.addName,
 					ruleCode:this.addRuleCode,
 					amount:this.addAmount
-				}).then(res => {
+				},(res)=>{
+					uni.$emit('updateInfo',{msg:'页面更新1'})
 					
-					if(res.data.success){
-						uni.$emit('updateInfo',{msg:'页面更新1'})
-						
-						this.getGuizhe(this.guizheList[0].crowdId, true) //拿新数据
-					}else{
-						uni.showToast({
-							title:res.data.msg,
-							icon:'none'
-						})
-					}
-				},error => {
-					uni.showToast({
-						title:'错误'+error,
-						icon:'none'
-					})
-				}) 
+					this.getGuizhe(this.guizheList[0].crowdId, true) //拿新数据
+				},true)
+				
+				
 			},
 			httpDelete(index){
 				uni.showModal({
@@ -122,66 +91,29 @@
 					content: '是否要删除 '+this.guizheList[index].name+' ？',
 					success:  (res)=> {
 						if (res.confirm) {
-							this.$http.httpTokenRequest({
-								url: '/crowd/ruleDel',
-								method: 'post'
-							}, {
+							this.$http.httpPostToken('/crowd/ruleDel',{
 								crowdId:this.guizheList[index].crowdId,
 								id:this.guizheList[index].id,
-								
-							}).then(res => {
-								
-								if(res.data.success){
-									uni.$emit('updateInfo',{msg:'页面更新1'})
-									this.getGuizhe(this.guizheList[0].crowdId, false)
-								}else{
-									uni.showToast({
-										title:res.data.msg,
-										icon:'none'
-									})
-								}
-							},error => {
-								uni.showToast({
-									title:'错误'+error,
-									icon:'none'
-								})
-							}) 
-							
-						} else if (res.cancel) {
-							console.log('用户点击取消');
-						}
+							},(res)=>{
+								uni.$emit('updateInfo',{msg:'页面更新1'})
+								this.getGuizhe(this.guizheList[0].crowdId, false)
+							},true)
+						} 
 					}
 				})
 			},
 			httpEdit(index){
 				
-				this.$http.httpTokenRequest({
-					url: '/crowd/ruleEdit',
-					method: 'post'
-				}, {
+				this.$http.httpPostToken('/crowd/ruleEdit',{
 					amount:this.guizheList[index].amount,
 					crowdId:this.guizheList[index].crowdId,
 					id:this.guizheList[index].id,
 					name:this.guizheList[index].name,
 					ruleCode:this.guizheList[index].ruleCode
-				}).then(res => {
-					
-					if(res.data.success){
-						uni.$emit('updateInfo',{msg:'页面更新1'})
-						this.disabledKey = -1
-						
-					}else{
-						uni.showToast({
-							title:res.data.msg,
-							icon:'none'
-						})
-					}
-				},error => {
-					uni.showToast({
-						title:'错误'+error,
-						icon:'none'
-					})
-				}) 
+				},(res)=>{
+					uni.$emit('updateInfo',{msg:'页面更新1'})
+					this.disabledKey = -1
+				},true)
 			},
 			edit(index){
 				if(this.disabledKey == index){

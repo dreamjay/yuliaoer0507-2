@@ -54,62 +54,24 @@
 				title: "提示",
 				content: '是否确定保存',
 				success:  (res)=> {
-					console.log(res)
-					
 					if (res.confirm) {
-						this.updateWxAccount();
-						this.updateQunzhuAccount();
-						this.updateZfbAccount();
+						this.updateCollection();
 					}
 				}
 			})
 		},
 		methods:{
-			updateWxAccount(){
-				console.log(this.wxVal)
-				if( this.wxVal.trim() != ''){
-						return;
-				}
+			updateCollection(){
 				
 				this.$http.httpPostToken('/crowd/updateCollection',{
 					crowdId: this.crowdInfo.id,
-					wxAccountSh:this.wxVal.trim()
-				},(res)=>{
-					uni.$emit('updateWxAccount',this.wxVal)
-					uni.hideToast()
-					uni.showToast({
-						title:'更新成功',
-						icon:'none'
-					})
-				},false)
-			},
-			updateZfbAccount(){
-				if( this.zfbVal.trim() != ''){
-						return;
-				}
-				this.$http.httpPostToken('/crowd/updateCollection',{
-					crowdId: this.crowdInfo.id,
-					zfbAccount:this.zfbVal.trim()
-					
-				},(res)=>{
-					uni.$emit('updateZfbAccount',this.zfbVal)
-					uni.hideToast()
-					uni.showToast({
-						title:'更新成功',
-						icon:'none'
-					})
-				},false)
-			},
-			updateQunzhuAccount(){
-				if( this.qzVal.trim() != ''){
-						return;
-				}
-				this.$http.httpPostToken('/crowd/updateCollection',{
-					crowdId: this.crowdInfo.id,
+					wxAccountSh:this.wxVal.trim(),
+					zfbAccount:this.zfbVal.trim(),
 					qunZhuAccount:this.qzVal.trim()
 				},(res)=>{
+					uni.$emit('updateWxAccount',this.wxVal)
 					uni.$emit('updateQunzhuAccount',this.qzVal)
-					uni.hideToast()
+					uni.$emit('updateZfbAccount',this.zfbVal)
 					uni.showToast({
 						title:'更新成功',
 						icon:'none'
@@ -170,8 +132,7 @@
 						var obj = JSON.parse(res1.data);
 						if(obj.success){
 							// uni.$emit('updateInfo',{msg:'页面更新1'})
-							
-							console.
+							console.log(obj)
 							uni.$emit(type,obj.data)
 							uni.hideToast()
 							uni.showToast({

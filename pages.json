@@ -592,6 +592,226 @@
 			}
 		},
 		{
+			"path": "pages/tabbar/tabbar-5/qunzhushezhi/liaotianxinxi/update/fabao",
+			"style": {
+				"navigationBarTitleText": "修改发包金额",
+				"app-plus": {
+					"titleNView":{
+						"backgroundColor":"#EEEEEE",
+						// "splitLine":{},
+						"buttons":[
+							{
+								"text": "完成",
+								"fontSize": "14px",
+								"float": "right",
+								"width": "60px"
+							}
+						]
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/tabbar/tabbar-5/qunzhushezhi/liaotianxinxi/update/fabaopeilv",
+			"style": {
+				"navigationBarTitleText": "修改群赔率倍数",
+				"app-plus": {
+					"titleNView":{
+						"backgroundColor":"#EEEEEE",
+						// "splitLine":{},
+						"buttons":[
+							{
+								"text": "完成",
+								"fontSize": "14px",
+								"float": "right",
+								"width": "60px"
+							}
+						]
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/tabbar/tabbar-5/qunzhushezhi/liaotianxinxi/update/fabaopeilv2",
+			"style": {
+				"navigationBarTitleText": "修改2中2赔率",
+				"app-plus": {
+					"titleNView":{
+						"backgroundColor":"#EEEEEE",
+						// "splitLine":{},
+						"buttons":[
+							{
+								"text": "完成",
+								"fontSize": "14px",
+								"float": "right",
+								"width": "60px"
+							}
+						]
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/tabbar/tabbar-5/qunzhushezhi/liaotianxinxi/update/fabaopeilv3",
+			"style": {
+				"navigationBarTitleText": "修改3中3赔率",
+				"app-plus": {
+					"titleNView":{
+						"backgroundColor":"#EEEEEE",
+						// "splitLine":{},
+						"buttons":[
+							{
+								"text": "完成",
+								"fontSize": "14px",
+								"float": "right",
+								"width": "60px"
+							}
+						]
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/tabbar/tabbar-5/qunzhushezhi/liaotianxinxi/update/fabaopeilv4",
+			"style": {
+				"navigationBarTitleText": "修改4中4赔率",
+				"app-plus": {
+					"titleNView":{
+						"backgroundColor":"#EEEEEE",
+						// "splitLine":{},
+						"buttons":[
+							{
+								"text": "完成",
+								"fontSize": "14px",
+								"float": "right",
+								"width": "60px"
+							}
+						]
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/tabbar/tabbar-5/qunzhushezhi/liaotianxinxi/update/hongbaotime",
+			"style": {
+				"navigationBarTitleText": "修改红包失效时间",
+				"app-plus": {
+					"titleNView":{
+						"backgroundColor":"#EEEEEE",
+						// "splitLine":{},
+						"buttons":[
+							{
+								"text": "完成",
+								"fontSize": "14px",
+								"float": "right",
+								"width": "60px"
+							}
+						]
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/tabbar/tabbar-5/qunzhushezhi/liaotianxinxi/update/hongbaofandian",
+			"style": {
+				"navigationBarTitleText": "修改红包返点",
+				"app-plus": {
+					"titleNView":{
+						"backgroundColor":"#EEEEEE",
+						// "splitLine":{},
+						"buttons":[
+							{
+								"text": "完成",
+								"fontSize": "14px",
+								"float": "right",
+								"width": "60px"
+							}
+						]
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/tabbar/tabbar-5/qunzhushezhi/liaotianxinxi/update/tjrfandian",
+			"style": {
+				"navigationBarTitleText": "修改推荐人返点",
+				"app-plus": {
+					"titleNView":{
+						"backgroundColor":"#EEEEEE",
+						// "splitLine":{},
+						"buttons":[
+							{
+								"text": "完成",
+								"fontSize": "14px",
+								"float": "right",
+								"width": "60px"
+							}
+						]
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/tabbar/tabbar-5/qunzhushezhi/liaotianxinxi/update/tjrupfandian",
+			"style": {
+				"navigationBarTitleText": "修改推荐人上级返点",
+				"app-plus": {
+					"titleNView":{
+						"backgroundColor":"#EEEEEE",
+						// "splitLine":{},
+						"buttons":[
+							{
+								"text": "完成",
+								"fontSize": "14px",
+								"float": "right",
+								"width": "60px"
+							}
+						]
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/tabbar/tabbar-5/qunzhushezhi/liaotianxinxi/update/shangfen",
+			"style": {
+				"navigationBarTitleText": "修改上分金额",
+				"app-plus": {
+					"titleNView":{
+						"backgroundColor":"#EEEEEE",
+						// "splitLine":{},
+						"buttons":[
+							{
+								"text": "完成",
+								"fontSize": "14px",
+								"float": "right",
+								"width": "60px"
+							}
+						]
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/tabbar/tabbar-5/qunzhushezhi/liaotianxinxi/update/xiafen",
+			"style": {
+				"navigationBarTitleText": "修改下分金额",
+				"app-plus": {
+					"titleNView":{
+						"backgroundColor":"#EEEEEE",
+						// "splitLine":{},
+						"buttons":[
+							{
+								"text": "完成",
+								"fontSize": "14px",
+								"float": "right",
+								"width": "60px"
+							}
+						]
+					}
+				}
+			}
+		},
+		{
 			"path": "pages/tabbar/tabbar-5/qunzhushezhi/liaotianxinxi/shenqinggudong/shenqinggudong",
 			"style": {
 				"navigationBarTitleText": "申请股东",
