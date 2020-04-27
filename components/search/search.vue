@@ -1,7 +1,7 @@
 <template>
 	<view class="search" :style="{paddingTop: (zhuangtailan+6)+'px'}">
 		
-		<view @click="openNewPage"><text>请输入群名称/群号</text></view>
+		<view @click="openNewPage"><text>请输入群ID或群名称</text></view>
 		
 		<view class="imageBox" >
 			<image src="/static/img/jiahao.png" @click="open(false)"></image>
@@ -81,13 +81,13 @@
 			height: 30px;
 			line-height: 30px;
 			// background-color: #cfdad8;
-			background-color: #d3dcdd;
+			background-color: #EEEEEE;
 			border-radius: 15px;
 			width: 570upx;
 			padding-left: 10px;
 			text{
 				
-				color: #888;
+				color: #CCCCCC;
 				font-size: 14px;
 			}
 		}

@@ -1,50 +1,51 @@
 <template>
 	<view class="myList">
+		<Loading v-show="isLoading"></Loading>
 		<ul>
 			<li class="SelectList">
 				<text>群名称</text>
-				<input class="right" type="text" placeholder="请填写您的俱乐部名称" v-model="name">
+				<input class="right" type="text" placeholder-class="input-placeholder" placeholder="请填写您的俱乐部名称" v-model="name">
 			</li>
 			<li class="SelectListMax">
 				<text>群公告</text>
 				<view class="bottom">
-					<input type="text" placeholder="请填写群公告" v-model="notice">
+					<input type="text" placeholder="请填写群公告"  placeholder-class="input-placeholder" v-model="notice">
 				</view>
 			</li>
 			<li class="SelectListMax1">
-				<text>建群须知</text>
+				<text>进群须知</text>
 				<view class="bottom">
-					<textarea :maxlength="80"  placeholder="最多输入80字" v-model="inNotice"/>
+					<textarea :maxlength="80"  placeholder-class="input-placeholder" placeholder="最多输入80字" v-model="inNotice"/>
 				</view>
 			</li>
 			<li class="SelectList ">
 				<text>红包失效时间</text>
-				<input class="right" type="number" placeholder="请输入有效时间(分)" v-model="redInavlidTime">
+				<input class="right" type="number"  placeholder-class="input-placeholder" placeholder="请输入有效时间(分)" v-model="redInavlidTime">
 			</li>
 			<li class="SelectList listBorderTop">
 				<text>红包返点</text>
-				<input class="right" type="number" placeholder="请输入推荐返点比率(%)" v-model="redRebate">
+				<input class="right" type="number"  placeholder-class="input-placeholder" placeholder="请输入发包返点比率(%)" v-model="redRebate">
 			</li>
 			<li class="SelectList ">
 				<text>推荐人返点</text>
-				<input class="right" type="number" placeholder="请输入推荐返点比率(%)" v-model="referrerRebate">
+				<input class="right" type="number"  placeholder-class="input-placeholder" placeholder="请输入推荐返点比率(%)" v-model="referrerRebate">
 			</li>
 			<li class="SelectList ">
 				<text>推荐人上级返点</text>
-				<input class="right" type="number" placeholder="请输入推荐返点比率(%)" v-model="referrerUpRebate">
+				<input class="right" type="number"  placeholder-class="input-placeholder" placeholder="请输入推荐返点比率(%)" v-model="referrerUpRebate">
 			</li>
 			<li class="SelectList shizhi">
-				<navigator :url="'./wanfashezhi/wanfashezhi?playerType='+playerType+'&redCount='+redCount+'&redMaxAmount='+redMaxAmount+'&redMinAmount='+redMinAmount+'&redOdds='+redOdds+''" open-type="navigate" hover-class="">			
+				<navigator :url="'./wanfashezhi/wanfashezhi?playerType='+playerType+'&redCount='+redCount+'&redMaxAmount='+redMaxAmount+'&redMinAmount='+redMinAmount+'&redOdds='+redOdds+'&oddsTwo='+oddsTwo+'&oddsThree='+oddsThree+'&oddsFour='+oddsFour" open-type="navigate" hover-class="">			
 					<text>玩法设置</text>
 					<view>
-						<input :disabled="true" type="text" v-model="playerType">
+						<input :disabled="true" type="text" placeholder-class="input-placeholder" placeholder="未设置"  v-model="playerType">
 						<image src="/static/img/wo/youjiantouHuise.png"></image>
 					</view>
 				</navigator>
 			</li>
 			<li class="SelectList listBorderTop">
 				<text>申请人微信号</text>
-				<input class="right" type="text" placeholder="请输入您的微信账号" v-model="wxAccount">
+				<input class="right" type="text" placeholder-class="input-placeholder"  placeholder="请输入您的微信账号" v-model="wxAccount">
 			</li>
 		</ul>
 		<view class="bottomBox">
@@ -59,7 +60,10 @@
 </template>
 
 <script>
+	
+	import Loading from '@/components/loading/loading.vue'
 	export default{
+		components: {Loading},
 		data(){
 			return{
 				inNotice:'', //进群须知
@@ -67,11 +71,14 @@
 				notice:"", //群公告
 				redInavlidTime:'', //红包失效时间
 				
-				playerType:"未设置", //游戏类型 SAO_LEI，NIU_NIU,JIE_LONG
+				playerType:"", //游戏类型 SAO_LEI，NIU_NIU,JIE_LONG
 				redCount:'', //红包数量
 				redMaxAmount:'', //扫雷红包最大金额
 				redMinAmount:'', //扫雷红包最少金额
 				redOdds:'', //赔率
+				oddsTwo:'',
+				oddsThree:'',
+				oddsFour:'',
 				
 				redRebate:'', //红包返点
 				referrerRebate:'', //推荐人返点
@@ -88,7 +95,16 @@
 				this.redMaxAmount = data.redMaxAmount, //扫雷红包最大金额
 				this.redMinAmount = data.redMinAmount, //扫雷红包最少金额
 				this.redOdds = data.redOdds //赔率
+				this.oddsFour = data.oddsFour;
+				this.oddsThree = data.oddsThree;
+				this.oddsTwo = data.oddsTwo;
 			})
+			this.$store.state.isLoading = false
+		},
+		computed:{
+			isLoading:function(){
+				return this.$store.state.isLoading
+			}
 		},
 		methods:{
 			copy(str){
@@ -104,15 +120,14 @@
 			},
 			showToast(val){
 				uni.showToast({
-					title:val+'不能为空',
+					title:'请输入'+val,
 					icon:'none'
 				})
 			},
 			gameType(type){
 				switch(type){
-					case '扫雷':{return 'SAO_LEI'}
-					case '接龙':{return 'JIE_LONG'}
-					case '牛牛':{return 'NIU_NIU'}
+					case '单雷':{return 'SAO_LEI'}
+					case '9包多雷':{return 'SAO_LEI_MORE'}
 					
 				}
 			},
@@ -126,7 +141,7 @@
 				}else if(!this.notice){
 					this.showToast('群公告')
 					return
-				}else if(this.playerType == '未设置'){
+				}else if(this.playerType == ''){
 					uni.showToast({
 						title:'请设置玩法',
 						icon:'none'
@@ -148,47 +163,60 @@
 					this.showToast('申请人微信号')
 					return
 				}
-				this.$http.httpTokenRequest({
-					url: '/crowd/applySaoLei',
-					method: 'post'
-				}, {
-					inNotice: this.inNotice, //进群须知
-					name: this.name,//群名称
-					notice: this.notice, //群公告
-					redInavlidTime: this.redInavlidTime, //红包失效时间
-					
-					playerType: this.gameType(this.playerType) , //游戏类型 SAO_LEI，NIU_NIU,JIE_LONG
-					redCount: this.redCount, //红包数量
-					redMaxAmount: this.redMaxAmount, //扫雷红包最大金额
-					redMinAmount: this.redMinAmount, //扫雷红包最少金额
-					redOdds: this.redOdds, //赔率
-					
-					redRebate: this.redRebate, //红包返点
-					referrerRebate: this.referrerRebate, //推荐人返点
-					referrerUpRebate: this.referrerUpRebate, //推荐人上级返点
-					wxAccount: this.wxAccount, //申请人微信账号
-				}).then(res => {
-					
-					if(res.data.success){
-						// console.log('成功',res.data)
+				
+				if(this.playerType == '单雷'){
+					this.$http.httpPostToken('/crowd/applySaoLei',{
+							inNotice: this.inNotice, //进群须知
+							name: this.name,//群名称
+							notice: this.notice, //群公告
+							redInavlidTime: this.redInavlidTime, //红包失效时间
+							
+							playerType: 'SAO_LEI', //游戏类型 SAO_LEI，NIU_NIU,JIE_LONG
+							redCount: this.redCount, //红包数量
+							redMaxAmount: this.redMaxAmount, //扫雷红包最大金额
+							redMinAmount: this.redMinAmount, //扫雷红包最少金额
+							redOdds: this.redOdds, //赔率
+							
+							redRebate: this.redRebate, //红包返点
+							referrerRebate: this.referrerRebate, //推荐人返点
+							referrerUpRebate: this.referrerUpRebate, //推荐人上级返点
+							wxAccount: this.wxAccount, //申请人微信账号
+						},(res)=>{
 						uni.showToast({
 							title:'审核中...'
 						})
 						setTimeout(()=>{
 							uni.navigateBack({})
 						},1500)
-					}else{
+					},true)
+				}
+				if(this.playerType == '9包多雷'){
+					this.$http.httpPostToken('/crowd/applySaoLeiMore',{
+							inNotice: this.inNotice, //进群须知
+							name: this.name,//群名称
+							notice: this.notice, //群公告
+							redInavlidTime: this.redInavlidTime, //红包失效时间
+							
+							playerType: 'SAO_LEI', //游戏类型 SAO_LEI，NIU_NIU,JIE_LONG
+							redCount: this.redCount, //红包数量
+							redMaxAmount: this.redMaxAmount, //扫雷红包最大金额
+							redMinAmount: this.redMinAmount, //扫雷红包最少金额
+							redOddsTwo: this.oddsTwo, //赔率
+							redOddsThree: this.oddsThree, //赔率
+							redOddsFour: this.oddsFour, //赔率
+							redRebate: this.redRebate, //红包返点
+							referrerRebate: this.referrerRebate, //推荐人返点
+							referrerUpRebate: this.referrerUpRebate, //推荐人上级返点
+							wxAccount: this.wxAccount, //申请人微信账号
+						},(res)=>{
 						uni.showToast({
-							title:res.data.msg,
-							icon:'none'
+							title:'审核中...'
 						})
-					}
-				},error => {
-					uni.showToast({
-						title:'错误'+error,
-						icon:'none'
-					})
-				}) 
+						setTimeout(()=>{
+							uni.navigateBack({})
+						},1500)
+					},true)
+				}
 			}
 		}
 	}
@@ -200,7 +228,7 @@
 	}
 	.myList{
 		
-		font-size: 28upx;
+		font-size: 32upx;
 		color: #333;
 	}
 	.myList ul{
@@ -274,6 +302,14 @@
 		border:0;
 		
 	}
+	
+
+	.input-placeholder{
+		color: #ccc;
+		font-size:26upx;
+	}
+	
+	
 	.myList .SelectListMax1{
 		position: relative;
 		height: 300upx;
@@ -332,4 +368,6 @@
 	.bottomBox p:last-of-type text:last-of-type{
 		text-decoration:underline;
 	}
+	
+	
 </style>

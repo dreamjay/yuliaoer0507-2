@@ -1672,7 +1672,9 @@ var render = function() {
             }
           }
         },
-        [_c("v-uni-text", { attrs: { _i: 2 } }, [_vm._v("请输入群名称/群号")])],
+        [
+          _c("v-uni-text", { attrs: { _i: 2 } }, [_vm._v("请输入群ID或群名称")])
+        ],
         1
       ),
       _c(
@@ -2027,7 +2029,7 @@ if(false) {}
 var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ./node_modules/css-loader/dist/runtime/api.js */ 19);
 exports = ___CSS_LOADER_API_IMPORT___(false);
 // Module
-exports.push([module.i, "@charset \"UTF-8\";\n/**\r\n * 这里是uni-app内置的常用样式变量\r\n *\r\n * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量\r\n * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App\r\n *\r\n */\n/**\r\n * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能\r\n *\r\n * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件\r\n */\n/* 颜色变量 */\n/* 行为相关颜色 */\n/* 文字基本颜色 */\n/* 背景颜色 */\n/* 边框颜色 */\n/* 尺寸变量 */\n/* 文字尺寸 */\n/* 图片尺寸 */\n/* Border Radius */\n/* 水平间距 */\n/* 垂直间距 */\n/* 透明度 */\n/* 文章场景相关 */\n.search[data-v-d543f8a0] {\n  height: 29px;\n  padding: 0px 120upx 6px 60upx;\n  position: relative;\n  background-color: #fff;\n  border-bottom: 1px solid #ddd;\n}\n.search uni-view[data-v-d543f8a0]:first-of-type {\n    height: 30px;\n    line-height: 30px;\n    background-color: #d3dcdd;\n    border-radius: 15px;\n    width: 570upx;\n    padding-left: 10px;\n}\n.search uni-view:first-of-type uni-text[data-v-d543f8a0] {\n      color: #888;\n      font-size: 14px;\n}\n.search .imageBox[data-v-d543f8a0] {\n    height: 26px;\n    width: 26px;\n    position: absolute;\n    right: 30upx;\n    bottom: 8px;\n}\n.search .imageBox uni-image[data-v-d543f8a0] {\n      height: 26px;\n      width: 26px;\n      position: absolute;\n      right: 0upx;\n      top: 0px;\n      z-index: 2;\n}\n", ""]);
+exports.push([module.i, "@charset \"UTF-8\";\n/**\r\n * 这里是uni-app内置的常用样式变量\r\n *\r\n * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量\r\n * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App\r\n *\r\n */\n/**\r\n * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能\r\n *\r\n * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件\r\n */\n/* 颜色变量 */\n/* 行为相关颜色 */\n/* 文字基本颜色 */\n/* 背景颜色 */\n/* 边框颜色 */\n/* 尺寸变量 */\n/* 文字尺寸 */\n/* 图片尺寸 */\n/* Border Radius */\n/* 水平间距 */\n/* 垂直间距 */\n/* 透明度 */\n/* 文章场景相关 */\n.search[data-v-d543f8a0] {\n  height: 29px;\n  padding: 0px 120upx 6px 60upx;\n  position: relative;\n  background-color: #fff;\n  border-bottom: 1px solid #ddd;\n}\n.search uni-view[data-v-d543f8a0]:first-of-type {\n    height: 30px;\n    line-height: 30px;\n    background-color: #EEEEEE;\n    border-radius: 15px;\n    width: 570upx;\n    padding-left: 10px;\n}\n.search uni-view:first-of-type uni-text[data-v-d543f8a0] {\n      color: #CCCCCC;\n      font-size: 14px;\n}\n.search .imageBox[data-v-d543f8a0] {\n    height: 26px;\n    width: 26px;\n    position: absolute;\n    right: 30upx;\n    bottom: 8px;\n}\n.search .imageBox uni-image[data-v-d543f8a0] {\n      height: 26px;\n      width: 26px;\n      position: absolute;\n      right: 0upx;\n      top: 0px;\n      z-index: 2;\n}\n", ""]);
 // Exports
 module.exports = exports;
 
@@ -6581,26 +6583,38 @@ var render = function() {
     "v-uni-view",
     { staticClass: _vm._$g(0, "sc"), attrs: { _i: 0 } },
     [
+      _c("Loading", {
+        directives: [
+          {
+            name: "show",
+            rawName: "v-show",
+            value: _vm._$g(1, "v-show"),
+            expression: "_$g(1,'v-show')"
+          }
+        ],
+        attrs: { _i: 1 }
+      }),
       _c(
         "ul",
-        { attrs: { _i: 1 } },
+        { attrs: { _i: 2 } },
         [
           _c(
             "li",
-            { staticClass: _vm._$g(2, "sc"), attrs: { _i: 2 } },
+            { staticClass: _vm._$g(3, "sc"), attrs: { _i: 3 } },
             [
-              _c("v-uni-text", { attrs: { _i: 3 } }, [_vm._v("群名称")]),
+              _c("v-uni-text", { attrs: { _i: 4 } }, [_vm._v("群名称")]),
               _c("v-uni-input", {
-                staticClass: _vm._$g(4, "sc"),
+                staticClass: _vm._$g(5, "sc"),
                 attrs: {
                   type: "text",
+                  "placeholder-class": "input-placeholder",
                   placeholder: "请填写您的俱乐部名称",
-                  _i: 4
+                  _i: 5
                 },
                 model: {
-                  value: _vm._$g(4, "v-model"),
+                  value: _vm._$g(5, "v-model"),
                   callback: function($$v) {
-                    _vm.$handleVModelEvent(4, $$v)
+                    _vm.$handleVModelEvent(5, $$v)
                   },
                   expression: "name"
                 }
@@ -6610,19 +6624,24 @@ var render = function() {
           ),
           _c(
             "li",
-            { staticClass: _vm._$g(5, "sc"), attrs: { _i: 5 } },
+            { staticClass: _vm._$g(6, "sc"), attrs: { _i: 6 } },
             [
-              _c("v-uni-text", { attrs: { _i: 6 } }, [_vm._v("群公告")]),
+              _c("v-uni-text", { attrs: { _i: 7 } }, [_vm._v("群公告")]),
               _c(
                 "v-uni-view",
-                { staticClass: _vm._$g(7, "sc"), attrs: { _i: 7 } },
+                { staticClass: _vm._$g(8, "sc"), attrs: { _i: 8 } },
                 [
                   _c("v-uni-input", {
-                    attrs: { type: "text", placeholder: "请填写群公告", _i: 8 },
+                    attrs: {
+                      type: "text",
+                      placeholder: "请填写群公告",
+                      "placeholder-class": "input-placeholder",
+                      _i: 9
+                    },
                     model: {
-                      value: _vm._$g(8, "v-model"),
+                      value: _vm._$g(9, "v-model"),
                       callback: function($$v) {
-                        _vm.$handleVModelEvent(8, $$v)
+                        _vm.$handleVModelEvent(9, $$v)
                       },
                       expression: "notice"
                     }
@@ -6635,23 +6654,24 @@ var render = function() {
           ),
           _c(
             "li",
-            { staticClass: _vm._$g(9, "sc"), attrs: { _i: 9 } },
+            { staticClass: _vm._$g(10, "sc"), attrs: { _i: 10 } },
             [
-              _c("v-uni-text", { attrs: { _i: 10 } }, [_vm._v("建群须知")]),
+              _c("v-uni-text", { attrs: { _i: 11 } }, [_vm._v("进群须知")]),
               _c(
                 "v-uni-view",
-                { staticClass: _vm._$g(11, "sc"), attrs: { _i: 11 } },
+                { staticClass: _vm._$g(12, "sc"), attrs: { _i: 12 } },
                 [
                   _c("v-uni-textarea", {
                     attrs: {
                       maxlength: 80,
+                      "placeholder-class": "input-placeholder",
                       placeholder: "最多输入80字",
-                      _i: 12
+                      _i: 13
                     },
                     model: {
-                      value: _vm._$g(12, "v-model"),
+                      value: _vm._$g(13, "v-model"),
                       callback: function($$v) {
-                        _vm.$handleVModelEvent(12, $$v)
+                        _vm.$handleVModelEvent(13, $$v)
                       },
                       expression: "inNotice"
                     }
@@ -6664,20 +6684,21 @@ var render = function() {
           ),
           _c(
             "li",
-            { staticClass: _vm._$g(13, "sc"), attrs: { _i: 13 } },
+            { staticClass: _vm._$g(14, "sc"), attrs: { _i: 14 } },
             [
-              _c("v-uni-text", { attrs: { _i: 14 } }, [_vm._v("红包失效时间")]),
+              _c("v-uni-text", { attrs: { _i: 15 } }, [_vm._v("红包失效时间")]),
               _c("v-uni-input", {
-                staticClass: _vm._$g(15, "sc"),
+                staticClass: _vm._$g(16, "sc"),
                 attrs: {
                   type: "number",
+                  "placeholder-class": "input-placeholder",
                   placeholder: "请输入有效时间(分)",
-                  _i: 15
+                  _i: 16
                 },
                 model: {
-                  value: _vm._$g(15, "v-model"),
+                  value: _vm._$g(16, "v-model"),
                   callback: function($$v) {
-                    _vm.$handleVModelEvent(15, $$v)
+                    _vm.$handleVModelEvent(16, $$v)
                   },
                   expression: "redInavlidTime"
                 }
@@ -6687,20 +6708,21 @@ var render = function() {
           ),
           _c(
             "li",
-            { staticClass: _vm._$g(16, "sc"), attrs: { _i: 16 } },
+            { staticClass: _vm._$g(17, "sc"), attrs: { _i: 17 } },
             [
-              _c("v-uni-text", { attrs: { _i: 17 } }, [_vm._v("红包返点")]),
+              _c("v-uni-text", { attrs: { _i: 18 } }, [_vm._v("红包返点")]),
               _c("v-uni-input", {
-                staticClass: _vm._$g(18, "sc"),
+                staticClass: _vm._$g(19, "sc"),
                 attrs: {
                   type: "number",
-                  placeholder: "请输入推荐返点比率(%)",
-                  _i: 18
+                  "placeholder-class": "input-placeholder",
+                  placeholder: "请输入发包返点比率(%)",
+                  _i: 19
                 },
                 model: {
-                  value: _vm._$g(18, "v-model"),
+                  value: _vm._$g(19, "v-model"),
                   callback: function($$v) {
-                    _vm.$handleVModelEvent(18, $$v)
+                    _vm.$handleVModelEvent(19, $$v)
                   },
                   expression: "redRebate"
                 }
@@ -6710,20 +6732,21 @@ var render = function() {
           ),
           _c(
             "li",
-            { staticClass: _vm._$g(19, "sc"), attrs: { _i: 19 } },
+            { staticClass: _vm._$g(20, "sc"), attrs: { _i: 20 } },
             [
-              _c("v-uni-text", { attrs: { _i: 20 } }, [_vm._v("推荐人返点")]),
+              _c("v-uni-text", { attrs: { _i: 21 } }, [_vm._v("推荐人返点")]),
               _c("v-uni-input", {
-                staticClass: _vm._$g(21, "sc"),
+                staticClass: _vm._$g(22, "sc"),
                 attrs: {
                   type: "number",
+                  "placeholder-class": "input-placeholder",
                   placeholder: "请输入推荐返点比率(%)",
-                  _i: 21
+                  _i: 22
                 },
                 model: {
-                  value: _vm._$g(21, "v-model"),
+                  value: _vm._$g(22, "v-model"),
                   callback: function($$v) {
-                    _vm.$handleVModelEvent(21, $$v)
+                    _vm.$handleVModelEvent(22, $$v)
                   },
                   expression: "referrerRebate"
                 }
@@ -6733,22 +6756,23 @@ var render = function() {
           ),
           _c(
             "li",
-            { staticClass: _vm._$g(22, "sc"), attrs: { _i: 22 } },
+            { staticClass: _vm._$g(23, "sc"), attrs: { _i: 23 } },
             [
-              _c("v-uni-text", { attrs: { _i: 23 } }, [
+              _c("v-uni-text", { attrs: { _i: 24 } }, [
                 _vm._v("推荐人上级返点")
               ]),
               _c("v-uni-input", {
-                staticClass: _vm._$g(24, "sc"),
+                staticClass: _vm._$g(25, "sc"),
                 attrs: {
                   type: "number",
+                  "placeholder-class": "input-placeholder",
                   placeholder: "请输入推荐返点比率(%)",
-                  _i: 24
+                  _i: 25
                 },
                 model: {
-                  value: _vm._$g(24, "v-model"),
+                  value: _vm._$g(25, "v-model"),
                   callback: function($$v) {
-                    _vm.$handleVModelEvent(24, $$v)
+                    _vm.$handleVModelEvent(25, $$v)
                   },
                   expression: "referrerUpRebate"
                 }
@@ -6758,30 +6782,36 @@ var render = function() {
           ),
           _c(
             "li",
-            { staticClass: _vm._$g(25, "sc"), attrs: { _i: 25 } },
+            { staticClass: _vm._$g(26, "sc"), attrs: { _i: 26 } },
             [
               _c(
                 "v-uni-navigator",
                 {
                   attrs: {
-                    url: _vm._$g(26, "a-url"),
+                    url: _vm._$g(27, "a-url"),
                     "open-type": "navigate",
                     "hover-class": "",
-                    _i: 26
+                    _i: 27
                   }
                 },
                 [
-                  _c("v-uni-text", { attrs: { _i: 27 } }, [_vm._v("玩法设置")]),
+                  _c("v-uni-text", { attrs: { _i: 28 } }, [_vm._v("玩法设置")]),
                   _c(
                     "v-uni-view",
-                    { attrs: { _i: 28 } },
+                    { attrs: { _i: 29 } },
                     [
                       _c("v-uni-input", {
-                        attrs: { disabled: true, type: "text", _i: 29 },
+                        attrs: {
+                          disabled: true,
+                          type: "text",
+                          "placeholder-class": "input-placeholder",
+                          placeholder: "未设置",
+                          _i: 30
+                        },
                         model: {
-                          value: _vm._$g(29, "v-model"),
+                          value: _vm._$g(30, "v-model"),
                           callback: function($$v) {
-                            _vm.$handleVModelEvent(29, $$v)
+                            _vm.$handleVModelEvent(30, $$v)
                           },
                           expression: "playerType"
                         }
@@ -6789,7 +6819,7 @@ var render = function() {
                       _c("v-uni-image", {
                         attrs: {
                           src: "/static/img/wo/youjiantouHuise.png",
-                          _i: 30
+                          _i: 31
                         }
                       })
                     ],
@@ -6803,20 +6833,21 @@ var render = function() {
           ),
           _c(
             "li",
-            { staticClass: _vm._$g(31, "sc"), attrs: { _i: 31 } },
+            { staticClass: _vm._$g(32, "sc"), attrs: { _i: 32 } },
             [
-              _c("v-uni-text", { attrs: { _i: 32 } }, [_vm._v("申请人微信号")]),
+              _c("v-uni-text", { attrs: { _i: 33 } }, [_vm._v("申请人微信号")]),
               _c("v-uni-input", {
-                staticClass: _vm._$g(33, "sc"),
+                staticClass: _vm._$g(34, "sc"),
                 attrs: {
                   type: "text",
+                  "placeholder-class": "input-placeholder",
                   placeholder: "请输入您的微信账号",
-                  _i: 33
+                  _i: 34
                 },
                 model: {
-                  value: _vm._$g(33, "v-model"),
+                  value: _vm._$g(34, "v-model"),
                   callback: function($$v) {
-                    _vm.$handleVModelEvent(33, $$v)
+                    _vm.$handleVModelEvent(34, $$v)
                   },
                   expression: "wxAccount"
                 }
@@ -6829,7 +6860,7 @@ var render = function() {
       ),
       _c(
         "v-uni-view",
-        { staticClass: _vm._$g(34, "sc"), attrs: { _i: 34 } },
+        { staticClass: _vm._$g(35, "sc"), attrs: { _i: 35 } },
         [
           _c(
             "v-uni-button",
@@ -6839,7 +6870,7 @@ var render = function() {
                 width: "650upx",
                 "margin-left": "50upx"
               },
-              attrs: { type: "primary", _i: 35 },
+              attrs: { type: "primary", _i: 36 },
               on: {
                 click: function($event) {
                   return _vm.$handleViewEvent($event)
@@ -6848,16 +6879,16 @@ var render = function() {
             },
             [_vm._v("提交审核")]
           ),
-          _c("p", { attrs: { _i: 36 } }, [_vm._v("如审核不通过，请联系客服")]),
+          _c("p", { attrs: { _i: 37 } }, [_vm._v("如审核不通过，请联系客服")]),
           _c(
             "p",
-            { attrs: { _i: 37 } },
+            { attrs: { _i: 38 } },
             [
-              _c("v-uni-text", { attrs: { _i: 38 } }, [_vm._v("客服微信：")]),
+              _c("v-uni-text", { attrs: { _i: 39 } }, [_vm._v("客服微信：")]),
               _c(
                 "v-uni-text",
                 {
-                  attrs: { _i: 39 },
+                  attrs: { _i: 40 },
                   on: {
                     click: function($event) {
                       return _vm.$handleViewEvent($event)
@@ -6906,8 +6937,8 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default =
-
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;
+var _loading = _interopRequireDefault(__webpack_require__(/*! @/components/loading/loading.vue */ 66));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var _default =
 {
 
   data: function data() {
@@ -6915,7 +6946,8 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
       wxsProps: {} };
 
   },
-  components: {} };exports.default = _default;
+  components: {
+    'Loading': _loading.default } };exports.default = _default;
 
 /***/ }),
 /* 138 */
@@ -6964,7 +6996,7 @@ if(false) {}
 var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ./node_modules/css-loader/dist/runtime/api.js */ 19);
 exports = ___CSS_LOADER_API_IMPORT___(false);
 // Module
-exports.push([module.i, "\nbody{\n\tbackground-color: #eee;\n}\n.myList{\n\t\n\tfont-size: 28upx;\n\tcolor: #333;\n}\n.myList ul{\n\t/* border-top: 1upx solid #ddd; */\n\t/* border-bottom: 1upx solid #ddd; */\n}\n.myList .SelectList{\n\tposition: relative;\n\theight: 120upx;\n\tline-height: 120upx;\n\tpadding: 0upx 50upx;\n\tbackground-color: #fff;\n\t/* border-bottom: 1px solid #ddd; */\n}\n.myList .SelectList::before{\n\tcontent: '';\n\tposition: absolute;\n\theight: 1upx;\n\tbackground-color: #ddd;\n\twidth: calc(100% - 0upx);\n\tbottom: 0;\n\tright: 0;\n}\n.myList .nullBottom::before{\n\tcontent: '';\n\tposition: absolute;\n\theight: 0upx;\n\tbackground-color: #ddd;\n\twidth: calc(100% - 0upx);\n\tbottom: 0;\n\tright: 0;\n}\n.myList uni-text{\n\tvertical-align: middle;\n\tmargin-left: 10upx;\n}\n.myList .SelectList .right{\n\ttext-align: right;\n\tborder: 0;\n\t/* border:1px solid #ccc; */\n\tfloat: right;\n\tmargin-top: 40upx;\n}\n.myList .SelectList uni-image{\n\twidth: 30upx;\n\theight: 30upx;\n\tfloat: right;\n\tmargin-top: 45upx;\n}\n.myList .SelectListMax{\n\tposition: relative;\n\theight: 160upx;\n\t/* line-height: 120upx; */\n\tpadding: 0upx 50upx;\n\tbackground-color: #fff;\n\tborder-bottom: 1px solid #ddd;\n}\n.myList .SelectListMax uni-text{\n\tline-height: 80upx;\n}\n.myList .SelectListMax .bottom{\n\tborder: 0;\n\twidth: 650upx;\n\t/* border:1px solid #ccc; */\n\t/* margin-bottom: 15px; */\n}\n.myList .SelectListMax .bottom uni-input{\n\tborder:0;\n}\n.myList .SelectListMax1{\n\tposition: relative;\n\theight: 300upx;\n\t/* line-height: 120upx; */\n\tpadding: 0upx 50upx;\n\tbackground-color: #fff;\n\tborder-bottom: 1px solid #ddd;\n}\n.myList .SelectListMax1 uni-text{\n\tline-height: 80upx;\n}\n.myList .SelectListMax1 .bottom{\n\tborder: 0;\n\twidth: 650upx;\n\t/* margin-top: 15px; */\n}\n.myList .SelectListMax1 .bottom uni-textarea{\n\tbackground-color: #EEEEEE;\n\twidth: calc(100% - 30px);\n\theight: 120upx;\n\tpadding: 15px;\n\tborder-radius: 5px;\n}\n.shizhi uni-view{\n\twidth: 130upx;\n\theight: 120upx;\n\tline-height: 120upx;\n\tdisplay: inline-block;\n\tfloat: right;\n\t/* margin-top: 20px; */\n\t/* margin-top: 40px; */\n}\n.shizhi uni-view uni-input{\n\twidth: 100upx;\n\ttext-align: right;\n\tdisplay: inline-block;\n\tvertical-align: text-bottom;\n\tcolor: #888;\n}\n.bottomBox{\n\tpadding-top: 100upx;\n\tpadding-bottom: 120upx;\n\tbackground-color: #fff;\n\tcolor:#999;\n}\n.bottomBox p{\n\ttext-align: center;\n\tpadding: 10upx;\n}\n.bottomBox p:first-of-type{\n\tmargin-top: 20upx;\n}\n.bottomBox p:last-of-type{\n}\n.bottomBox p:last-of-type uni-text:last-of-type{\n\ttext-decoration:underline;\n}\n", ""]);
+exports.push([module.i, "\nbody{\n\tbackground-color: #eee;\n}\n.myList{\n\t\n\tfont-size: 32upx;\n\tcolor: #333;\n}\n.myList ul{\n\t/* border-top: 1upx solid #ddd; */\n\t/* border-bottom: 1upx solid #ddd; */\n}\n.myList .SelectList{\n\tposition: relative;\n\theight: 120upx;\n\tline-height: 120upx;\n\tpadding: 0upx 50upx;\n\tbackground-color: #fff;\n\t/* border-bottom: 1px solid #ddd; */\n}\n.myList .SelectList::before{\n\tcontent: '';\n\tposition: absolute;\n\theight: 1upx;\n\tbackground-color: #ddd;\n\twidth: calc(100% - 0upx);\n\tbottom: 0;\n\tright: 0;\n}\n.myList .nullBottom::before{\n\tcontent: '';\n\tposition: absolute;\n\theight: 0upx;\n\tbackground-color: #ddd;\n\twidth: calc(100% - 0upx);\n\tbottom: 0;\n\tright: 0;\n}\n.myList uni-text{\n\tvertical-align: middle;\n\tmargin-left: 10upx;\n}\n.myList .SelectList .right{\n\ttext-align: right;\n\tborder: 0;\n\t/* border:1px solid #ccc; */\n\tfloat: right;\n\tmargin-top: 40upx;\n}\n.myList .SelectList uni-image{\n\twidth: 30upx;\n\theight: 30upx;\n\tfloat: right;\n\tmargin-top: 45upx;\n}\n.myList .SelectListMax{\n\tposition: relative;\n\theight: 160upx;\n\t/* line-height: 120upx; */\n\tpadding: 0upx 50upx;\n\tbackground-color: #fff;\n\tborder-bottom: 1px solid #ddd;\n}\n.myList .SelectListMax uni-text{\n\tline-height: 80upx;\n}\n.myList .SelectListMax .bottom{\n\tborder: 0;\n\twidth: 650upx;\n\t/* border:1px solid #ccc; */\n\t/* margin-bottom: 15px; */\n}\n.myList .SelectListMax .bottom uni-input{\n\tborder:0;\n}\n.input-placeholder{\n\tcolor: #ccc;\n\tfont-size:26upx;\n}\n.myList .SelectListMax1{\n\tposition: relative;\n\theight: 300upx;\n\t/* line-height: 120upx; */\n\tpadding: 0upx 50upx;\n\tbackground-color: #fff;\n\tborder-bottom: 1px solid #ddd;\n}\n.myList .SelectListMax1 uni-text{\n\tline-height: 80upx;\n}\n.myList .SelectListMax1 .bottom{\n\tborder: 0;\n\twidth: 650upx;\n\t/* margin-top: 15px; */\n}\n.myList .SelectListMax1 .bottom uni-textarea{\n\tbackground-color: #EEEEEE;\n\twidth: calc(100% - 30px);\n\theight: 120upx;\n\tpadding: 15px;\n\tborder-radius: 5px;\n}\n.shizhi uni-view{\n\twidth: 130upx;\n\theight: 120upx;\n\tline-height: 120upx;\n\tdisplay: inline-block;\n\tfloat: right;\n\t/* margin-top: 20px; */\n\t/* margin-top: 40px; */\n}\n.shizhi uni-view uni-input{\n\twidth: 100upx;\n\ttext-align: right;\n\tdisplay: inline-block;\n\tvertical-align: text-bottom;\n\tcolor: #888;\n}\n.bottomBox{\n\tpadding-top: 100upx;\n\tpadding-bottom: 120upx;\n\tbackground-color: #fff;\n\tcolor:#999;\n}\n.bottomBox p{\n\ttext-align: center;\n\tpadding: 10upx;\n}\n.bottomBox p:first-of-type{\n\tmargin-top: 20upx;\n}\n.bottomBox p:last-of-type{\n}\n.bottomBox p:last-of-type uni-text:last-of-type{\n\ttext-decoration:underline;\n}\n\n\n", ""]);
 // Exports
 module.exports = exports;
 
@@ -7079,7 +7111,13 @@ var render = function() {
                 { attrs: { _i: 5 } },
                 [
                   _c("v-uni-input", {
-                    attrs: { disabled: true, type: "text", _i: 6 },
+                    staticStyle: { color: "#333333" },
+                    attrs: {
+                      disabled: true,
+                      type: "text",
+                      "placeholder-class": "input-placeolder",
+                      _i: 6
+                    },
                     model: {
                       value: _vm._$g(6, "v-model"),
                       callback: function($$v) {
@@ -7143,69 +7181,188 @@ var render = function() {
             ],
             1
           ),
-          _c(
-            "li",
-            { staticClass: _vm._$g(14, "sc"), attrs: { _i: 14 } },
-            [
-              _c("v-uni-text", { attrs: { _i: 15 } }, [_vm._v("红包几包")]),
-              _c("v-uni-input", {
-                staticClass: _vm._$g(16, "sc"),
-                attrs: {
-                  type: "number",
-                  placeholder: "请设置红包个数",
-                  _i: 16
-                },
-                on: {
-                  confirm: function($event) {
-                    return _vm.$handleViewEvent($event)
-                  }
-                },
-                model: {
-                  value: _vm._$g(16, "v-model"),
-                  callback: function($$v) {
-                    _vm.$handleVModelEvent(16, $$v)
-                  },
-                  expression: "shuliang"
-                }
-              })
-            ],
-            1
-          ),
-          _c(
-            "li",
-            { staticClass: _vm._$g(17, "sc"), attrs: { _i: 17 } },
-            [
-              _c("v-uni-text", { attrs: { _i: 18 } }, [_vm._v("红包几倍")]),
-              _c("v-uni-input", {
-                staticClass: _vm._$g(19, "sc"),
-                attrs: {
-                  type: "number",
-                  placeholder: "请设置红包倍数",
-                  _i: 19
-                },
-                on: {
-                  confirm: function($event) {
-                    return _vm.$handleViewEvent($event)
-                  }
-                },
-                model: {
-                  value: _vm._$g(19, "v-model"),
-                  callback: function($$v) {
-                    _vm.$handleVModelEvent(19, $$v)
-                  },
-                  expression: "beishu"
-                }
-              })
-            ],
-            1
-          )
+          _vm._$g(14, "i")
+            ? _c(
+                "li",
+                { staticClass: _vm._$g(14, "sc"), attrs: { _i: 14 } },
+                [
+                  _c("v-uni-text", { attrs: { _i: 15 } }, [_vm._v("红包几包")]),
+                  _c("v-uni-input", {
+                    staticClass: _vm._$g(16, "sc"),
+                    attrs: {
+                      type: "number",
+                      placeholder: "请设置红包个数",
+                      _i: 16
+                    },
+                    on: {
+                      confirm: function($event) {
+                        return _vm.$handleViewEvent($event)
+                      }
+                    },
+                    model: {
+                      value: _vm._$g(16, "v-model"),
+                      callback: function($$v) {
+                        _vm.$handleVModelEvent(16, $$v)
+                      },
+                      expression: "shuliang"
+                    }
+                  })
+                ],
+                1
+              )
+            : _vm._e(),
+          _vm._$g(17, "i")
+            ? _c(
+                "li",
+                { staticClass: _vm._$g(17, "sc"), attrs: { _i: 17 } },
+                [
+                  _c("v-uni-text", { attrs: { _i: 18 } }, [_vm._v("红包几包")]),
+                  _c("v-uni-input", {
+                    staticClass: _vm._$g(19, "sc"),
+                    attrs: {
+                      type: "number",
+                      disabled: "true",
+                      placeholder: "请设置红包个数",
+                      value: "9",
+                      _i: 19
+                    },
+                    on: {
+                      confirm: function($event) {
+                        return _vm.$handleViewEvent($event)
+                      }
+                    }
+                  })
+                ],
+                1
+              )
+            : _vm._e(),
+          _vm._$g(20, "i")
+            ? _c(
+                "li",
+                { staticClass: _vm._$g(20, "sc"), attrs: { _i: 20 } },
+                [
+                  _c("v-uni-text", { attrs: { _i: 21 } }, [_vm._v("红包几倍")]),
+                  _c("v-uni-input", {
+                    staticClass: _vm._$g(22, "sc"),
+                    attrs: {
+                      type: "number",
+                      placeholder: "请设置红包赔率",
+                      _i: 22
+                    },
+                    on: {
+                      confirm: function($event) {
+                        return _vm.$handleViewEvent($event)
+                      }
+                    },
+                    model: {
+                      value: _vm._$g(22, "v-model"),
+                      callback: function($$v) {
+                        _vm.$handleVModelEvent(22, $$v)
+                      },
+                      expression: "beishu"
+                    }
+                  })
+                ],
+                1
+              )
+            : _vm._e(),
+          _vm._$g(23, "i")
+            ? _c(
+                "li",
+                { staticClass: _vm._$g(23, "sc"), attrs: { _i: 23 } },
+                [
+                  _c("v-uni-text", { attrs: { _i: 24 } }, [_vm._v("2中2赔率")]),
+                  _c("v-uni-input", {
+                    staticClass: _vm._$g(25, "sc"),
+                    attrs: {
+                      type: "number",
+                      placeholder: "请设置2中2赔率",
+                      _i: 25
+                    },
+                    on: {
+                      confirm: function($event) {
+                        return _vm.$handleViewEvent($event)
+                      }
+                    },
+                    model: {
+                      value: _vm._$g(25, "v-model"),
+                      callback: function($$v) {
+                        _vm.$handleVModelEvent(25, $$v)
+                      },
+                      expression: "oddsTwo"
+                    }
+                  })
+                ],
+                1
+              )
+            : _vm._e(),
+          _vm._$g(26, "i")
+            ? _c(
+                "li",
+                { staticClass: _vm._$g(26, "sc"), attrs: { _i: 26 } },
+                [
+                  _c("v-uni-text", { attrs: { _i: 27 } }, [_vm._v("3中3赔率")]),
+                  _c("v-uni-input", {
+                    staticClass: _vm._$g(28, "sc"),
+                    attrs: {
+                      type: "number",
+                      placeholder: "请设置3中3赔率",
+                      _i: 28
+                    },
+                    on: {
+                      confirm: function($event) {
+                        return _vm.$handleViewEvent($event)
+                      }
+                    },
+                    model: {
+                      value: _vm._$g(28, "v-model"),
+                      callback: function($$v) {
+                        _vm.$handleVModelEvent(28, $$v)
+                      },
+                      expression: "oddsThree"
+                    }
+                  })
+                ],
+                1
+              )
+            : _vm._e(),
+          _vm._$g(29, "i")
+            ? _c(
+                "li",
+                { staticClass: _vm._$g(29, "sc"), attrs: { _i: 29 } },
+                [
+                  _c("v-uni-text", { attrs: { _i: 30 } }, [_vm._v("4中4赔率")]),
+                  _c("v-uni-input", {
+                    staticClass: _vm._$g(31, "sc"),
+                    attrs: {
+                      type: "number",
+                      placeholder: "请设置4中4赔率",
+                      _i: 31
+                    },
+                    on: {
+                      confirm: function($event) {
+                        return _vm.$handleViewEvent($event)
+                      }
+                    },
+                    model: {
+                      value: _vm._$g(31, "v-model"),
+                      callback: function($$v) {
+                        _vm.$handleVModelEvent(31, $$v)
+                      },
+                      expression: "oddsFour"
+                    }
+                  })
+                ],
+                1
+              )
+            : _vm._e()
         ],
         1
       ),
       _c(
         "uni-transition",
         {
-          attrs: { _i: 20 },
+          attrs: { _i: 32 },
           on: {
             click: function($event) {
               return _vm.$handleViewEvent($event)
@@ -7219,21 +7376,22 @@ var render = function() {
           _c(
             "v-uni-view",
             {
-              staticClass: _vm._$g(21, "sc"),
-              staticStyle: { width: "100%", height: "180px" },
-              attrs: { _i: 21 }
+              staticClass: _vm._$g(33, "sc"),
+              staticStyle: { width: "100%", height: "120px" },
+              attrs: { _i: 33 }
             },
             [
               _c(
                 "v-uni-view",
                 {
-                  staticClass: _vm._$g(22, "sc"),
+                  staticClass: _vm._$g(34, "sc"),
                   staticStyle: {
                     width: "100%",
-                    height: "33.33%",
-                    "line-height": "60px"
+                    height: "50%",
+                    "line-height": "60px",
+                    "border-bottom": "#DDDDDD solid 1px"
                   },
-                  attrs: { _i: 22 },
+                  attrs: { _i: 34 },
                   on: {
                     click: function($event) {
                       return _vm.$handleViewEvent($event)
@@ -7241,11 +7399,10 @@ var render = function() {
                   }
                 },
                 [
-                  _c("v-uni-text", { attrs: { _i: 23 } }, [_vm._v("扫雷")]),
-                  _vm._$g(24, "i")
+                  _c("v-uni-text", { attrs: { _i: 35 } }, [_vm._v("单雷")]),
+                  _vm._$g(36, "i")
                     ? _c("v-uni-image", {
                         staticStyle: {
-                          "margin-left": "70%",
                           width: "20px",
                           height: "20px",
                           "vertical-align": "middle"
@@ -7253,7 +7410,7 @@ var render = function() {
                         attrs: {
                           src: "/static/img/gou.png",
                           mode: "aspectFit",
-                          _i: 24
+                          _i: 36
                         }
                       })
                     : _vm._e()
@@ -7263,13 +7420,13 @@ var render = function() {
               _c(
                 "v-uni-view",
                 {
-                  staticClass: _vm._$g(25, "sc"),
+                  staticClass: _vm._$g(37, "sc"),
                   staticStyle: {
                     width: "100%",
-                    height: "33.33%",
+                    height: "50%",
                     "line-height": "60px"
                   },
-                  attrs: { _i: 25 },
+                  attrs: { _i: 37 },
                   on: {
                     click: function($event) {
                       return _vm.$handleViewEvent($event)
@@ -7277,11 +7434,10 @@ var render = function() {
                   }
                 },
                 [
-                  _c("v-uni-text", { attrs: { _i: 26 } }, [_vm._v("接龙")]),
-                  _vm._$g(27, "i")
+                  _c("v-uni-text", { attrs: { _i: 38 } }, [_vm._v("9包多雷")]),
+                  _vm._$g(39, "i")
                     ? _c("v-uni-image", {
                         staticStyle: {
-                          "margin-left": "70%",
                           width: "20px",
                           height: "20px",
                           "vertical-align": "middle"
@@ -7289,43 +7445,7 @@ var render = function() {
                         attrs: {
                           src: "/static/img/gou.png",
                           mode: "aspectFit",
-                          _i: 27
-                        }
-                      })
-                    : _vm._e()
-                ],
-                1
-              ),
-              _c(
-                "v-uni-view",
-                {
-                  staticClass: _vm._$g(28, "sc"),
-                  staticStyle: {
-                    width: "100%",
-                    height: "33.33%",
-                    "line-height": "60px"
-                  },
-                  attrs: { _i: 28 },
-                  on: {
-                    click: function($event) {
-                      return _vm.$handleViewEvent($event)
-                    }
-                  }
-                },
-                [
-                  _c("v-uni-text", { attrs: { _i: 29 } }, [_vm._v("牛牛")]),
-                  _vm._$g(30, "i")
-                    ? _c("v-uni-image", {
-                        staticStyle: {
-                          "margin-left": "70%",
-                          width: "20px",
-                          height: "20px",
-                          "vertical-align": "middle"
-                        },
-                        attrs: {
-                          src: "/static/img/gou.png",
-                          mode: "aspectFit",
-                          _i: 30
+                          _i: 39
                         }
                       })
                     : _vm._e()
@@ -7431,7 +7551,7 @@ if(false) {}
 var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ./node_modules/css-loader/dist/runtime/api.js */ 19);
 exports = ___CSS_LOADER_API_IMPORT___(false);
 // Module
-exports.push([module.i, "\nbody{\n\t/* background-color: #eee; */\n}\n.myList{\n\tposition: absolute;\n\tfont-size: 28upx;\n\tcolor: #333;\n\tleft: 0;\n\tright: 0;\n\ttop:0;\n\tbottom: 0;\n\tz-index: 0;\n}\n.gameOpen {\n\tcontent:'';\n\tposition: absolute;\n\tleft: 0;\n\tright: 0;\n\ttop:0;\n\tbottom: 0;\n\tz-index: 2;\n\tbackground-color: rgba(0,0,0,0.1)/*透明度默认为1*/\n}\n.myList ul{\n\t/* border-top: 1upx solid #ddd; */\n\t/* border-bottom: 1upx solid #ddd; */\n}\n.myList .SelectList{\n\tposition: relative;\n\theight: 120upx;\n\tline-height: 120upx;\n\tpadding: 0upx 50upx;\n\tbackground-color: #fff;\n\t/* border-bottom: 1px solid #ddd; */\n}\n.myList .double uni-view{\n\theight: 40upx;\n\twidth: 400upx;\n\tfloat: right;\n\tmargin-top: 40upx;\n\tdisplay: inline-block;\n}\n.myList .double uni-view uni-text{\n\tfloat: left;\n\tvertical-align: middle;\n\theight: 40upx;\n\tline-height: 40upx;\n}\n.myList .double uni-view uni-input:first-of-type{\n\twidth: 150upx;\n\tfloat: left;\n}\n.myList .double uni-view uni-input:last-of-type{\n\twidth: 150upx;\n\tfloat: right;\n\tmargin-right: 30upx;\n}\n.myList .SelectList::before{\n\tcontent: '';\n\tposition: absolute;\n\theight: 1upx;\n\tbackground-color: #ddd;\n\twidth: calc(100% - 0upx);\n\tbottom: 0;\n\tright: 0;\n}\n.myList .nullBottom::before{\n\tcontent: '';\n\tposition: absolute;\n\theight: 0upx;\n\tbackground-color: #ddd;\n\twidth: calc(100% - 0upx);\n\tbottom: 0;\n\tright: 0;\n}\n.myList uni-text{\n\tvertical-align: middle;\n\tmargin-left: 10upx;\n}\n.myList .SelectList .right{\n\ttext-align: right;\n\tborder: 0;\n\t/* border:1px solid #ccc; */\n\tfloat: right;\n\tmargin-top: 40upx;\n}\n.myList .SelectList uni-image{\n\twidth: 30upx;\n\theight: 30upx;\n\tfloat: right;\n\tmargin-top: 45upx;\n}\n.shizhi uni-view{\n\twidth: 100upx;\n\theight: 120upx;\n\tline-height: 120upx;\n\tdisplay: inline-block;\n\tfloat: right;\n\t/* margin-top: 20px; */\n\t/* margin-top: 40px; */\n}\n.shizhi uni-view uni-input{\n\twidth: 70upx;\n\ttext-align: right;\n\tdisplay: inline-block;\n\tvertical-align: text-bottom;\n\tcolor: #888;\n}\n\n", ""]);
+exports.push([module.i, "\nbody{\n\t/* background-color: #eee; */\n}\n.myList{\n\tposition: absolute;\n\tfont-size: 32upx;\n\tcolor: #333;\n\tleft: 0;\n\tright: 0;\n\ttop:0;\n\tbottom: 0;\n\tz-index: 0;\n}\n.gameOpen {\n\tcontent:'';\n\tposition: absolute;\n\tleft: 0;\n\tright: 0;\n\ttop:0;\n\tbottom: 0;\n\tz-index: 2;\n\tbackground-color: rgba(0,0,0,0.1)/*透明度默认为1*/\n}\n.myList ul{\n\t/* border-top: 1upx solid #ddd; */\n\t/* border-bottom: 1upx solid #ddd; */\n}\n.myList .SelectList{\n\tposition: relative;\n\theight: 120upx;\n\tline-height: 120upx;\n\tpadding: 0upx 50upx;\n\tbackground-color: #fff;\n\t/* border-bottom: 1px solid #ddd; */\n}\n.myList .double uni-view{\n\theight: 40upx;\n\twidth: 400upx;\n\tfloat: right;\n\tmargin-top: 40upx;\n\tdisplay: inline-block;\n}\n.myList .double uni-view uni-text{\n\tfloat: left;\n\tvertical-align: middle;\n\theight: 40upx;\n\tline-height: 40upx;\n}\n.myList .double uni-view uni-input:first-of-type{\n\twidth: 150upx;\n\tfloat: left;\n}\n.myList .double uni-view uni-input:last-of-type{\n\twidth: 150upx;\n\tfloat: right;\n\tmargin-right: 30upx;\n}\n.myList .SelectList::before{\n\tcontent: '';\n\tposition: absolute;\n\theight: 1upx;\n\tbackground-color: #ddd;\n\twidth: calc(100% - 0upx);\n\tbottom: 0;\n\tright: 0;\n}\n.myList .nullBottom::before{\n\tcontent: '';\n\tposition: absolute;\n\theight: 0upx;\n\tbackground-color: #ddd;\n\twidth: calc(100% - 0upx);\n\tbottom: 0;\n\tright: 0;\n}\n.myList uni-text{\n\tvertical-align: middle;\n\tmargin-left: 10upx;\n}\n.myList .SelectList .right{\n\ttext-align: right;\n\tborder: 0;\n\t/* border:1px solid #ccc; */\n\tfloat: right;\n\tmargin-top: 40upx;\n}\n.myList .SelectList uni-image{\n\twidth: 30upx;\n\theight: 30upx;\n\tfloat: right;\n\tmargin-top: 45upx;\n}\n.shizhi uni-view{\n\twidth: 500upx;\n\theight: 120upx;\n\tline-height: 120upx;\n\tdisplay: inline-block;\n\tfloat: right;\n\t/* margin-top: 20px; */\n\t/* margin-top: 40px; */\n}\n.shizhi uni-view uni-input{\n\twidth: 400upx;\n\ttext-align: right;\n\tdisplay: inline-block;\n\tvertical-align: text-bottom;\n\tcolor: #888;\n}\n.input-placeholder{\n\tcolor: #ccc;\n\tfont-size:26upx;\n}\n\n\n\n", ""]);
 // Exports
 module.exports = exports;
 
