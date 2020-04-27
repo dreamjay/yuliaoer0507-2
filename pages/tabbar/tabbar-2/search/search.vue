@@ -1,9 +1,9 @@
 <template>
 	<view>
-		
+		<Loading v-show="isLoading"></Loading>
 		<ul class="ulBox">
 			<li v-for="(item,index) in xuanran" :key="index" @click='popupOpen(item)'>
-				<view class="imageBox" :class="headimgClass(item.imgs ? item.imgs.length : null)">
+				<view class="imageBox" :class="headimgClass(item.imgs? item.imgs.length : null)">
 					<image v-for="(itemm,indexx) in item.imgs" :key="indexx" :src="itemm ? itemm : '/static/moren.png'" mode="scaleToFill"></image>
 				</view>
 				
@@ -30,9 +30,9 @@
 <script>
 	
 	import chunLeiModal from '@/components/chunLei-modal/chunLei-modal.vue'
-	
+	import Loading from '@/components/loading/loading.vue'
 	export default{
-		components: {chunLeiModal},
+		components: {chunLeiModal,Loading},
 		data(){
 			return{
 				data:{},
@@ -43,18 +43,7 @@
 				crowdCode:null, //群号
 				inputVal:'', //推荐码
 				crowds:[
-					// {
-					// 	url: '/static/img/qa.png',
-					// 	text: '546546556'
-					// },
-					// {
-					// 	url: '/static/img/qa.png',
-					// 	text: '546546556'
-					// },
-					// {
-					// 	url: '/static/img/qa.png',
-					// 	text: '546546556'
-					// },
+				
 				]
 			}
 		},
@@ -65,64 +54,23 @@
 		},
 		onNavigationBarSearchInputChanged(obj){ //值变化
 			// console.log(obj.txt)
+			if(obj.text.length < 2) {
+				return;
+			}
+			this.seach(obj.text);
 		},
 		onNavigationBarSearchInputConfirmed(obj){ //点搜索
-			// console.log(obj.txt)
-			// uni.showToast({
-			// 	"title":obj.text
-			// })
-			
-			
-			if(String(obj.text).length < 2) {
-				uni.showToast({
-					title:'至少要输入两个关键字',
-					icon:'none'
-				})
-				return
+
+			if(obj.text.length < 2) {
+				return;
 			}
 			// #ifdef APP-PLUS
 				var webView = this.$mp.page.$getAppWebview();  
 				webView.setTitleNViewSearchInputFocus(false)  //点搜索去焦点
 			// #endif
+			this.seach(obj.text);
 			
-			this.$http.httpTokenRequest({
-				url: '/crowd-join-record/listBySeclect',
-				method: 'get'
-			}, {
-				name:obj.text
-			}).then(res => {
-				
-				if(res.data.success){
-					// console.log(res.data.data)
-					if(!res.data.data.length){
-						uni.showToast({
-							title:'没有发现相关群',
-							icon:'none'
-						})
-					} else{
-						this.crowds = res.data.data
-						this.crowds.forEach((item)=>{
-							this.getImage(item.id).then((d)=>{
-								
-								this.crowds.find((itemm)=>(itemm.id == d.crowdId)).imgs = d.data
-								this.xuanran = [...this.crowds]
-								// console.log('看看渲染',this.xuanran)
-							}).catch((d)=>{
-								this.crowds.find((itemm)=>(itemm.id == d.crowdId)).imgs = []
-							})
-							
-						})
-					}
-					
-				}else{
-					console.log(res.data.msg)
-				}
-			},error => {
-				uni.showToast({
-					title:'错误'+error,
-					icon:'none'
-				})
-			}) 
+			
 		},
 		onBackPress(e){
 			if(this.value){ //模态框打开了，先关掉在返回
@@ -146,11 +94,14 @@
 			      
 			      // #ifdef APP-PLUS
 			      // console.log('app-plus', e)
-			      
 			      this.height = e.statusBarHeight + 44
 			      // #endif
 				}
 			})
+			
+		},
+		onShow() {
+			this.$store.state.isLoading = false;
 		},
 		methods:{
 			headimgClass(number){
@@ -173,81 +124,56 @@
 				console.log('取消')
 			},
 			shenqingjiaqun(){ //申请加群
-				
-				this.$http.httpTokenRequest({
-					url: '/crowd-join-record/add',
-					method: 'post'
-				}, {
+				this.$http.httpPostToken('/crowd-join-record/add',{
 					crowdCode:this.crowdCode,
 					referralCode:this.inputVal
-				}).then(res => {
-					if(res.data.success){
-						// console.log(res.data.data)
-						uni.hideKeyboard()
-						this.value = !this.value
-						uni.showToast({
-							title:'群主审核中.'
-						})
-						setTimeout(()=>{
-							uni.navigateBack({})
-						},1500)
-					}else{
-						uni.showToast({
-							title:res.data.msg,
-							icon:'none',
-							position:'top'
-						})
-						// console.log(res.data.msg)
-					}
-				},error => {
+				},(res) => {
+					uni.hideKeyboard()
+					this.value = !this.value
 					uni.showToast({
-						title:'错误'+error,
-						icon:'none'
+						title:'群主审核中.'
 					})
-				}) 
+					setTimeout(()=>{
+						uni.navigateBack({})
+					},1500)
+				},true)
+
 			},
+			
 			popupOpen(item){
 				this.crowdCode = item.crowdCode
 				this.type = this.type
 				this.value = !this.value
 			},
-			getImage(crowdId){
-				// console.log('拿图片crowdId',crowdId)
-				
-				return new Promise((resolve, reject)=>{
-					this.$http.httpTokenRequest({
-						url: '/crowd/listUserHeadByCrowdId',
-						method: 'get'
-					}, {
-						crowdId:crowdId
-					}).then(res => {
-						if(res.data.success){
-							console.log('头像',res.data.data)
-							// res.data.data = [
-							// 	'http://img4.imgtn.bdimg.com/it/u=662024917,967301403&fm=26&gp=0.jpg',
-							// 	'https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2151447830,1807870251&fm=11&gp=0.jpg',
-							// 	'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3208586113,2688222785&fm=26&gp=0.jpg',
-							// 	'https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=1013062358,2295738855&fm=26&gp=0.jpg',
-							// 	'http://img4.imgtn.bdimg.com/it/u=662024917,967301403&fm=26&gp=0.jpg',
-							// 	'https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2151447830,1807870251&fm=11&gp=0.jpg',
-							// 	'https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=1013062358,2295738855&fm=26&gp=0.jpg',
-							// 	'http://img4.imgtn.bdimg.com/it/u=662024917,967301403&fm=26&gp=0.jpg',
-							// 	'http://img4.imgtn.bdimg.com/it/u=662024917,967301403&fm=26&gp=0.jpg',
-							// ]
-							
-							resolve({data:res.data.data,crowdId:crowdId})
-							
-						}else{
-							reject({data:res.data.data,crowdId:crowdId})
-							console.log(res.data.msg)
-						}
-					},error => {
+			seach(key){
+				this.$http.httpGetToken('/crowd-join-record/listBySeclect', {
+					name:key
+				},(res) => {
+					console.log(res)
+					this.crowds = res.data;
+					this.xuanran = [...this.crowds];
+					if(!this.crowds.length){
 						uni.showToast({
-							title:'拿群图片错误'+error,
+							title:'没有发现相关群',
 							icon:'none'
 						})
+						return;
+					}
+					
+					this.crowds.forEach((item,index)=>{
+						this.getImage(item.id,index);
 					})
-				})
+				},true)
+			},
+			getImage(crowdId,index){
+				this.$http.httpGetToken('/crowd/listUserHeadByCrowdId',{
+					crowdId:crowdId
+				},(res) => {
+					console.log(res.data.length)
+					this.$forceUpdate();
+					this.xuanran[index].imgs = res.data;
+					
+				},false)
 			}
 		}
 	}

@@ -1,7 +1,7 @@
 <template>
 	<view class="search" :style="{paddingTop: (zhuangtailan+6)+'px'}">
 		
-		<view @click="openNewPage"><text>请输入群ID码</text></view>
+		<view @click="openNewPage"><text>请输入群名称/群号</text></view>
 		
 		<view class="imageBox" >
 			<image src="/static/img/jiahao.png" @click="open(false)"></image>
@@ -30,21 +30,22 @@
 	export default{
 		data(){
 			return{
-				show:false
+				zhuangtailan : 0,
+				show:false,
+				
 			}
 		},
 		props:{
-			zhuangtailan:{
-				type:Number,
-				default:0
-			}
+		
 		},
+	
 		created() {
 			//获取系统状态栏高度
 			// #ifdef APP-PLUS
 				this.zhuangtailan = plus.navigator.getStatusbarHeight();
 				
 			// #endif
+			console.log(this.zhuangtailan)
 		},
 		methods:{
 			openNewPage(){

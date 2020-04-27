@@ -1672,7 +1672,7 @@ var render = function() {
             }
           }
         },
-        [_c("v-uni-text", { attrs: { _i: 2 } }, [_vm._v("请输入群ID码")])],
+        [_c("v-uni-text", { attrs: { _i: 2 } }, [_vm._v("请输入群名称/群号")])],
         1
       ),
       _c(
@@ -5519,15 +5519,26 @@ var render = function() {
     "v-uni-view",
     { attrs: { _i: 0 } },
     [
+      _c("Loading", {
+        directives: [
+          {
+            name: "show",
+            rawName: "v-show",
+            value: _vm._$g(1, "v-show"),
+            expression: "_$g(1,'v-show')"
+          }
+        ],
+        attrs: { _i: 1 }
+      }),
       _c(
         "ul",
-        { staticClass: _vm._$g(1, "sc"), attrs: { _i: 1 } },
-        _vm._l(_vm._$g(2, "f"), function(item, index, $20, $30) {
+        { staticClass: _vm._$g(2, "sc"), attrs: { _i: 2 } },
+        _vm._l(_vm._$g(3, "f"), function(item, index, $20, $30) {
           return _c(
             "li",
             {
               key: item,
-              attrs: { _i: "2-" + $30 },
+              attrs: { _i: "3-" + $30 },
               on: {
                 click: function($event) {
                   return _vm.$handleViewEvent($event)
@@ -5538,11 +5549,11 @@ var render = function() {
               _c(
                 "v-uni-view",
                 {
-                  staticClass: _vm._$g("3-" + $30, "sc"),
-                  class: _vm._$g("3-" + $30, "c"),
-                  attrs: { _i: "3-" + $30 }
+                  staticClass: _vm._$g("4-" + $30, "sc"),
+                  class: _vm._$g("4-" + $30, "c"),
+                  attrs: { _i: "4-" + $30 }
                 },
-                _vm._l(_vm._$g(4 + "-" + $30, "f"), function(
+                _vm._l(_vm._$g(5 + "-" + $30, "f"), function(
                   itemm,
                   indexx,
                   $21,
@@ -5551,16 +5562,16 @@ var render = function() {
                   return _c("v-uni-image", {
                     key: itemm,
                     attrs: {
-                      src: _vm._$g("4-" + $30 + "-" + $31, "a-src"),
+                      src: _vm._$g("5-" + $30 + "-" + $31, "a-src"),
                       mode: "scaleToFill",
-                      _i: "4-" + $30 + "-" + $31
+                      _i: "5-" + $30 + "-" + $31
                     }
                   })
                 }),
                 1
               ),
-              _c("v-uni-text", { attrs: { _i: "5-" + $30 } }, [
-                _vm._v(_vm._$g("5-" + $30, "t0-0"))
+              _c("v-uni-text", { attrs: { _i: "6-" + $30 } }, [
+                _vm._v(_vm._$g("6-" + $30, "t0-0"))
               ])
             ],
             1
@@ -5568,14 +5579,14 @@ var render = function() {
         }),
         1
       ),
-      _vm._$g(6, "i")
+      _vm._$g(7, "i")
         ? _c("v-uni-input", {
             staticStyle: { position: "absolute", left: "-999px", top: "0" },
-            attrs: { focus: true, type: "password", _i: 6 },
+            attrs: { focus: true, type: "password", _i: 7 },
             model: {
-              value: _vm._$g(6, "v-model"),
+              value: _vm._$g(7, "v-model"),
               callback: function($$v) {
-                _vm.$handleVModelEvent(6, $$v)
+                _vm.$handleVModelEvent(7, $$v)
               },
               expression: "inputVal"
             }
@@ -5584,7 +5595,7 @@ var render = function() {
       _c(
         "chunLei-modal",
         {
-          attrs: { _i: 7 },
+          attrs: { _i: 8 },
           on: {
             onConfirm: function($event) {
               return _vm.$handleViewEvent($event)
@@ -5594,7 +5605,7 @@ var render = function() {
             }
           },
           model: {
-            value: _vm._$g(7, "v-model"),
+            value: _vm._$g(8, "v-model"),
             callback: function() {},
             expression: "value"
           }
@@ -5603,8 +5614,8 @@ var render = function() {
           _c(
             "v-uni-view",
             {
-              staticClass: _vm._$g(8, "sc"),
-              attrs: { _i: 8 },
+              staticClass: _vm._$g(9, "sc"),
+              attrs: { _i: 9 },
               on: {
                 click: function($event) {
                   return _vm.$handleViewEvent($event, { stop: true })
@@ -5615,14 +5626,14 @@ var render = function() {
               _c(
                 "v-uni-view",
                 {
-                  staticClass: _vm._$g(9, "sc"),
+                  staticClass: _vm._$g(10, "sc"),
                   staticStyle: { "text-align": "center" },
-                  attrs: { _i: 9 }
+                  attrs: { _i: 10 }
                 },
                 [
                   _c(
                     "v-uni-text",
-                    { staticStyle: { color: "#4CB964" }, attrs: { _i: 10 } },
+                    { staticStyle: { color: "#4CB964" }, attrs: { _i: 11 } },
                     [_vm._v("请输入推荐码")]
                   ),
                   _c("v-uni-input", {
@@ -5630,7 +5641,7 @@ var render = function() {
                       type: "text",
                       focus: true,
                       "confirm-type": "完成",
-                      _i: 11
+                      _i: 12
                     },
                     on: {
                       confirm: function($event) {
@@ -5638,9 +5649,9 @@ var render = function() {
                       }
                     },
                     model: {
-                      value: _vm._$g(11, "v-model"),
+                      value: _vm._$g(12, "v-model"),
                       callback: function($$v) {
-                        _vm.$handleVModelEvent(11, $$v)
+                        _vm.$handleVModelEvent(12, $$v)
                       },
                       expression: "inputVal"
                     }
@@ -5653,7 +5664,7 @@ var render = function() {
                         "background-color": "#4cb964",
                         "margin-top": "50upx"
                       },
-                      attrs: { type: "primary", _i: 12 },
+                      attrs: { type: "primary", _i: 13 },
                       on: {
                         touchend: function($event) {
                           return _vm.$handleViewEvent($event, { prevent: true })
@@ -6391,7 +6402,7 @@ if(false) {}
 var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ./node_modules/css-loader/dist/runtime/api.js */ 19);
 exports = ___CSS_LOADER_API_IMPORT___(false);
 // Module
-exports.push([module.i, "@charset \"UTF-8\";\n/**\r\n * 这里是uni-app内置的常用样式变量\r\n *\r\n * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量\r\n * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App\r\n *\r\n */\n/**\r\n * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能\r\n *\r\n * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件\r\n */\n/* 颜色变量 */\n/* 行为相关颜色 */\n/* 文字基本颜色 */\n/* 背景颜色 */\n/* 边框颜色 */\n/* 尺寸变量 */\n/* 文字尺寸 */\n/* 图片尺寸 */\n/* Border Radius */\n/* 水平间距 */\n/* 垂直间距 */\n/* 透明度 */\n/* 文章场景相关 */\n.mask {\n  position: fixed;\n  top: 0;\n  right: 0;\n  bottom: 0;\n  left: 0;\n  z-index: 9999;\n  -webkit-transition: background 0.3s linear;\n  transition: background 0.3s linear;\n  display: -webkit-box;\n  display: -webkit-flex;\n  display: flex;\n  -webkit-box-align: center;\n  -webkit-align-items: center;\n          align-items: center;\n  opacity: 0;\n  visibility: hidden;\n  -webkit-box-pack: center;\n  -webkit-justify-content: center;\n          justify-content: center;\n}\n.mask.mask-show {\n    visibility: visible;\n    opacity: 1;\n}\n.hover {\n  background: #f2f2f2;\n}\n.default-view {\n  width: 600rpx;\n  font-weight: 400;\n  font-size: 18px;\n  background-color: #fff;\n  border-radius: 6rpx;\n}\n.default-view .title {\n    height: 100rpx;\n    display: -webkit-box;\n    display: -webkit-flex;\n    display: flex;\n    -webkit-box-pack: center;\n    -webkit-justify-content: center;\n            justify-content: center;\n    -webkit-box-align: center;\n    -webkit-align-items: center;\n            align-items: center;\n}\n.default-view .content {\n    padding: 40rpx 48rpx;\n    min-height: 40px;\n    font-size: 15px;\n    line-height: 1.4;\n    color: #999;\n    text-align: center;\n}\n.default-view .btn {\n    height: 100rpx;\n    display: -webkit-box;\n    display: -webkit-flex;\n    display: flex;\n    -webkit-box-orient: horizontal;\n    -webkit-box-direction: normal;\n    -webkit-flex-direction: row;\n            flex-direction: row;\n    border-top: 1px solid #ccc;\n}\n.default-view .btn .cancel {\n      display: -webkit-box;\n      display: -webkit-flex;\n      display: flex;\n      -webkit-box-flex: 1;\n      -webkit-flex: 1;\n              flex: 1;\n      -webkit-box-pack: center;\n      -webkit-justify-content: center;\n              justify-content: center;\n      -webkit-box-align: center;\n      -webkit-align-items: center;\n              align-items: center;\n      border-right: 1px solid #ccc;\n}\n.default-view .btn .confirm {\n      display: -webkit-box;\n      display: -webkit-flex;\n      display: flex;\n      -webkit-box-flex: 1;\n      -webkit-flex: 1;\n              flex: 1;\n      -webkit-box-pack: center;\n      -webkit-justify-content: center;\n              justify-content: center;\n      -webkit-box-align: center;\n      -webkit-align-items: center;\n              align-items: center;\n      color: #007aff;\n}\n.select-view {\n  width: 600rpx;\n  background-color: #fff;\n  border-radius: 6rpx;\n}\n.select-view .select-box {\n    height: 100rpx;\n    padding: 20rpx;\n    display: -webkit-box;\n    display: -webkit-flex;\n    display: flex;\n    -webkit-box-orient: horizontal;\n    -webkit-box-direction: normal;\n    -webkit-flex-direction: row;\n            flex-direction: row;\n    -webkit-box-pack: justify;\n    -webkit-justify-content: space-between;\n            justify-content: space-between;\n    -webkit-box-align: center;\n    -webkit-align-items: center;\n            align-items: center;\n    border-bottom: 0.5px solid #ddd;\n}\n.select-view .select-box .select-content {\n      color: #aaa;\n      font-size: 12px;\n}\n.select-view .image {\n    display: inline-block;\n    vertical-align: middle;\n    width: 40rpx;\n    height: 40rpx;\n    margin-right: 20rpx;\n}\n.select-view .select-box:last-child {\n  border: none;\n}\n.notify-view {\n  width: 600rpx;\n  background-color: #fff;\n  border-radius: 6rpx;\n}\n.notify-view .image {\n    width: 600rpx;\n    height: 150rpx;\n}\n.notify-view .title {\n    height: 100rpx;\n    display: -webkit-box;\n    display: -webkit-flex;\n    display: flex;\n    -webkit-box-pack: center;\n    -webkit-justify-content: center;\n            justify-content: center;\n    -webkit-box-align: center;\n    -webkit-align-items: center;\n            align-items: center;\n}\n.notify-view .content {\n    padding: 40rpx 48rpx;\n    min-height: 40px;\n    font-size: 15px;\n    line-height: 1.4;\n    color: #999;\n    text-align: center;\n}\n.notify-view .cancel {\n    height: 100rpx;\n    display: -webkit-box;\n    display: -webkit-flex;\n    display: flex;\n    -webkit-box-flex: 1;\n    -webkit-flex: 1;\n            flex: 1;\n    -webkit-box-pack: center;\n    -webkit-justify-content: center;\n            justify-content: center;\n    -webkit-box-align: center;\n    -webkit-align-items: center;\n            align-items: center;\n    border-top: 1px solid #E7E7E7;\n}\n.advert-view {\n  overflow: hidden;\n  display: -webkit-box;\n  display: -webkit-flex;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n  -webkit-flex-direction: column;\n          flex-direction: column;\n  -webkit-box-align: center;\n  -webkit-align-items: center;\n          align-items: center;\n}\n.advert-view .confirm {\n    width: 500rpx;\n    height: 700rpx;\n    border-radius: 6rpx;\n}\n.advert-view .cancel {\n    margin-top: 150rpx;\n    width: 60rpx;\n    height: 60rpx;\n}\n.share-view {\n  width: 600rpx;\n  background-color: #fff;\n  border-radius: 6rpx;\n  padding: 20rpx;\n  display: -webkit-box;\n  display: -webkit-flex;\n  display: flex;\n  -webkit-box-orient: horizontal;\n  -webkit-box-direction: normal;\n  -webkit-flex-direction: row;\n          flex-direction: row;\n  -webkit-flex-wrap: wrap;\n          flex-wrap: wrap;\n  font-size: 18px;\n}\n.share-view .share-box {\n    display: -webkit-box;\n    display: -webkit-flex;\n    display: flex;\n    -webkit-box-orient: vertical;\n    -webkit-box-direction: normal;\n    -webkit-flex-direction: column;\n            flex-direction: column;\n    -webkit-box-pack: center;\n    -webkit-justify-content: center;\n            justify-content: center;\n    -webkit-box-align: center;\n    -webkit-align-items: center;\n            align-items: center;\n    width: 33.33%;\n    padding: 40rpx 0;\n}\n.share-view .image {\n    width: 80rpx;\n    height: 80rpx;\n    margin-bottom: 20rpx;\n}\n.input-view {\n  width: 600rpx;\n  font-weight: 400;\n  font-size: 18px;\n  background-color: #fff;\n  border-radius: 6rpx;\n}\n.input-view .title {\n    height: 100rpx;\n    display: -webkit-box;\n    display: -webkit-flex;\n    display: flex;\n    -webkit-box-pack: center;\n    -webkit-justify-content: center;\n            justify-content: center;\n    -webkit-box-align: center;\n    -webkit-align-items: center;\n            align-items: center;\n    border-bottom: 1px solid #ccc;\n}\n.input-view .content {\n    padding: 40rpx 48rpx;\n    min-height: 40px;\n    font-size: 18px;\n    text-align: left;\n}\n.input-view .input-box {\n    display: -webkit-box;\n    display: -webkit-flex;\n    display: flex;\n    margin-bottom: 20rpx;\n}\n.input-view .input-box .view {\n      margin-right: 20rpx;\n      min-width: 150rpx;\n}\n.input-view .input-box .input {\n      font-size: 18px;\n}\n.input-view .btn {\n    height: 100rpx;\n    display: -webkit-box;\n    display: -webkit-flex;\n    display: flex;\n    -webkit-box-orient: horizontal;\n    -webkit-box-direction: normal;\n    -webkit-flex-direction: row;\n            flex-direction: row;\n    border-top: 1px solid #ccc;\n}\n.input-view .btn .cancel {\n      display: -webkit-box;\n      display: -webkit-flex;\n      display: flex;\n      -webkit-box-flex: 1;\n      -webkit-flex: 1;\n              flex: 1;\n      -webkit-box-pack: center;\n      -webkit-justify-content: center;\n              justify-content: center;\n      -webkit-box-align: center;\n      -webkit-align-items: center;\n              align-items: center;\n      border-right: 1px solid #ccc;\n}\n.input-view .btn .confirm {\n      display: -webkit-box;\n      display: -webkit-flex;\n      display: flex;\n      -webkit-box-flex: 1;\n      -webkit-flex: 1;\n              flex: 1;\n      -webkit-box-pack: center;\n      -webkit-justify-content: center;\n              justify-content: center;\n      -webkit-box-align: center;\n      -webkit-align-items: center;\n              align-items: center;\n      color: #007aff;\n}\n.word-break {\n  word-wrap: break-word;\n  word-break: break-all;\n  white-space: pre-wrap;\n}\n", ""]);
+exports.push([module.i, "@charset \"UTF-8\";\n/**\r\n * 这里是uni-app内置的常用样式变量\r\n *\r\n * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量\r\n * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App\r\n *\r\n */\n/**\r\n * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能\r\n *\r\n * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件\r\n */\n/* 颜色变量 */\n/* 行为相关颜色 */\n/* 文字基本颜色 */\n/* 背景颜色 */\n/* 边框颜色 */\n/* 尺寸变量 */\n/* 文字尺寸 */\n/* 图片尺寸 */\n/* Border Radius */\n/* 水平间距 */\n/* 垂直间距 */\n/* 透明度 */\n/* 文章场景相关 */\n.mask {\n  position: fixed;\n  top: 0;\n  right: 0;\n  bottom: 0;\n  left: 0;\n  z-index: 99;\n  -webkit-transition: background 0.3s linear;\n  transition: background 0.3s linear;\n  display: -webkit-box;\n  display: -webkit-flex;\n  display: flex;\n  -webkit-box-align: center;\n  -webkit-align-items: center;\n          align-items: center;\n  opacity: 0;\n  visibility: hidden;\n  -webkit-box-pack: center;\n  -webkit-justify-content: center;\n          justify-content: center;\n}\n.mask.mask-show {\n    visibility: visible;\n    opacity: 1;\n}\n.hover {\n  background: #f2f2f2;\n}\n.default-view {\n  width: 600rpx;\n  font-weight: 400;\n  font-size: 18px;\n  background-color: #fff;\n  border-radius: 6rpx;\n}\n.default-view .title {\n    height: 100rpx;\n    display: -webkit-box;\n    display: -webkit-flex;\n    display: flex;\n    -webkit-box-pack: center;\n    -webkit-justify-content: center;\n            justify-content: center;\n    -webkit-box-align: center;\n    -webkit-align-items: center;\n            align-items: center;\n}\n.default-view .content {\n    padding: 40rpx 48rpx;\n    min-height: 40px;\n    font-size: 15px;\n    line-height: 1.4;\n    color: #999;\n    text-align: center;\n}\n.default-view .btn {\n    height: 100rpx;\n    display: -webkit-box;\n    display: -webkit-flex;\n    display: flex;\n    -webkit-box-orient: horizontal;\n    -webkit-box-direction: normal;\n    -webkit-flex-direction: row;\n            flex-direction: row;\n    border-top: 1px solid #ccc;\n}\n.default-view .btn .cancel {\n      display: -webkit-box;\n      display: -webkit-flex;\n      display: flex;\n      -webkit-box-flex: 1;\n      -webkit-flex: 1;\n              flex: 1;\n      -webkit-box-pack: center;\n      -webkit-justify-content: center;\n              justify-content: center;\n      -webkit-box-align: center;\n      -webkit-align-items: center;\n              align-items: center;\n      border-right: 1px solid #ccc;\n}\n.default-view .btn .confirm {\n      display: -webkit-box;\n      display: -webkit-flex;\n      display: flex;\n      -webkit-box-flex: 1;\n      -webkit-flex: 1;\n              flex: 1;\n      -webkit-box-pack: center;\n      -webkit-justify-content: center;\n              justify-content: center;\n      -webkit-box-align: center;\n      -webkit-align-items: center;\n              align-items: center;\n      color: #007aff;\n}\n.select-view {\n  width: 600rpx;\n  background-color: #fff;\n  border-radius: 6rpx;\n}\n.select-view .select-box {\n    height: 100rpx;\n    padding: 20rpx;\n    display: -webkit-box;\n    display: -webkit-flex;\n    display: flex;\n    -webkit-box-orient: horizontal;\n    -webkit-box-direction: normal;\n    -webkit-flex-direction: row;\n            flex-direction: row;\n    -webkit-box-pack: justify;\n    -webkit-justify-content: space-between;\n            justify-content: space-between;\n    -webkit-box-align: center;\n    -webkit-align-items: center;\n            align-items: center;\n    border-bottom: 0.5px solid #ddd;\n}\n.select-view .select-box .select-content {\n      color: #aaa;\n      font-size: 12px;\n}\n.select-view .image {\n    display: inline-block;\n    vertical-align: middle;\n    width: 40rpx;\n    height: 40rpx;\n    margin-right: 20rpx;\n}\n.select-view .select-box:last-child {\n  border: none;\n}\n.notify-view {\n  width: 600rpx;\n  background-color: #fff;\n  border-radius: 6rpx;\n}\n.notify-view .image {\n    width: 600rpx;\n    height: 150rpx;\n}\n.notify-view .title {\n    height: 100rpx;\n    display: -webkit-box;\n    display: -webkit-flex;\n    display: flex;\n    -webkit-box-pack: center;\n    -webkit-justify-content: center;\n            justify-content: center;\n    -webkit-box-align: center;\n    -webkit-align-items: center;\n            align-items: center;\n}\n.notify-view .content {\n    padding: 40rpx 48rpx;\n    min-height: 40px;\n    font-size: 15px;\n    line-height: 1.4;\n    color: #999;\n    text-align: center;\n}\n.notify-view .cancel {\n    height: 100rpx;\n    display: -webkit-box;\n    display: -webkit-flex;\n    display: flex;\n    -webkit-box-flex: 1;\n    -webkit-flex: 1;\n            flex: 1;\n    -webkit-box-pack: center;\n    -webkit-justify-content: center;\n            justify-content: center;\n    -webkit-box-align: center;\n    -webkit-align-items: center;\n            align-items: center;\n    border-top: 1px solid #E7E7E7;\n}\n.advert-view {\n  overflow: hidden;\n  display: -webkit-box;\n  display: -webkit-flex;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n  -webkit-flex-direction: column;\n          flex-direction: column;\n  -webkit-box-align: center;\n  -webkit-align-items: center;\n          align-items: center;\n}\n.advert-view .confirm {\n    width: 500rpx;\n    height: 700rpx;\n    border-radius: 6rpx;\n}\n.advert-view .cancel {\n    margin-top: 150rpx;\n    width: 60rpx;\n    height: 60rpx;\n}\n.share-view {\n  width: 600rpx;\n  background-color: #fff;\n  border-radius: 6rpx;\n  padding: 20rpx;\n  display: -webkit-box;\n  display: -webkit-flex;\n  display: flex;\n  -webkit-box-orient: horizontal;\n  -webkit-box-direction: normal;\n  -webkit-flex-direction: row;\n          flex-direction: row;\n  -webkit-flex-wrap: wrap;\n          flex-wrap: wrap;\n  font-size: 18px;\n}\n.share-view .share-box {\n    display: -webkit-box;\n    display: -webkit-flex;\n    display: flex;\n    -webkit-box-orient: vertical;\n    -webkit-box-direction: normal;\n    -webkit-flex-direction: column;\n            flex-direction: column;\n    -webkit-box-pack: center;\n    -webkit-justify-content: center;\n            justify-content: center;\n    -webkit-box-align: center;\n    -webkit-align-items: center;\n            align-items: center;\n    width: 33.33%;\n    padding: 40rpx 0;\n}\n.share-view .image {\n    width: 80rpx;\n    height: 80rpx;\n    margin-bottom: 20rpx;\n}\n.input-view {\n  width: 600rpx;\n  font-weight: 400;\n  font-size: 18px;\n  background-color: #fff;\n  border-radius: 6rpx;\n}\n.input-view .title {\n    height: 100rpx;\n    display: -webkit-box;\n    display: -webkit-flex;\n    display: flex;\n    -webkit-box-pack: center;\n    -webkit-justify-content: center;\n            justify-content: center;\n    -webkit-box-align: center;\n    -webkit-align-items: center;\n            align-items: center;\n    border-bottom: 1px solid #ccc;\n}\n.input-view .content {\n    padding: 40rpx 48rpx;\n    min-height: 40px;\n    font-size: 18px;\n    text-align: left;\n}\n.input-view .input-box {\n    display: -webkit-box;\n    display: -webkit-flex;\n    display: flex;\n    margin-bottom: 20rpx;\n}\n.input-view .input-box .view {\n      margin-right: 20rpx;\n      min-width: 150rpx;\n}\n.input-view .input-box .input {\n      font-size: 18px;\n}\n.input-view .btn {\n    height: 100rpx;\n    display: -webkit-box;\n    display: -webkit-flex;\n    display: flex;\n    -webkit-box-orient: horizontal;\n    -webkit-box-direction: normal;\n    -webkit-flex-direction: row;\n            flex-direction: row;\n    border-top: 1px solid #ccc;\n}\n.input-view .btn .cancel {\n      display: -webkit-box;\n      display: -webkit-flex;\n      display: flex;\n      -webkit-box-flex: 1;\n      -webkit-flex: 1;\n              flex: 1;\n      -webkit-box-pack: center;\n      -webkit-justify-content: center;\n              justify-content: center;\n      -webkit-box-align: center;\n      -webkit-align-items: center;\n              align-items: center;\n      border-right: 1px solid #ccc;\n}\n.input-view .btn .confirm {\n      display: -webkit-box;\n      display: -webkit-flex;\n      display: flex;\n      -webkit-box-flex: 1;\n      -webkit-flex: 1;\n              flex: 1;\n      -webkit-box-pack: center;\n      -webkit-justify-content: center;\n              justify-content: center;\n      -webkit-box-align: center;\n      -webkit-align-items: center;\n              align-items: center;\n      color: #007aff;\n}\n.word-break {\n  word-wrap: break-word;\n  word-break: break-all;\n  white-space: pre-wrap;\n}\n", ""]);
 // Exports
 module.exports = exports;
 
@@ -6421,7 +6432,8 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;
-var _chunLeiModal = _interopRequireDefault(__webpack_require__(/*! @/components/chunLei-modal/chunLei-modal.vue */ 120));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var _default =
+var _chunLeiModal = _interopRequireDefault(__webpack_require__(/*! @/components/chunLei-modal/chunLei-modal.vue */ 120));
+var _loading = _interopRequireDefault(__webpack_require__(/*! @/components/loading/loading.vue */ 66));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var _default =
 {
 
   data: function data() {
@@ -6430,7 +6442,8 @@ var _chunLeiModal = _interopRequireDefault(__webpack_require__(/*! @/components/
 
   },
   components: {
-    'chunLeiModal': _chunLeiModal.default } };exports.default = _default;
+    'chunLeiModal': _chunLeiModal.default,
+    'Loading': _loading.default } };exports.default = _default;
 
 /***/ }),
 /* 130 */

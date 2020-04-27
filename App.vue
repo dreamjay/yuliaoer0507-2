@@ -39,20 +39,11 @@ export default {
 			
 		// },5000)
 		
-		// uni.$on('updateWs',(data)=>{
-		// 	let token = JSON.parse(uni.getStorageSync('userInfo')).token
-		// 	this.openWs(token)
-		// })
+	
 		// 检测token
 		
 		if(!timer){
-			timer = setInterval(()=>{
-				console.log("ping");
-				if(!connectionStatus){
-					this.resetConnection();
-				}
-				
-			},5000)
+			timer = setInterval(this.ping,5000)
 		}
 	},
 	onShow: function() {
@@ -77,7 +68,15 @@ export default {
 			},false);
 			
 		},
+		ping(){
+			if(!connectionStatus){
+				console.log("开始重新连接")
+				this.resetConnection();
+			}
+			
+		},
 		connection(){
+			
 			if(socketTask){
 				console.log("已连接")
 				return;
@@ -123,9 +122,10 @@ export default {
 			})
 		},
 		resetConnection(){
+			console.log(socketTask)
 			// 如果已经连接，就直接关闭
 			if(socketTask){
-				socketTask.close();
+				uni.closeSocket();
 				socketTask = null;
 			}
 			this.connection();

@@ -184,7 +184,9 @@
 					if(newVal) {
 						this.tabMask.show()
 					}else{
-						this.tabMask.hide()
+						if(this.tabMask){
+							this.tabMask.hide()
+						}
 					}
 					//#endif
 				}
@@ -200,7 +202,7 @@
 		right: 0;
 		bottom: 0;
 		left: 0;
-		z-index: 9999;
+		z-index: 99;
 		transition: background 0.3s linear;
 		display: flex;
 		align-items: center;
