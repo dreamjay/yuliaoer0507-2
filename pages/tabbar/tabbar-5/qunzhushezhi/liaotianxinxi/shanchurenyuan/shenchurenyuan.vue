@@ -59,37 +59,20 @@
 		},
 		methods:{
 			deleteUser(del){
-				
-				this.$http.httpTokenRequest({
-					url: '/crowd/delsByUser',
-					method: 'post'
-				}, {
+				this.$http.httpPostToken('/crowd/delsByUser',{
 					crowdId:del[0].crowdId,
 					ids:del.map((item)=>(item.id))
-				}).then(res => {
-					
-					if(res.data.success){
-						// console.log('删除成员',res.data.data)
-						uni.showToast({
-							title:'已删除'
-						})
-						uni.$emit('updateInfo',{msg:'页面更新1'})
-						setTimeout(()=>{
-							uni.navigateBack({})
-						},1500)
-					}else{
-						uni.showToast({
-							title:res.data.msg,
-							icon:'none'
-						})
-						
-					}
-				},error => {
+				},(res)=>{
 					uni.showToast({
-						title:'错误'+error,
-						icon:'none'
+						title:'已删除'
 					})
-				}) 
+					uni.$emit('updateUser',{msg:'页面更新1'})
+					setTimeout(()=>{
+						uni.navigateBack({})
+					},1500)
+				},true)
+				
+				
 			},
 			checkboxChange(data){
 				

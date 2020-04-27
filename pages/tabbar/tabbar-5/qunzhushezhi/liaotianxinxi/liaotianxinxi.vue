@@ -210,7 +210,6 @@
 					<view v-if="hideButton"><button :plain='true' size='mini' style="margin-top: 15upx;" :class="setRole == 'CAI_WU' ? 'active' : null" @click="setClick('CAI_WU')">设为财务</button></view>
 					<view v-if="hideButton"><button :plain='true' size='mini' style="margin-top: 15upx;" :class="setRole == 'MIAN_SI' ? 'active' : null" @click="setClick('MIAN_SI')">设为免死号</button></view>
 					<view v-if="hideButton"><button :plain='true' size='mini' style="margin-top: 15upx;" :class="setRole == 'GU_KE' ? 'active' : null" @click="setClick('GU_KE')">设为普通用户</button></view>
-					<view v-if="hideButton"><button :plain='true' size='mini' style="margin-top: 15upx;" :class="setRole == 'ZONG_DAI' ? 'active' : null" @click="setClick('ZONG_DAI')">设为总代</button></view>
 					<view v-if="hideButton"><button :plain='true' size='mini' style="margin-top: 15upx;" :class="setRole == 'GU_DONG' ? 'active' : null" @click="setClick('GU_DONG')">设为股东</button></view>
 					<view><button :plain='true' size='mini' style="margin-top: 15upx;" @click="setClick('DONG_JIE')">{{isDongjieText}}</button></view>
 				</view>
@@ -360,6 +359,10 @@
 				this.getJiangliguizhe(option.crowdId)
 			})
 			
+			uni.$on('updateUser',(data)=>{ //数据变化后，重新拿才准确
+				this.getUserList(option.crowdId)
+			})
+			
 			uni.getSystemInfo({
 			    success: (e) => {
 			      
@@ -446,7 +449,6 @@
 					case'CAI_WU': {this.httpSetRole('/crowd/setUserCaiwu', this.crowdId, this.userId) ;break}
 					case'MIAN_SI': {this.httpSetRole('/crowd/setUserMianSi', this.crowdId, this.userId) ;break}
 					case'GU_KE': {this.httpSetRole('/crowd/setUserGuke', this.crowdId, this.userId) ;break}
-					case'ZONG_DAI': {this.httpSetRole('/crowd/setUserZongdai', this.crowdId, this.userId) ;break}
 					case'GU_DONG': {this.httpSetRole('/crowd/setUserGudong', this.crowdId, this.userId) ;break}
 					case'DONG_JIE': {this.httpSetRole('/crowd/setUserStatus', this.crowdId, this.userId) ;break}
 					
@@ -464,30 +466,24 @@
 					let is = !this.userList.find((item)=>(item.userId == userId)).status
 					obj.status = is ? 1 : 0
 				}
-				this.$http.httpTokenRequest({
-					url: url,
-					method: 'post'
-				}, obj).then(res => {
-					
-					if(res.data.success){
-						this.getCrowdInfo(this.crowdId)
-					}else{
-						uni.showToast({
-							title:res.data.msg,
-							icon:'none'
-						})
-					}
-				},error => {
-					uni.showToast({
-						title:'错误'+error,
-						icon:'none'
-					})
-				}) 
+				this.$http.httpPostToken(url,obj,(res)=>{
+					this.getUserList(crowdId)
+				},false)
+			
 			},
 			longtap(index){
 				if(!this.isSet){
 					return
 				}
+				if(this.userList[index].role == 'MIAN_SI'){
+					
+					return
+				} 
+				
+				if(this.userList[index].role == 'CAI_WU'){
+					
+					return
+				} 
 				// console.log(this.userList[index].role)
 				if(this.userList[index].role == 'QUN_ZHU'){
 					this.hideButton = true
@@ -539,13 +535,7 @@
 							return '股东'; break
 						}
 					}
-					case 'ZONG_DAI': {
-						if(color){
-							return 'green'; break
-						}else{
-							return '总代'; break
-						}
-					}
+					
 					case 'KE_FU': {
 						if(color){
 							return 'green'; break

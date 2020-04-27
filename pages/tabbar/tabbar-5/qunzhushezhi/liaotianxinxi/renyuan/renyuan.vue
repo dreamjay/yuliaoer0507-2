@@ -25,7 +25,6 @@
 					<view v-if="hideButton"><button :plain='true' size='mini' style="margin-top: 15upx;" :class="setRole == 'CAI_WU' ? 'active' : null" @click="setClick('CAI_WU')">设为财务</button></view>
 					<view v-if="hideButton"><button :plain='true' size='mini' style="margin-top: 15upx;" :class="setRole == 'MIAN_SI' ? 'active' : null" @click="setClick('MIAN_SI')">设为免死号</button></view>
 					<view v-if="hideButton"><button :plain='true' size='mini' style="margin-top: 15upx;" :class="setRole == 'GU_KE' ? 'active' : null" @click="setClick('GU_KE')">设为普通用户</button></view>
-					<view v-if="hideButton"><button :plain='true' size='mini' style="margin-top: 15upx;" :class="setRole == 'ZONG_DAI' ? 'active' : null" @click="setClick('ZONG_DAI')">设为总代</button></view>
 					<view v-if="hideButton"><button :plain='true' size='mini' style="margin-top: 15upx;" :class="setRole == 'GU_DONG' ? 'active' : null" @click="setClick('GU_DONG')">设为股东</button></view>
 					<view><button :plain='true' size='mini' style="margin-top: 15upx;" @click="setClick('DONG_JIE')">{{isDongjieText}}</button></view>
 				</view>
@@ -89,7 +88,7 @@
 			this.isSet = JSON.parse(option.isSet).isSet
 			
 			uni.setNavigationBarTitle({
-				title:"群成员（99）"
+				title:"群成员（"+this.userList.length+"）"
 			})
 			uni.getSystemInfo({
 			    success: (e) => {
@@ -112,7 +111,6 @@
 					case'CAI_WU': {this.httpSetRole('/crowd/setUserCaiwu', this.crowdId, this.userId,type) ;break}
 					case'MIAN_SI': {this.httpSetRole('/crowd/setUserMianSi', this.crowdId, this.userId,type) ;break}
 					case'GU_KE': {this.httpSetRole('/crowd/setUserGuke', this.crowdId, this.userId,type) ;break}
-					case'ZONG_DAI': {this.httpSetRole('/crowd/setUserZongdai', this.crowdId, this.userId,type) ;break}
 					case'GU_DONG': {this.httpSetRole('/crowd/setUserGudong', this.crowdId, this.userId,type) ;break}
 					case'DONG_JIE': {this.httpSetRole('/crowd/setUserStatus', this.crowdId, this.userId,type) ;break}
 					
@@ -129,49 +127,41 @@
 					let is = !this.userList.find((item)=>(item.userId == userId)).status
 					obj.status = is ? 1 : 0
 				}
-				this.$http.httpTokenRequest({
-					url: url,
-					method: 'post'
-				}, obj).then(res => {
+				this.$http.httpPostToken(url,obj,(res) =>{
 					
-					if(res.data.success){
-						// console.log(this.showUserList)
-						
-						if(url == '/crowd/setUserStatus'){ //解冻还是冻结
-							let is = !this.showUserList.find((item)=>(item.userId == userId)).status
-							this.showUserList.find((item)=>(item.userId == userId)).status = is ? 1 : 0
-						}else{
-							this.showUserList.find((item)=>(item.userId == userId)).role = type
-						}
-						
-						if(url == '/crowd/setUserMianSi'){ //免死只有一个
-							if(this.showUserList.filter((item)=>(item.role == "MIAN_SI")).length > 1){
-								this.showUserList.filter((item)=>(item.role == "MIAN_SI")).find((item)=>(item.userId != userId)).role = "GU_KE"
-							}
-						}
-						if(url == '/crowd/setUserCaiwu'){ //财务只有一个
-							if(this.showUserList.filter((item)=>(item.role == "CAI_WU")).length > 1){
-								this.showUserList.filter((item)=>(item.role == "CAI_WU")).find((item)=>(item.userId != userId)).role = "GU_KE"
-							}
-						}
-						uni.$emit('updateInfo',{msg:'页面更新1'})
+					if(url == '/crowd/setUserStatus'){ //解冻还是冻结
+						let is = !this.showUserList.find((item)=>(item.userId == userId)).status
+						this.showUserList.find((item)=>(item.userId == userId)).status = is ? 1 : 0
 					}else{
-						uni.showToast({
-							title:res.data.msg,
-							icon:'none'
-						})
+						this.showUserList.find((item)=>(item.userId == userId)).role = type
 					}
-				},error => {
-					uni.showToast({
-						title:'错误'+error,
-						icon:'none'
-					})
-				}) 
+					
+					if(url == '/crowd/setUserMianSi'){ //免死只有一个
+						if(this.showUserList.filter((item)=>(item.role == "MIAN_SI")).length > 1){
+							this.showUserList.filter((item)=>(item.role == "MIAN_SI")).find((item)=>(item.userId != userId)).role = "GU_KE"
+						}
+					}
+					if(url == '/crowd/setUserCaiwu'){ //财务只有一个
+						if(this.showUserList.filter((item)=>(item.role == "CAI_WU")).length > 1){
+							this.showUserList.filter((item)=>(item.role == "CAI_WU")).find((item)=>(item.userId != userId)).role = "GU_KE"
+						}
+					}
+					uni.$emit('updateUser',{msg:'页面更新1'})
+				},false)
+				
 			},
 			longtap(index){
 				if(!this.isSet){
 					return
 				}
+				if(this.showUserList[index].role == 'MIAN_SI'){
+					
+					return
+				} 
+				if(this.showUserList[index].role == 'CAI_WU'){
+					
+					return
+				} 
 				// console.log(this.showUserList[index].role)
 				if(this.showUserList[index].role == 'QUN_ZHU'){
 					this.hideButton = true
@@ -218,13 +208,6 @@
 							return 'green'; break
 						}else{
 							return '股东'; break
-						}
-					}
-					case 'ZONG_DAI': {
-						if(color){
-							return 'green'; break
-						}else{
-							return '总代'; break
 						}
 					}
 					case 'KE_FU': {
@@ -334,7 +317,7 @@
 				.after{
 					color:#fff;
 					padding: 1upx 5upx;
-					font-size: 1upx;
+					font-size: 8px;
 					line-height: 20upx;
 					position: absolute;
 					height: 20upx;
