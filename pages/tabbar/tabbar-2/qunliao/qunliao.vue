@@ -149,7 +149,7 @@
 				}
 			})
 			this.crowdInfo = JSON.parse(option.crowdInfo)
-			this.userInfo = JSON.parse(uni.getStorageSync('userInfo')).user
+			this.userInfo =  uni.getStorageSync('userInfo')
 			uni.setNavigationBarTitle({
 				title:JSON.parse(option.crowdInfo).name+'(456)'
 			})

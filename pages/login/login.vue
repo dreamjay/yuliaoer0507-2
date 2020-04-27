@@ -1,6 +1,5 @@
 <template>
 	<view>
-		<Loading v-show="isLoading"></Loading>
 		<view style="margin-left: 50upx; width: 650upx; margin-top: 300upx;">
 			<view class="uni-form-item uni-column" >
 				<text class="title" style="display: inline-block;" >账号：</text>
@@ -37,10 +36,7 @@
 </template>
 
 <script>
-	import Loading from '@/components/loading/loading.vue'
-	
 	export default{
-		components:{Loading},
 		data(){
 			return{
 				accound:'',
@@ -49,12 +45,8 @@
 			}
 		},
 		computed:{
-			isLoading:function(){
-				return this.$store.state.isLoading
-			}
 		},
 		onLoad(){
-			this.$store.state.isLoading = false;
 			
 		},
 		methods:{

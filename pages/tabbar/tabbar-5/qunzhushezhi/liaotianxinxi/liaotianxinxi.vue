@@ -1,9 +1,8 @@
 <template>
 	<view>
-		<Loading v-if="isLoading"></Loading>
-		<view v-show="!isLoading">
+		<view>
 			<view class="ulBox" >
-				
+						
 				<ul class="userList">
 					<li v-for="(item,index) in userList" :key="index" v-if="index<(19 + (isSet ? 0 : 1))" @click='liClick(index)' @longpress="longtap(index)">
 						<image :src="item.headUrl ? item.headUrl : '/static/moren.png'" style="" mode="aspectFill"></image>
@@ -23,8 +22,8 @@
 			<view class="myList">
 				<ul>
 					<li class="SelectList listBorderTop">
-						<navigator :url="'./tongyong/tongyong?title=群名称&crowdId='+(crowdInfo && crowdInfo.id)+'&val='+(crowdInfo && crowdInfo.name)+''" :open-type="isSet?'navigate':null" hover-class="">
-							<text>群聊名称</text><text>{{crowdInfo && crowdInfo.name}}</text><image :src="isSet ? '/static/img/wo/youjiantou.png' : '/static/img/wo/youjiantouHuise.png'" ></image>
+						<navigator :url="'./update/name?crowdId='+(crowdInfo && crowdInfo.id)+'&val='+(crowdInfo &&crowdInfo.name)" :open-type="isSet?'navigate':null" hover-class="">
+							<text>群聊名称</text><text>{{ crowdInfo && crowdInfo.name }}</text><image :src="isSet ? '/static/img/wo/youjiantou.png' : '/static/img/wo/youjiantouHuise.png'" ></image>
 						</navigator>
 					</li>
 					<li class="SelectList">
@@ -42,8 +41,9 @@
 							<text>我的下级</text><image src="/static/img/wo/youjiantou.png"></image>
 						</navigator>
 					</li>
-					<li class="SelectListMax">
-						<navigator :url="'./tongyong/tongyong?title=群公告&crowdId='+(crowdInfo && crowdInfo.id)+'&val='+(crowdInfo && crowdInfo.notice)+''" :open-type="isSet?'navigate':null" hover-class="">
+					
+					<li class="SelectListMax"  v-if="isSet">
+						<navigator :url="'./update/notice?crowdId='+(crowdInfo && crowdInfo.id)+'&val='+(crowdInfo && crowdInfo.notice)+''" :open-type="isSet?'navigate':null" hover-class="">
 							<text>群公告</text><image :src="isSet ? '/static/img/wo/youjiantou.png' : '/static/img/wo/youjiantouHuise.png'" ></image>
 							<view class="bottom">
 								<text>{{crowdInfo && crowdInfo.notice}}</text>
@@ -51,11 +51,30 @@
 						</navigator>
 					</li>
 					
-					<li class="SelectListMax listBorderTop">
-						<navigator :url="'./tongyong/tongyong?title=群须知&crowdId='+(crowdInfo && crowdInfo.id)+'&val='+(crowdInfo && crowdInfo.inNotice)+''" :open-type="isSet?'navigate':null" hover-class="">
+					<li class="SelectListMax" style="height: 180px;" v-if="!isSet">
+						<navigator :url="'./update/notice?crowdId='+(crowdInfo && crowdInfo.id)+'&val='+(crowdInfo && crowdInfo.notice)+''" :open-type="isSet?'navigate':null" hover-class="">
+							<text>群公告</text><image :src="isSet ? '/static/img/wo/youjiantou.png' : '/static/img/wo/youjiantouHuise.png'" ></image>
+							<view class="bottom">
+								<textarea class="defultInput" disabled="true" :value="(crowdInfo && crowdInfo.notice)"></textarea>
+							</view>
+						</navigator>
+					</li>
+					
+					
+					<li class="SelectListMax listBorderTop"  v-if="isSet">
+						<navigator :url="'./update/inNotice?crowdId='+(crowdInfo && crowdInfo.id)+'&val='+(crowdInfo && crowdInfo.inNotice)+''" :open-type="isSet?'navigate':null" hover-class="">
 							<text>群须知</text><image :src="isSet ? '/static/img/wo/youjiantou.png' : '/static/img/wo/youjiantouHuise.png'" ></image>
 							<view class="bottom">
 								<text>{{crowdInfo && crowdInfo.inNotice}}</text>
+							</view>
+						</navigator>
+					</li>
+					
+					<li class="SelectListMax listBorderTop" style="height: 180px;"  v-if="!isSet">
+						<navigator :url="'./update/inNotice?crowdId='+(crowdInfo && crowdInfo.id)+'&val='+(crowdInfo && crowdInfo.inNotice)+''" :open-type="isSet?'navigate':null" hover-class="">
+							<text>群须知</text><image :src="isSet ? '/static/img/wo/youjiantou.png' : '/static/img/wo/youjiantouHuise.png'" ></image>
+							<view class="bottom">
+								<textarea class="defultInput" disabled="true" :value="crowdInfo && crowdInfo.inNotice"></textarea>
 							</view>
 						</navigator>
 					</li>
@@ -173,10 +192,9 @@
 </template>
 
 <script>
-	import Loading from '@/components/loading/loading.vue'
 	import chunLeiModal from '@/components/chunLei-modal/chunLei-modal.vue'
 	export default{
-		components:{Loading,chunLeiModal},
+		components:{chunLeiModal},
 		data(){
 			return{
 				data:{},
@@ -197,9 +215,6 @@
 			}
 		},
 		computed:{
-			isLoading:function(){
-				return this.$store.state.isLoading
-			}
 		},
 		onBackPress(e){
 			if(this.value){ //模态框打开了，先关掉在返回
@@ -218,23 +233,53 @@
 			}
 		},
 		onLoad(option) {
-			
 			uni.setNavigationBarTitle({
-				title:"聊天信息（99）"
+				title:"群设置"
 			})
-			this.$store.commit('watchLoading', true)
+		
 			this.crowdId = option.crowdId
+			this.switchStatus = uni.getStorageSync("switchStatus"+this.crowdId+"") ? uni.getStorageSync("switchStatus"+this.crowdId+"") : {}
 			
-			this.switchStatus = uni.getStorageSync("switchStatus"+this.crowdId+"") ? JSON.parse(uni.getStorageSync("switchStatus"+this.crowdId+"")) : {}
+			this.userInfo = uni.getStorageSync('userInfo')
 			
-			this.userInfo = JSON.parse(uni.getStorageSync('userInfo')).user
 			this.getCrowdInfo(option.crowdId)
 			this.getJiangliguizhe(option.crowdId)
+			uni.$on('updateName',(data)=>{
+				this.crowdInfo.name = data;
+			})
+			uni.$on('updateNotice',(data)=>{
+				console.log(data)
+				this.crowdInfo.notice = data;
+			})
+			uni.$on('updateInNotice',(data)=>{
+				this.crowdInfo.inNotice = data;
+			})
+			uni.$on('updateWxAccount',(data)=>{
+				this.crowdInfo.wxAccountSh = data;
+			})
+			uni.$on('updateZfbAccount',(data)=>{
+				this.crowdInfo.zfbAccount = data;
+			})
+			uni.$on('updateQunzhuAccount',(data)=>{
+				this.crowdInfo.qunZhuAccount = data;
+			})
+			
+			uni.$on('wxFile',(data)=>{
+				this.crowdInfo.wxUrl = data;
+			})
+			uni.$on('zfbFile',(data)=>{
+				this.crowdInfo.zfbUrl = data;
+			})
+			uni.$on('qunZhuFile',(data)=>{
+				this.crowdInfo.qunZhuUrl = data;
+			})
+			
 			uni.$on('updateInfo',(data)=>{ //数据变化后，重新拿才准确
 				// console.log('监听到事件来自 update ，携带参数 msg 为：' + data.msg);
 				this.getCrowdInfo(option.crowdId)
 				this.getJiangliguizhe(option.crowdId)
 			})
+			
 			uni.getSystemInfo({
 			    success: (e) => {
 			      
@@ -246,7 +291,9 @@
 				}
 			})
 		},
-		
+		onShow() {
+			
+		},
 		methods:{
 			onConfirm(){},
 			cancel(){},
@@ -298,28 +345,13 @@
 				})
 			},
 			getJiangliguizhe(id){ //奖励规则
-				this.$http.httpTokenRequest({
-					url: '/crowd/ruleList',
-					method: 'post'
-				}, {
+				
+				this.$http.httpPostToken('/crowd/ruleList',{
 					crowdId:id
-				}).then(res => {
-					
-					if(res.data.success){
-						// console.log('奖励规则',res.data.data)
-						this.jiangliguizheList = res.data.data
-					}else{
-						uni.showToast({
-							title:res.data.msg,
-							icon:'none'
-						})
-					}
-				},error => {
-					uni.showToast({
-						title:'错误'+error,
-						icon:'none'
-					})
-				}) 
+				},(res) =>{
+					this.jiangliguizheList = res.data
+				},false)
+			
 			},
 			deleteUser(){ //删除成员
 				uni.navigateTo({
@@ -445,57 +477,24 @@
 			},
 			getUserList(id){
 				// console.log('拿用户是',id)
-				this.$http.httpTokenRequest({
-					url: '/crowd/list',
-					method: 'get'
-				}, {
+				this.$http.httpGetToken('/crowd/list',{
 					crowdId:id
-				}).then(res => {
-					this.$store.commit('watchLoading', false)
-					if(res.data.success){
-						// console.log('群成员',res.data.data)
-						this.userList = res.data.data
-					}else{
-						uni.showToast({
-							title:res.data.msg,
-							icon:'none'
-						})
-					}
-				},error => {
-					uni.showToast({
-						title:'错误'+error,
-						icon:'none'
-					})
-				}) 
+				},(res) => {
+					this.userList = res.data
+				},false)
+				
 			},
 			getCrowdInfo(id){
-				
-				this.$http.httpTokenRequest({
-					url: '/crowd/getById',
-					method: 'get'
-				}, {
+				this.crowdId = id
+				this.$http.httpGetToken('/crowd/getById',{
 					crowdId:id
-				}).then(res => {
-					
-					if(res.data.success){
-						// console.log("用户信息", this.userInfo)
-						// console.log('群信息',res.data.data)
-						this.isSet = this.userInfo.id == res.data.data.userId
-						this.crowdId = res.data.data.id
-						this.getUserList(this.crowdId)
-						this.crowdInfo = res.data.data
-					}else{
-						uni.showToast({
-							title:res.data.msg,
-							icon:'none'
-						})
-					}
-				},error => {
-					uni.showToast({
-						title:'错误'+error,
-						icon:'none'
-					})
-				}) 
+				},(res) =>{
+					console.log(res	)
+					this.isSet = this.userInfo.id == res.data.userId
+					this.crowdInfo = res.data
+				},true);
+				
+				this.getUserList(id)
 			}
 		}
 	}
@@ -504,6 +503,14 @@
 <style lang="scss" >
 	page{
 		background-color: #eee;
+	}
+	
+	.defultInput{
+		background-color: #EEEEEE;
+		width: calc(100% - 30px);
+		height: 160upx;
+		padding: 15px;
+		border-radius: 5px;
 	}
 	.custom-view{
 		overflow: hidden;

@@ -1,9 +1,6 @@
 <template>
     <view>
-		
-		<Loading v-if="isLoading"></Loading>
-		
-        <view class="uni-padding-wrap" v-show="!isLoading">
+        <view class="uni-padding-wrap" >
             <view class="page-section swiper">
                 <view class="page-section-spacing">
 					<uni-swiper-dot :info="imgSrc" field="imageInfo" mode="nav" :current="current">
@@ -26,10 +23,8 @@
 
 <script>
 	import uniSwiperDot from "@/components/uni-swiper-dot/uni-swiper-dot.vue"
-	import Loading from "@/components/loading/loading.vue"
-	
 	export default {
-		components: {uniSwiperDot,Loading},
+		components: {uniSwiperDot},
 	    data() {
 	        return {
 				imgOverIndex: 0,
@@ -52,18 +47,10 @@
 	        }
 	    },
 		computed:{
-			isLoading:function () {
-				return this.$store.state.isLoading
-			}
+			
 		},
-		// watch:{
-		// 	"$store.state.isLoading":function(newVal){
-		// 		console.log('监控了',newVal,this)
-		// 		this.imgIsOver = newVal
-		// 	}
-		// },
+		
 		onLoad() {
-			this.$store.commit('watchLoading', true)
 			const { screenWidth, screenHeight } = uni.getSystemInfoSync();
 			this.height = screenHeight
 			this.width = screenWidth
@@ -73,7 +60,6 @@
 				this.imgOverIndex++
 				if(this.imgOverIndex >= 3){
 					setTimeout(()=>{
-						this.$store.commit('watchLoading', false)
 					},200)
 				}
 			},

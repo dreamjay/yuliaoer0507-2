@@ -5,8 +5,7 @@
 			<view><text>上传微信收款码</text></view>
 			<view>
 				<text>微信号：</text>
-				<input type="text" v-if="crowdInfo.wxAccountSh" v-model="crowdInfo.wxAccountSh">
-				<input type="text" v-if="!crowdInfo.wxAccountSh" v-model="wxVal" placeholder="填写微信号">
+				<input type="text" v-model="wxVal" placeholder="填写微信号">
 			</view>
 		</view>
 		<view class="content">
@@ -14,8 +13,7 @@
 			<view><text>上传支付宝收款码</text></view>
 			<view>
 				<text>支付包账号：</text>
-				<input type="text" v-if="crowdInfo.zfbAccount" v-model="crowdInfo.zfbAccount">
-				<input type="text" v-if="!crowdInfo.zfbAccount" v-model="zfbVal" placeholder="填写支付宝账号">
+				<input type="text" v-model="zfbVal" placeholder="填写支付宝账号">
 			</view>
 		</view>
 		<view class="content">
@@ -23,8 +21,7 @@
 			<view><text>上传群主收款码</text></view>
 			<view>
 				<text>群主微信号：</text>
-				<input type="text" v-if="crowdInfo.qunZhuAccount" v-model="crowdInfo.qunZhuAccount">
-				<input type="text" v-if="!crowdInfo.qunZhuAccount" v-model="qzVal" placeholder="填写群主微信号">
+				<input type="text"  v-model="qzVal" placeholder="填写群主微信号">
 			</view>
 		</view>
 	</view>
@@ -47,91 +44,108 @@
 		},
 		onLoad(option) {
 			this.crowdInfo = JSON.parse(option.crowdInfo)
-			this.token = JSON.parse(uni.getStorageSync('userInfo')).token
+			this.wxVal = this.crowdInfo.wxAccountSh?this.crowdInfo.wxAccountSh:'';
+			this.zfbVal = this.crowdInfo.zfbAccount?this.crowdInfo.zfbAccount:'';
+			this.qzVal = this.crowdInfo.qunZhuAccount?this.crowdInfo.qunZhuAccount:'';
+			this.token = uni.getStorageSync('token')
 		},
 		onNavigationBarButtonTap:function() {
 			uni.showModal({
 				title: "提示",
 				content: '是否确定保存',
 				success:  (res)=> {
+					console.log(res)
+					
 					if (res.confirm) {
-						if(this.crowdInfo.wxAccountSh || this.wxVal){
-							this.updateAccount('wxAccountSh',this.crowdInfo.wxAccountSh ? this.crowdInfo.wxAccountSh : this.wxVal)
-						}
-						if(this.crowdInfo.zfbAccount || this.zfbVal){
-							this.updateAccount('zfbAccount',this.crowdInfo.zfbAccount ? this.crowdInfo.zfbAccount : this.zfbVal)
-						}
-						if(this.crowdInfo.qunZhuAccount || this.qzVal){
-							this.updateAccount('qunZhuAccount',this.crowdInfo.qunZhuAccount ? this.crowdInfo.qunZhuAccount : this.qzVal)
-						}
-						
-						
-						if(this.wxImgFiles){
-							this.updataImg(this.wxImgFiles, 'wxFile', '/crowd/uploadWxFile')
-						}
-						if(this.zfbImgFiles){
-							this.updataImg(this.zfbImgFiles, 'zfbFile', '/crowd/uploadZfbFile')
-						}
-						if(this.qzImgFiles){
-							this.updataImg(this.qzImgFiles, 'qunZhuFile', '/crowd/uploadQunzhuWxFile')
-						}
-					} else if (res.cancel) {
-						console.log('用户点击取消');
+						this.updateWxAccount();
+						this.updateQunzhuAccount();
+						this.updateZfbAccount();
 					}
 				}
 			})
 		},
 		methods:{
-			
-			updateAccount(key, val){
-				const obj = {crowdId: this.crowdInfo.id}
-				obj[key] = val
-				this.$http.httpTokenRequest({
-					url: '/crowd/updateCollection',
-					method: 'post'
-				}, obj).then(res => {
-					
-					if(res.data.success){
-						uni.$emit('updateInfo',{msg:'页面更新1'})
-						uni.hideToast()
-						uni.showToast({
-							title:'上传账号成功',
-							icon:'none'
-						})
-						
-					}else{
-						
-						uni.showToast({
-							title:res.data.msg,
-							icon:'none'
-						})
-						
-					}
-				},error => {
+			updateWxAccount(){
+				console.log(this.wxVal)
+				if( this.wxVal.trim() != ''){
+						return;
+				}
+				
+				this.$http.httpPostToken('/crowd/updateCollection',{
+					crowdId: this.crowdInfo.id,
+					wxAccountSh:this.wxVal.trim()
+				},(res)=>{
+					uni.$emit('updateWxAccount',this.wxVal)
+					uni.hideToast()
 					uni.showToast({
-						title:'错误'+error,
+						title:'更新成功',
 						icon:'none'
 					})
-				}) 
+				},false)
+			},
+			updateZfbAccount(){
+				if( this.zfbVal.trim() != ''){
+						return;
+				}
+				this.$http.httpPostToken('/crowd/updateCollection',{
+					crowdId: this.crowdInfo.id,
+					zfbAccount:this.zfbVal.trim()
+					
+				},(res)=>{
+					uni.$emit('updateZfbAccount',this.zfbVal)
+					uni.hideToast()
+					uni.showToast({
+						title:'更新成功',
+						icon:'none'
+					})
+				},false)
+			},
+			updateQunzhuAccount(){
+				if( this.qzVal.trim() != ''){
+						return;
+				}
+				this.$http.httpPostToken('/crowd/updateCollection',{
+					crowdId: this.crowdInfo.id,
+					qunZhuAccount:this.qzVal.trim()
+				},(res)=>{
+					uni.$emit('updateQunzhuAccount',this.qzVal)
+					uni.hideToast()
+					uni.showToast({
+						title:'更新成功',
+						icon:'none'
+					})
+				},false)
 			},
 			openImage(type){ //相册或者拍图片
 				uni.chooseImage({
 					count:1,
 					fail:()=>{
-						
 					},
 					success:(imgRes)=>{
 						//因为有一张图片， 输出下标[0]， 直接输出地址
 						if(type == 'wx'){
 							this.wxImgFiles = imgRes.tempFilePaths[0]
 							this.crowdInfo.wxUrl = this.wxImgFiles
+							uni.showLoading({
+								title:"上传微信收款码"
+							})
+							this.updataImg(this.wxImgFiles, 'wxFile', '/crowd/uploadWxFile')
+							
 						} else if(type == 'zfb'){
 							this.zfbImgFiles = imgRes.tempFilePaths[0]
 							this.crowdInfo.zfbUrl = this.zfbImgFiles
+							
+							uni.showLoading({
+								title:"上传支付宝收款码"
+							})
+							this.updataImg(this.zfbImgFiles, 'zfbFile', '/crowd/uploadZfbFile')
 						} else{
 							this.qzImgFiles = imgRes.tempFilePaths[0]
 							this.crowdInfo.qunZhuUrl = this.qzImgFiles
-							
+							uni.showLoading({
+								title:"上传群主微信"
+							})
+							this.updataImg(this.qzImgFiles, 'qunZhuFile', '/crowd/uploadQunzhuWxFile')
 						}
 					}
 				})
@@ -153,8 +167,12 @@
 					},
 					success(res1) {
 						// 显示上传信息
-						if(JSON.parse(res1.data).success){
-							uni.$emit('updateInfo',{msg:'页面更新1'})
+						var obj = JSON.parse(res1.data);
+						if(obj.success){
+							// uni.$emit('updateInfo',{msg:'页面更新1'})
+							
+							console.
+							uni.$emit(type,obj.data)
 							uni.hideToast()
 							uni.showToast({
 								title: '上传收款码成功',
@@ -166,13 +184,16 @@
 							
 						}else{
 							uni.showToast({
-								title: JSON.parse(res1.data).msg,
+								title: obj.msg,
 								icon:'none'
 							})
 						}
 					},
 					fail(err){
 						
+					},
+					complete:function(){
+						uni.hideLoading();
 					}
 				});
 				// onProgressUpdate 上传对象更新的方法

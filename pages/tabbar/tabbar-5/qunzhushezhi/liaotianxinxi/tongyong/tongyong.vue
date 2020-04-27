@@ -156,6 +156,10 @@
 					obj[key[0]] = this.maxVal
 					obj[key[1]] = this.minVal
 				}
+				
+				this.$http.httpPostToken(url,obj,(res) =>{
+					
+				},false)
 				// console.log(key,obj)
 				this.$http.httpTokenRequest({
 					url: url,

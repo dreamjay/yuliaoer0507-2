@@ -1,8 +1,7 @@
 
 <template>
 	<view>
-		<Loading v-if="isLoading"></Loading>
-		<view v-if="!isLoading">
+		<view>
 			<view class="badgeBox">
 				<uni-badge :text="badge.sf" type="error" class="shangfen" size="small" ></uni-badge>
 				<uni-badge :text="badge.xf" type="error" class="xiafen" size="small" ></uni-badge>
@@ -190,9 +189,8 @@
 <script>
 	import uniSegmentedControl from "@/components/uni-segmented-control/uni-segmented-control.vue"
 	import uniBadge from "@/components/uni-badge/uni-badge.vue"
-	import Loading from '@/components/loading/loading.vue'
 	export default {
-	    components: {uniSegmentedControl,uniBadge,Loading},
+	    components: {uniSegmentedControl,uniBadge},
 	    data() {
 	        return {
 	            items: ['上分申请','下分申请','股东申请'],
@@ -225,17 +223,14 @@
 			this.httpXF()
 			this.httpGD()
 			this.httpBadge()
-			this.$store.commit('watchLoading', true)
 		},
 		computed:{
-			isLoading:function(){
-				return this.$store.state.isLoading
-			}
+		
 		},
 		watch:{
 			initHttpTotal(newV){
 				if(newV <= 0){
-					this.$store.commit('watchLoading', false)
+				
 				}
 			}
 		},

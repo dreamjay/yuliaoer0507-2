@@ -1,7 +1,48 @@
 <template>
 	<view>
 		<Search></Search>
+		<view class="liaotianList"  >
+			<navigator url="" open-type="navigate" hover-class="">
+				<view class="item breakLine" >
+					<uni-swipe-action>
+						<uni-swipe-action-item  @click="onClick" @change="change">
+							<image  src="/static/icon_gftz.png" mode="scaleToFill" ></image>
+							<text class="left">官方通知</text>
+							<text class="right">{{time}}</text>
+						</uni-swipe-action-item>
+					</uni-swipe-action>
+				</view>
+			</navigator>
+		</view>
+		<view class="liaotianList" v-if="isQunzhu">	
+			<navigator url="./qunzhuxiaoxi/qunzhuxiaoxi" open-type="navigate" hover-class="">
+				<view class="item breakLine" >
+					<uni-swipe-action>
+						<uni-swipe-action-item  @click="onClick" @change="change">
+							<image  src="/static/icon_qzxx.png" mode="scaleToFill" ></image>
+							<text class="left">群主消息</text>
+							<text class="right">{{qunzhutime}}</text>
+						</uni-swipe-action-item>
+					</uni-swipe-action>
+				</view>
+			</navigator>
+		</view>
+		<view class="liaotianList" v-if="isQunzhu">	
+			<navigator url="./qunxiaoxi/qunxiaoxi" open-type="navigate" hover-class="">
+				<view class="item breakLine" >
+					<uni-swipe-action>
+						<uni-swipe-action-item  @click="onClick" @change="change">
+							<image  src="/static/icon_qtz.png" mode="scaleToFill" ></image>
+							<text class="left">群消息</text>
+							<text class="right">{{quntime}}</text>
+						</uni-swipe-action-item>
+					</uni-swipe-action>
+				</view>
+			</navigator>
+		</view>
+		
 		<view class="liaotianList" v-for="(item,index) in messageList" :key="index" v-if="item.isShow">
+			
 			<navigator :url="item.url ? item.url : ''" open-type="navigate" hover-class="">
 				<view class="item breakLine" >
 					<uni-swipe-action>
@@ -26,22 +67,27 @@
 		data(){
 		    return {
 				userInfo:null,
+				time:'4:00',
+				qunzhutime:'4:00',
+				quntime:'4:00',
+				isQunzhu:false,
+				messageCount:0,
 				messageList:[
-					{
-						text:"官方通知",
-						type:'SYSTEM',
-						time:"4:00"
-					},
-					{
-						text:"群主消息",
-						time:"4:00",
-						url:'./qunzhuxiaoxi/qunzhuxiaoxi'
-					},
-					{
-						text:"群消息",
-						time:"4:00",
-						url:'./qunxiaoxi/qunxiaoxi'
-					}
+					// {
+					// 	text:"官方通知",
+					// 	type:'SYSTEM',
+					// 	time:"4:00"
+					// },
+					// {
+					// 	text:"群主消息",
+					// 	time:"4:00",
+					// 	url:'./qunzhuxiaoxi/qunzhuxiaoxi'
+					// },
+					// {
+					// 	text:"群消息",
+					// 	time:"4:00",
+					// 	url:'./qunxiaoxi/qunxiaoxi'
+					// }
 				],
 				options:[
 					{
@@ -55,7 +101,7 @@
 		    }
 		},
 		onLoad() {
-			this.userInfo = JSON.parse(uni.getStorageSync('userInfo')).user
+			this.userInfo = uni.getStorageSync('userInfo');
 			this.messageList.forEach((item)=>{
 				if(item.text == '群主消息' || item.text == '群消息'){
 					item.isShow = !!this.userInfo.showCrowd
@@ -64,14 +110,24 @@
 				}
 				
 			})
-			uni.$emit('SYSTEM',(data)=>{
-				this.messageList.push({
-					text:"官方通知",
-					type:'SYSTEM',
-					time:"4:00"
-				})
-				
+			uni.$on('SYSTEM',(data) => {
+				this.userInfo = uni.getStorageSync('userInfo');
+				this.isQunzhu = !!this.userInfo.showCrowd;
+				console.log(data)
+				this.messageCount++;
+				uni.setTabBarBadge({
+					index: 0,
+					text: this.messageCount+''
+				});
 			})
+			
+		},
+		onShow() {
+			this.userInfo = uni.getStorageSync('userInfo');
+			this.isQunzhu = !!this.userInfo.showCrowd;
+			if(this.messageCount <= 0){
+				uni.removeTabBarBadge({index: 0})
+			}
 		},
 		methods:{
 			onClick(e){
@@ -92,13 +148,13 @@
 		// margin-top: 20upx;
 		background-color: #FFFFFF;
 		.item{
-			height: 50px;
+			height: 60px;
 			position: relative;
-			line-height: 50px;
+			line-height: 60px;
 			image{
 				margin-top: 9px;
-				height: 32px;
-				width: 32px;
+				height: 40px;
+				width: 40px;
 				margin-left: 15upx;
 			}
 			.left{

@@ -18,15 +18,9 @@ export default {
 		
 		uni.$on("logout",this.logout)
 		
-		setTimeout(() => {
-			uni.setTabBarBadge({
-				index: 1,
-				text: '99+'
-			});
-			uni.showTabBarRedDot({
-				index: 3
-			});
-		}, 1000);
+	// uni.showTabBarRedDot({
+	// 	index: 3
+	// });
 		
 		// setInterval(()=>{
 		// 	let arr = [
@@ -109,14 +103,27 @@ export default {
 					
 			socketTask.onMessage(function (res) {
 				console.log('收到服务器内容：' + res.data);
+				
 				if(!res.data){
 					return
 				}
-				switch(JSON.parse(res.data).messageType){
-					case 'CROWD':{
-						uni.$emit('CROWD',JSON.parse(res.data))
-						break
+				var obj = JSON.parse(res.data);
+				if(obj.messageType == 'CROWD'){
+					console.log("群消息来了")
+					uni.$emit('CROWD',obj)
+				}
+				if(obj.messageType == 'SYSTEM'){
+					console.log("系统消息来了")
+					if(obj.body.eventType == 'JIAN_QUN_SUCCES'){
+						var userInfo = uni.getStorageSync("userInfo");
+						userInfo.showCrowd = 1;
+						uni.setStorageSync("userInfo",userInfo);
 					}
+					uni.$emit('SYSTEM',obj)
+				}
+				if(obj.messageType == 'ALONE'){
+					console.log("个人消息来了")
+					uni.$emit('ALONE',obj)
 				}
 			  
 			})

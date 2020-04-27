@@ -1,22 +1,12 @@
 <template>
 	<view class="content">
 		<button @click="open()">开始</button>
-		<loading 
-			ref="loading"
-			:custom="false"
-			:shadeClick="true"
-			:type="1"
-			@callback="callback()">
-			<!-- <view class="test">自定义</view> -->
-		</loading>
 	</view>
 </template>
 
 <script>
-	import loading from '../../components/xuan-loading/xuan-loading.vue'
 	export default {
 		components:{
-			loading
 		},
 		data() {
 			return {
@@ -30,10 +20,8 @@
 		},
 		methods: {
 			close:function(){
-				this.$refs.loading.close();
 			},
 			open:function(){
-				this.$refs.loading.open();
 			},
 			callback(){
 				console.log("关闭后回掉");

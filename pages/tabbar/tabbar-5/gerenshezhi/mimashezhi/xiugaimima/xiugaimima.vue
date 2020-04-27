@@ -1,6 +1,5 @@
 <template>
 	<view>
-		<Loading v-show="isLoading"></Loading>
 		<view>
 			<view style="margin-top: 50upx; ">
 				<form @submit="formSubmit" @reset="formReset">
@@ -42,9 +41,7 @@
 
 <script>
 	
-	import Loading from '@/components/loading/loading.vue'
     export default {
-		components:{Loading},
         data() {
             return {
 				type:'',
@@ -52,12 +49,9 @@
             }
         },
 		computed:{
-			isLoading:function(){
-				return this.$store.state.isLoading
-			}
+		
 		},
 		onLoad(option) {
-			this.$store.state.isLoading = false;
 		},
         methods: {
             formSubmit: function(e) {

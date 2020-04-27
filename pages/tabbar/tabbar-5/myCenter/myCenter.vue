@@ -1,7 +1,6 @@
 <template>
 	<view>
 		<!-- 一般用法 -->
-		<Loading v-show="isLoading"></Loading>
 		<uni-list >
 		    <uni-list-item title="头像" >
 		        <template v-slot:right="">
@@ -27,10 +26,9 @@
 <script>
 	import uniList from "@/components/uni-list/uni-list.vue"
 	import uniListItem from "@/components/uni-list-item/uni-list-item.vue"
-	import Loading from '@/components/loading/loading.vue'
 	import avatar from "@/components/yq-avatar/yq-avatar.vue";
 	export default {
-		components: {uniList,uniListItem,Loading,avatar},
+		components: {uniList,uniListItem,avatar},
 		data() {
 			return {
 				tuijianma:'',
@@ -54,7 +52,6 @@
 			if(this.userInfo.headUrl){
 				this.touxiang = this.userInfo.headUrl;
 			}
-			this.$store.state.isLoading = false;
 			this.token = uni.getStorageSync('token');
 		},
 		onNavigationBarButtonTap:function() {
@@ -62,9 +59,7 @@
 			
 		},
 		computed:{
-			isLoading:function(){
-				return this.$store.state.isLoading
-			}
+		
 		},
 		methods: {
 			confirm(){
@@ -124,7 +119,9 @@
 			doUpload(rsp) {
 				let then = this
 				this.touxiang = rsp.path;
-				this.$store.commit('watchLoading',true)
+				uni.showLoading({
+					title:"正在上传头像..."
+				})
 				uni.uploadFile({
 					url: this.$http.baseUrl+'/user/fileUpload', //仅为示例，非真实的接口地址
 					filePath: rsp.path,
@@ -158,8 +155,7 @@
 					
 					},
 					complete(res) {
-						
-						then.$store.commit('watchLoading',false)
+						uni.hideLoading();
 					}
 				});
 			}

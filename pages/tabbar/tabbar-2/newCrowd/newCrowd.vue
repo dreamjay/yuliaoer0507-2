@@ -1,15 +1,14 @@
 <template>
 	<view class="myList">
-		<Loading v-show="isLoading"></Loading>
 		<ul>
 			<li class="SelectList">
 				<text>群名称</text>
 				<input class="right" type="text" placeholder-class="input-placeholder" placeholder="请填写您的俱乐部名称" v-model="name">
 			</li>
-			<li class="SelectListMax">
+			<li class="SelectListMax1">
 				<text>群公告</text>
 				<view class="bottom">
-					<input type="text" placeholder="请填写群公告"  placeholder-class="input-placeholder" v-model="notice">
+					<textarea :maxlength="80"  placeholder-class="input-placeholder" placeholder="最多输入80字" v-model="notice"/>
 				</view>
 			</li>
 			<li class="SelectListMax1">
@@ -61,9 +60,7 @@
 
 <script>
 	
-	import Loading from '@/components/loading/loading.vue'
 	export default{
-		components: {Loading},
 		data(){
 			return{
 				inNotice:'', //进群须知
@@ -99,12 +96,9 @@
 				this.oddsThree = data.oddsThree;
 				this.oddsTwo = data.oddsTwo;
 			})
-			this.$store.state.isLoading = false
 		},
 		computed:{
-			isLoading:function(){
-				return this.$store.state.isLoading
-			}
+		
 		},
 		methods:{
 			copy(str){

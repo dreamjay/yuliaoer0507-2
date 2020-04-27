@@ -1,7 +1,6 @@
 <template>
 	<view>
-		<Loading v-if="isLoading && !pageOnHide"></Loading>
-		<view  v-show="!isLoading">
+		<view >
 			<view class="title">我的群聊</view>
 			<ul class="ulBox">
 				
@@ -23,53 +22,28 @@
 </template>
 
 <script>
-	import Loading from '@/components/loading/loading.vue'
 	export default{
-		components:{Loading},
 		data(){
 			return{
 				pageOnHide: false,
 				userInfo:null,
 				xuanran:[],
-				crowds:[
-					// {
-					// 	url: '/static/img/qa.png',
-					// 	text: '546546556'
-					// },
-					// {
-					// 	url: '/static/img/qa.png',
-					// 	text: '546546556'
-					// },
-					// {
-					// 	url: '/static/img/qa.png',
-					// 	text: '546546556'
-					// },
-				]
+				crowds:[]
 			}
 		},
-		onPullDownRefresh() { //下拉
-			// console.log('refresh');
-			this.getCrowd(true)
-			
-		},
+		
 		onHide(){
-			// console.log('页面隐藏')
+	
 			this.pageOnHide = true
 		},
 		onLoad() {
 			this.getCrowd()
-			uni.$on('updateInfo',(data)=>{ //拿数据才准确
-				// console.log('监听到事件来自 update ，携带参数 msg 为：' + data.msg);
-				
-				this.getCrowd()
-			})
-			this.$store.commit('watchLoading', true)
-			this.userInfo = JSON.parse(uni.getStorageSync('userInfo')).user
+		},
+		onShow() {
+			
 		},
 		computed:{
-			isLoading:function(){
-				return this.$store.state.isLoading
-			}
+	
 		},
 		methods:{
 			headimgClass(number){
@@ -85,90 +59,32 @@
 					case 9:{return 'jiu';break}
 				}
 			},
-			getCrowd(isShowToast){
-				this.$http.httpTokenRequest({
-					url: '/crowd/listByUserId',
-					method: 'get'
-				}, {}).then(res => {
-					if(isShowToast){
-						uni.stopPullDownRefresh();
+			getCrowd(){
+				this.$http.httpGetToken('/crowd/listByQunzhu', {},(res) => {
+					this.crowds = res.data;
+					this.xuanran = [...this.crowds];
+					if(!this.crowds.length){
 						uni.showToast({
-							title:'加载完成',
+							title:'没有更多数据',
 							icon:'none'
 						})
+						return;
 					}
-					
-					if(res.data.success){
-						console.log('群信息0',res.data.data)
-						
-						this.crowds = res.data.data.filter((item)=>(item.userId == this.userInfo.id)) //id一样他就是群主
-						let count = 0
-						this.crowds.forEach((item)=>{
-							this.getImage(item.crowdId).then((d)=>{
-								count++
-								if(count == this.crowds.length){
-									this.$store.commit('watchLoading', false)
-								}
-								this.crowds.find((itemm)=>(itemm.crowdId == d.crowdId)).imgs = d.data
-								this.xuanran = [...this.crowds]
-								// console.log('看看渲染',this.xuanran,this.crowds)
-							}).catch((d)=>{
-								count++
-								if(count == this.crowds.length){
-									this.$store.commit('watchLoading', false)
-								}
-								this.crowds.find((itemm)=>(itemm.crowdId == d.crowdId)).imgs = []
-							})
-							
-						})
-						
-					}else{
-						console.log(res.data.msg)
-					}
-				},error => {
-					uni.showToast({
-						title:'错误'+error,
-						icon:'none'
+					this.crowds.forEach((item,index)=>{
+						this.getImage(item.crowdId,index);
 					})
-				}) 
+				},true)
+		
 			},
-			getImage(crowdId){
-				// console.log('拿图片crowdId',crowdId)
-				
-				return new Promise((resolve, reject)=>{
-					this.$http.httpTokenRequest({
-						url: '/crowd/listUserHeadByCrowdId',
-						method: 'get'
-					}, {
-						crowdId:crowdId
-					}).then(res => {
-						if(res.data.success){
-							console.log('头像',res.data.data)
-							// res.data.data = [
-							// 	'http://img4.imgtn.bdimg.com/it/u=662024917,967301403&fm=26&gp=0.jpg',
-							// 	'https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2151447830,1807870251&fm=11&gp=0.jpg',
-							// 	'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3208586113,2688222785&fm=26&gp=0.jpg',
-							// 	'https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=1013062358,2295738855&fm=26&gp=0.jpg',
-							// 	'http://img4.imgtn.bdimg.com/it/u=662024917,967301403&fm=26&gp=0.jpg',
-							// 	'https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2151447830,1807870251&fm=11&gp=0.jpg',
-							// 	'https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=1013062358,2295738855&fm=26&gp=0.jpg',
-							// 	'http://img4.imgtn.bdimg.com/it/u=662024917,967301403&fm=26&gp=0.jpg',
-							// 	'http://img4.imgtn.bdimg.com/it/u=662024917,967301403&fm=26&gp=0.jpg',
-							// ]
-							
-							resolve({data:res.data.data,crowdId:crowdId})
-							
-						}else{
-							reject({data:res.data.data,crowdId:crowdId})
-							console.log(res.data.msg)
-						}
-					},error => {
-						uni.showToast({
-							title:'拿群图片错误'+error,
-							icon:'none'
-						})
-					})
-				})
+			getImage(crowdId,index){
+				this.$http.httpGetToken('/crowd/listUserHeadByCrowdId',{
+					crowdId:crowdId
+				},(res) => {
+					console.log(res.data.length)
+					this.$forceUpdate();
+					this.xuanran[index].imgs = res.data;
+					
+				},false)
 			}
 		}
 	}

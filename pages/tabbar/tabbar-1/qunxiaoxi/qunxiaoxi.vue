@@ -1,8 +1,7 @@
 
 <template>
 	<view>
-		<Loading v-if="isLoading"></Loading>
-		<view v-if="!isLoading">
+		<view>
 			<view class="content">
 				<scroll-view
 					:scroll-y="isScroll" 
@@ -50,9 +49,7 @@
 
 
 <script>
-	import Loading from '@/components/loading/loading.vue'
 	export default {
-	    components: {Loading},
 	    data() {
 	        return {
 	            
@@ -71,17 +68,12 @@
 	    },
 		onLoad() {
 			this.httpSQ()
-			this.$store.commit('watchLoading', true)
 		},
 		computed:{
-			isLoading:function(){
-				return this.$store.state.isLoading
-			}
 		},
 		watch:{
 			initHttpTotal(newV){
 				if(newV <= 0){
-					this.$store.commit('watchLoading', false)
 				}
 			}
 		},

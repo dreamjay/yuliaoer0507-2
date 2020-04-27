@@ -1,6 +1,5 @@
 <template>
 	<view>
-		<Loading v-show="isLoading"></Loading>
 		<ul class="ulBox">
 			<li v-for="(item,index) in xuanran" :key="index" @click='popupOpen(item)'>
 				<view class="imageBox" :class="headimgClass(item.imgs? item.imgs.length : null)">
@@ -30,9 +29,8 @@
 <script>
 	
 	import chunLeiModal from '@/components/chunLei-modal/chunLei-modal.vue'
-	import Loading from '@/components/loading/loading.vue'
 	export default{
-		components: {chunLeiModal,Loading},
+		components: {chunLeiModal},
 		data(){
 			return{
 				data:{},
@@ -48,9 +46,7 @@
 			}
 		},
 		computed:{
-			isLoading:function(){
-				return this.$store.state.isLoading
-			}
+		
 		},
 		onNavigationBarSearchInputChanged(obj){ //值变化
 			// console.log(obj.txt)
@@ -101,7 +97,6 @@
 			
 		},
 		onShow() {
-			this.$store.state.isLoading = false;
 		},
 		methods:{
 			headimgClass(number){

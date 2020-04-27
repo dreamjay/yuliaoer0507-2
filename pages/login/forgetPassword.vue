@@ -1,6 +1,5 @@
 <template>
 	<view style="background-color: #fff; position: absolute; width: 100%;">
-		<Loading v-show="isLoading"></Loading>
 		<view style="margin-left: 50upx; width: 650upx;">
 			<view class="uni-form-item uni-column" >
 				<text class="title" style="display: inline-block;">手机号：</text>
@@ -38,9 +37,7 @@
 </template>
 
 <script>
-	import Loading from '@/components/loading/loading.vue'
 	export default{
-		components:{Loading},
 		data(){
 			return{
 				yanzhengma:"",
@@ -55,14 +52,10 @@
 			}
 		},
 		computed:{
-			isLoading:function(){
-				return this.$store.state.isLoading
-			}
 		},
 		onLoad(){
 			this.uuid = this.uuidFn()
 			this.yanzhengma = this.$http.baseUrl+"/yzm/getByImgCode?rnd="+Math.random()+"&uid="+this.uuid+""
-			this.$store.state.isLoading = false;
 		},
 		methods:{
 			yanzhengmaClick(){
