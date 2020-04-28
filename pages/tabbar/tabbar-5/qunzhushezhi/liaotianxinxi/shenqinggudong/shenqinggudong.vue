@@ -76,35 +76,20 @@
 					this.toastFun('电话号')
 					return
 				} else{
-					this.$http.httpTokenRequest({
-						url: '/shareholder-apply/apply',
-						method: 'post'
-					}, {
+					this.$http.httpPostToken('/shareholder-apply/apply',{
 						crowdId:this.crowdId,
 						bili:this.jindutiao/100,
 						phone:this.tel,
 						wxAccount:this.wx,
 						mark:this.beizhu
-					}).then(res => {
-						if(res.data.success){
-							uni.showToast({
-								title:'群主审核中.'
-							})
-							setTimeout(()=>{
-								uni.navigateBack({})
-							},1500)
-						}else{
-							uni.showToast({
-								title:res.data.msg,
-								icon:'none'
-							})
-						}
-					},error => {
+					},(res)=>{
 						uni.showToast({
-							title:'错误'+error,
-							icon:'none'
+							title:'群主审核中.'
 						})
-					})
+						setTimeout(()=>{
+							uni.navigateBack({})
+						},1500)
+					},true)
 				}
 				
 			},

@@ -23,7 +23,7 @@
 				<ul>
 					<li class="SelectList listBorderTop">
 						<navigator :url="'./update/name?crowdId='+(crowdInfo && crowdInfo.id)+'&val='+(crowdInfo &&crowdInfo.name)" :open-type="isSet?'navigate':null" hover-class="">
-							<text>群聊名称</text><text>{{ crowdInfo && crowdInfo.name }}</text><image :src="isSet ? '/static/img/wo/youjiantou.png' : '/static/img/wo/youjiantouHuise.png'" ></image>
+							<text>群聊名称</text><text>{{ crowdInfo && crowdInfo.name }}</text><image v-if="isSet" src="/static/img/wo/youjiantou.png" ></image>
 						</navigator>
 					</li>
 					<li class="SelectList">
@@ -36,7 +36,7 @@
 							<text>申请股东</text><image src="/static/img/wo/youjiantou.png"></image>
 						</navigator>
 					</li>
-					<li class="SelectList" v-if="!isSet">
+					<li class="SelectList">
 						<navigator :url="'./wodexiaji/wodexiaji?crowdId='+(crowdInfo && crowdInfo.id)+''"  open-type="navigate" hover-class="">
 							<text>我的下级</text><image src="/static/img/wo/youjiantou.png"></image>
 						</navigator>
@@ -44,7 +44,7 @@
 					
 					<li class="SelectListMax"  v-if="isSet">
 						<navigator :url="'./update/notice?crowdId='+(crowdInfo && crowdInfo.id)+'&val='+(crowdInfo && crowdInfo.notice)+''" :open-type="isSet?'navigate':null" hover-class="">
-							<text>群公告</text><image :src="isSet ? '/static/img/wo/youjiantou.png' : '/static/img/wo/youjiantouHuise.png'" ></image>
+							<text>群公告</text><image   src="/static/img/wo/youjiantou.png" ></image>
 							<view class="bottom">
 								<text>{{crowdInfo && crowdInfo.notice}}</text>
 							</view>
@@ -53,7 +53,7 @@
 					
 					<li class="SelectListMax" style="height: 180px;" v-if="!isSet">
 						<navigator :url="'./update/notice?crowdId='+(crowdInfo && crowdInfo.id)+'&val='+(crowdInfo && crowdInfo.notice)+''" :open-type="isSet?'navigate':null" hover-class="">
-							<text>群公告</text><image :src="isSet ? '/static/img/wo/youjiantou.png' : '/static/img/wo/youjiantouHuise.png'" ></image>
+							<text>群公告</text>
 							<view class="bottom">
 								<textarea class="defultInput" disabled="true" :value="(crowdInfo? crowdInfo.notice:'')"></textarea>
 							</view>
@@ -63,7 +63,7 @@
 					
 					<li class="SelectListMax listBorderTop"  v-if="isSet">
 						<navigator :url="'./update/inNotice?crowdId='+(crowdInfo && crowdInfo.id)+'&val='+(crowdInfo && crowdInfo.inNotice)+''" :open-type="isSet?'navigate':null" hover-class="">
-							<text>群须知</text><image :src="isSet ? '/static/img/wo/youjiantou.png' : '/static/img/wo/youjiantouHuise.png'" ></image>
+							<text>群须知</text><image src="/static/img/wo/youjiantouHuise.png" ></image>
 							<view class="bottom">
 								<text>{{crowdInfo && crowdInfo.inNotice}}</text>
 							</view>
@@ -72,7 +72,7 @@
 					
 					<li class="SelectListMax listBorderTop" style="height: 180px;"  v-if="!isSet">
 						<navigator :url="'./update/inNotice?crowdId='+(crowdInfo && crowdInfo.id)+'&val='+(crowdInfo && crowdInfo.inNotice)+''" :open-type="isSet?'navigate':null" hover-class="">
-							<text>群须知</text><image :src="isSet ? '/static/img/wo/youjiantou.png' : '/static/img/wo/youjiantouHuise.png'" ></image>
+							<text>群须知</text>
 							<view class="bottom">
 								<textarea class="defultInput" disabled="true" :value="(crowdInfo ? crowdInfo.inNotice:'')"></textarea>
 							</view>
@@ -187,7 +187,7 @@
 					</li>
 					<li class="SelectList nullBottom">
 						<navigator :url="'./tiaozhengguizhe/tiaozhengguizhe?guizheList='+JSON.stringify(jiangliguizheList)+''" :open-type="isSet ? 'navigate':null" hover-class="">
-							<text>奖励规则</text><text>调整规则</text><image :src="isSet ? '/static/img/wo/youjiantou.png' : '/static/img/wo/youjiantouHuise.png'" ></image>
+							<text>奖励规则</text><text v-if="isSet">调整规则</text><image v-if="isSet" src="/static/img/wo/youjiantou.png" ></image>
 						</navigator>
 					</li>
 					<li class="guizhi" v-for="(item,index) in jiangliguizheList" :key="index">
