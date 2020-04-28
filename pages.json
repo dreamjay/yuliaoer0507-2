@@ -8,8 +8,7 @@
 				"navigationStyle":"custom",
 				"app-plus":{
 					
-					"titleNView":false,
-					"bounce":"vertical"
+					"titleNView":false
 				}
 				
 			}

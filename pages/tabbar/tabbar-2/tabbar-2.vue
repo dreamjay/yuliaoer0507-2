@@ -107,15 +107,15 @@
 	.qunliaoBox{
 		background-color: #FFFFFF;
 		.qunliao{
-			height: 50px;
+			height: 60px;
 			padding: 0 15px;
-			line-height: 50px;
+			line-height: 60px;
 			image{
 				// position: absolute;
 				// z-index: 2;
 				vertical-align: middle;
-				height: 32px;
-				width: 32px;
+				height: 40px;
+				width: 40px;
 			}
 			
 			text{
