@@ -80,41 +80,62 @@
 		</view>
 		
 		<view v-if="rests" class="rests">
-			<view class="pageItem">
-				<navigator :url="'/pages/tabbar/tabbar-2/qunliao/fahongbao/fahongbao?crowdInfo='+JSON.stringify(crowdInfo)+''" open-type="navigate" hover-class="">
-					<image src="/static/liaotian/icon_hb.png"></image>
-					<text>红包</text>
-				</navigator>
+				<view class="pageItem">
+					<navigator :url="'/pages/tabbar/tabbar-2/qunliao/fahongbao/fahongbao?crowdInfo='+JSON.stringify(crowdInfo)+''" open-type="navigate" hover-class="">
+						<view class="c-item">
+							<image src="/static/liaotian/icon_hb.png"></image>
+							<text>红包</text>
+						</view>
+					</navigator>
+				</view>
+				<view class="pageItem">
+					<navigator url="/pages/tabbar/tabbar-2/qunliao/zhangdanmingxi/zhangdanmingxi" open-type="navigate" hover-class="">
+						<view class="c-item">
+						<image src="/static/liaotian/icon_zd.png"></image>
+						<text>账单</text>
+						</view>
+					</navigator>
+				</view>
+				<view class="pageItem">
+					<navigator url="/pages/tabbar/tabbar-2/qunliao/chongzhi/chongzhi" open-type="navigate" hover-class="">
+						<view class="c-item">
+						<image src="/static/liaotian/icon_top_up.png"></image>
+						<text>充值</text>
+						</view>
+					</navigator>
+				</view>
+				<view class="pageItem">
+					<navigator url="/pages/tabbar/tabbar-2/qunliao/shoukuanzhanghu/shoukuanzhanghu" open-type="navigate" hover-class="">
+						<view class="c-item">
+						<image src="/static/liaotian/icon_sk_account.png"></image>
+						<text>收款账户</text>
+						</view>
+					</navigator>
+				</view>
 			</view>
-			<view class="pageItem">
-				<navigator url="/pages/tabbar/tabbar-2/qunliao/zhangdanmingxi/zhangdanmingxi" open-type="navigate" hover-class="">
-					<image src="/static/liaotian/icon_zd.png"></image>
-					<text>账单</text>
-				</navigator>
+			
+			<view v-if="rests" class="rests">
+				<view class="pageItem">
+					<view class="c-item">
+					<image src="/static/liaotian/icon_wfsm.png"></image>
+					<text>玩法说明</text>
+					</view>
+				</view>
+				<view class="pageItem">
+					<navigator url="/pages/tabbar/tabbar-2/qunliao/lianxiqunzhu/lianxiqunzhu" open-type="navigate" hover-class="">
+						<view class="c-item">
+						<image src="/static/liaotian/icon_lxqz.png"></image>
+						<text>联系群主</text>
+						</view>
+					</navigator>
+				</view>
+				<view class="pageItem">
+					
+				</view>
+				<view class="pageItem">
+					
+				</view>
 			</view>
-			<view class="pageItem">
-				<navigator url="/pages/tabbar/tabbar-2/qunliao/chongzhi/chongzhi" open-type="navigate" hover-class="">
-					<image src="/static/liaotian/icon_top_up.png"></image>
-					<text>充值</text>
-				</navigator>
-			</view>
-			<view class="pageItem">
-				<navigator url="/pages/tabbar/tabbar-2/qunliao/shoukuanzhanghu/shoukuanzhanghu" open-type="navigate" hover-class="">
-					<image src="/static/liaotian/icon_sk_account.png"></image>
-					<text>收款账户</text>
-				</navigator>
-			</view>
-			<view class="pageItem">
-				<image src="/static/liaotian/icon_wfsm.png"></image>
-				<text>玩法说明</text>
-			</view>
-			<view class="pageItem">
-				<navigator url="/pages/tabbar/tabbar-2/qunliao/lianxiqunzhu/lianxiqunzhu" open-type="navigate" hover-class="">
-					<image src="/static/liaotian/icon_lxqz.png"></image>
-					<text>联系群主</text>
-				</navigator>
-			</view>
-		</view>
 	</view>
 </template>
 
@@ -246,15 +267,18 @@
 
 <style lang="scss" scoped>
 	.rests{
-		padding: 0upx 100upx 30upx 0upx;
-		
+		padding: 0upx 0upx 30upx 0upx;
+		display: flex;
+		flex-direction: row;
+		justify-content: space-around;
 		.pageItem{
-			float: left;
 			width: 100upx;
 			height:140upx;
 			text-align: center;
-			margin-right: 30upx;
-			margin-bottom: 15upx;
+			.c-item{
+				display: flex;
+				flex-direction: column;
+			}
 			image{
 				position: relative;
 				width: 100upx;

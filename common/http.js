@@ -5,13 +5,34 @@ const baseUrlMeg = 'http://zc.vip3gz.idcfengye.com'
 var count = 0
 
 const error = (res) => {
-	console.log(res);
+	if(res.data){
+		if( res.data.code === 'USER_NO_ACCOUNT'){
+			uni.showToast({
+				title:"请设置收款账户",
+				icon:"none"
+			})
+			uni.hideKeyboard();
+			setTimeout(function(){
+				uni.navigateTo({
+					url:'/pages/tabbar/tabbar-2/qunliao/shoukuanzhanghu/shoukuanzhanghu'
+				})
+			},1500)
+			
+		}
+		
+		uni.showToast({
+			title:res.msg,
+			icon:"none"
+		})
+	}else{
+		
+		uni.showToast({
+			title:res.msg,
+			icon:"none"
+		})
+	}
 	
-	
-	uni.showToast({
-		title:res.msg,
-		icon:"none"
-	})
+
 }
 
 
@@ -35,10 +56,18 @@ const httpPost = (url, data, success,isLoading ) => {
 		sslVerify: false,
 		success: function(res){
 			if(res.data.success){
+				if(isLoading){
+					uni.showToast({
+						title:"提交成功",
+						icon:"none"
+					})
+				}
 				success(res.data)
 			}else{
+				
 				error(res.data);
 			}
+			
 		},
 		fail: function(err) {
 			uni.showToast({
@@ -47,9 +76,7 @@ const httpPost = (url, data, success,isLoading ) => {
 			})
 		},
 		complete: function() {
-			if(isLoading){
-				uni.hideLoading();
-			}
+			
 		}
 	});
 	
@@ -78,8 +105,15 @@ const httpPostToken = (url, data, success ,isLoading) => {
 		sslVerify: false,
 		success: function(res){
 			if(res.data.success){
+				if(isLoading){
+					uni.showToast({
+						title:"提交成功",
+						icon:"none"
+					})
+				}
 				success(res.data)
 			}else{
+				
 				error(res.data);
 			}
 		},
@@ -90,9 +124,7 @@ const httpPostToken = (url, data, success ,isLoading) => {
 			})
 		},
 		complete: function() {
-			if(isLoading){
-				uni.hideLoading();
-			}
+			
 		}
 	});
 	
@@ -123,10 +155,17 @@ const httpPostTokenPush = (url, data, success ,isLoading) => {
 		sslVerify: false,
 		success: function(res){
 			if(res.data.success){
+				if(isLoading){
+					uni.showToast({
+						title:"提交成功",
+						icon:"none"
+					})
+				}
 				success(res.data)
 			}else{
 				error(res.data);
 			}
+			
 		},
 		fail: function(err) {
 			uni.showToast({
@@ -135,9 +174,7 @@ const httpPostTokenPush = (url, data, success ,isLoading) => {
 			})
 		},
 		complete: function() {
-			if(isLoading){
-				uni.hideLoading();
-			}
+			
 		}
 	});
 	

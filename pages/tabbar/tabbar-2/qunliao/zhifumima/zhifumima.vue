@@ -39,46 +39,25 @@
 						icon:'none'
 					})
 					return
-				} else if(this.mima1 !=this.mima2){
+				} 
+				if(this.mima1 !=this.mima2){
 					uni.showToast({
 						title:"两次密码不一致",
 						icon:'none'
 					})
 					return
-				} else{
-					this.$http.httpTokenRequest({
-						url: '/user/setPayPassword',
-						method: 'post'
-					}, {
-						payPassword:this.mima1
-					}).then(res => {
-						
-						if(res.data.success){
-							uni.$emit('updateUserInfo',{msg:'页面更新1'})
-							
-							uni.showToast({
-								title:'设置成功'
-							})
-							setTimeout(()=>{
-								uni.hideToast()
-								uni.navigateBack()
-							},1500)
-							
-						}else{
-							
-							uni.showToast({
-								title:res.data.msg,
-								icon:'none'
-							})
-							
-						}
-						},error => {
-							uni.showToast({
-								title:'错误'+error,
-								icon:'none'
-							})
-						}) 
-					}
+				} 
+				
+				this.$http.httpPostToken('/user/setPayPassword',{
+					payPassword:this.mima1
+				},(res)=>{
+					setTimeout(()=>{
+						uni.hideToast()
+						uni.navigateBack()
+					},1500)
+				},true)
+					
+					
 				}
 			}
 		}

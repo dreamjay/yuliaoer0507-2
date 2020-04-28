@@ -149,6 +149,9 @@
 				}
 			})
 			this.crowdInfo = JSON.parse(option.crowdInfo)
+			
+			this.getCrowdInfo(this.crowdInfo.crowdId);
+			
 			this.userInfo =  uni.getStorageSync('userInfo')
 			uni.setNavigationBarTitle({
 				title:JSON.parse(option.crowdInfo).name+'(456)'
@@ -369,59 +372,28 @@
 				}) 
 			},
 			xiafen(val){ //下分
-				this.$http.httpTokenRequest({
-					url: '/push/withdraw',
-					method: 'post'
-				}, {
+				this.$http.httpPostTokenPush('/push/withdraw',{
 					crowdId:this.crowdInfo.crowdId,
-					amount:val,
-					msg:true,
-				}).then(res => {
-					if(res.data.success){
-						console.log("下分成功")
-					}else{
-						uni.showToast({
-						    title: res.data.msg,
-							icon:'none'
-						})
-					}
-				},error => {
-					uni.showToast({
-						title:'错误'+error,
-						icon:'none'
-					})
-				}) 
+					amount:val
+				},(res)=>{
+					
+				},false);
 			},
 			shangfen(val){ //上分
-				this.$http.httpTokenRequest({
-					url: '/push/recharge',
-					method: 'post'
-				}, {
+				this.$http.httpPostTokenPush('/push/recharge',{
 					crowdId:this.crowdInfo.crowdId,
-					amount:val,
-					msg:true,
-				}).then(res => {
-					if(res.data.success){
-						console.log("上分成功")
-					}else{
-						uni.showToast({
-						    title: res.data.msg,
-							icon:'none'
-						})
-					}
-				},error => {
-					uni.showToast({
-						title:'错误'+error,
-						icon:'none'
-					})
-				}) 
+					amount:val
+				},(res)=>{
+					
+				},false);
 			},
 			toRobot: function (info) { //发消息
 				if(info.indexOf('上分') != -1){
-					if(info.length > 2 && (String(Number(info.slice(info.indexOf('上分') + 2,info.length))) != "NaN") && typeof Number(info.slice(info.indexOf('上分') + 2,info.length)) == 'number'){
-						this.shangfen(Number(info.slice(info.indexOf('上分') + 2,info.length)))
+					var num = info.replace(/[^0-9]/ig,"");
+					if(num && num.length>0 && Number(num) > 0){
+						this.shangfen(Number(num));
+						return;
 					}else{
-						// console.log("上分", Number(info.slice(info.indexOf('上分') + 2,info.length)))
 						uni.showModal({
 							title:"提示",
 							content:"正确上分格式是：上分+金额\n\n例：上分1000",
@@ -431,13 +403,14 @@
 					}
 				}
 				if(info.indexOf('下分') != -1){
-					if(info.length > 2 && (String(Number(info.slice(info.indexOf('下分') + 2,info.length))) != "NaN") && typeof Number(info.slice(info.indexOf('下分') + 2,info.length)) == 'number'){
-						this.xiafen(Number(info.slice(info.indexOf('下分') + 2,info.length)))
+					var num = info.replace(/[^0-9]/ig,"");
+					if(num && num.length>0 && Number(num) > 0){
+						this.xiafen(Number(num));
+						return;
 					}else{
-						// console.log("上分", Number(info.slice(info.indexOf('上分') + 2,info.length)))
 						uni.showModal({
 							title:"提示",
-							content:"正确下分格式是：下分+金额\n\n例：下分1000",
+							content:"正确上分格式是：上分+金额\n\n例：上分1000",
 							showCancel:false,
 							confirmText:"我知道了"
 						})
@@ -445,46 +418,27 @@
 				}
 				if(info.indexOf("查") != -1 && info.length == 1){
 					this.cha()
+					return;
 				}
 				
-				
-				this.$http.httpTokenRequest({
-					url: '/push/sendToCrowd',
-					method: 'post'
-				}, {
+				this.$http.httpPostTokenPush('/push/sendToCrowd',{
 					crowdId:this.crowdInfo.crowdId,
-					message:info,
-					msg:true,
-				}).then(res => {
-					
-					if(res.data.success){
-						this.messages.push({
-							user: 'customer',
-							content: info,
-							hasSub: false,
-							subcontent: false,
-							userId: this.userInfo.id,
-							nickName:this.userInfo.nickName,
-							headUrl:this.userInfo.headUrl,
-							sendTime:new Date().getTime(),
-							type: 'head', //input,content 
-							isSucceed:true,
-						});
-						this.scrollToBottom1()
-						console.log("成功")
-					}else{
-						uni.showToast({
-						    title: res.data.msg,
-							icon:'none'
-						})
-					}
-				},error => {
-					
-					uni.showToast({
-						title:'错误'+error,
-						icon:'none'
-					})
-				}) 
+					message:info
+				},(res)=>{
+					this.messages.push({
+						user: 'customer',
+						content: info,
+						hasSub: false,
+						subcontent: false,
+						userId: this.userInfo.id,
+						nickName:this.userInfo.nickName,
+						headUrl:this.userInfo.headUrl,
+						sendTime:new Date().getTime(),
+						type: 'head', //input,content 
+						isSucceed:true,
+					});
+					this.scrollToBottom1()
+				})
 				
 			},
 			scrollToBottom1: function () { //跳转页面底部
@@ -542,7 +496,15 @@
 					console.log('contentViewHeight',this.style.contentViewHeight);
 				})	
 			},
-			
+			getCrowdInfo(id){
+				this.crowdId = id
+				this.$http.httpGetToken('/crowd/getById',{
+					crowdId:id
+				},(res) =>{
+					this.crowdInfo = res.data
+					this.crowdInfo.crowdId = id;
+				},true);
+			}
 		}
 	}
 </script>

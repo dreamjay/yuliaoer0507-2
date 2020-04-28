@@ -8,29 +8,29 @@
 			</view>
 		</view>
 		<view class="inputItem hintBox">
-			<text class="hint">红包发布范围：30~1000元</text>
+			<text class="hint">红包发布范围：{{this.crowdInfo.redMinAmount}}~{{this.crowdInfo.redMaxAmount}}元</text>
 		</view>
 		<view class="inputItem">
 			<text>红包个数</text>
 			<view class="right">
-				<input type="number"  :disabled="true" :value="hbCount">
+				<input type="number"  :disabled="true" :value="crowdInfo.redCount">
 				<text>个</text>
 			</view>
 		</view>
 		<view class="inputItem" style="margin-top: 40upx;">
 			<text>雷数</text>
 			<view class="right">
-				<input type="number" placeholder="请输入雷数" :maxlength="1" v-model="lei">
+				<input type="number" :placeholder="crowdInfo.playerType=='SAO_LEI'?'请输入单雷':'请输入多雷,例：123'" :maxlength="crowdInfo.playerType=='SAO_LEI'?1:4" v-model="lei">
 				<!-- <text>个</text> -->
 			</view>
 		</view>
 		<view class="inputItem hintBox">
-			<text class="hint">雷数存在0到9</text>
+			<text class="hint">单个雷数存在0到9</text>
 		</view>
 		<h1 class="boldMoney">￥{{money ? (Number(money)).toFixed(2) : '0.00'}}</h1>
 		
 		<button @click="hbActive" style="background-color:#F35543; width: 690upx; margin-top:40upx ;" type="primary">塞钱进红包</button>
-		<p style="text-align: center; line-height: 80upx; font-size: 12px; color: #999;">未领取的红包，将于5分钟后发起退款</p>
+		<p style="text-align: center; line-height: 80upx; font-size: 12px; color: #999;">未领取的红包，将于{{crowdInfo.redInavlidTime}}分钟后发起退款</p>
 		
 		<view style="text-align: center;">
 			<image src="/static/liaotian/icon_jg.png" style="width: 20upx; height:20upx; vertical-align: unset;"></image>
@@ -93,14 +93,12 @@
 			}
 		},
 		onLoad(option) {
-			this.userInfo = JSON.parse(uni.getStorageSync('userInfo'))
+			this.userInfo = uni.getStorageSync('userInfo')
 			this.token = this.userInfo.token
-			// console.log("发红包",option)
 			this.crowdInfo = JSON.parse(option.crowdInfo)
-			// console.log("userInfo",this.userInfo)
 			uni.$on('updateUserInfo',(data)=>{ //设置了支付密码更新用户信息
-				
-				this.updataUserInfo()
+				this.userInfo.payPassword = data;
+				uni.setStorageSync('userInfo',this.userInfo);
 			})
 			uni.getSystemInfo({
 			    success: (e) => {
@@ -146,65 +144,19 @@
 			fahongbao(){
 				
 				this.value = false
-				this.$http.httpTokenRequest({
-					url: '/push/fabao',
-					method: 'post'
-				}, {
+				this.$http.httpPostTokenPush('/push/fabao',{
 					amount:this.money,
 					boomNum:this.lei,
 					crowdId:this.crowdInfo.crowdId,
-					payPassword:this.password,
-					msg:true
-				}).then(res => {
-					
-					if(res.data.success){
-						
-						uni.$emit("fahongbao",{
-							lei:this.lei,
-							money:this.money,
-							hbCount:this.hbCount
-						})
-						uni.navigateBack({})
-						
-					}else{
-						this.password = null
-						uni.showToast({
-						    title: res.data.msg,
-							icon:'none'
-						})
-					}
-				},error => {
-					uni.showToast({
-						title:'错误'+error,
-						icon:'none'
+					payPassword:this.password
+				},(res)=>{
+					uni.$emit("fahongbao",{
+						lei:this.lei,
+						money:this.money,
+						hbCount:this.hbCount
 					})
-				}) 
-			},
-			updataUserInfo(){ //更新用
-				
-				this.$http.httpTokenRequest({
-					url: '/user/get',
-					method: 'post'
-				}, {}).then(res => {
-					
-					if(res.data.success){
-						uni.setStorageSync("userInfo",JSON.stringify({
-								user:res.data.data,
-								token:this.token
-							}))
-						this.userInfo = JSON.parse(uni.getStorageSync('userInfo'))
-					}else{
-						uni.showToast({
-						    title: res.data.msg,
-							icon:'none'
-						})
-					}
-				},error => {
-					uni.showToast({
-						title:'错误'+error,
-						icon:'none'
-					})
-				}) 
+					uni.navigateBack({})
+				},true)
 			},
 			hbActive(){
 				if(!this.money){
@@ -214,6 +166,22 @@
 					})
 					return
 				}
+				
+				if(Number(this.money) < this.crowdInfo.redMinAmount){
+					uni.showToast({
+						title:"红包金额不能小于"+this.crowdInfo.redMinAmount,
+						icon:'none'
+					})
+					return
+				}
+				if(Number(this.money) > this.crowdInfo.redMaxAmount){
+					uni.showToast({
+						title:"红包金额不能大于"+this.crowdInfo.redMaxAmount,
+						icon:'none'
+					})
+					return
+				}
+				
 				if(!this.lei){
 					uni.showToast({
 						title:"雷不能是空",
@@ -221,7 +189,19 @@
 					})
 					return
 				}
-				if(!this.userInfo.user.payPassword){
+				
+				if(this.crowdInfo.playerType=='MORE_SAO_LEI'){
+					if(this.lei.length <2 || this.lei > 4){
+						uni.showToast({
+							title:"请输入2~4个雷",
+							icon:'none'
+						})
+						return
+					}
+				}
+				
+				
+				if(!this.userInfo.payPassword){
 					uni.showModal({
 						title:"提示",
 						content:"请设置支付密码",
@@ -230,7 +210,7 @@
 						success(res){
 							if(res.confirm){
 								uni.navigateTo({
-									url:'../zhifumima/zhifumima'
+									url:'../../../tabbar-5/gerenshezhi/mimashezhi/paypassword/paypassword'
 								})
 							}
 							if(res.cancel) {
@@ -242,6 +222,7 @@
 				}else{
 					this.value = true
 					this.focus = true
+					this.password=null
 				}
 			}
 		}
