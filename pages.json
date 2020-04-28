@@ -8,8 +8,10 @@
 				"navigationStyle":"custom",
 				"app-plus":{
 					
-					"titleNView":false
+					"titleNView":false,
+					"bounce":"vertical"
 				}
+				
 			}
 		},
 		{
@@ -35,7 +37,24 @@
 						"backgroundColor":"#EEEEEE",
 						"splitLine":{}
 					}
-				}
+				},
+				"enablePullDownRefresh":true
+				
+			}
+		},
+		{
+			"path":"pages/tabbar/tabbar-1/guanfang/list",
+			"style":{
+				"scrollIndicator":"none",
+				"navigationBarTitleText": "官方通知",
+				"app-plus":{
+					"titleNView":{
+						"backgroundColor":"#EEEEEE",
+						"splitLine":{}
+					}
+				},
+				"enablePullDownRefresh":true
+				
 			}
 		},
 		{

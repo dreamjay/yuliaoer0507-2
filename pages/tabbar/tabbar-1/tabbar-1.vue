@@ -2,7 +2,7 @@
 	<view>
 		<Search></Search>
 		<view class="liaotianList"  >
-			<navigator url="" open-type="navigate" hover-class="">
+			<navigator url="./guanfang/list" open-type="navigate" hover-class="">
 				<view class="item breakLine" >
 					<uni-swipe-action>
 						<uni-swipe-action-item  @click="onClick" @change="change">

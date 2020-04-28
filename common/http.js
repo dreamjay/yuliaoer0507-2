@@ -103,6 +103,51 @@ const httpPostToken = (url, data, success ,isLoading) => {
 
 
 
+const httpPostTokenPush = (url, data, success ,isLoading) => {
+	if(isLoading){
+		uni.showLoading({
+			title:"正在提交..."
+		})
+	}
+	var token = uni.getStorageSync("token");
+	var requestTask = uni.request({
+		url: baseUrlMeg + url,
+		data: data,
+		method: 'POST',
+		header: {
+			'Token': token,
+			'X-Requested-With': 'XMLHttpRequest',
+			'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+		},
+		dataType: 'json',
+		sslVerify: false,
+		success: function(res){
+			if(res.data.success){
+				success(res.data)
+			}else{
+				error(res.data);
+			}
+		},
+		fail: function(err) {
+			uni.showToast({
+				icon:"none",
+				title:"服务器繁忙，稍后再试！"
+			})
+		},
+		complete: function() {
+			if(isLoading){
+				uni.hideLoading();
+			}
+		}
+	});
+	
+	return requestTask;
+};
+
+
+
+
+
 
 const httpGet = (url, data, success,isLoading  ) => {
 	if(isLoading){
@@ -306,6 +351,7 @@ export default {
 	baseUrl,
 	// httpRequest,
 	// httpTokenRequest,
+	httpPostTokenPush,
 	httpGet,
 	httpPost,
 	httpGetToken,

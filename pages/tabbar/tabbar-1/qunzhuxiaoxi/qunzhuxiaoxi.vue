@@ -7,25 +7,22 @@
 				<uni-badge :text="badge.xf" type="error" class="xiafen" size="small" ></uni-badge>
 				<uni-badge :text="badge.gd" type="error" class="gudong" size="small" ></uni-badge>
 			</view>
-			
 			<uni-segmented-control :current="current" :values="items" @clickItem="onClickItem" style-type="text" active-color="#4CB964"></uni-segmented-control>
+			
 			<view class="content">
 				
 				<view v-if="current === 0">
 					<scroll-view
-						:scroll-y="isScroll" 
+						:scroll-y="true" 
 						:style="{height:scrollHei+'px'}"
-						:refresher-enabled="isActive"
-						:refresher-threshold="80"
+						:show-scrollbar="true"
+						:refresher-enabled="true"
+						:refresher-threshold="45"
 						refresher-default-style="white"
-						@scroll="scroll"
-						@scrolltoupper="scrolltoupper"
 						refresher-background="#EEEEEE"
-						:refresher-triggered="triggered"
-						@refresherpulling="onPulling"
-						@refresherrefresh="onRefresh"
-						@refresherrestore="onRestore"
-						@refresherabort="onAbort"
+						:refresher-triggered="pageSf.triggered"
+						@refresherrefresh="onRefreshSf"
+						@scrolltolower="refreshBottomSf"
 						>
 						
 						<view v-for="(item,index) in recordsSF" :key="index" class="scrollItem">
@@ -63,30 +60,28 @@
 							</view>
 							<view>
 								<div>
-									<button style="" type="primary" size="mini" @click="tongyiSF(index)" v-show="item.status != 2">同意</button>
-									<button style="" type="primary" size="mini" @click="jujueSF(index)" v-show="item.status != 2">拒绝</button>
+									<button style="" type="primary" size="mini" @click="agreeShangfen(item.id,index,1)" v-show="item.status == 0">同意</button>
+									<button style="" type="primary" size="mini" @click="agreeShangfen(item.id,index,2)" v-show="item.status == 0">拒绝</button>
+									<button style="background-color: #ccc; border: 0; color: #fff;" type="primary" size="mini" :disabled="true" v-if="item.status == 1" >已同意</button>
 									<button style="" type="primary" size="mini" :disabled="true" v-if="item.status == 2" >已拒绝</button>
 								</div>
 							</view>
 						</view>
+						<uni-load-more :status="pageSf.more"></uni-load-more>
 					</scroll-view>
-					
 				</view>
 				<view v-if="current === 1">
 					<scroll-view
-						:scroll-y="isScroll" 
+						:scroll-y="true" 
 						:style="{height:scrollHei+'px'}"
-						:refresher-enabled="isActive"
-						:refresher-threshold="80"
+						:show-scrollbar="true"
+						:refresher-enabled="true"
+						:refresher-threshold="45"
 						refresher-default-style="white"
-						@scroll="scroll"
-						@scrolltoupper="scrolltoupper"
 						refresher-background="#EEEEEE"
-						:refresher-triggered="triggered"
-						@refresherpulling="onPulling"
-						@refresherrefresh="onRefresh"
-						@refresherrestore="onRestore"
-						@refresherabort="onAbort"
+						:refresher-triggered="pageXf.triggered"
+						@refresherrefresh="onRefreshXf"
+						@scrolltolower="refreshBottomXf"
 						>
 						
 						<view v-for="(item,index) in recordsXF" :key="index" class="scrollItem">
@@ -124,29 +119,29 @@
 							</view>
 							<view>
 								<div>
-									<button style="" type="primary" size="mini" @click="tongyiXF(index)" v-show="item.status != 2">同意</button>
-									<button style="" type="primary" size="mini" @click="jujueXF(index)" v-show="item.status != 2">拒绝</button>
+									<button style="" type="primary" size="mini" @click="agreeXiafen(item.id,index,1)" v-show="item.status == 0">同意</button>
+									<button style="" type="primary" size="mini" @click="agreeXiafen(item.id,index,2)" v-show="item.status == 0">拒绝</button>
+									<button style="background-color: #ccc; border: 0; color: #fff;" type="primary" size="mini" :disabled="true" v-if="item.status == 1" >已同意</button>
 									<button style="" type="primary" size="mini" :disabled="true" v-if="item.status == 2" >已拒绝</button>
 								</div>
 							</view>
 						</view>
+						
+						<uni-load-more :status="pageXf.more"></uni-load-more>
 					</scroll-view>
 				</view>
 				<view v-if="current === 2">
 					<scroll-view
-						:scroll-y="isScroll" 
+						:scroll-y="true" 
 						:style="{height:scrollHei+'px'}"
-						:refresher-enabled="isActive"
-						:refresher-threshold="80"
+						:show-scrollbar="true"
+						:refresher-enabled="true"
+						:refresher-threshold="45"
 						refresher-default-style="white"
-						@scroll="scroll"
-						@scrolltoupper="scrolltoupper"
 						refresher-background="#EEEEEE"
-						:refresher-triggered="triggered"
-						@refresherpulling="onPulling"
-						@refresherrefresh="onRefresh"
-						@refresherrestore="onRestore"
-						@refresherabort="onAbort"
+						:refresher-triggered="pageGd.triggered"
+						@refresherrefresh="onRefreshGd"
+						@scrolltolower="refreshBottomGd"
 						>
 						
 						<view v-for="(item,index) in recordsGD" :key="index" class="scrollItem">
@@ -172,13 +167,17 @@
 							</view>
 							<view>
 								<div>
-									<button style="" type="primary" size="mini" @click="tongyiGD(index)" v-show="item.status != 2">同意</button>
-									<button style="" type="primary" size="mini" @click="jujueGD(index)" v-show="item.status != 2">拒绝</button>
+									<button style="" type="primary" size="mini" @click="agreeGudong(item.id,index,1)" v-show="item.status == 0">同意</button>
+									<button style="" type="primary" size="mini" @click="agreeGudong(item.id,index,2)" v-show="item.status == 0">拒绝</button>
+									<button style="background-color: #ccc; border: 0; color: #fff;" type="primary" size="mini" :disabled="true" v-if="item.status == 1" >已同意</button>
 									<button style="" type="primary" size="mini" :disabled="true" v-if="item.status == 2" >已拒绝</button>
 								</div>
 							</view>
 						</view>
-					</scroll-view>
+						
+						
+						<uni-load-more :status="pageGd.more"></uni-load-more>
+						</scroll-view>
 				</view>
 			</view>
 		</view>
@@ -195,22 +194,39 @@
 	        return {
 	            items: ['上分申请','下分申请','股东申请'],
 	            current: 0, //nav默认项
-				scrollHei:uni.getSystemInfoSync().windowHeight - 50,
-				triggered:true,
-				is_freshing:false,//
-				isScroll:true,
-				isActive:true,
+				scrollHei:uni.getSystemInfoSync().windowHeight - 60,
+			
 				recordsSF:[],
-				dataSF:{}, 
-				pageIndexSF:1 ,// 上拉初始页
+				pageSf:{
+					pageNo:1,
+					pageSize:10,
+					totalPage:2,
+					reload:false,
+					lock: false,
+					more:"noMore",
+					triggered: false  
+				},
 				recordsXF:[],
-				dataXF:{}, 
-				pageIndexXF:1 ,// 上拉初始页
+				pageXf:{
+					pageNo:1,
+					pageSize:10,
+					totalPage:2,
+					reload:false,
+					lock: false,
+					more:"noMore",
+					triggered: false  
+				},
 				recordsGD:[],
-				dataGD:{}, 
-				pageIndexGD:1 ,// 上拉初始页
-				pageTotal:3,
-				initHttpTotal:4,
+				pageGd:{
+					pageNo:1,
+					pageSize:10,
+					totalPage:2,
+					reload:false,
+					lock: false,
+					more:"noMore",
+					triggered: false  
+				},
+				
 				badge:{ //小红点
 					sf:0,
 					xf:0,
@@ -219,212 +235,222 @@
 	        }
 	    },
 		onLoad() {
-			this.httpSF()
-			this.httpXF()
-			this.httpGD()
-			this.httpBadge()
+			this.pageSf.reload = true;
+			this.loadDataSf();
+			
+			this.pageXf.reload = true;
+			this.loadDataXf();
+			
+			this.pageGd.reload = true;
+			this.loadDataGd();
+			
+			this.httpBadge();
 		},
 		computed:{
 		
 		},
 		watch:{
-			initHttpTotal(newV){
-				if(newV <= 0){
-				
-				}
-			}
+		
 		},
 	    methods: {
-			scrolltoupper(){
-				setTimeout(()=>{
-					// console.log("到顶部")
-					this.isActive = true
-				},100)
-			},
-			scroll(e){
-				// console.log("滚动",e.detail.scrollTop,e.detail.deltaY)
-				if(e.detail.scrollTop == 0) {
-					this.isActive = true
+			onRefreshSf(){
+				if(this.pageSf.lock){
+					return;
 				}
-				if(e.detail.deltaY < 0){
-					this.isActive = false
+				this.pageSf.pageNo = 1;
+				this.pageSf.reload = true;
+				this.pageSf.triggered = true;
+				this.loadDataSf();
+			},
+			refreshBottomSf(){
+				if(this.pageSf.lock){
+					return;
 				}
+				if(this.pageSf.pageNo > this.pageSf.totalPage){
+					this.pageSf.more="noMore"
+					return false;
+				}
+				this.pageSf.reload = false;
+				this.loadDataSf();
 			},
-			httpBadge(){
-				this.$http.httpTokenRequest({
-					url: '/shareholder-apply/statistics',
-					method: 'post'
-				}, {}).then(res => {
-					this.initHttpTotal--
-					if(res.data.success){
-						this.badge.sf = res.data.data.rechargeCount? res.data.data.rechargeCount : 0
-						this.badge.xf = res.data.data.withdrawCount? res.data.data.withdrawCount : 0
-						this.badge.gd = res.data.data.shareholderCount? res.data.data.shareholderCount : 0
-						
+			loadDataSf(){
+				this.pageSf.lock = true;
+				this.pageSf.more = "loading";
+				this.$http.httpGetToken('/recharge/list',{
+					pageNo:this.pageSf.pageNo,
+					pageSize:this.pageSf.pageSize
+				},(res)=>{
+					this.pageSf.lock = false;
+					var list = res.data.records;
+					this.recordsSF = this.pageSf.reload ? list : this.recordsSF.concat(list);
+					this.pageSf.pageNo = res.data.current;
+					this.pageSf.totalPage = res.data.pages;
+					if(this.pageSf.pageNo == this.pageSf.totalPage || this.pageSf.totalPage == 0){
+						this.pageSf.more="noMore"
 					}else{
-						uni.showToast({
-							title:res.data.msg,
-							icon:'none'
-						})
+						this.pageSf.more="more"
 					}
-				},error => {
-					uni.showToast({
-						title:'错误'+error,
-						icon:'none'
-					})
-				})
-			},
-			tongyiSXF(index,url){ //同意拒绝上下分
-				this.$http.httpTokenRequest({
-					url: url,
-					method: 'post'
-				}, {
-					id:this.recordsSF[index].id,
-					msg:true
-				}).then(res => {
-					if(res.data.success){
-						if(url == '/push/agree'){//同意上分
-							this.badge.sf--
-							this.recordsSF = this.recordsSF.filter((item,indexx)=>(indexx!=index))
-						}
-						if(url == '/push/reject'){//拒绝上分
-							this.recordsSF.find((item,indexx)=>(indexx==index)).status = 2
-						}
-						if(url == '/push/agreeWithdraw'){//同意下分
-							this.badge.xf--
-							this.recordsXF = this.recordsXF.filter((item,indexx)=>(indexx!=index))
-						}
-						if(url == '/push/rejectWithdraw'){//拒绝下分
-							this.recordsXF.find((item,indexx)=>(indexx==index)).status = 2
-						}
-						
-						console.log('同意或拒绝上下分成功')
-					}else{
-						uni.showToast({
-							title:res.data.msg,
-							icon:'none'
-						})
-					}
-				},error => {
-					uni.showToast({
-						title:'错误'+error,
-						icon:'none'
-					})
-				})
-			},
-			tongyiOrJujueGD(index,status,url){ //同意拒绝股东
-				this.$http.httpTokenRequest({
-					url: url,
-					method: 'post'
-				}, {
-					id:this.recordsGD[index].id,
-					status:status,
 					
-				}).then(res => {
-					if(res.data.success){
-						if(status == 1){//同意股东
-							this.badge.gd--
-							this.recordsGD = this.recordsGD.filter((item,indexx)=>(indexx!=index))
-						}
-						if(status == 2){//拒绝股东
-							this.recordsGD.find((item,indexx)=>(indexx==index)).status = 2
-						}
-						console.log('同意或拒绝股东成功')
+					this.pageSf.pageNo++;
+					this.pageSf.triggered = false;
+				},false)
+			},
+			agreeShangfen(id,index,status){
+				var content = (status==1)?'同意':'拒绝'
+				var that = this;
+				uni.showModal({
+				    title: '操作确认',
+				    content: content+'上分',
+				    success: function (res) {
+				        if (res.confirm) {
+							var url = (status == 1)? '/push/agree':'/push/reject';
+				            that.$http.httpPostTokenPush(url,{
+								id:id
+							},(res)=>{
+								that.recordsSF.find((item,index)=>(item.id==id)).status = status;		
+							},true);
+						} 
+					}
+				});
+			},
+			
+			
+			onRefreshXf(){
+				if(this.pageXf.lock){
+					return;
+				}
+				this.pageXf.pageNo = 1;
+				this.pageXf.reload = true;
+				this.pageXf.triggered = true;
+				this.loadDataXf();
+			},
+			refreshBottomXf(){
+				if(this.pageXf.lock){
+					return;
+				}
+				if(this.pageXf.pageNo > this.pageXf.totalPage){
+					this.pageXf.more="noMore"
+					return false;
+				}
+				this.pageXf.reload = false;
+				this.loadDataXf();
+			},
+			loadDataXf(){
+				this.pageXf.lock = true;
+				this.pageXf.more = "loading";
+				this.$http.httpGetToken('/withdraw/list',{
+					pageNo:this.pageXf.pageNo,
+					pageSize:this.pageXf.pageSize
+				},(res)=>{
+					this.pageXf.lock = false;
+					var list = res.data.records;
+					this.recordsXF = this.pageXf.reload ? list : this.recordsXF.concat(list);
+					this.pageXf.pageNo = res.data.current;
+					this.pageXf.totalPage = res.data.pages;
+					if(this.pageXf.pageNo == this.pageXf.totalPage || this.pageXf.totalPage == 0){
+						this.pageXf.more="noMore"
 					}else{
-						uni.showToast({
-							title:res.data.msg,
-							icon:'none'
-						})
+						this.pageXf.more="more"
 					}
-				},error => {
-					uni.showToast({
-						title:'错误'+error,
-						icon:'none'
-					})
-				})
+					console.log(this.pageXf)
+					this.pageXf.pageNo++;
+					this.pageXf.triggered = false;
+				},false)
 			},
-			tongyiXF(index){
+			agreeXiafen(id,index,status){
+				var content = (status==1)?'同意':'拒绝'
+				var that = this;
 				uni.showModal({
-					title:"询问",
-					content:"同意 "+this.recordsXF[index].nickName+" 下分？",
-					success:  (res)=> {
-						if (res.confirm) {
-							this.tongyiSXF(index,'/push/agreeWithdraw')
-						} else if (res.cancel) {
-							console.log('用户点击取消');
-						}
+				    title: '操作确认',
+				    content: content+'下分',
+				    success: function (res) {
+				        if (res.confirm) {
+							var url = (status == 1)? '/push/agreeWithdraw':'/push/rejectWithdraw';
+				            that.$http.httpPostTokenPush(url,{
+								id:id
+							},(res)=>{
+								that.recordsXF.find((item,index)=>(item.id==id)).status = status;		
+							},true);
+						} 
 					}
-				})
-				
+				});
 			},
-			jujueXF(index){
-				uni.showModal({
-					title:"询问",
-					content:"拒绝 "+this.recordsXF[index].nickName+" 下分？",
-					success:  (res)=> {
-						if (res.confirm) {
-							this.tongyiSXF(index,'/push/rejectWithdraw')
-						} else if (res.cancel) {
-							console.log('用户点击取消');
-						}
-					}
-				})
-				
+			
+			
+			onRefreshGd(){
+				if(this.pageGd.lock){
+					return;
+				}
+				this.pageGd.pageNo = 1;
+				this.pageGd.reload = true;
+				this.pageGd.triggered = true;
+				this.loadDataGd();
 			},
-			tongyiSF(index){
-				uni.showModal({
-					title:"询问",
-					content:"同意 "+this.recordsSF[index].nickName+" 上分？",
-					success:  (res)=> {
-						if (res.confirm) {
-							this.tongyiSXF(index,'/push/agree')
-						} else if (res.cancel) {
-							console.log('用户点击取消');
-						}
-					}
-				})
-				
+			refreshBottomGd(){
+				if(this.pageGd.lock){
+					return;
+				}
+				if(this.pageGd.pageNo > this.pageGd.totalPage){
+					this.pageGd.more="noMore"
+					return false;
+				}
+				this.pageGd.reload = false;
+				this.loadDataGd();
 			},
-			jujueSF(index){
-				uni.showModal({
-					title:"询问",
-					content:"拒绝 "+this.recordsSF[index].nickName+" 上分？",
-					success:  (res)=> {
-						if (res.confirm) {
-							this.tongyiSXF(index,'/push/reject')
-						} else if (res.cancel) {
-							console.log('用户点击取消');
-						}
+			loadDataGd(){
+				this.pageGd.lock = true;
+				this.pageGd.more = "loading";
+				this.$http.httpGetToken('/shareholder-apply/listByUserId',{
+					pageNo:this.pageGd.pageNo,
+					pageSize:this.pageGd.pageSize
+				},(res)=>{
+					this.pageGd.lock = false;
+					var list = res.data.records;
+					this.recordsGD = this.pageGd.reload ? list : this.recordsGD.concat(list);
+					this.pageGd.pageNo = res.data.current;
+					this.pageGd.totalPage = res.data.pages;
+					if(this.pageGd.pageNo == this.pageGd.totalPage || this.pageGd.totalPage == 0){
+						this.pageGd.more="noMore"
+					}else{
+						this.pageGd.more="more"
 					}
-				})
-				
+					this.pageGd.pageNo++;
+					this.pageGd.triggered = false;
+				},false)
 			},
-			tongyiGD(index){
+			agreeGudong(id,index,status){
+				var content = (status==1)?'同意':'拒绝'
+				var that = this;
 				uni.showModal({
-					title:"询问",
-					content:"同意 "+this.recordsGD[index].nickName+" 申请股东？",
-					success:  (res)=> {
-						if (res.confirm) {
-							this.tongyiOrJujueGD(index,1,'/shareholder-apply/agree')
-						} else if (res.cancel) {
-							console.log('用户点击取消');
-						}
+				    title: '操作确认',
+				    content: content+'申请',
+				    success: function (res) {
+				        if (res.confirm) {
+				            that.$http.httpPostToken("/shareholder-apply/agree",{
+								id:id,
+								status:status
+							},(res)=>{
+								that.recordsGD.find((item,index)=>(item.id==id)).status = status;		
+							},true);
+						} 
 					}
-				})
-				
+				});
 			},
-			jujueGD(index){
-				uni.showModal({
-					title:"询问",
-					content:"拒绝 "+this.recordsGD[index].nickName+" 申请股东？",
-					success:  (res)=> {
-						if (res.confirm) {
-							this.tongyiOrJujueGD(index,2,'/shareholder-apply/agree')
-						} else if (res.cancel) {
-							console.log('用户点击取消');
-						}
-					}
-				})
+			
+			httpBadge(){
+				this.$http.httpPostToken('/shareholder-apply/statistics',{
+					
+				},(res)=>{
+					this.badge.sf = res.data.rechargeCount? res.data.rechargeCount : 0
+					this.badge.xf = res.data.withdrawCount? res.data.withdrawCount : 0
+					this.badge.gd = res.data.shareholderCount? res.data.shareholderCount : 0
+				},false)
+			},
+			
+			onClickItem(e,index) {
+				if (this.current !== e.currentIndex) {
+					this.current = e.currentIndex;
+				}
 				
 			},
 			copy(msg){
@@ -442,189 +468,7 @@
 					});
 				// #endif
 			},
-			handleDataSFXF(arr){
-				arr.forEach((item)=>{
-					item.createTime = item.createTime.slice(5,item.createTime.length-3)
-					if(item.wxAccount){
-						item.type = 'wx'
-					} else if(item.zfbAccount){
-						item.type = 'zfb'
-					} else{
-						item.type = 'yhk'
-					}
-				})
-				return arr
-			},
-			httpSF(is){
-				if(is){//下拉
-					if(this.dataSF.current >= this.dataSF.pages){
-						uni.showToast({
-							title:'没有更多数据了',
-							icon:'none'
-						})
-						this.triggered = false;
-						this.is_freshing = false;
-						return
-					}
-					this.pageIndexSF++
-					
-				}
-				this.$http.httpTokenRequest({
-					url: '/recharge/list',
-					method: 'get'
-				}, {
-					pageNo:this.pageIndexSF,
-					pageSize:this.pageTotal
-				}).then(res => {
-					if(res.data.success){
-						if(this.pageIndexSF>1){
-							this.triggered = false;
-							this.is_freshing = false;
-						}else{
-							this.initHttpTotal--
-						}
-						
-						this.dataSF = res.data.data
-						this.recordsSF = this.handleDataSFXF(res.data.data.records).concat(this.recordsSF)
-						// console.log(res.data.data,this.recordsSF)
-					}else{
-						uni.showToast({
-							title:res.data.msg,
-							icon:'none'
-						})
-					}
-				},error => {
-					uni.showToast({
-						title:'错误'+error,
-						icon:'none'
-					})
-				})
-			},
-			httpXF(is){
-				if(is){//下拉
-					if(this.dataXF.current >= this.dataXF.pages){
-						uni.showToast({
-							title:'没有更多数据了',
-							icon:'none'
-						})
-						this.triggered = false;
-						this.is_freshing = false;
-						return
-					}
-					this.pageIndexXF++
-					
-				}
-				this.$http.httpTokenRequest({
-					url: '/withdraw/list',
-					method: 'get'
-				}, {
-					pageNo:this.pageIndexXF,
-					pageSize:this.pageTotal
-				}).then(res => {
-					if(res.data.success){
-						if(this.pageIndexXF>1){
-							this.triggered = false;
-							this.is_freshing = false;
-						}else{
-							this.initHttpTotal--
-						}
-						
-						this.dataXF = res.data.data
-						this.recordsXF = this.handleDataSFXF(res.data.data.records).concat(this.recordsXF)
-						// console.log(res.data.data,this.recordsSF)
-					}else{
-						uni.showToast({
-							title:res.data.msg,
-							icon:'none'
-						})
-					}
-				},error => {
-					uni.showToast({
-						title:'错误'+error,
-						icon:'none'
-					})
-				})
-			},
-			httpGD(is){
-				if(is){//下拉
-					if(this.dataGD.current >= this.dataGD.pages){
-						uni.showToast({
-							title:'没有更多数据了',
-							icon:'none'
-						})
-						this.triggered = false;
-						this.is_freshing = false;
-						return
-					}
-					this.pageIndexGD++
-					
-				}
-				this.$http.httpTokenRequest({
-					url: '/shareholder-apply/listByUserId',
-					method: 'get'
-				}, {
-					pageNo:this.pageIndexGD,
-					pageSize:this.pageTotal
-				}).then(res => {
-					if(res.data.success){
-						if(this.pageIndexGD>1){
-							this.triggered = false;
-							this.is_freshing = false;
-						}else{
-							this.initHttpTotal--
-						}
-						
-						this.dataGD = res.data.data
-						res.data.data.records.forEach(item=>{
-							item.createTime = item.createTime.slice(5,item.createTime.length-3)
-						})
-						this.recordsGD = res.data.data.records.concat(this.recordsGD)
-						
-						// console.log('股东',this.recordsGD)
-					}else{
-						uni.showToast({
-							title:res.data.msg,
-							icon:'none'
-						})
-					}
-				},error => {
-					uni.showToast({
-						title:'错误'+error,
-						icon:'none'
-					})
-				})
-			},
-			onPulling(e) { //下拉
-				// console.log("onpulling", e);
-				
-			},
-			onRefresh() { //触发下拉
-				// console.log("触发下拉",this.is_freshing)
-				this.isScroll = false
-				if (this.is_freshing) return;
-				this.is_freshing = true;
-				switch(this.current){
-					case 0:{ this.httpSF(true);break}
-					case 1:{ this.httpXF(true);break}
-					case 2:{ this.httpGD(true);break}
-				}
-				
-				
-			},
-			onRestore() { // 需要重置
-				this.triggered = 'restore'; 
-				this.isScroll = true
-				// console.log("onRestore");
-			},
-			onAbort() { // 中止
-				// console.log("onAbort");
-			},
-	        onClickItem(e,index) {
-	            if (this.current !== e.currentIndex) {
-	                this.current = e.currentIndex;
-	            }
-	        }
-	    }
+		}
 	}
 </script>
 
@@ -675,10 +519,10 @@
 	}
 	.scrollItem{
 		height: 200upx;
-		background-color: #eee;
+		background-color: #FFFFFF;
 		border-bottom: 1upx solid #ddd;
 		// line-height: 300upx;
-		padding: 70upx 30upx 30upx 30upx;
+		padding: 30upx 30upx 30upx 30upx;
 		view:nth-of-type(1){
 			display: inline-block;
 			vertical-align: middle;
