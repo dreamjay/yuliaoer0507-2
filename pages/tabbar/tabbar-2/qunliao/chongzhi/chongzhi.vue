@@ -35,11 +35,25 @@
 	export default{
 		data(){
 			return{
-				srcWx:'http://img1.imgtn.bdimg.com/it/u=1010441052,79968067&fm=26&gp=0.jpg',
-				srcZfb:'http://img1.imgtn.bdimg.com/it/u=1010441052,79968067&fm=26&gp=0.jpg',
-				wx:'ww45654686',
-				zfb:'zz5646545'
+				srcWx:'',
+				srcZfb:'',
+				wx:'',
+				zfb:'',
+				crowdInfo:{
+					type:Object,
+					default(){
+						return{}
+					}
+				}
 			}
+		},
+		onLoad(option) {
+			this.crowdInfo = JSON.parse(option.crowdInfo);
+			
+			this.srcWx = this.crowdInfo.wxUrl?this.crowdInfo.wxUrl:'/static/moren.png';
+			this.srcZfb = this.crowdInfo.zfbUrl?this.crowdInfo.zfbUrl:'/static/moren.png';
+			this.wx = this.crowdInfo.wxAccountSh?this.crowdInfo.wxAccountSh:'';
+			this.zfb = this.crowdInfo.zfbAccount?this.crowdInfo.zfbAccount:'';
 		},
 		methods:{
 			copy(str){

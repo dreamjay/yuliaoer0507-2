@@ -97,7 +97,7 @@
 					</navigator>
 				</view>
 				<view class="pageItem">
-					<navigator url="/pages/tabbar/tabbar-2/qunliao/chongzhi/chongzhi" open-type="navigate" hover-class="">
+					<navigator :url="'/pages/tabbar/tabbar-2/qunliao/chongzhi/chongzhi?crowdInfo='+JSON.stringify(crowdInfo)" open-type="navigate" hover-class="">
 						<view class="c-item">
 						<image src="/static/liaotian/icon_top_up.png"></image>
 						<text>充值</text>
@@ -122,7 +122,7 @@
 					</view>
 				</view>
 				<view class="pageItem">
-					<navigator url="/pages/tabbar/tabbar-2/qunliao/lianxiqunzhu/lianxiqunzhu" open-type="navigate" hover-class="">
+					<navigator :url="'/pages/tabbar/tabbar-2/qunliao/lianxiqunzhu/lianxiqunzhu?crowdInfo='+JSON.stringify(crowdInfo)" open-type="navigate" hover-class="">
 						<view class="c-item">
 						<image src="/static/liaotian/icon_lxqz.png"></image>
 						<text>联系群主</text>
@@ -272,21 +272,22 @@
 		flex-direction: row;
 		justify-content: space-around;
 		.pageItem{
-			width: 100upx;
+		
+			flex: 1;
 			height:140upx;
 			text-align: center;
 			.c-item{
 				display: flex;
 				flex-direction: column;
+				text-align: center;
 			}
 			image{
-				position: relative;
 				width: 100upx;
 				height: 100upx;
-				left: 0upx;
-				top: 0upx;
 				border-radius: 5px;
 				vertical-align: middle;
+				text-align: center;
+				margin: 0 auto;
 			}
 			text{
 				line-height: 40upx;

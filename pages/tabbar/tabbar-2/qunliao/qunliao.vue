@@ -83,23 +83,7 @@
 					mitemHeight: 0,
 				},
 				scrollTop: 0,
-				messages: [{
-					user: 'customer',
-					userId:'',
-					nickName:'',
-					headUrl:'',
-					sendTime:'',
-					type: 'head', //input,content 
-					content: '你好!',
-					hasSub: true,
-					isSucceed:true,
-					subcontent: {
-						name:'扫雷红包',
-						val:100,
-						lei:1,
-						isOpen:0,
-					}
-				}],
+				messages: [],
 				isType: null , //模拟数据，手慢还是积分不足
 				rotate:false, //红包转不转
 				crowdInfo:null,
@@ -185,7 +169,9 @@
 									hasSub: true,
 									subcontent: {
 										name:'扫雷红包',
-										isOpen:data.body.status
+										isOpen:data.body.status,
+										val:data.amount,
+										lei:data.boomNum
 									},
 									userId: data.sendUser.userId,
 									nickName:data.sendUser.nickName,
@@ -503,7 +489,7 @@
 				},(res) =>{
 					this.crowdInfo = res.data
 					this.crowdInfo.crowdId = id;
-				},true);
+				},false);
 			}
 		}
 	}

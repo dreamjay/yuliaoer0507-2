@@ -46,8 +46,6 @@
 					<image class="close" src="/static/liaotian/icon_finish.png" @click="close"></image>
 					<text style="">请输入支付密码</text>
 					<br>
-					<text style="position: absolute; top: 120upx; left: 50%; transform: translateX(-50%);">扫雷红包</text>
-					<br>
 					<text style="font-size: 50upx; font-weight: bold; position: absolute; top: 180upx; left: 50%; transform: translateX(-50%);">￥{{money ? (Number(money)).toFixed(2) : '0.00'}}</text>
 					<view class="mark" @touchend.prevent="markClick">
 						<view v-for="(item,index) in 6" :key="index" :class="password && (index + 1) <= password.length ?'active':null"></view>

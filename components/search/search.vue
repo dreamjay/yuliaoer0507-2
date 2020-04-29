@@ -54,6 +54,7 @@
 				})
 			},
 			open(is) {
+				console.log(is)
 				if(is) {
 					uni.navigateTo({
 						url:'/pages/tabbar/tabbar-2/newCrowd/newCrowd'

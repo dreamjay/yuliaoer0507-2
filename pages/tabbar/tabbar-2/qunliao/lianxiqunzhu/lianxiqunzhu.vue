@@ -21,9 +21,20 @@
 	export default{
 		data(){
 			return{
-				srcWx:'http://img1.imgtn.bdimg.com/it/u=1010441052,79968067&fm=26&gp=0.jpg',
-				wx:'ww45654686',
+				srcWx:'',
+				wx:'',
+				crowdInfo:{
+					type:Object,
+					default(){
+						return{}
+					}
+				}
 			}
+		},
+		onLoad(option) {
+			this.crowdInfo = JSON.parse(option.crowdInfo);
+			this.srcWx = this.crowdInfo.qunZhuUrl?this.crowdInfo.qunZhuUrl:'/static/moren.png';
+			this.wx = this.crowdInfo.qunZhuAccount?this.crowdInfo.qunZhuAccount:'';
 		},
 		methods:{
 			copy(str){

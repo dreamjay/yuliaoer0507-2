@@ -1,8 +1,7 @@
 <template>
 	<view>
-		<Search></Search>
-		
-		 <scroll-view  scroll-y="true" class="scroll-Y" :style="{height:scrollHei+'px'}" >
+			<Search></Search>
+	<scroll-view  scroll-y="true" class="scroll-Y" :style="{height:scrollHei+'px'}" >
 		<view class="liaotianList"  >
 			<navigator url="./guanfang/list" open-type="navigate" hover-class="">
 				<view class="item breakLine" >
@@ -80,7 +79,7 @@
 					<uni-swipe-action>
 						<uni-swipe-action-item :options="options" @click="onClick" @change="change">
 				
-							<view class="imageBox" :class="headimgClass(item.imgs ? item.imgs.length : null)">
+							<view class="imageBox1" :class="headimgClass(item.imgs ? item.imgs.length : null)">
 								<image v-for="(itemm,indexx) in item.imgs" :key="indexx" :src="itemm ? itemm : '/static/moren.png'" mode="scaleToFill"></image>
 							</view>
 							
@@ -266,7 +265,7 @@
 		}
 	}
 	
-	.imageBox{
+	.imageBox1{
 		width: 90rpx;
 		height: 90rpx;
 		display: inline-block;
