@@ -32,7 +32,7 @@
 					<image src="/static/img/wo/gengxin.png" mode=""></image><text>版本更新</text><image src="/static/img/wo/youjiantou.png"></image>
 				</li>
 				<li class="SelectList nullBottom listBorderTop">
-					<navigator url="./gerenshezhi/gerenshezhi" open-type="navigate" hover-class="">
+					<navigator url="./gerenshezhi/gerenshezhi" open-type="navigate" hover-class="" >
 						<image src="/static/img/wo/shezhi.png" mode=""></image><text>个人设置</text><image src="/static/img/wo/youjiantou.png"></image>
 					</navigator>
 				</li>

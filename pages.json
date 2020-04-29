@@ -1,14 +1,26 @@
 {
 	"pages": [
 		//pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
-		
+	
 		{
 			"path": "pages/tabbar/tabbar-1/tabbar-1",
 			"style": {
-				"navigationStyle":"custom",
 				"app-plus":{
-					
-					"titleNView":false
+					"titleNView":{
+						"autoBackButton":false,
+						"searchInput":{
+							"backgroundColor":"#eee",
+							"borderRadius":"5px", // 只能用px作单位
+							"placeholder":"请输入群ID或群名称",
+							"placeholderColor":"#ccc",
+							"align":"left",
+							"disabled":true
+						},
+						"buttons":[{
+							"type":"menu"
+						}]
+					},
+					"bounce":"vertical"
 				}
 				
 			}
@@ -59,10 +71,22 @@
 		{
 			"path": "pages/tabbar/tabbar-2/tabbar-2",
 			"style": {
-				"navigationStyle":"custom",
 				"app-plus":{
-		
-					"titleNView":false
+					"titleNView":{
+						"autoBackButton":false,
+						"searchInput":{
+							"backgroundColor":"#eee",
+							"borderRadius":"5px", // 只能用px作单位
+							"placeholder":"请输入群ID或群名称",
+							"placeholderColor":"#ccc",
+							"align":"left",
+							"disabled":true
+						},
+						"buttons":[{
+							"type":"menu"
+						}]
+					},
+					"bounce":"vertical"
 				}
 			}
 		},
@@ -408,6 +432,7 @@
 		{
 			"path": "pages/tabbar/tabbar-5/gerenshezhi/mimashezhi/mimashezhi",
 			"style": {
+				"navigationStyle":"custom",
 				"navigationBarTitleText": "密码设置",
 				"app-plus": {    
 					"titleNView": {    

@@ -118,10 +118,10 @@
 	.uni-indexed-list__item-border--last {
 		border-bottom-width: 0px;
 	}
-
+	
 	.uni-indexed-list__item-content {
 		flex: 1;
-		font-size: 14px;
+		font-size: 16px;
 	}
 
 	.uni-indexed-list {

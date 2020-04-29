@@ -70,7 +70,7 @@ export default {
 			
 		},
 		connection(){
-			
+			var that = this;
 			if(socketTask){
 				console.log("已连接")
 				return;
@@ -110,6 +110,7 @@ export default {
 				var obj = JSON.parse(res.data);
 				if(obj.messageType == 'CROWD'){
 					console.log("群消息来了")
+					that.addCrowd(obj);
 					uni.$emit('CROWD',obj)
 				}
 				if(obj.messageType == 'SYSTEM'){
@@ -123,6 +124,7 @@ export default {
 				}
 				if(obj.messageType == 'ALONE'){
 					console.log("个人消息来了")
+					that.addAlone(obj);
 					uni.$emit('ALONE',obj)
 				}
 			  
@@ -148,7 +150,122 @@ export default {
 			uni.removeStorageSync("token");
 			this.resetConnection();
 			this.toLogin();
-		}
+		},
+		addAlone(data){
+		
+			this.refreshMessageList();
+		
+			var sendUser = data.sendUser;
+			if(sendUser && sendUser.userId){
+				
+				var index = this.isExits("ALONE_"+sendUser.userId);
+				console.log(index);
+				if(index == -1){
+					var obj = {
+						id:sendUser.userId,
+						key:"ALONE_"+sendUser.userId,
+						headUrl:sendUser.headUrl,
+						title:sendUser.nickName,
+						text: this.formtContent(data.body),
+						time: this.calcTime(data.sendTime),
+						type:"ALONE"
+					}
+					this.addItem(obj);
+				}else{
+					this.messageList[index].time =this.calcTime(data.sendTime);
+					this.messageList[index].text = this.formtContent(data.body);
+					uni.setStorageSync(this.messageListKey,this.messageList);
+					
+					uni.$emit('UPDATE_MSG')
+				}
+			}
+		},
+		addCrowd(data){
+			
+			this.refreshMessageList();
+			
+			if(data.crowdId){
+					
+				var index = this.isExits("CROWD_"+data.crowdId);
+				
+				console.log(this.messageList);
+				if(index == -1){
+					var obj = {
+						id:data.crowdId,
+						key:"CROWD_"+data.crowdId,
+						imgs:[],
+						title:"",
+						text: this.formtContent(data.body),
+						time: this.calcTime(data.sendTime),
+						type:"CROWD"
+					}
+					this.$http.httpGetToken('/crowd/getById',{
+						crowdId: data.crowdId
+					},(res) =>{
+						obj.title = res.data.name;
+						this.$http.httpGetToken('/crowd/listUserHeadByCrowdId',{
+							crowdId:data.crowdId
+						},(res) => {
+							obj.imgs = res.data;
+							console.log("添加群消息")
+							this.addItem(obj);
+						},false)
+					},false);
+					
+					
+				}else{
+					this.messageList[index].time =this.calcTime(data.sendTime);
+					this.messageList[index].text = this.formtContent(data.body);
+					uni.setStorageSync(this.messageListKey,this.messageList);
+					uni.$emit('UPDATE_MSG')
+				}
+			}
+		},
+		isExits(key){
+			var indexx = -1;
+			this.messageList.find((m,index)=>{
+				
+				if(m.key == key){
+					indexx = index;
+				}
+				
+			})
+			return indexx;
+		},
+		refreshMessageList(){
+			
+			this.userInfo = uni.getStorageSync("userInfo");
+			this.messageListKey = "MESSAGE"+this.userInfo.id;
+			var messageList = uni.getStorageSync(this.messageListKey);
+			if(String(typeof(messageList)) != 'object'){
+				messageList = [];
+			}
+			this.messageList = messageList?messageList:[];
+		},
+		addItem(obj){
+			console.log("添加群关系")
+			this.messageList = this.messageList.concat(obj);
+			uni.setStorageSync(this.messageListKey,this.messageList);
+			uni.$emit('UPDATE_MSG')
+			
+		},
+		calcTime(time){
+			var minute = (time / 60000) % 60;
+			if(minute < 10){
+				minute = "0"+minute;
+			}
+			var h =  (time / 60000/24) % 24;
+			return h + ":" + minute;
+		},
+		formtContent(body){
+			if(body.bodyType == 'TEXT'){
+				return body.text;
+			}else if(body.bodyType == 'IMG'){
+				return "[图片]";
+			}else if(body.bodyType == 'AUDIO'){
+				return '[语音]';
+			}
+		},
 	}
 };
 </script>

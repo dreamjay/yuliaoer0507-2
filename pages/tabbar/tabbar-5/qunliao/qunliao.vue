@@ -1,14 +1,11 @@
 <template>
 	<view>
 		<ul class="ulBox" >
-			<li v-for="(item,index) in xuanran" :key="index" >
-				<navigator :url="'/pages/tabbar/tabbar-2/qunliao/qunliao?crowdInfo='+JSON.stringify(item)+''" open-type="navigate" hover-class="">
+			<li v-for="(item,index) in xuanran" :key="index" @click="toUrl(item.crowdId)" >
 					<view class="imageBox" :class="headimgClass(item.imgs ? item.imgs.length : null)">
 						<image v-for="(itemm,indexx) in item.imgs" :key="indexx" :src="itemm ? itemm : '/static/moren.png'" mode="scaleToFill"></image>
 					</view>
 					<text>{{item.name}}</text>
-				</navigator>
-				
 			</li>
 		</ul>
 	</view>
@@ -70,7 +67,19 @@
 					this.$forceUpdate();
 					this.xuanran[index].imgs = res.data;
 					
-				},false)
+				},true)
+			},
+			toUrl(crowdId){
+			
+				this.$http.httpGetToken('/crowd/getById',{
+					crowdId: crowdId
+				},(res) =>{
+					uni.navigateTo({
+						url:'/pages/tabbar/tabbar-2/qunliao/qunliao?crowdInfo='+JSON.stringify(res.data),
+						animationType: 'fade-in'
+					})
+				},true);
+		
 			}
 		}
 	}

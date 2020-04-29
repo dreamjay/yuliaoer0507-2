@@ -113,7 +113,7 @@
 		onNavigationBarButtonTap:function() {
 			
 			uni.navigateTo({
-				url:'/pages/tabbar/tabbar-5/qunzhushezhi/liaotianxinxi/liaotianxinxi?crowdId='+this.crowdInfo.crowdId+''
+				url:'/pages/tabbar/tabbar-5/qunzhushezhi/liaotianxinxi/liaotianxinxi?crowdId='+this.crowdInfo.id+''
 			})
 		},
 		onLoad: function (option) {
@@ -124,17 +124,12 @@
 			
 			uni.getSystemInfo({
 			    success: (e) => {
-			      
 			      // #ifdef APP-PLUS
-			      // console.log('app-plus', e)
-			      
 			      this.height = e.statusBarHeight + 44
 			      // #endif
 				}
 			})
 			this.crowdInfo = JSON.parse(option.crowdInfo)
-			
-			this.getCrowdInfo(this.crowdInfo.crowdId);
 			
 			this.userInfo =  uni.getStorageSync('userInfo')
 			uni.setNavigationBarTitle({
@@ -142,7 +137,7 @@
 			})
 			
 			uni.$on('CROWD',(data)=>{
-				if(data.crowdId == this.crowdInfo.crowdId){
+				if(data.crowdId == this.crowdInfo.id){
 					if(data.sendUser.userId == this.userInfo.id){ //自己不在这加
 						
 					}else{
@@ -339,7 +334,7 @@
 					url: '/push/cha',
 					method: 'post'
 				}, {
-					crowdId:this.crowdInfo.crowdId,
+					crowdId:this.crowdInfo.id,
 					msg:true,
 				}).then(res => {
 					if(res.data.success){
@@ -359,7 +354,7 @@
 			},
 			xiafen(val){ //下分
 				this.$http.httpPostTokenPush('/push/withdraw',{
-					crowdId:this.crowdInfo.crowdId,
+					crowdId:this.crowdInfo.id,
 					amount:val
 				},(res)=>{
 					
@@ -367,7 +362,7 @@
 			},
 			shangfen(val){ //上分
 				this.$http.httpPostTokenPush('/push/recharge',{
-					crowdId:this.crowdInfo.crowdId,
+					crowdId:this.crowdInfo.id,
 					amount:val
 				},(res)=>{
 					
@@ -408,7 +403,7 @@
 				}
 				
 				this.$http.httpPostTokenPush('/push/sendToCrowd',{
-					crowdId:this.crowdInfo.crowdId,
+					crowdId:this.crowdInfo.id,
 					message:info
 				},(res)=>{
 					this.messages.push({
@@ -481,15 +476,6 @@
 					// })
 					console.log('contentViewHeight',this.style.contentViewHeight);
 				})	
-			},
-			getCrowdInfo(id){
-				this.crowdId = id
-				this.$http.httpGetToken('/crowd/getById',{
-					crowdId:id
-				},(res) =>{
-					this.crowdInfo = res.data
-					this.crowdInfo.crowdId = id;
-				},false);
 			}
 		}
 	}
