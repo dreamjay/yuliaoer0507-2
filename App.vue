@@ -112,6 +112,10 @@ export default {
 					console.log("群消息来了")
 					that.addCrowd(obj);
 					uni.$emit('CROWD',obj)
+					
+					that.createMessage(obj);
+					
+					
 				}
 				if(obj.messageType == 'SYSTEM'){
 					console.log("系统消息来了")
@@ -121,14 +125,21 @@ export default {
 						uni.setStorageSync("userInfo",userInfo);
 					}
 					uni.$emit('SYSTEM',obj)
+	
+					that.createMessage(obj);
 				}
 				if(obj.messageType == 'ALONE'){
 					console.log("个人消息来了")
 					that.addAlone(obj);
 					uni.$emit('ALONE',obj)
+					that.createMessage(obj);
 				}
 			  
 			})
+		},
+		createMessage(data){
+			var content = this.formtContent(data.body);
+			plus.push.createMessage( content,'',{cover:true});
 		},
 		resetConnection(){
 			console.log(socketTask)
@@ -168,12 +179,14 @@ export default {
 						title:sendUser.nickName,
 						text: this.formtContent(data.body),
 						time: this.calcTime(data.sendTime),
-						type:"ALONE"
+						type:"ALONE",
+						num:1
 					}
 					this.addItem(obj);
 				}else{
 					this.messageList[index].time =this.calcTime(data.sendTime);
 					this.messageList[index].text = this.formtContent(data.body);
+					this.messageList[index].num++;
 					uni.setStorageSync(this.messageListKey,this.messageList);
 					
 					uni.$emit('UPDATE_MSG')
@@ -197,7 +210,8 @@ export default {
 						title:"",
 						text: this.formtContent(data.body),
 						time: this.calcTime(data.sendTime),
-						type:"CROWD"
+						type:"CROWD",
+						num:1
 					}
 					this.$http.httpGetToken('/crowd/getById',{
 						crowdId: data.crowdId
@@ -216,6 +230,7 @@ export default {
 				}else{
 					this.messageList[index].time =this.calcTime(data.sendTime);
 					this.messageList[index].text = this.formtContent(data.body);
+					this.messageList[index].num++;
 					uni.setStorageSync(this.messageListKey,this.messageList);
 					uni.$emit('UPDATE_MSG')
 				}
@@ -250,11 +265,14 @@ export default {
 			
 		},
 		calcTime(time){
-			var minute = (time / 60000) % 60;
+			var date = new Date();  
+			date.setTime(time);
+			
+			var minute = date.getMinutes();
 			if(minute < 10){
 				minute = "0"+minute;
 			}
-			var h =  (time / 60000/24) % 24;
+			var h =  date.getHours();
 			return h + ":" + minute;
 		},
 		formtContent(body){
@@ -264,6 +282,8 @@ export default {
 				return "[图片]";
 			}else if(body.bodyType == 'AUDIO'){
 				return '[语音]';
+			}else if(body.bodyType == 'RED_PACKET'){
+				return body.title;
 			}
 		},
 	}

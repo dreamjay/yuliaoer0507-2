@@ -131,7 +131,7 @@ page {
 			border-radius: 5px;
 			background-color: #ddd;
 			color: #fff;
-			font-size: 12px;
+			font-size: 14px;
 		}
 	}
 	.content {
@@ -157,7 +157,7 @@ page {
 					vertical-align: middle;
 				}
 				text {
-					font-size: 10px;
+					font-size: 14px;
 					color: #999;
 				}
 			}
@@ -168,7 +168,7 @@ page {
 			padding-right: 10upx;
 			vertical-align: middle;
 			height: 120upx;
-			font-size: 12px;
+			font-size: 14px;
 			text {
 				color: #999;
 				margin-top: 20upx;

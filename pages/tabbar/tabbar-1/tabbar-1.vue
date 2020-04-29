@@ -18,6 +18,24 @@
 				</view>
 			</navigator>
 		</view>
+		
+		<view class="liaotianList" v-if="isQunzhu">
+			<navigator url="./qunxiaoxi/qunxiaoxi" open-type="navigate" hover-class="">
+				<view class="item breakLine" >
+					<uni-swipe-action>
+						<uni-swipe-action-item  @click="onClick" @change="change">
+						<view class="img">
+							<image  src="/static/icon_qtz.png" mode="scaleToFill" ></image>
+						</view>
+						<view class="left">
+							<text class="title2">群消息</text>
+						</view>
+						</uni-swipe-action-item>
+					</uni-swipe-action>
+				</view>
+			</navigator>
+		</view>
+		
 		<view class="liaotianList" v-if="isQunzhu">	
 			<navigator url="./qunzhuxiaoxi/qunzhuxiaoxi"  open-type="navigate" hover-class="">
 				<view class="item breakLine" >
@@ -27,41 +45,22 @@
 								<image  src="/static/icon_qzxx.png" mode="scaleToFill" ></image>
 							</view>
 							<view class="left">
-								<text class="title">群主消息</text>
-								<text class="text">{{qunzhuContent}}</text>
+								<text class="title2">群主消息</text>
 							</view>
-							<view class="right">{{qunzhutime}}</view>
-						</uni-swipe-action-item>
-					</uni-swipe-action>
-				</view>
-			</navigator>
-		</view>
-		<view class="liaotianList" v-if="isQunzhu">	
-			<navigator url="./qunxiaoxi/qunxiaoxi" open-type="navigate" hover-class="">
-				<view class="item breakLine" >
-					<uni-swipe-action>
-						<uni-swipe-action-item  @click="onClick" @change="change">
-						<view class="img">
-							<image  src="/static/icon_qtz.png" mode="scaleToFill" ></image>
-						</view>
-						<view class="left">
-							<text class="title">群消息</text>
-							<text class="text">{{qunContent}}</text>
-						</view>
-							<view class="right">{{quntime}}</view>
 						</uni-swipe-action-item>
 					</uni-swipe-action>
 				</view>
 			</navigator>
 		</view>
 		
-		<view class="liaotianList" @click="itemClick(item.type,item.id)" v-for="(item,index) in messageList" :key="index">
+		<view class="liaotianList" @click="itemClick(item.type,item.id,index)" v-for="(item,index) in messageList" :key="index">
 			
 				<view class="item breakLine" v-if="item.type == 'ALONE'" >
 					<uni-swipe-action>
 						<uni-swipe-action-item :options="calcData(index)" @click="onClick" @change="change">
 							<view class="img">
 								<image  :src="item.headUrl?item.headUrl:'/static/moren.png'" mode="scaleToFill" ></image>
+								<span class="after" v-if="item.num>0" :style="{backgroundColor:'red'}">{{item.num > 99?"99":item.num}}</span>
 							</view>
 							<view class="left">
 								<text class="title">{{item.title}}</text>
@@ -78,6 +77,8 @@
 				
 							<view class="imageBox1" :class="headimgClass(item.imgs ? item.imgs.length : null)">
 								<image v-for="(itemm,indexx) in item.imgs" :key="indexx" :src="itemm ? itemm : '/static/moren.png'" mode="scaleToFill"></image>
+								<span class="after" v-if="item.num>0" :style="{backgroundColor:'red'}">{{item.num > 99?"99":item.num}}</span>
+							
 							</view>
 							
 							
@@ -125,35 +126,11 @@
 		data(){
 		    return {
 				userInfo:null,
-				systemContent:'',
-				qunzhuContent:'',
-				qunContent:'',
-				time:'4:00',
-				qunzhutime:'4:00',
-				quntime:'4:00',
+				systemContent:'欢迎来到平台',
+				time:'',
 				isQunzhu:false,
-				messageCount:0,
 				show:false,
-				messageList:[
-					{
-						id:"",
-						key:"ALONE",
-						headUrl:"",
-						title:"官方通知",
-						text:"官方通知",
-						time:"4:00",
-						type:"ALONE"
-					},
-					{
-						id:"20",
-						key:"CRWOD_20",
-						imgs:[null,null,null],
-						title:"官方通知群",
-						text:"官方通知",
-						time:"4:00",
-						type:"CROWD"
-					}
-				],
+				messageList:[],
 				options:[
 					{
 						text: '删除',
@@ -179,26 +156,40 @@
 		onLoad() {
 			this.userInfo = uni.getStorageSync('userInfo');
 			this.messageListKey = "MESSAGE"+this.userInfo.id;
+			
+			var systemInfo = uni.getStorageSync("systemInfo"+this.userInfo.id);
+			if(systemInfo){
+				this.systemContent = systemInfo.systemContent;
+				this.time = systemInfo.time;
+			}
+			
 			uni.$on('SYSTEM',(data) => {
 				if(this.isQunzhu != 1){
 					this.userInfo = uni.getStorageSync('userInfo');
 					this.isQunzhu = !!this.userInfo.showCrowd;
 				}
 				
-				console.log(data)
-				this.messageCount++;
-				uni.setTabBarBadge({
-					index: 0,
-					text: this.messageCount+''
-				});
+				this.systemContent = data.body.text;
+				this.time = this.calcTime(data.sendTime);
+				
+				uni.setStorageSync("systemInfo"+this.userInfo.id,{
+					systemContent:this.systemContent,
+					time:this.time 
+				})
+				
 			})
 			// 个人消息
 			uni.$on('ALONE',(data) => {
 				
 			})
 			
+			
+			
+			
 			// 群消息
 			uni.$on('CROWD',(data) => {
+				this.messageCount++;
+				
 			})
 			
 			uni.$on('UPDATE_MSG',(data) => {
@@ -237,6 +228,7 @@
 					messageList = [];
 				}
 				this.messageList = messageList?messageList:[];
+				this.setBadge();
 			},
 			
 			removeItem(index){
@@ -249,7 +241,7 @@
 					uni.setStorageSync(this.messageListKey,this.messageList);
 				},false);
 			},
-			itemClick(type,id){
+			itemClick(type,id,index){
 				console.log(type);
 				if(type == 'CROWD'){
 					this.$http.httpGetToken('/crowd/getById',{
@@ -259,8 +251,16 @@
 							url:'/pages/tabbar/tabbar-2/qunliao/qunliao?crowdInfo='+JSON.stringify(res.data),
 							animationType: 'fade-in'
 						})
+						this.messageList[index].num = 0;
+						uni.setStorageSync(this.messageListKey,this.messageList);
+						this.setBadge();
 					},true);
+				}else{
+					this.messageList[index].num = 0;	
+					uni.setStorageSync(this.messageListKey,this.messageList);
+					this.setBadge();
 				}
+		
 			},
 			onClick(e){
 			  this.removeItem(e.content.id);
@@ -290,6 +290,37 @@
 					})
 				}
 				
+			},
+			calcTime(time){
+				var date = new Date();  
+				date.setTime(time);
+				
+				var minute = date.getMinutes();
+				if(minute < 10){
+					minute = "0"+minute;
+				}
+				var h =  date.getHours();
+				return h + ":" + minute;
+			},
+			setBadge(){
+				
+				var a = 0;
+				for(var i=0;i<this.messageList.length;i++ ){
+					if(this.messageList[i].num){
+							a = a + this.messageList[i].num;
+					}
+				}
+				if(a > 0){
+					uni.setTabBarBadge({
+						index: 0,
+						text: a+''
+					});
+				}else{
+					uni.removeTabBarBadge({
+						index:0
+					})
+				}
+				
 			}
 		}
 		
@@ -315,8 +346,22 @@
 					width: 40px;
 					vertical-align: middle;
 					border-radius: 5px;
+						
 				}
+				position: relative;
 				margin-left: 15px;
+				.after{
+					color:#fff;
+					font-size: 10px;
+					line-height: 15px;
+					position: absolute;
+					height: 15px;
+					width:15px;
+					right: 0px;
+					top: 10px;
+					border-radius: 15px;
+					text-align: center;
+				}
 			}
 			.left{
 				flex: 1;
@@ -329,16 +374,22 @@
 					line-height: 20px;
 					font-size: 16px;
 				}
+				.title2{
+					height: 40px;
+					line-height: 40px;
+					font-size: 16px;
+				}
 				.text{
 					height: 20px;
 					line-height: 20px;
 					font-size: 12px;
 					color: #aaaaaa;
-					word-break: break-all;  /* break-all(允许在单词内换行。) */
-					text-overflow: ellipsis;  /* 超出部分省略号 */
-					display: -webkit-box; /** 对象作为伸缩盒子模型显示 **/
-					-webkit-box-orient: vertical; /** 设置或检索伸缩盒对象的子元素的排列方式 **/
-					-webkit-line-clamp: 2; /** 显示的行数 **/
+					 display: -webkit-box;/*作为弹性伸缩盒子模型显示*/
+					-webkit-line-clamp: 1; /*显示的行数；如果要设置2行加...则设置为2*/
+					overflow: hidden; /*超出的文本隐藏*/
+					text-overflow: ellipsis; /* 溢出用省略号*/
+					-webkit-box-orient: vertical;/*伸缩盒子的子元素排列：从上到下*/
+					
 				}
 			}
 			.right{
@@ -352,8 +403,8 @@
 	}
 	
 	.imageBox1{
-		width: 90rpx;
-		height: 90rpx;
+		width: 40px;
+		height: 40px;
 		display: inline-block;
 		border-radius: 5px;
 		overflow: hidden;
@@ -363,7 +414,20 @@
 		image{
 			box-sizing: border-box;
 		}
-		margin-top: 25rpx;
-		margin-left: 15upx;
+		margin-top: 10px;
+		margin-left: 15px;
+	}
+	
+	.after{
+		color:#fff;
+		font-size: 10px;
+		line-height: 15px;
+		position: absolute;
+		height: 15px;
+		width:15px;
+		right: 0px;
+		top: 0px;
+		border-radius: 15px;
+		text-align: center;
 	}
 </style>

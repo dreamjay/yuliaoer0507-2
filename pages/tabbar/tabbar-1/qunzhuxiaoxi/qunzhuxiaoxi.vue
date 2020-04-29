@@ -478,6 +478,7 @@
 		height: 50px;
 		top: 0;
 		left: 0;
+		background-color: #FFFFFF;
 		.shangfen{
 			position: absolute;
 			width: 50upx!important;
