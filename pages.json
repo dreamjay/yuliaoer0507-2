@@ -169,10 +169,9 @@
 								
 							}
 						]
-					},
-					"bounce":"none"
+					}
 				},
-				"enablePullDownRefresh":false
+				"enablePullDownRefresh":true
 			}
 		},
 		{
@@ -526,7 +525,8 @@
 					"titleNView":{
 						"backgroundColor":"#EEEEEE",
 						"splitLine":{}
-					}
+					},
+					"bounce":"vertical"
 				}
 			}
 		},

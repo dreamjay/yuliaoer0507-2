@@ -1,9 +1,18 @@
-<template>
+<template  class="app">
 	<view>
 		<view class="content" @touchstart="hideDrawer">
-			<scroll-view class="msg-list" scroll-y="true" :scroll-with-animation="scrollAnimation" :scroll-top="scrollTop" :scroll-into-view="scrollToView" @scrolltoupper="loadHistory" upper-threshold="50">
+			
+			<view  class="msg-list">
+			<!-- <scroll-view class="msg-list"
+			 scroll-y="true" 
+			 :scroll-with-animation="scrollAnimation" 
+			 :scroll-top="scrollTop" 
+			 :scroll-into-view="scrollToView" 
+				@scrolltoupper = "loadHistory"
+			 scroll-anchoring="true"
+			 upper-threshold="50"> -->
 				<!-- 加载历史数据waitingUI -->
-				<view class="loading">
+				<!-- <view class="loading" v-show="isHistoryLoading">
 					<view class="spinner">
 						<view class="rect1"></view>
 						<view class="rect2"></view>
@@ -11,7 +20,7 @@
 						<view class="rect4"></view>
 						<view class="rect5"></view>
 					</view>
-				</view>
+				</view> -->
 				
 				<view class="row" v-for="(row,index) in msgList" :key="index" :id="'msg'+row.msg.id">
 					
@@ -55,7 +64,7 @@
 											<!-- <image  @click="$emit('hongbaoClick',{message}) " src="/static/liaotian/_bg_to_hongbao.png'" style="" mode="aspectFit"></image> -->
 											<image  src="/static/liaotian/_bg_from_hongbao.png" style="" mode="aspectFit"></image>
 											<text>{{row.msg.content.blessing}}</text>
-											<text>已抢光</text>
+											<text>{{row.msg.content.status == 1 ? '已抢完':'领取红包'}}</text>
 											<text>扫雷红包</text>
 										</view>
 									</view>
@@ -106,7 +115,7 @@
 											<!-- <image  @click="$emit('hongbaoClick',{message}) " src="/static/liaotian/_bg_to_hongbao.png'" style="" mode="aspectFit"></image> -->
 											<image  src="/static/liaotian/bg_hb_left_sel.png" style="" mode="aspectFit"></image>
 											<text>{{row.msg.content.blessing}}</text>
-											<text>已抢光</text>
+											<text>{{row.msg.content.status == 1 ? '已抢完':'领取红包'}}</text>
 											<text>扫雷红包</text>
 										</view>
 									</view>
@@ -116,9 +125,11 @@
 					</block>
 				</view>
 				
-				
-			</scroll-view>
+					<view style="height: 51px;" id="tag"></view>
+				</view>
+			<!-- </scroll-view> -->
 		</view>
+	
 		<!-- 抽屉栏 -->
 		<view class="popup-layer" :class="popupLayerClass" @touchmove.stop.prevent="discard">
 			<!-- 表情 --> 
@@ -256,11 +267,40 @@
 	export default {
 		data() {
 			return {
+				
+				
+				// 消息列表
+				// let list = [
+				// 	{type:"system",msg:{id:0,type:"text",content:{text:"欢迎进入HM-chat聊天室"}}},
+				// 	{type:"user",msg:{id:1,type:"text",time:"12:56",userinfo:{uid:0,username:"大黑哥",face:"/static/img/face.jpg"},content:{text:"为什么温度会相差那么大？"}}},
+				// 	{type:"user",msg:{id:2,type:"text",time:"12:57",userinfo:{uid:1,username:"售后客服008",face:"/static/img/im/face/face_2.jpg"},content:{text:"这个是有偏差的，两个温度相差十几二十度是很正常的，如果相差五十度，那即是质量问题了。"}}},
+				// 	{type:"user",msg:{id:3,type:"voice",time:"12:59",userinfo:{uid:1,username:"售后客服008",face:"/static/img/im/face/face_2.jpg"},content:{url:"/static/voice/1.mp3",length:"00:06"}}},
+				// 	{type:"user",msg:{id:4,type:"voice",time:"13:05",userinfo:{uid:0,username:"大黑哥",face:"/static/img/face.jpg"},content:{url:"/static/voice/2.mp3",length:"00:06"}}},
+				// 	{type:"user",msg:{id:5,type:"img",time:"13:05",userinfo:{uid:0,username:"大黑哥",face:"/static/img/face.jpg"},content:{url:"/static/img/p10.jpg",w:200,h:200}}},
+				// 	{type:"user",msg:{id:6,type:"img",time:"12:59",userinfo:{uid:1,username:"售后客服008",face:"/static/img/im/face/face_2.jpg"},content:{url:"/static/img/q.jpg",w:1920,h:1080}}},
+				// 	{type:"system",msg:{id:7,type:"text",content:{text:"欢迎进入HM-chat聊天室"}}},
+					
+				// 	{type:"system",msg:{id:9,type:"redEnvelope",content:{text:"售后客服008领取了你的红包"}}},
+				// 	{type:"user",msg:{id:10,type:"redEnvelope",time:"12:56",userinfo:{uid:0,username:"大黑哥",face:"/static/img/face.jpg"},content:{blessing:"恭喜发财，大吉大利，万事如意",rid:0,isReceived:false}}},
+				// 	{type:"user",msg:{id:11,type:"redEnvelope",time:"12:56",userinfo:{uid:1,username:"售后客服008",face:"/static/img/im/face/face_2.jpg"},content:{blessing:"恭喜发财",rid:1,isReceived:false}}},
+				// ]
+				// 获取消息中的图片,并处理显示尺寸
+				// for(let i=0;i<list.length;i++){
+				// 	if(list[i].type=='user'&&list[i].msg.type=="img"){
+				// 		list[i].msg.content = this.setPicSize(list[i].msg.content);
+				// 		this.msgImgList.push(list[i].msg.content.url);
+				// 	}
+				// }
+				// this.msgList = list;
+				
+				
+				
 				//文字消息
 				textMsg:'',
 				//消息列表
 				isHistoryLoading:false,
 				scrollAnimation:false,
+				triggered:false,
 				scrollTop:0,
 				scrollToView:'',
 				msgList:[],
@@ -303,6 +343,7 @@
 				}
 			};
 		},
+		
 		onLoad(option) {
 			
 			// 初始化数据
@@ -327,21 +368,128 @@
 			})
 			// #endif
 			
-
-	
+			this.lastCount = 0;
+			this.viewId = null;
 			
 		},
 		onShow(){
+			console.log("onShow")
 			this.scrollTop = 9999999;
-			
-
 		},
 		onNavigationBarButtonTap:function() {
 			uni.navigateTo({
 				url:'/pages/tabbar/tabbar-5/qunzhushezhi/liaotianxinxi/liaotianxinxi?crowdId='+this.crowdInfo.id+''
 			})
 		},
+		onPullDownRefresh(){
+			this.loadHistory();
+		},
 		methods:{
+		
+			//触发滑动到顶部(加载历史信息记录)
+			loadHistory(){
+				console.log("加载历史消息"+this.isHistoryLoading)
+				if(this.isHistoryLoading){
+					return false;
+				}
+				this.isHistoryLoading = true;//参数作为进入请求标识，防止重复请求
+				this.scrollAnimation = false;//关闭滑动动画
+			
+				var crowdMessageId = this.crowdMessageId;
+				if(!crowdMessageId){
+					crowdMessageId = null;
+				}
+
+				this.$http.httpGetToken('/crowd-message/page',{
+					crowdId:this.crowdInfo.id,
+					pageNo:1,
+					pageSize:20,
+					crowdMessageId:crowdMessageId
+				},(res)=>{
+				
+					let list = res.data.records;
+					for(var i=0;i<list.length;i++){
+						var msg = JSON.parse(list[i].message);
+						this.msgList.unshift(this.convertMsg(msg))
+						if(i == list.length - 1){
+							 this.crowdMessageId = list[i].id;
+						}
+					}
+
+					this.isHistoryLoading = false;
+					
+					uni.stopPullDownRefresh();
+					
+					this.scrollToRefresh();
+					
+				},false);
+			},
+			scrollToRefresh(){
+				this.$nextTick(function(){
+					uni.createSelectorQuery().select("#tag").boundingClientRect(data=>{//目标节点
+					
+						uni.pageScrollTo({
+							duration: 0,
+							scrollTop:data.bottom - this.lastCount -10
+				　　　　})
+						this.lastCount = data.bottom ;
+						
+					}).exec();
+				})
+			},
+			scrollToBottom(){
+	
+				
+				this.$nextTick(function(){
+					uni.createSelectorQuery().select("#msg"+this.viewId).boundingClientRect(data=>{//目标节点
+						console.log("data:",data)
+							if(data){
+								uni.pageScrollTo({
+								　　　　　　scrollTop:999999,
+								　　　　})
+							}
+					}).exec();
+				})
+			
+			},
+			// 加载初始页面消息
+			getMsgList(){
+			
+				var crowdMessageId = this.crowdMessageId;
+				if(!crowdMessageId){
+					crowdMessageId = null;
+				}
+				
+					
+				this.isHistoryLoading = true;
+				this.$http.httpGetToken('/crowd-message/page',{
+					crowdId:this.crowdInfo.id,
+					pageNo:1,
+					pageSize:10,
+					crowdMessageId:crowdMessageId
+				},(res)=>{
+					let list = res.data.records;
+					let msgList = [];
+					for(var i=0;i<list.length;i++){
+						var msg = JSON.parse(list[i].message);
+						msgList.unshift(this.convertMsg(msg))
+						if(i == list.length - 1){
+							 this.crowdMessageId = list[i].id;
+						}
+					}
+					this.msgList = msgList;	
+					
+					// 滚动到底部
+					this.isHistoryLoading = false;
+					
+					this.scrollToBottom();
+				},false);
+				
+				
+				
+				
+			
+			},
 			init(option){
 				console.log('群信息',option)
 				// 群信息
@@ -349,6 +497,10 @@
 				// 用户信息
 				this.userInfo =  uni.getStorageSync('userInfo')
 				this.myuid = this.userInfo.id;
+				
+				var o = uni.getSystemInfoSync();
+				this.windowHeight = o.windowHeight;
+				this.statusBarHeight = o.statusBarHeight;
 			},
 			setTitle(title){
 				uni.setNavigationBarTitle({
@@ -373,11 +525,32 @@
 				if(data.sendUser.userId == this.userInfo.id){ 
 					return;
 				}
-				this.convertMsg(data);
+				var obj = this.convertMsg(data);
+				if(obj){
+					this.msgList.push(obj);
+					
+					this.scrollToBottom();
+				}
 			},
+			
+			//处理图片尺寸，如果不处理宽高，新进入页面加载图片时候会闪
+			setPicSize(content){
+				// 让图片最长边等于设置的最大长度，短边等比例缩小，图片控件真实改变，区别于aspectFit方式。
+				let maxW = uni.upx2px(350);//350是定义消息图片最大宽度
+				let maxH = uni.upx2px(350);//350是定义消息图片最大高度
+				if(content.w>maxW||content.h>maxH){
+					let scale = content.w/content.h;
+					content.w = scale>1?maxW:maxH*scale;
+					content.h = scale>1?maxW/scale:maxH;
+				}
+				return content;
+			},
+			
+			
+			
 			convertMsg(data){
 			
-			    var msgId = data.sendTime+''+data.sendUser.id;
+			    var msgId = data.sendTime+''+data.sendUser.userId;
 				switch(data.body.bodyType) {
 					case "TEXT":{
 						var eventType =  data.body.eventType;
@@ -390,7 +563,7 @@
 										type:"text",
 										time:this.calcTime(data.sendTime),
 										userinfo:{
-											uid:data.sendUser.id,
+											uid:data.sendUser.userId,
 											username:data.sendUser.nickName,
 											face:data.sendUser.headUrl?data.sendUser.headUrl:'/static/moren.png',
 										},
@@ -399,8 +572,7 @@
 											},
 										},
 									};
-								this.addTextMsg(msg);
-								break;
+								return msg;
 							}
 						}
 						break
@@ -408,36 +580,30 @@
 					case "RED_PACKET":{
 						var msg = {
 							type:"user",
-							msg:{
-								id:msgId,
-								type:"redEnvelope",
-								time:this.calcTime(data.sendTime),
-								userinfo:{
-									uid:data.sendUser.id,
-									username:data.sendUser.nickName,
-									face:data.sendUser.headUrl?data.sendUser.headUrl:'/static/moren.png',
+								msg:{
+									id:msgId,
+									type:"redEnvelope",
+									time:this.calcTime(data.sendTime),
+									userinfo:{
+										uid:data.sendUser.userId,
+										username:data.sendUser.nickName,
+										face:data.sendUser.headUrl?data.sendUser.headUrl:'/static/moren.png',
+									},
+									content:{
+										blessing:data.body.title,
+										rid:data.body.redId,
+										isReceived:false,
+										status:data.body.status
+									},
 								},
-								content:{
-									blessing:data.body.title,
-									rid:data.body.redId,
-									isReceived:false,
-									status:data.body.status
-								},
-							},
-						}
-						this.addRedEnvelopeMsg(msg);
-						this.$nextTick(function() {
-							// 滚动到底
-							this.scrollToView = 'msg'+msg.msg.id
-						});
-						break
+							}
+					
+						return msg;
 					}
 				}
-
-				this.$nextTick(function() {
-					// 滚动到底
-					this.scrollToView = 'msg'+msgId
-				});
+			
+				return null;
+				
 				
 			},
 			calcTime(time){
@@ -450,134 +616,6 @@
 				}
 				var h =  date.getHours();
 				return h + ":" + minute;
-			},
-			// 接受消息(筛选处理)
-			screenMsg(msg){
-				//从长连接处转发给这个方法，进行筛选处理
-				if(msg.type=='system'){
-					// 系统消息
-					switch (msg.msg.type){
-						case 'text':
-							this.addSystemTextMsg(msg);
-							break;
-						case 'redEnvelope':
-							this.addSystemRedEnvelopeMsg(msg);
-							break;
-					}
-				}else if(msg.type=='user'){
-					// 用户消息
-					switch (msg.msg.type){
-						case 'text':
-							this.addTextMsg(msg);
-							break;
-						case 'voice':
-							this.addVoiceMsg(msg);
-							break;
-						case 'img':
-							this.addImgMsg(msg);
-							break;
-						case 'redEnvelope':
-							this.addRedEnvelopeMsg(msg);
-							break;
-					}
-					console.log('用户消息');
-					//非自己的消息震动
-					if(msg.msg.userinfo.uid!=this.myuid){
-						console.log('振动');
-						uni.vibrateLong();
-					}
-				}
-				this.$nextTick(function() {
-					// 滚动到底
-					this.scrollToView = 'msg'+msg.msg.id
-				});
-			},
-			
-			//触发滑动到顶部(加载历史信息记录)
-			loadHistory(e){
-				if(this.isHistoryLoading){
-					return ;
-				}
-				this.isHistoryLoading = true;//参数作为进入请求标识，防止重复请求
-				this.scrollAnimation = false;//关闭滑动动画
-				let Viewid = this.msgList[0].msg.id;//记住第一个信息ID
-				//本地模拟请求历史记录效果
-				setTimeout(()=>{
-					// 消息列表
-					let list = [
-						{type:"user",msg:{id:1,type:"text",time:"12:56",userinfo:{uid:0,username:"大黑哥",face:"/static/img/face.jpg"},content:{text:"为什么温度会相差那么大？"}}},
-						{type:"user",msg:{id:2,type:"text",time:"12:57",userinfo:{uid:1,username:"售后客服008",face:"/static/img/im/face/face_2.jpg"},content:{text:"这个是有偏差的，两个温度相差十几二十度是很正常的，如果相差五十度，那即是质量问题了。"}}},
-						{type:"user",msg:{id:3,type:"voice",time:"12:59",userinfo:{uid:1,username:"售后客服008",face:"/static/img/im/face/face_2.jpg"},content:{url:"/static/voice/1.mp3",length:"00:06"}}},
-						{type:"user",msg:{id:4,type:"voice",time:"13:05",userinfo:{uid:0,username:"大黑哥",face:"/static/img/face.jpg"},content:{url:"/static/voice/2.mp3",length:"00:06"}}},
-					]
-					// 获取消息中的图片,并处理显示尺寸
-					for(let i=0;i<list.length;i++){
-						if(list[i].type=='user'&&list[i].msg.type=="img"){
-							list[i].msg.content = this.setPicSize(list[i].msg.content);
-							this.msgImgList.unshift(list[i].msg.content.url);
-						}
-						list[i].msg.id = Math.floor(Math.random()*1000+1);
-						this.msgList.unshift(list[i]);
-					}
-					
-					//这段代码很重要，不然每次加载历史数据都会跳到顶部
-					this.$nextTick(function() {
-						this.scrollToView = 'msg'+Viewid;//跳转上次的第一行信息位置
-						this.$nextTick(function() {
-							this.scrollAnimation = true;//恢复滚动动画
-						});
-						
-					});
-					this.isHistoryLoading = false;
-					
-				},1000)
-			},
-			// 加载初始页面消息
-			getMsgList(){
-				// 消息列表
-				let list = [
-					{type:"system",msg:{id:0,type:"text",content:{text:"欢迎进入HM-chat聊天室"}}},
-					{type:"user",msg:{id:1,type:"text",time:"12:56",userinfo:{uid:0,username:"大黑哥",face:"/static/img/face.jpg"},content:{text:"为什么温度会相差那么大？"}}},
-					{type:"user",msg:{id:2,type:"text",time:"12:57",userinfo:{uid:1,username:"售后客服008",face:"/static/img/im/face/face_2.jpg"},content:{text:"这个是有偏差的，两个温度相差十几二十度是很正常的，如果相差五十度，那即是质量问题了。"}}},
-					{type:"user",msg:{id:3,type:"voice",time:"12:59",userinfo:{uid:1,username:"售后客服008",face:"/static/img/im/face/face_2.jpg"},content:{url:"/static/voice/1.mp3",length:"00:06"}}},
-					{type:"user",msg:{id:4,type:"voice",time:"13:05",userinfo:{uid:0,username:"大黑哥",face:"/static/img/face.jpg"},content:{url:"/static/voice/2.mp3",length:"00:06"}}},
-					{type:"user",msg:{id:5,type:"img",time:"13:05",userinfo:{uid:0,username:"大黑哥",face:"/static/img/face.jpg"},content:{url:"/static/img/p10.jpg",w:200,h:200}}},
-					{type:"user",msg:{id:6,type:"img",time:"12:59",userinfo:{uid:1,username:"售后客服008",face:"/static/img/im/face/face_2.jpg"},content:{url:"/static/img/q.jpg",w:1920,h:1080}}},
-					{type:"system",msg:{id:7,type:"text",content:{text:"欢迎进入HM-chat聊天室"}}},
-					
-					{type:"system",msg:{id:9,type:"redEnvelope",content:{text:"售后客服008领取了你的红包"}}},
-					{type:"user",msg:{id:10,type:"redEnvelope",time:"12:56",userinfo:{uid:0,username:"大黑哥",face:"/static/img/face.jpg"},content:{blessing:"恭喜发财，大吉大利，万事如意",rid:0,isReceived:false}}},
-					{type:"user",msg:{id:11,type:"redEnvelope",time:"12:56",userinfo:{uid:1,username:"售后客服008",face:"/static/img/im/face/face_2.jpg"},content:{blessing:"恭喜发财",rid:1,isReceived:false}}},
-				]
-				// 获取消息中的图片,并处理显示尺寸
-				for(let i=0;i<list.length;i++){
-					if(list[i].type=='user'&&list[i].msg.type=="img"){
-						list[i].msg.content = this.setPicSize(list[i].msg.content);
-						this.msgImgList.push(list[i].msg.content.url);
-					}
-				}
-				this.msgList = list;
-				// 滚动到底部
-				this.$nextTick(function() {
-					//进入页面滚动到底部
-					this.scrollTop = 9999;
-					this.$nextTick(function() {
-						this.scrollAnimation = true;
-					});
-					
-				});
-			},
-			//处理图片尺寸，如果不处理宽高，新进入页面加载图片时候会闪
-			setPicSize(content){
-				// 让图片最长边等于设置的最大长度，短边等比例缩小，图片控件真实改变，区别于aspectFit方式。
-				let maxW = uni.upx2px(350);//350是定义消息图片最大宽度
-				let maxH = uni.upx2px(350);//350是定义消息图片最大高度
-				if(content.w>maxW||content.h>maxH){
-					let scale = content.w/content.h;
-					content.w = scale>1?maxW:maxH*scale;
-					content.h = scale>1?maxW/scale:maxH;
-				}
-				return content;
 			},
 			
 			//更多功能(点击+弹出) 
@@ -639,6 +677,49 @@
 					}
 				});
 			},
+			
+			
+			// // 接受消息(筛选处理)
+			// screenMsg(msg){
+			// 	//从长连接处转发给这个方法，进行筛选处理
+			// 	if(msg.type=='system'){
+			// 		// 系统消息
+			// 		switch (msg.msg.type){
+			// 			case 'text':
+			// 				this.addSystemTextMsg(msg);
+			// 				break;
+			// 			case 'redEnvelope':
+			// 				this.addSystemRedEnvelopeMsg(msg);
+			// 				break;
+			// 		}
+			// 	}else if(msg.type=='user'){
+			// 		// 用户消息
+			// 		switch (msg.msg.type){
+			// 			case 'text':
+			// 				this.addTextMsg(msg);
+			// 				break;
+			// 			case 'voice':
+			// 				this.addVoiceMsg(msg);
+			// 				break;
+			// 			case 'img':
+			// 				this.addImgMsg(msg);
+			// 				break;
+			// 			case 'redEnvelope':
+			// 				this.addRedEnvelopeMsg(msg);
+			// 				break;
+			// 		}
+			// 		console.log('用户消息');
+			// 		//非自己的消息震动
+			// 		if(msg.msg.userinfo.uid!=this.myuid){
+			// 			console.log('振动');
+			// 			uni.vibrateLong();
+			// 		}
+			// 	}
+			// 	this.$nextTick(function() {
+			// 		// 滚动到底
+			// 		this.scrollToView = 'msg'+msg.msg.id
+			// 	});
+			// },
 			// 选择表情
 			chooseEmoji(){
 				this.hideMore = true;
@@ -673,7 +754,6 @@
 			//替换表情符号为图片
 			replaceEmoji(str){
 				let replacedStr = str.replace(/\[([^(\]|\[)]*)\]/g,(item, index)=>{
-					console.log("item: " + item);
 					for(let i=0;i<this.emojiList.length;i++){
 						let row = this.emojiList[i];
 						for(let j=0;j<row.length;j++){
@@ -790,10 +870,7 @@
 					}
 				this.addTextMsg(msg);
 				
-				this.$nextTick(function() {
-					// 滚动到底
-					this.scrollToView = 'msg'+msg.msg.id
-				});
+				this.scrollToBottom();
 				
 			},
 			sendRedpacket(data){
@@ -824,13 +901,9 @@
 						},
 					},
 				}
-				console.log(msg)
 				this.addRedEnvelopeMsg(msg);
 				
-				this.$nextTick(function() {
-					// 滚动到底
-					this.scrollToView = 'msg'+msg.msg.id
-				});
+				this.scrollToBottom();
 			},
 			// 添加文字消息到列表
 			addTextMsg(msg){
@@ -859,41 +932,41 @@
 			},
 			// 打开红包
 			openRedEnvelope(msg,index){
-				let rid = msg.content.rid;
-				uni.showLoading({
-					title:'加载中...'
-				});
-				console.log("index: " + index);
-				//模拟请求服务器效果
-				setTimeout(()=>{
-					//加载数据
-					if(rid==0){
-						this.redenvelopeData={
-							rid:0,	//红包ID
-							from:"大黑哥",
-							face:"/static/img/im/face/face.jpg",
-							blessing:"恭喜发财，大吉大利",
-							money:"已领完"
-						}
-					}else{
-						this.redenvelopeData={
-							rid:1,	//红包ID
-							from:"售后客服008",
-							face:"/static/img/im/face/face_2.jpg",
-							blessing:"恭喜发财",
-							money:"0.01"
-						}
-						if(!msg.content.isReceived){
-							// {type:"system",msg:{id:8,type:"redEnvelope",content:{text:"你领取了售后客服008的红包"}}},
-							this.sendSystemMsg({text:"你领取了"+(msg.userinfo.uid==this.myuid?"自己":msg.userinfo.username)+"的红包"},'redEnvelope');
-							console.log("this.msgList[index]: " + JSON.stringify(this.msgList[index]));
-							this.msgList[index].msg.content.isReceived = true;
-						}
-					}
-					uni.hideLoading();
-					this.windowsState = 'show';
+				// let rid = msg.content.rid;
+				// uni.showLoading({
+				// 	title:'加载中...'
+				// });
+				// console.log("index: " + index);
+				// //模拟请求服务器效果
+				// setTimeout(()=>{
+				// 	//加载数据
+				// 	if(rid==0){
+				// 		this.redenvelopeData={
+				// 			rid:0,	//红包ID
+				// 			from:"大黑哥",
+				// 			face:"/static/img/im/face/face.jpg",
+				// 			blessing:"恭喜发财，大吉大利",
+				// 			money:"已领完"
+				// 		}
+				// 	}else{
+				// 		this.redenvelopeData={
+				// 			rid:1,	//红包ID
+				// 			from:"售后客服008",
+				// 			face:"/static/img/im/face/face_2.jpg",
+				// 			blessing:"恭喜发财",
+				// 			money:"0.01"
+				// 		}
+				// 		if(!msg.content.isReceived){
+				// 			// {type:"system",msg:{id:8,type:"redEnvelope",content:{text:"你领取了售后客服008的红包"}}},
+				// 			this.sendSystemMsg({text:"你领取了"+(msg.userinfo.uid==this.myuid?"自己":msg.userinfo.username)+"的红包"},'redEnvelope');
+				// 			console.log("this.msgList[index]: " + JSON.stringify(this.msgList[index]));
+				// 			this.msgList[index].msg.content.isReceived = true;
+				// 		}
+				// 	}
+				// 	uni.hideLoading();
+				// 	this.windowsState = 'show';
 					
-				},200)
+				// },200)
 				
 			},
 			// 关闭红包弹窗
@@ -1180,7 +1253,7 @@
 		text:nth-of-type(3){
 			bottom: 15upx;
 			left: 30upx;
-			font-size: 11upx;
+			font-size: 10px;
 		}
 	}
 	.customerSubClass{
@@ -1207,7 +1280,7 @@
 		text:nth-of-type(3){
 			bottom: 15upx;
 			left: 30upx;
-			font-size: 11upx;
+			font-size: 10px;
 		}
 	}
 </style>
