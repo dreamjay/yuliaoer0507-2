@@ -160,8 +160,10 @@
 								
 							}
 						]
-					}
-				}
+					},
+					"bounce":"vertical"
+				},
+				"enablePullDownRefresh":true
 			}
 		},
 		{

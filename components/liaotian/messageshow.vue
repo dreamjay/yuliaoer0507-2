@@ -1,31 +1,52 @@
 <template>
-	<view class="m-item" :id="'message'+cid">
+	<view class="m-item">
 		
-		<view class="m-left">
-			<image class="head_icon" :src="message.headUrl ? message.headUrl : '/static/moren.png'" v-if="message.user=='him'"></image>
+		<view class="m-left" v-if="message.classType=='left'">
+			<image class="head_icon" :src="message.sendUser.headUrl ? message.sendUser.headUrl : '/static/moren.png'"></image>
 		</view>
-		<view class="m-content" v-if="!message.hasSub" >
-			<view class="m-content-head" :class="{'m-content-head-right':message.user=='customer'}">
-				<view :class="'m-content-head-'+message.user+'Name'">{{message.nickName}}</view>
-				<view :class="'m-content-head-'+message.user " v-html="message.content.replace(this.reg, emotion)" @touchstart="touchstart"  @touchmove="touchmove" @longpress="longtap(message)">
-					<!-- <rich-text :nodes="message.content.replace(this.reg, emotion)"></rich-text> -->
+		<view class="m-content" v-if="message.body.bodyType == 'TEXT'" >
+			<view  class="m-content-head" v-if="message.classType =='left'">
+				<view class="m-content-head-himName">{{message.sendUser.nickName}}</view>
+				<view class="m-content-head-him" v-html="html(message.body.text)" @touchstart="touchstart"  @touchmove="touchmove" @longpress="longtap(message.body.text)">
+				</view>
+			</view>
+			
+			<view class="m-content-head m-content-head-right" v-if="message.classType !='left'" >
+				<view class="m-content-head-customerName">{{message.sendUser.nickName}}</view>
+				<view class="m-content-head-customer" v-html="html(message.body.text)" @touchstart="touchstart"  @touchmove="touchmove" @longpress="longtap(message.body.text)">
 				</view>
 			</view>
 		</view>
-		<view class="m-content" v-if="message.hasSub">
-			<view class="m-content-head" :class="{'m-content-head-right':message.user=='customer'}">
-				<view :class="'m-content-head-'+message.user+'Name'">{{message.nickName}}</view>
-				<view :class="message.user == 'customer' ? 'customerSubClass' : 'subClass'">
-					<image v-if="message.subcontent.isOpen == 0" @click="$emit('hongbaoClick',{message}) " :src="message.user == 'customer' ? '/static/liaotian/_bg_from_hongbao.png' : '/static/liaotian/_bg_to_hongbao.png'" style="" mode="aspectFit"></image>
-					<image v-if="message.subcontent.isOpen != 0"  :src="message.user == 'customer' ? '/static/liaotian/bg_hb_right_sel.png' : '/static/liaotian/bg_hb_left_sel.png'" style="" mode="aspectFit"></image>
-					<text>{{message.subcontent.val}}-{{message.subcontent.lei}}</text>
-					<text>{{handleRrd(message.subcontent.isOpen)}}</text>
-					<text>{{message.subcontent.name}}</text>
+		
+
+		
+		<view class="m-content" v-if="message.body.bodyType == 'RED_PACKET'">
+			<view v-if="message.classType !='left'" class="m-content-head ">
+				<view class="m-content-head-customerName">{{message.sendUser.nickName}}</view>
+				<view class="customerSubClass">
+					<image v-if="message.body.status == 0" @click="$emit('hongbaoClick',{message}) " src="/static/liaotian/_bg_from_hongbao.png'" style="" mode="aspectFit"></image>
+					<image v-if="message.body.status != 0"  src="/static/liaotian/bg_hb_right_sel.png" style="" mode="aspectFit"></image>
+					<text>{{message.body.title}}</text>
+					<text>{{handleRrd(message.body.status)}}</text>
+					<text>扫雷红包</text>
 				</view>
 			</view>
+			
+			<view v-if="message.classType =='left'" class="m-content-head m-content-head-right">
+				<view class="m-content-head-himName">{{message.sendUser.nickName}}</view>
+				<view class="subClass">
+					<image v-if="message.body.status == 0" @click="$emit('hongbaoClick',{message}) " src="/static/liaotian/_bg_to_hongbao.png'" style="" mode="aspectFit"></image>
+					<image v-if="message.body.status != 0"  src="/static/liaotian/bg_hb_left_sel.png" style="" mode="aspectFit"></image>
+					<text>{{message.body.title}}</text>
+					<text>{{handleRrd(message.body.status)}}</text>
+					<text>扫雷红包</text>
+				</view>
+			</view>
+			
+			
 		</view>
-		<view class="m-right">
-			<image class="head_icon" :src="message.headUrl ? message.headUrl : '/static/moren.png'" v-if="message.user=='customer'"></image>
+		<view class="m-right" v-if="message.classType=='right'">
+			<image class="head_icon" :src="message.sendUser.headUrl ? message.sendUser.headUrl : '/static/moren.png'"></image>
 		</view>
 	</view>
 </template>
@@ -86,9 +107,14 @@
 					// #endif
 				}
 			},
+			html(res){
+				console.log(res)
+				res.replace(this.reg,this.emotion);
+			},
 			emotion(res) {
-				// console.log('mess', res)
+				console.log('mess', res)
 				let word = res.replace(/\#|\;/gi, '')
+				console.log(word)
 				// console.log(word)
 				const list = ['微笑', '撇嘴', '色', '发呆', '得意', '流泪', '害羞', '闭嘴', '睡', '大哭', '尴尬', '发怒', '调皮', '呲牙', '惊讶', '难过', '酷',
 					'冷汗', '抓狂', '吐', '偷笑', '可爱', '白眼', '傲慢', '饥饿', '困', '惊恐', '流汗', '憨笑', '大兵', '奋斗', '咒骂', '疑问', '嘘', '晕', '折磨', '衰',
@@ -98,6 +124,8 @@
 					'发抖', '怄火', '转圈', '磕头', '回头', '跳绳', '挥手', '激动', '街舞', '献吻', '左太极', '右太极'
 				]
 				let index = list.indexOf(word)
+				
+				console.log(index)
 				index = index < 10 ? ('0'+index) : index
 				let src = require('@/static/emoji/emoji_'+index+'.png')
 				// return `<img src="https://res.wx.qq.com/mpres/htmledition/images/icon/emotion/${index}.gif" align="middle">`
@@ -130,6 +158,7 @@
 		flex-direction: column;
 		justify-content: center;
 		word-break: break-all;
+		margin-right: 30px;
 	}
 
 	.m-right {
@@ -162,22 +191,22 @@
 		line-height: 20px;
 		height: 20px;
 		// top: -15px;
-		color: #999;
+		color: #333;
 		
 	} 
 	.m-content-head-him {
 		text-align: left;
-		background: #1482d1;
-		border: 1px #1482d1 solid;
-		border-radius: 20upx;
+		background: #FFFFFF;
+		border: 1px #FFFFFF solid;
+		border-radius: 6px;
 		padding: 20upx;
-		color: white;
+		color: #333;
 		display: inline-block;
 	}
 	
 	.m-content-head-him:before {
 		border: 15upx solid transparent;
-		border-right: 15upx solid #1482d1;
+		border-right: 15upx solid #FFFFFF;
 		left: -26upx;
 		width: 0;
 		height: 0;
@@ -189,20 +218,20 @@
 		line-height: 20px;
 		height: 20px;
 		text-align: right;
-		color: #999;
+		color: #333;
 		position: absolute;
 		right: 0;
 		top: -20px;
 	} 
 	.m-content-head-customer {
-		border: 1upx white solid;
-		background: white;
-		border-radius: 20upx;
+		border: 1upx #1482d1 solid;
+		background: #1482d1;
+		border-radius: 6px;
 		padding: 20upx;
 	}
 	.m-content-head-customer:after {
 		border: 15upx solid transparent;
-		border-left: 15upx solid white;
+		border-left: 15upx solid #1482d1;
 		top: 20upx;
 		right: -26upx;
 		width: 0;
