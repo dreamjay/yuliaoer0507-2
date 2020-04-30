@@ -73,7 +73,7 @@
 				
 				<view class="item breakLine" v-if="item.type == 'CROWD'" >
 					<uni-swipe-action>
-						<uni-swipe-action-item :options="options" @click="onClick" @change="change" :disabled="true">
+						<uni-swipe-action-item  @click="onClick" @change="change" :disabled="true">
 				
 							<view class="imageBox1" :class="headimgClass(item.imgs ? item.imgs.length : null)">
 								<image v-for="(itemm,indexx) in item.imgs" :key="indexx" :src="itemm ? itemm : '/static/moren.png'" mode="scaleToFill"></image>

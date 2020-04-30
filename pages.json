@@ -16,9 +16,15 @@
 							"align":"left",
 							"disabled":true
 						},
-						"buttons":[{
-							"type":"menu"
-						}]
+						"buttons":[
+						{
+							"text": "\ue655",
+							"fontSrc": "/static/jia.ttf",
+							"fontSize": "24px",
+							"fontWeight":"bold"
+						}
+						
+						]
 					},
 					"bounce":"vertical"
 				}
@@ -83,7 +89,10 @@
 							"disabled":true
 						},
 						"buttons":[{
-							"type":"menu"
+							"text": "\ue655",
+							"fontSrc": "/static/jia.ttf",
+							"fontSize": "24px",
+							"fontWeight":"bold"
 						}]
 					},
 					"bounce":"vertical"
@@ -161,9 +170,9 @@
 							}
 						]
 					},
-					"bounce":"vertical"
+					"bounce":"none"
 				},
-				"enablePullDownRefresh":true
+				"enablePullDownRefresh":false
 			}
 		},
 		{

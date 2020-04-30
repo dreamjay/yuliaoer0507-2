@@ -145,13 +145,14 @@
 				this.$http.httpPostTokenPush('/push/fabao',{
 					amount:this.money,
 					boomNum:this.lei,
-					crowdId:this.crowdInfo.crowdId,
+					crowdId:this.crowdInfo.id,
 					payPassword:this.password
 				},(res)=>{
+					var id = res.data;
 					uni.$emit("fahongbao",{
+						id:id,
 						lei:this.lei,
-						money:this.money,
-						hbCount:this.hbCount
+						money:this.money
 					})
 					uni.navigateBack({})
 				},true)

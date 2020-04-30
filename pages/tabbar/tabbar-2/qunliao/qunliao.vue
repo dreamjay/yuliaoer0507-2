@@ -49,16 +49,27 @@
 									<image :src="row.msg.content.url" :style="{'width': row.msg.content.w+'px','height': row.msg.content.h+'px'}"></image>
 								</view>
 								<!-- 红包 -->
-								<view v-if="row.msg.type=='redEnvelope'" class="bubble red-envelope" @tap="openRedEnvelope(row.msg,index)">
-									<image src="/static/img/red-envelope.png"></image>
-									<view class="tis">
-										<!-- 点击开红包 -->
-									</view>
-									<view class="blessing">
-										{{row.msg.content.blessing}}
+								<view class="m-content" style="margin-right: 0px;"  v-if="row.msg.type=='redEnvelope'" @tap="openRedEnvelope(row.msg,index)">
+									<view class="m-content-head m-content-head-right ">
+										<view class="customerSubClass">
+											<!-- <image  @click="$emit('hongbaoClick',{message}) " src="/static/liaotian/_bg_to_hongbao.png'" style="" mode="aspectFit"></image> -->
+											<image  src="/static/liaotian/_bg_from_hongbao.png" style="" mode="aspectFit"></image>
+											<text>{{row.msg.content.blessing}}</text>
+											<text>已抢光</text>
+											<text>扫雷红包</text>
+										</view>
 									</view>
 								</view>
-								
+								<!-- <view class="m-content"  v-if="row.msg.type=='redEnvelope'" @tap="openRedEnvelope(row.msg,index)">
+									<view class="m-content-head-customerName">
+										<view class="customerSubClass">
+											<image  src="/static/liaotian/_bg_to_hongbao.png'" style="" mode="aspectFit"></image>
+											<text>{{row.msg.content.blessing}}</text>
+											<text>已抢光</text>
+											<text>扫雷红包</text>
+										</view>
+									</view>
+								</view> -->
 							</view>
 							<!-- 右-头像 -->
 							<view class="right">
@@ -89,13 +100,15 @@
 									<image :src="row.msg.content.url" :style="{'width': row.msg.content.w+'px','height': row.msg.content.h+'px'}"></image>
 								</view>
 								<!-- 红包 -->
-								<view v-if="row.msg.type=='redEnvelope'" class="bubble red-envelope" @tap="openRedEnvelope(row.msg,index)">
-									<image src="/static/img/red-envelope.png"></image>
-									<view class="tis">
-										<!-- 点击开红包 -->
-									</view>
-									<view class="blessing">
-										{{row.msg.content.blessing}}
+								<view class="m-content"  v-if="row.msg.type=='redEnvelope'" @tap="openRedEnvelope(row.msg,index)">
+									<view class="m-content-head ">
+										<view class="subClass">
+											<!-- <image  @click="$emit('hongbaoClick',{message}) " src="/static/liaotian/_bg_to_hongbao.png'" style="" mode="aspectFit"></image> -->
+											<image  src="/static/liaotian/bg_hb_left_sel.png" style="" mode="aspectFit"></image>
+											<text>{{row.msg.content.blessing}}</text>
+											<text>已抢光</text>
+											<text>扫雷红包</text>
+										</view>
 									</view>
 								</view>
 							</view>
@@ -118,26 +131,77 @@
 			</swiper>
 			<!-- 更多功能 相册-拍照-红包 -->
 			<view class="more-layer" :class="{hidden:hideMore}">
-				<view class="list">
-					<view class="box" @tap="chooseImage"><view class="icon tupian2"></view></view>
-					<view class="box" @tap="camera"><view class="icon paizhao"></view></view>
-					<view class="box" @tap="handRedEnvelopes"><view class="icon hongbao"></view></view>
+				<view  class="rests">
+					<view class="pageItem">
+						<navigator :url="'/pages/tabbar/tabbar-2/qunliao/fahongbao/fahongbao?crowdInfo='+JSON.stringify(crowdInfo)+''" open-type="navigate" hover-class="">
+							<view class="c-item">
+								<image src="/static/liaotian/icon_hb.png"></image>
+								<text>红包</text>
+							</view>
+						</navigator>
+					</view>
+					<view class="pageItem">
+						<navigator url="/pages/tabbar/tabbar-2/qunliao/zhangdanmingxi/zhangdanmingxi" open-type="navigate" hover-class="">
+							<view class="c-item">
+							<image src="/static/liaotian/icon_zd.png"></image>
+							<text>账单</text>
+							</view>
+						</navigator>
+					</view>
+					<view class="pageItem">
+						<navigator :url="'/pages/tabbar/tabbar-2/qunliao/chongzhi/chongzhi?crowdInfo='+JSON.stringify(crowdInfo)" open-type="navigate" hover-class="">
+							<view class="c-item">
+							<image src="/static/liaotian/icon_top_up.png"></image>
+							<text>充值</text>
+							</view>
+						</navigator>
+					</view>
+					<view class="pageItem">
+						<navigator url="/pages/tabbar/tabbar-2/qunliao/shoukuanzhanghu/shoukuanzhanghu" open-type="navigate" hover-class="">
+							<view class="c-item">
+							<image src="/static/liaotian/icon_sk_account.png"></image>
+							<text>收款账户</text>
+							</view>
+						</navigator>
+					</view>
 				</view>
+				
+				<view  class="rests">
+					<view class="pageItem">
+						<view class="c-item">
+						<image src="/static/liaotian/icon_wfsm.png"></image>
+						<text>玩法说明</text>
+						</view>
+					</view>
+					<view class="pageItem">
+						<navigator :url="'/pages/tabbar/tabbar-2/qunliao/lianxiqunzhu/lianxiqunzhu?crowdInfo='+JSON.stringify(crowdInfo)" open-type="navigate" hover-class="">
+							<view class="c-item">
+							<image src="/static/liaotian/icon_lxqz.png"></image>
+							<text>联系群主</text>
+							</view>
+						</navigator>
+					</view>
+					<view class="pageItem">
+						
+					</view>
+					<view class="pageItem">
+						
+					</view>
+				</view>
+			
+				<!-- <view class="list">
+					<view class="box" @tap="chooseImage"><image style="width: 80px; height: 80px; vertical-align: middle;" src="/static/liaotian/icon_hb.png"></image></view>
+					<view class="box" @tap="chooseImage"><view class="icon "><image src="/static/liaotian/icon_hb.png"></image></view></view>
+					<view class="box" @tap="chooseImage"><view class="icon "></view></view>
+					<view class="box" @tap="chooseImage"><view class="icon "></view></view>
+					<view class="box" @tap="camera"><view class="icon "></view></view>
+					<view class="box" @tap="handRedEnvelopes"><view class="icon "></view></view>
+				</view> -->
 			</view>
 		</view>
 		<!-- 底部输入栏 -->
 		<view class="input-box" :class="popupLayerClass" @touchmove.stop.prevent="discard">
 			<!-- H5下不能录音，输入栏布局改动一下 -->
-			<!-- #ifndef H5 -->
-			<view class="voice">
-				<view class="icon" :class="isVoice?'jianpan':'yuyin'" @tap="switchVoice"></view>
-			</view>
-			<!-- #endif -->
-			<!-- #ifdef H5 -->
-			<view class="more" @tap="showMore">
-				<view class="icon add"></view>
-			</view>
-			<!-- #endif -->
 			<view class="textbox">
 				<view class="voice-mode" :class="[isVoice?'':'hidden',recording?'recording':'']" @touchstart="voiceBegin" @touchmove.stop.prevent="voiceIng" @touchend="voiceEnd" @touchcancel="voiceCancel">{{voiceTis}}</view>
 				<view class="text-mode"  :class="isVoice?'hidden':''">
@@ -149,11 +213,9 @@
 					</view>
 				</view>
 			</view>
-			<!-- #ifndef H5 -->
 			<view class="more" @tap="showMore">
 				<view class="icon add"></view>
 			</view>
-			<!-- #endif -->
 			<view class="send" :class="isVoice?'hidden':''" @tap="sendText">
 				<view class="btn">发送</view>
 			</view>
@@ -272,20 +334,7 @@
 		onShow(){
 			this.scrollTop = 9999999;
 			
-			//模板借由本地缓存实现发红包效果，实际应用中请不要使用此方法。
-			//
-			// uni.getStorage({
-			// 	key: 'redEnvelopeData',
-			// 	success:  (res)=>{
-			// 		console.log(res.data);
-			// 		let nowDate = new Date();
-			// 		let lastid = this.msgList[this.msgList.length-1].msg.id;
-			// 		lastid++;
-			// 		let row = {type:"user",msg:{id:lastid,type:"redEnvelope",time:nowDate.getHours()+":"+nowDate.getMinutes(),userinfo:{uid:0,username:"大黑哥",face:"/static/img/face.jpg"},content:{blessing:res.data.blessing,rid:Math.floor(Math.random()*1000+1),isReceived:false}}};
-			// 		this.screenMsg(row);
-			// 		uni.removeStorage({key: 'redEnvelopeData'});
-			// 	}
-			// });
+
 		},
 		onNavigationBarButtonTap:function() {
 			uni.navigateTo({
@@ -315,20 +364,8 @@
 				})
 				
 				uni.$on("fahongbao",(data)=>{ //发红包
-					console.log(data)
-					this.messages.push({
-						user: 'customer',
-						content: '',
-						hasSub: true,
-						// 红包状态： 0 未抢光 1 已抢光 2 已失效
-						subcontent: {name:'扫雷红包',val:data.money,lei:data.lei,isOpen:1},
-						userId: this.userInfo.userId,
-						nickName:this.userInfo.nickName,
-						headUrl:this.userInfo.headUrl,
-						sendTime:new Date().getTime(),
-						type: 'head', //input,content 
-						isSucceed:true,
-					});
+					this.hideDrawer();//隐藏抽屉
+					this.sendRedpacket(data);
 				})
 			},
 			onMessage(data){
@@ -358,7 +395,7 @@
 											face:data.sendUser.headUrl?data.sendUser.headUrl:'/static/moren.png',
 										},
 										content:{
-											text: data.body.text,
+											text: this.replaceEmoji(data.body.text),
 											},
 										},
 									};
@@ -369,22 +406,29 @@
 						break
 					}
 					case "RED_PACKET":{
-						this.messages.push({
-							user: 'him',
-							content: '',
-							hasSub: true,
-							subcontent: {
-								name:'扫雷红包',
-								isOpen:data.body.status,
-								val:data.amount,
-								lei:data.boomNum
+						var msg = {
+							type:"user",
+							msg:{
+								id:msgId,
+								type:"redEnvelope",
+								time:this.calcTime(data.sendTime),
+								userinfo:{
+									uid:data.sendUser.id,
+									username:data.sendUser.nickName,
+									face:data.sendUser.headUrl?data.sendUser.headUrl:'/static/moren.png',
+								},
+								content:{
+									blessing:data.body.title,
+									rid:data.body.redId,
+									isReceived:false,
+									status:data.body.status
+								},
 							},
-							userId: data.sendUser.userId,
-							nickName:data.sendUser.nickName,
-							headUrl:data.sendUser.headUrl,
-							sendTime:data.sendTime,
-							type: 'head', //input,content 
-							isSucceed:true,
+						}
+						this.addRedEnvelopeMsg(msg);
+						this.$nextTick(function() {
+							// 滚动到底
+							this.scrollToView = 'msg'+msg.msg.id
 						});
 						break
 					}
@@ -722,8 +766,12 @@
 			},
 			sendCommonMsg(data){
 				var nowDate = new Date();
-				let lastid = this.msgList[this.msgList.length-1].msg.id;
-				lastid = lastid+"01";
+				var lastid = "S01";
+				if(this.msgList.length > 0){
+					lastid = this.msgList[this.msgList.length-1].msg.id;
+					lastid = lastid+"01";
+				}
+			
 				let msg = {
 					type:'user',
 					msg:{
@@ -747,6 +795,42 @@
 					this.scrollToView = 'msg'+msg.msg.id
 				});
 				
+			},
+			sendRedpacket(data){
+				console.log(data)
+				var nowDate = new Date();
+				var lastid = "01";
+				if(this.msgList.length > 0){
+					lastid = this.msgList[this.msgList.length-1].msg.id;
+					lastid = lastid+"S01";
+				}
+				
+				var msg = {
+					type:"user",
+					msg:{
+						id:lastid,
+						type:"redEnvelope",
+						time:this.calcTime(nowDate.getTime()),
+						userinfo:{
+							uid:this.userInfo.id,
+							username:this.userInfo.nickName,
+							face: this.userInfo.headUrl?this.userInfo.headUrl:"/static/moren.png",
+						},
+						content:{
+							blessing:data.money+"-"+data.lei,
+							rid:data.id,
+							isReceived:false,
+							status:0
+						},
+					},
+				}
+				console.log(msg)
+				this.addRedEnvelopeMsg(msg);
+				
+				this.$nextTick(function() {
+					// 滚动到底
+					this.scrollToView = 'msg'+msg.msg.id
+				});
 			},
 			// 添加文字消息到列表
 			addTextMsg(msg){
@@ -931,4 +1015,199 @@
 </script>
 <style lang="scss">
 	@import "@/static/HM-chat/css/style.scss"; 
+	
+	
+	.rests{
+		padding: 0upx 0upx 10upx 0upx;
+		display: flex;
+		flex-direction: row;
+		justify-content: space-around;
+		.pageItem{
+		
+			flex: 1;
+			height:140upx;
+			text-align: center;
+			.c-item{
+				display: flex;
+				flex-direction: column;
+				text-align: center;
+			}
+			image{
+				width: 100upx;
+				height: 100upx;
+				border-radius: 5px;
+				vertical-align: middle;
+				text-align: center;
+				margin: 0 auto;
+			}
+			text{
+				line-height: 40upx;
+				font-size: 12px;
+				vertical-align: middle;
+				color: #999;
+			}
+		}
+	}
+	.rests::after{
+		content: '';
+		display: block;
+		clear: both;
+	}
+	
+	
+	.m-item {
+		
+		display: flex;
+		flex-direction: row;
+		padding-top: 40upx;
+	}
+	
+	.m-left {
+		display: flex;
+		width: 120upx;
+		justify-content: center;
+		align-items: flex-start;
+	}
+	
+	.m-content {
+		display: flex;
+		flex: 1;
+		flex-direction: column;
+		justify-content: center;
+		word-break: break-all;
+		margin-right: 30px;
+	}
+	
+	.m-right {
+		display: flex;
+		width: 120upx;
+		justify-content: center;
+		align-items: flex-start;
+	}
+	
+	.head_icon {
+		width: 80upx;
+		height: 80upx;
+		border-radius: 5px;
+	}
+	
+	.m-content-head {
+		position: relative;
+	}
+	
+	.m-content-head-right {
+		display: flex;
+		justify-content: flex-end;
+		position: relative;
+	}
+	
+	.m-content-head-himName{
+		// position: absolute;
+		font-size: 10px;
+		line-height: 20px;
+		height: 20px;
+		// top: -15px;
+		color: #333;
+		
+	} 
+	.m-content-head-him {
+		text-align: left;
+		background: #FFFFFF;
+		border: 1px #FFFFFF solid;
+		border-radius: 6px;
+		padding: 20upx;
+		color: #333;
+		display: inline-block;
+	}
+	
+	.m-content-head-him:before {
+		border: 15upx solid transparent;
+		border-right: 15upx solid #FFFFFF;
+		left: -26upx;
+		width: 0;
+		height: 0;
+		position: absolute;
+		content: ' '
+	}
+	.m-content-head-customerName{
+		font-size: 10px;
+		line-height: 20px;
+		height: 20px;
+		text-align: right;
+		color: #333;
+		position: absolute;
+		right: 0;
+		top: -20px;
+	} 
+	.m-content-head-customer {
+		border: 1upx #1482d1 solid;
+		background: #1482d1;
+		border-radius: 6px;
+		padding: 20upx;
+	}
+	.m-content-head-customer:after {
+		border: 15upx solid transparent;
+		border-left: 15upx solid #1482d1;
+		top: 20upx;
+		right: -26upx;
+		width: 0;
+		height: 0;
+		position: absolute;
+		content: ' ';
+		
+	}
+	.subClass{
+		position: relative;
+		left: -10upx;
+		image{
+			width: 420upx;
+			height: 150upx;
+		}
+		text{
+			position: absolute;
+			font-size: 12px;
+			color: #fff;
+			line-height: 16px;
+		}
+		text:nth-of-type(1){
+			left: 110upx;
+			top:15%;
+		}
+		text:nth-of-type(2){
+			left: 110upx;
+			top: calc(15% + 16px);
+		}
+		text:nth-of-type(3){
+			bottom: 15upx;
+			left: 30upx;
+			font-size: 11upx;
+		}
+	}
+	.customerSubClass{
+		position: relative;
+		right: -10upx;
+		image{
+			width: 420upx;
+			height: 150upx;
+		}
+		text{
+			position: absolute;
+			font-size: 12px;
+			color: #fff;
+			line-height: 16px;
+		}
+		text:nth-of-type(1){
+			left: 110upx;
+			top:15%;
+		}
+		text:nth-of-type(2){
+			left: 110upx;
+			top: calc(15% + 16px);
+		}
+		text:nth-of-type(3){
+			bottom: 15upx;
+			left: 30upx;
+			font-size: 11upx;
+		}
+	}
 </style>
