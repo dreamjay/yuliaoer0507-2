@@ -65,23 +65,14 @@
 									<view class="m-content-head m-content-head-right ">
 										<view class="customerSubClass">
 											<!-- <image  @click="$emit('hongbaoClick',{message}) " src="/static/liaotian/_bg_to_hongbao.png'" style="" mode="aspectFit"></image> -->
-											<image  src="/static/liaotian/_bg_from_hongbao.png" style="" mode="aspectFit"></image>
+											<image  :src="row.msg.content.status != 0 ?'/static/liaotian/bg_hb_right_sel.png':'/static/liaotian/_bg_from_hongbao.png'" style="" mode="aspectFit"></image>
 											<text>{{row.msg.content.blessing}}</text>
-											<text>{{row.msg.content.status == 1 ? '已抢完':'领取红包'}}</text>
+											<text>{{row.msg.content.status == 1 ? '已抢完':row.msg.content.status == 3?'已领取':'领取红包'}}</text>
 											<text>扫雷红包</text>
 										</view>
 									</view>
 								</view>
-								<!-- <view class="m-content"  v-if="row.msg.type=='redEnvelope'" @tap="openRedEnvelope(row.msg,index)">
-									<view class="m-content-head-customerName">
-										<view class="customerSubClass">
-											<image  src="/static/liaotian/_bg_to_hongbao.png'" style="" mode="aspectFit"></image>
-											<text>{{row.msg.content.blessing}}</text>
-											<text>已抢光</text>
-											<text>扫雷红包</text>
-										</view>
-									</view>
-								</view> -->
+								
 							</view>
 							<!-- 右-头像 -->
 							<view class="right">
@@ -116,9 +107,9 @@
 									<view class="m-content-head ">
 										<view class="subClass">
 											<!-- <image  @click="$emit('hongbaoClick',{message}) " src="/static/liaotian/_bg_to_hongbao.png'" style="" mode="aspectFit"></image> -->
-											<image  src="/static/liaotian/bg_hb_left_sel.png" style="" mode="aspectFit"></image>
+											<image  :src="row.msg.content.status == 0 ?'/static/liaotian/_bg_to_hongbao.png':'/static/liaotian/bg_hb_left_sel.png'" style="" mode="aspectFit"></image>
 											<text>{{row.msg.content.blessing}}</text>
-											<text>{{row.msg.content.status == 1 ? '已抢完':'领取红包'}}</text>
+											<text>{{row.msg.content.status == 1 ? '已抢完':row.msg.content.status == 3?'已领取': '领取红包'}}</text>
 											<text>扫雷红包</text>
 										</view>
 									</view>
@@ -237,34 +228,49 @@
 			<view class="cancel" :class="willStop?'':'hidden'"><view class="icon chehui" ></view></view>
 			<view class="tis" :class="willStop?'change':''">{{recordTis}}</view>
 		</view>
-		
-		
+
 		<!-- 红包弹窗 -->
 		<view class="windows" :class="windowsState">
 			<!-- 遮罩层 -->
 			<view class="mask" @touchmove.stop.prevent="discard" @tap="closeRedEnvelope"></view>
 			<view class="layer" @touchmove.stop.prevent="discard">
-				<view class="open-redenvelope">
-					<view class="top">
-						<view class="close-btn">
-							<view class="icon close" @tap="closeRedEnvelope"></view>
+				
+				<view class="custom-view">
+					<view class="hongbao" style="text-align: center;">
+						
+						<image class="hongbaoBody" src="/static/liaotian/bg_hb.png"></image>
+						
+						<view class="messageInfo">
+							<view class="userHBInfo">
+								<image :src="redenvelopeData.face?redenvelopeData.face:'/static/moren.png'"></image>
+								<text>{{redenvelopeData.from}}的红包</text>
+							</view>
+							<text class="shouman">{{redenvelopeData.blessing}}</text>
+							<image v-if="redenvelopeData.kaiStatus"  src="/static/liaotian/icon_hb_kai.png" class="kai " :class="redenvelopeData.roateStatus?'rotate':''" @tap="openRed()"></image>
+						
+							<view v-if="redenvelopeData.isChakan" class="xiangqing" @tap="toRedRecord(redenvelopeData.rid)">
+								查看领取详情>>
+							</view>
+						
 						</view>
-						<image src="/static/img/im/face/face_1.jpg"></image>
+						<image class="close" src="/static/liaotian/icon_hg_dismiss.png"  @tap="closeRedEnvelope"></image>
 					</view>
-					<view class="from">来自{{redenvelopeData.from}}</view>
-					<view class="blessing">{{redenvelopeData.blessing}}</view>
-					<view class="money">{{redenvelopeData.money}}</view>
-					<view class="showDetails" @tap="toDetails(redenvelopeData.rid)">
-						查看领取详情 <view class="icon to"></view>
-					</view>
+					
 				</view>
+				
+				
+				
 			</view>
 			
 		</view>
 	</view>
 </template>
 <script>
+	
+	
 	export default {
+		components: {
+		},
 		data() {
 			return {
 				
@@ -305,6 +311,7 @@
 				msgList:[],
 				msgImgList:[],
 				myuid:0,
+				height:0, //状态栏加导航栏的高度
 				
 				//录音相关参数
 				// #ifndef H5
@@ -338,7 +345,10 @@
 					from:null,
 					face:null,
 					blessing:null,
-					money:null
+					kaiStatus:true,
+					roateStatus:false,
+					isChakan:false,
+					msg:null
 				},
 				isBottom:true
 		
@@ -389,7 +399,6 @@
 				
 			},
 			scroll(e){
-				console.log(e.detail)
 			},
 			//触发滑动到顶部(加载历史信息记录)
 			loadHistory(){
@@ -496,6 +505,17 @@
 				// 用户信息
 				this.userInfo =  uni.getStorageSync('userInfo')
 				this.myuid = this.userInfo.id;
+				
+				uni.getSystemInfo({
+				    success: (e) => {
+				      
+				      // #ifdef APP-PLUS
+				      // console.log('app-plus', e)
+				      
+				      this.height = e.statusBarHeight + 44
+				      // #endif
+					}
+				})
 				
 				var o = uni.getSystemInfoSync();
 				this.windowHeight = o.windowHeight;
@@ -689,48 +709,47 @@
 				});
 			},
 			
-			
 			// // 接受消息(筛选处理)
-			// screenMsg(msg){
-			// 	//从长连接处转发给这个方法，进行筛选处理
-			// 	if(msg.type=='system'){
-			// 		// 系统消息
-			// 		switch (msg.msg.type){
-			// 			case 'text':
-			// 				this.addSystemTextMsg(msg);
-			// 				break;
-			// 			case 'redEnvelope':
-			// 				this.addSystemRedEnvelopeMsg(msg);
-			// 				break;
-			// 		}
-			// 	}else if(msg.type=='user'){
-			// 		// 用户消息
-			// 		switch (msg.msg.type){
-			// 			case 'text':
-			// 				this.addTextMsg(msg);
-			// 				break;
-			// 			case 'voice':
-			// 				this.addVoiceMsg(msg);
-			// 				break;
-			// 			case 'img':
-			// 				this.addImgMsg(msg);
-			// 				break;
-			// 			case 'redEnvelope':
-			// 				this.addRedEnvelopeMsg(msg);
-			// 				break;
-			// 		}
-			// 		console.log('用户消息');
-			// 		//非自己的消息震动
-			// 		if(msg.msg.userinfo.uid!=this.myuid){
-			// 			console.log('振动');
-			// 			uni.vibrateLong();
-			// 		}
-			// 	}
-			// 	this.$nextTick(function() {
-			// 		// 滚动到底
-			// 		this.scrollToView = 'msg'+msg.msg.id
-			// 	});
-			// },
+			screenMsg(msg){
+				//从长连接处转发给这个方法，进行筛选处理
+				if(msg.type=='system'){
+					// 系统消息
+					switch (msg.msg.type){
+						case 'text':
+							this.addSystemTextMsg(msg);
+							break;
+						case 'redEnvelope':
+							this.addSystemRedEnvelopeMsg(msg);
+							break;
+					}
+				}else if(msg.type=='user'){
+					// 用户消息
+					switch (msg.msg.type){
+						case 'text':
+							this.addTextMsg(msg);
+							break;
+						case 'voice':
+							this.addVoiceMsg(msg);
+							break;
+						case 'img':
+							this.addImgMsg(msg);
+							break;
+						case 'redEnvelope':
+							this.addRedEnvelopeMsg(msg);
+							break;
+					}
+					console.log('用户消息');
+					//非自己的消息震动
+					if(msg.msg.userinfo.uid!=this.myuid){
+						console.log('振动');
+						uni.vibrateLong();
+					}
+				}
+				this.$nextTick(function() {
+					// 滚动到底
+					this.scrollToView = 'msg'+msg.msg.id
+				});
+			},
 			// 选择表情
 			chooseEmoji(){
 				this.hideMore = true;
@@ -952,10 +971,60 @@
 			},
 			// 打开红包
 			openRedEnvelope(msg,index){
-				// let rid = msg.content.rid;
-				// uni.showLoading({
-				// 	title:'加载中...'
-				// });
+				let rid = msg.content.rid;
+				uni.showLoading({
+					title:''
+				});
+				// 判断是否可以抢包
+				var token = uni.getStorageSync("token");
+				var requestTask = uni.request({
+					url: this.$http.baseUrlMeg + '/push/canGradBao',
+					data: {
+						redPackageId:rid
+					},
+					method: 'POST',
+					header: {
+						'Token': token,
+						'X-Requested-With': 'XMLHttpRequest',
+						'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+					},
+					dataType: 'json',
+					sslVerify: false,
+					success:(res)=>{
+						console.log(res)
+						if(res.data.success){
+							uni.hideLoading();
+							// 跳转至打开
+							this.redenvelopeData={
+								rid:res.data.data.id,	//红包ID
+								from:msg.userinfo.username,
+								face:msg.userinfo.face,
+								blessing:"恭喜发财，大吉大利",
+								kaiStatus:true,
+								roateStatus:false,
+								isChakan:false,
+								msg:msg,
+								index:index
+							}
+							this.windowsState = 'show';
+						}else{
+							this.errorRed(res,msg,rid);
+							
+						}
+						
+					},
+					fail: function(err) {
+						uni.showToast({
+							icon:"none",
+							title:"服务器繁忙，稍后再试！"
+						})
+					},
+					complete: function() {
+						
+					}
+				});
+				
+			
 				// console.log("index: " + index);
 				// //模拟请求服务器效果
 				// setTimeout(()=>{
@@ -988,6 +1057,129 @@
 					
 				// },200)
 				
+			},
+			errorRed(res,msg,rid){
+				var error = res.data.data;
+				if(error){
+					switch(error.code){
+						case "NO_GRAD_BAO":
+							this.toRedRecord(rid);
+							
+							break;
+						// 已经抢过红包
+						case "ALREADY_GRAD_RED":
+							uni.hideLoading();
+							// 跳转至抢包详情页
+							this.toRedRecord(rid);
+							break;
+						// 红包已抢光
+						case "RED_IS_NULL":
+						case "RED_IS_EXPIRE":
+							// 手慢了
+							uni.hideLoading();
+							// 积分不足
+							// 跳转至积分不足
+							this.redenvelopeData={
+								rid:res.data.data.id,	//红包ID
+								from:msg.userinfo.username,
+								face:msg.userinfo.face,
+								blessing:"手慢了，红包派完了",
+								kaiStatus:false,
+								roateStatus:false,
+								isChakan:true
+							}
+							this.windowsState = 'show';
+							
+								break;
+						// 抢红包失败
+						case "GRAP_IS_FAIL":
+							uni.showToast({
+								icon:'none',
+								title:"网络繁忙，稍后再试！"
+							})
+							break;
+					// 余额不足
+					case "BLANCE_IS_LESS_THAN":
+						uni.hideLoading();
+						// 积分不足
+						// 跳转至积分不足
+						this.redenvelopeData={
+							rid:res.data.data.id,	//红包ID
+							from:msg.userinfo.username,
+							face:msg.userinfo.face,
+							blessing:"您的积分不足，请充值",
+							kaiStatus:false,
+							roateStatus:false,
+							isChakan:false
+						}
+						this.windowsState = 'show';
+						
+						break;
+						default:
+							uni.showToast({
+								icon:'none',
+								title:res.data.msg
+							})
+							break;
+					}
+					
+				}else{
+					uni.showToast({
+						icon:'none',
+						title:res.data.msg
+					})
+				}
+										
+			},
+			// 开红包
+			openRed(){
+				this.redenvelopeData.roateStatus = true;
+				var msg = this.redenvelopeData.msg;
+				var rid = this.redenvelopeData.rid;
+				
+				var token = uni.getStorageSync("token");
+				var requestTask = uni.request({
+					url: this.$http.baseUrlMeg + '/push/gradBao',
+					data: {
+						redPackageId:rid
+					},
+					method: 'POST',
+					header: {
+						'Token': token,
+						'X-Requested-With': 'XMLHttpRequest',
+						'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+					},
+					dataType: 'json',
+					sslVerify: false,
+					success:(res)=>{
+						if(res.data.success){
+							this.msgList[this.redenvelopeData.index].msg.content.status = 3;
+							this.closeRedEnvelope();
+							this.toRedRecord(rid);
+						}else{
+							this.errorRed(res,msg,rid);
+						}
+						
+					},
+					fail: (err) => {
+						uni.showToast({
+							icon:"none",
+							title:"服务器繁忙，稍后再试！"
+						})
+						
+						this.closeRedEnvelope();
+						
+					},
+					complete: () => {
+						this.redenvelopeData.roateStatus = false;
+					}
+				});
+				
+			},
+			toRedRecord(rid){
+				uni.navigateTo({
+					url:'./hongbaoxiangqing/hongbaoxiangqing?rid='+rid,
+				})
 			},
 			// 关闭红包弹窗
 			closeRedEnvelope(){
@@ -1302,5 +1494,94 @@
 			left: 30upx;
 			font-size: 10px;
 		}
+	}
+	
+	
+	
+	.custom-view{
+		overflow: hidden;
+		z-index: 999;
+		position: absolute;
+		
+		
+		.hongbao{
+			width: 580upx;
+			height: 900upx;
+			border-radius: 5px;
+			.hongbaoBody{
+				width: 100%;
+				height: 800upx;
+			}
+			.close{
+				position: absolute;
+				bottom: 0;
+				left: 50%;
+				transform: translateX(-50%);
+				width: 80upx;
+				height: 80upx;
+			}
+			.messageInfo{
+				position: absolute;
+				width: 100%;
+				top: 200upx;
+				left: 50%;
+				transform: translateX(-50%);
+				text-align: center;
+				color:#EDD3A2;
+				display: flex;
+				flex-direction: column;
+				.userHBInfo{
+					image{
+						display: inline-block;
+						width: 80upx;
+						height: 80upx;
+						border-radius: 5px;
+						vertical-align: middle;
+					}
+					text{
+						margin-left: 15upx;
+						
+					}
+					
+				}
+				.message{
+					line-height: 100upx;
+					
+				}
+				.shouman{
+					width: 100%;
+					position: absolute;
+					bottom: -100upx;
+					left: 50%;
+					transform: translateX(-50%);
+					font-size: 20px;
+				}
+				
+				.kai{
+					position: absolute;
+					bottom: -340upx;
+					left: calc(50% - 75upx);
+					width: 150upx;
+					height: 150upx;
+				}
+				.xiangqing{
+					width: 100%;
+					position: absolute;
+					bottom: -440upx;
+					left: 50%;
+					transform: translateX(-50%);
+					height: 30upx;
+					font-size: 12px;
+				}
+				.rotate{
+					animation:rotate .8s infinite;
+				}
+				@keyframes rotate{
+				    from{ -webkit-transform:rotateY(0deg);}
+				    to{ -webkit-transform:rotateY(360deg);}     
+				}
+			}
+		}
+		
 	}
 </style>

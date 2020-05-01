@@ -1,17 +1,17 @@
 <template>
 	<view>
 		<view class="hongbao" :class="succeed ? 'hongbaoActive' : null">
-			<image class="hongbaoBody"  src="/static/liaotian/bg_hb_success.png"></image>
+			<image class="hongbaoBody"  :src="headUrl?headUrl:'/static/liaotian/bg_hb_success.png'"></image>
 			<view class="messageInfo">
 				<view class="userHBInfo">
 					<image src="/static/moren.png"></image>
-					<text>士大夫的红包</text>
+					<text>来自{{nickName}}的红包</text>
 					<image src="/static/liaotian/icon_ping.png"></image>
 				</view>
-				<text class="message"> 50-6</text>
+				<text class="message">{{title}}</text>
 				<view v-if="succeed" class="hongbaoSucceed">
 					<text>￥ </text>
-					<text>6.90</text>
+					<text>{{userAmount}}</text>
 					<br>
 					<text>已存入账户，可用于发红包</text>
 				</view>
@@ -20,18 +20,19 @@
 		
 		<view class="myList">
 			<view class="title">
-				<text>10个红包，6秒 被抢光</text>
+				<text v-if="isGradNull">{{num}}个红包，{{sec}}秒被抢光</text>
+				<text v-if="!isGradNull">已领取{{a}}/{{num}}个</text>
 			</view>
 			<ul>
-				<li class="SelectList" v-for="(item,index) in 10" :key="index">
-					<image class="headImage" src="/static/moren.png" mode=""></image>
+				<li class="SelectList" v-for="(item,index) in list" :key="index">
+					<image class="headImage" :src="item.headUrl?item.headUrl:'/static/moren.png'" mode=""></image>
 					<view >
-						<p class='bold'>群主设置</p>
-						<text>2015-5456sd </text>
+						<p class='bold'>{{item.nickName}}</p>
+						<text style="font-size: 12px;">{{item.gradTime}}</text>
 					</view>
 					<view>
-						<text class="bold">16.89元</text>
-						<view class="textBox" v-if="index == 3">
+						<text class="bold">{{item.amountName}}元</text>
+						<view class="textBox" v-if="item.bestNum == 1 && isGradNull">
 							<image src='/static/liaotian/icon_best.png'></image>
 							<text>手气最佳</text>
 						</view>
@@ -48,13 +49,40 @@
 	export default{
 		data(){
 			return{
-				succeed: false //有没有抢成功
+				succeed: false ,//有没有抢成功
+				rid:0,
+				headUrl:null,
+				nickName:'',
+				title:'',
+				userAmount:'',
+				num:'',
+				a:'',
+				sec:'',
+				isGradNull:false,
+				list:[]
 			}
 		},
 		onLoad(option) {
-			if(option.succeed){
-				this.succeed = true
-			}
+			this.userInfo = uni.getStorageSync("userInfo");
+			this.rid = option.rid;
+			this.$http.httpPostTokenPush('/push/listRed',{id:this.rid},(res)=>{
+				console.log(res);
+				var obj = res.data;
+				this.headUrl = obj.userHeadUrl;
+				this.nickName= obj.userNickName;
+				this.title = obj.redPackage.amount+ "-" + obj.redPackage.num;
+				this.num = obj.redPackage.num;
+				this.a = obj.list.length;
+				this.isGradNull = obj.list.length == obj.redPackage.num;
+				this.sec = obj.finishTime;
+				this.list = obj.list;
+				for(var i=0;i<obj.list.length;i++){
+					if(obj.list[i].id == this.userInfo.id){
+						this.succeed = true;
+						this.userAmount = obj.list[i].amount.toFixed(2);
+					}
+				}
+			},false);
 		},
 		onNavigationBarButtonTap:function() {
 			

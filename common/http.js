@@ -2,7 +2,6 @@ import store from '../store/store.js'
 
 const baseUrl = 'http://z3t.vip3gz.idcfengye.com'
 const baseUrlMeg = 'http://zc.vip3gz.idcfengye.com'
-const imgServerUrl = "http://qmsl.oss-cn-shenzhen.aliyuncs.com/emoji/";
 var count = 0
 
 const error = (res) => {
@@ -276,7 +275,7 @@ const httpGetToken = (url, data, success,isLoading ) => {
 
 export default {
 	baseUrl,
-	imgServerUrl,
+	baseUrlMeg,
 	httpPostTokenPush,
 	httpGet,
 	httpPost,
