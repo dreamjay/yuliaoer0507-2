@@ -2,17 +2,20 @@
 	<view>
 		<view class="content" @touchstart="hideDrawer">
 			
-			<view  class="msg-list">
-			<!-- <scroll-view class="msg-list"
-			 scroll-y="true" 
-			 :scroll-with-animation="scrollAnimation" 
-			 :scroll-top="scrollTop" 
-			 :scroll-into-view="scrollToView" 
-				@scrolltoupper = "loadHistory"
-			 scroll-anchoring="true"
-			 upper-threshold="50"> -->
+			<scroll-view class="msg-list" 
+			scroll-y="true" 
+			scroll-x="false"
+			:scroll-with-animation="scrollAnimation" 
+			:scroll-top="scrollTop" 
+			:scroll-into-view="scrollToView"
+			 @scrolltoupper="loadHistory"
+			 
+			 @scrolltolower="lower"
+			 @scroll="scroll"
+			 :upper-threshold="50" >
+				
 				<!-- 加载历史数据waitingUI -->
-				<!-- <view class="loading" v-show="isHistoryLoading">
+				<view class="loading">
 					<view class="spinner">
 						<view class="rect1"></view>
 						<view class="rect2"></view>
@@ -20,7 +23,7 @@
 						<view class="rect4"></view>
 						<view class="rect5"></view>
 					</view>
-				</view> -->
+				</view>
 				
 				<view class="row" v-for="(row,index) in msgList" :key="index" :id="'msg'+row.msg.id">
 					
@@ -124,10 +127,7 @@
 						</view>
 					</block>
 				</view>
-				
-					<view style="height: 51px;" id="tag"></view>
-				</view>
-			<!-- </scroll-view> -->
+			</scroll-view>
 		</view>
 	
 		<!-- 抽屉栏 -->
@@ -300,7 +300,6 @@
 				//消息列表
 				isHistoryLoading:false,
 				scrollAnimation:false,
-				triggered:false,
 				scrollTop:0,
 				scrollToView:'',
 				msgList:[],
@@ -340,7 +339,9 @@
 					face:null,
 					blessing:null,
 					money:null
-				}
+				},
+				isBottom:true
+		
 			};
 		},
 		
@@ -381,76 +382,68 @@
 				url:'/pages/tabbar/tabbar-5/qunzhushezhi/liaotianxinxi/liaotianxinxi?crowdId='+this.crowdInfo.id+''
 			})
 		},
-		onPullDownRefresh(){
-			this.loadHistory();
-		},
 		methods:{
-		
+			lower(){
+				console.log("到底部了")
+				this.isBottom = true;
+				
+			},
+			scroll(e){
+				console.log(e.detail)
+			},
 			//触发滑动到顶部(加载历史信息记录)
 			loadHistory(){
-				console.log("加载历史消息"+this.isHistoryLoading)
 				if(this.isHistoryLoading){
-					return false;
+					return ;
 				}
 				this.isHistoryLoading = true;//参数作为进入请求标识，防止重复请求
-				this.scrollAnimation = false;//关闭滑动动画
-			
-				var crowdMessageId = this.crowdMessageId;
-				if(!crowdMessageId){
-					crowdMessageId = null;
-				}
-
-				this.$http.httpGetToken('/crowd-message/page',{
-					crowdId:this.crowdInfo.id,
-					pageNo:1,
-					pageSize:20,
-					crowdMessageId:crowdMessageId
-				},(res)=>{
-				
-					let list = res.data.records;
-					for(var i=0;i<list.length;i++){
-						var msg = JSON.parse(list[i].message);
-						this.msgList.unshift(this.convertMsg(msg))
-						if(i == list.length - 1){
-							 this.crowdMessageId = list[i].id;
-						}
+				let Viewid = this.msgList[0].msg.id;//记住第一个信息ID
+				setTimeout(() => {
+					
+					console.log("加载历史消息"+this.isHistoryLoading)
+					
+					var crowdMessageId = this.crowdMessageId;
+					if(!crowdMessageId){
+						crowdMessageId = null;
 					}
-
-					this.isHistoryLoading = false;
 					
-					uni.stopPullDownRefresh();
-					
-					this.scrollToRefresh();
-					
-				},false);
-			},
-			scrollToRefresh(){
-				this.$nextTick(function(){
-					uni.createSelectorQuery().select("#tag").boundingClientRect(data=>{//目标节点
-					
-						uni.pageScrollTo({
-							duration: 0,
-							scrollTop:data.bottom - this.lastCount -10
-				　　　　})
-						this.lastCount = data.bottom ;
-						
-					}).exec();
-				})
-			},
-			scrollToBottom(){
-	
 				
-				this.$nextTick(function(){
-					uni.createSelectorQuery().select("#msg"+this.viewId).boundingClientRect(data=>{//目标节点
-						console.log("data:",data)
-							if(data){
-								uni.pageScrollTo({
-								　　　　　　scrollTop:999999,
-								　　　　})
+					
+					this.$http.httpGetToken('/crowd-message/page',{
+						crowdId:this.crowdInfo.id,
+						pageNo:1,
+						pageSize:20,
+						crowdMessageId:crowdMessageId
+					},(res)=>{
+						console.log("加载历史消息"+new Date().getTime())
+						let list = res.data.records;
+						
+						var arr = new Array();
+						for(var i=0;i<list.length;i++){
+							var msg = JSON.parse(list[i].message);
+							var obj = this.convertMsg(msg);
+							
+							arr.unshift(obj);
+							
+							if(i == list.length - 1){
+								 this.crowdMessageId = list[i].id;
 							}
-					}).exec();
-				})
-			
+						}
+						this.msgList = arr.concat(this.msgList);
+						this.scrollAnimation = false;
+						this.$nextTick(function() {
+							this.scrollToView = 'msg'+Viewid;//跳转上次的第一行信息位置
+							this.$nextTick(function() {
+								this.scrollAnimation = true;
+								this.isHistoryLoading = false;
+								this.isBottom = false;
+							});
+						});
+						
+					},false);
+				
+				}, 1000);
+				
 			},
 			// 加载初始页面消息
 			getMsgList(){
@@ -459,15 +452,14 @@
 				if(!crowdMessageId){
 					crowdMessageId = null;
 				}
-				
-					
 				this.isHistoryLoading = true;
 				this.$http.httpGetToken('/crowd-message/page',{
 					crowdId:this.crowdInfo.id,
 					pageNo:1,
-					pageSize:10,
+					pageSize:15,
 					crowdMessageId:crowdMessageId
 				},(res)=>{
+					
 					let list = res.data.records;
 					let msgList = [];
 					for(var i=0;i<list.length;i++){
@@ -480,9 +472,16 @@
 					this.msgList = msgList;	
 					
 					// 滚动到底部
-					this.isHistoryLoading = false;
-					
-					this.scrollToBottom();
+					this.$nextTick(function() {
+						//进入页面滚动到底部
+						this.scrollTop = 9999;
+						this.$nextTick(function() {
+							this.scrollAnimation = true;
+							// 滚动到底部
+							this.isHistoryLoading = false;
+						});
+						
+					});
 				},false);
 				
 				
@@ -506,6 +505,13 @@
 				uni.setNavigationBarTitle({
 					title: title
 				})
+				this.$http.httpGetToken("/crowd/countByCrowdId",{
+					crowdId:this.crowdInfo.id
+				},(res)=>{
+					uni.setNavigationBarTitle({
+						title: this.crowdInfo.name + "("+res.data+")"
+					})
+				},false)
 			},
 			startListener(){
 				uni.$on('CROWD',(data)=>{
@@ -528,8 +534,13 @@
 				var obj = this.convertMsg(data);
 				if(obj){
 					this.msgList.push(obj);
-					
-					this.scrollToBottom();
+					console.log("isBottom:"+this.isBottom)
+					if(this.isBottom){
+						this.$nextTick(function() {
+							// 滚动到底
+								this.scrollToView = 'msg'+obj.msg.id
+						});			
+					}
 				}
 			},
 			
@@ -870,7 +881,12 @@
 					}
 				this.addTextMsg(msg);
 				
-				this.scrollToBottom();
+		
+				this.$nextTick(function() {
+					// 滚动到底
+					this.scrollToView = 'msg'+msg.msg.id
+					this.isBottom = true;
+				});
 				
 			},
 			sendRedpacket(data){
@@ -903,7 +919,11 @@
 				}
 				this.addRedEnvelopeMsg(msg);
 				
-				this.scrollToBottom();
+					this.$nextTick(function() {
+						// 滚动到底
+						this.scrollToView = 'msg'+msg.msg.id
+						this.isBottom = true;
+					});
 			},
 			// 添加文字消息到列表
 			addTextMsg(msg){
