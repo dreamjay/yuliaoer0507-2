@@ -122,7 +122,12 @@ export default {
 					if(obj.body.eventType == 'JIAN_QUN_SUCCES'){
 						var userInfo = uni.getStorageSync("userInfo");
 						userInfo.showCrowd = 1;
-						uni.setStorageSync("userInfo",userInfo);
+						
+						try{
+							uni.setStorageSync("userInfo",userInfo);
+						}catch(err){
+							
+						}
 					}
 					uni.$emit('SYSTEM',obj)
 	
@@ -138,7 +143,13 @@ export default {
 						aloneList = new Array();
 					}
 					aloneList.push(obj);
-					uni.setStorageSync("aloneList",aloneList);
+					
+					
+					try{
+						uni.setStorageSync("aloneList",aloneList);
+					}catch(err){
+						
+					}
 				}
 			  
 			})
@@ -196,7 +207,11 @@ export default {
 					this.messageList[index].time =this.calcTime(data.sendTime);
 					this.messageList[index].text = this.formtContent(data.body);
 					this.messageList[index].num++;
-					uni.setStorageSync(this.messageListKey,this.messageList);
+					try{
+						uni.setStorageSync(this.messageListKey,this.messageList);
+					}catch(err){
+						
+					}
 					
 					uni.$emit('UPDATE_MSG')
 				}
@@ -240,7 +255,11 @@ export default {
 					this.messageList[index].time =this.calcTime(data.sendTime);
 					this.messageList[index].text = this.formtContent(data.body);
 					this.messageList[index].num++;
-					uni.setStorageSync(this.messageListKey,this.messageList);
+					try{
+						uni.setStorageSync(this.messageListKey,this.messageList);
+					}catch(err){
+						
+					}
 					uni.$emit('UPDATE_MSG')
 				}
 			}
@@ -269,7 +288,14 @@ export default {
 		addItem(obj){
 			console.log("添加群关系")
 			this.messageList = this.messageList.concat(obj);
-			uni.setStorageSync(this.messageListKey,this.messageList);
+			
+			
+			try{
+				uni.setStorageSync(this.messageListKey,this.messageList);
+			}catch(err){
+				
+			}
+			
 			uni.$emit('UPDATE_MSG')
 			
 		},

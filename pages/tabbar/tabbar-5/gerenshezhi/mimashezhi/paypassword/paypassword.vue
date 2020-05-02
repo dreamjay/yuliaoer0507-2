@@ -78,7 +78,15 @@
 						})
 						var userInfo = uni.getStorageSync('userInfo');
 						userInfo.payPassword = e.detail.value.xin;
-						uni.setStorageSync("userInfo",userInfo);
+						
+						try{
+								uni.setStorageSync("userInfo",userInfo);
+						}catch(err){
+							
+						}
+					
+						
+						
 						uni.$emit("updateUserInfo",e.detail.value.xin)
 					},true)
 				}

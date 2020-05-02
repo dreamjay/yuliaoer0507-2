@@ -76,19 +76,22 @@
 					password:this.password,
 					phone:this.accound
 				},(res)=>{
-					try{
-						uni.setStorageSync("userInfo",res.data.user);
-						uni.setStorageSync("token",res.data.token);
+					
+						try {
+							uni.setStorageSync("userInfo",res.data.user);
+						} catch(err){
+							
+						}
+						try{
+							uni.setStorageSync("token",res.data.token);
+						} catch(err){
+							
+						}
 						uni.$emit('loginSuccess');
 						uni.switchTab({
 							url:'../tabbar/tabbar-5/tabbar-5'
 						})
-					} catch(err){
-						uni.showToast({
-							icon:"none",
-							title:"未知错误"
-						})
-					}
+					
 				},true);
 			},
 			weixinLogin() {

@@ -96,7 +96,11 @@
 			this.crowdInfo = JSON.parse(option.crowdInfo)
 			uni.$on('updateUserInfo',(data)=>{ //设置了支付密码更新用户信息
 				this.userInfo.payPassword = data;
-				uni.setStorageSync('userInfo',this.userInfo);
+				try{
+					uni.setStorageSync('userInfo',this.userInfo);
+				} catch(err){
+					
+				}
 			})
 			uni.getSystemInfo({
 			    success: (e) => {

@@ -410,11 +410,23 @@
 			},
 			zhiding(e){
 				this.switchStatus.zhiding = e.detail.value
-				uni.setStorageSync('switchStatus'+this.crowdId+'', this.switchStatus)
+				
+				try{
+					uni.setStorageSync('switchStatus'+this.crowdId+'', this.switchStatus)
+				}catch(err){
+					
+				}
+				
 			},
 			miandarao(e){
 				this.switchStatus.miandarao = e.detail.value
-				uni.setStorageSync('switchStatus'+this.crowdId+'', this.switchStatus)
+				
+				try{
+					uni.setStorageSync('switchStatus'+this.crowdId+'', this.switchStatus)
+				}catch(err){
+					
+				}
+				
 			},
 			zhonglei(e){
 		

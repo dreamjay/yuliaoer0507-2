@@ -102,7 +102,11 @@
 					})
 					var userInfo = uni.getStorageSync("userInfo");
 					userInfo.nickName = newVal;
-					uni.setStorageSync("userInfo",userInfo);
+					try{
+							uni.setStorageSync("userInfo",userInfo);
+					}catch(err){
+						
+					}
 				},true);
 			},
 			
@@ -136,7 +140,11 @@
 							if(obj.success){
 								var userInfo = uni.getStorageSync("userInfo");
 								userInfo.headUrl = obj.data;
-								uni.setStorageSync("userInfo",userInfo);
+								try{
+										uni.setStorageSync("userInfo",userInfo);
+								}catch(err){
+									
+								}
 								this.touxiang =  obj.data;
 								uni.showToast({
 									title:'修改头像成功',

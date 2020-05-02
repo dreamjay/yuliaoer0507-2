@@ -3,7 +3,8 @@
 		<ul class="ulBox" >
 			<li v-for="(item,index) in xuanran" :key="index" @click="toUrl(item.crowdId)" >
 					<view class="imageBox" :class="headimgClass(item.imgs ? item.imgs.length : null)">
-						<image v-for="(itemm,indexx) in item.imgs" :key="indexx" :src="itemm ? itemm : '/static/moren.png'" mode="scaleToFill"></image>
+						
+						<org-image  css="imgBox" v-for="(itemm,indexx) in item.imgs" :key="indexx" :src="itemm"   mode="scaleToFill"></org-image>
 					</view>
 					<text>{{item.name}}</text>
 			</li>
@@ -13,7 +14,12 @@
 </template>
 
 <script>
+	
+	import orgImage from '@/components/org-image/org-image';
+	
+
 	export default{
+		 components: {orgImage},
 		data(){
 			return{
 				xuanran:[],
@@ -97,16 +103,15 @@
 				margin-top: 20upx;
 				width: 110upx;
 				height: 110upx;
-				display: inline-block;
+				display: inline-block !important;
 				border-radius: 5px;
 				// border: 1upx solid #eee;
 				overflow: hidden;
 				position: relative;
 				vertical-align: middle;
+				
 				background-color: #eee;
-				image{
-					box-sizing: border-box;
-				}
+				
 			}
 			
 			text{

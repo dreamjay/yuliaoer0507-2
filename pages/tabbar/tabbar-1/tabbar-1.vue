@@ -76,7 +76,9 @@
 						<uni-swipe-action-item  @click="onClick" @change="change" :disabled="true">
 				
 							<view class="imageBox1" :class="headimgClass(item.imgs ? item.imgs.length : null)">
-								<image v-for="(itemm,indexx) in item.imgs" :key="indexx" :src="itemm ? itemm : '/static/moren.png'" mode="scaleToFill"></image>
+								<org-image  css="imgBox" v-for="(itemm,indexx) in item.imgs" :key="indexx" :src="itemm"   mode="scaleToFill"></org-image>
+								
+								
 								<span class="after" v-if="item.num>0" :style="{backgroundColor:'red'}">{{item.num > 99?"99":item.num}}</span>
 							
 							</view>
@@ -117,11 +119,13 @@
 	import uniSwipeAction from '@/components/uni-swipe-action/uni-swipe-action.vue'
 	import uniSwipeActionItem from '@/components/uni-swipe-action-item/uni-swipe-action-item.vue'
 	import uniTransition from "@/components/uni-transition/uni-transition.vue"
+	import orgImage from '@/components/org-image/org-image';
 	
+
 	var messageListKey = null;
 	
 	export default {
-		components:{Search,uniSwipeAction,uniSwipeActionItem,uniTransition},
+		components:{Search,uniSwipeAction,uniSwipeActionItem,uniTransition,orgImage},
 		
 		data(){
 		    return {
@@ -171,18 +175,22 @@
 				
 				this.systemContent = data.body.text;
 				this.time = this.calcTime(data.sendTime);
+				try{
+					uni.setStorageSync("systemInfo"+this.userInfo.id,{
+						systemContent:this.systemContent,
+						time:this.time 
+					})
+				} catch(err){
+					
+				}
 				
-				uni.setStorageSync("systemInfo"+this.userInfo.id,{
-					systemContent:this.systemContent,
-					time:this.time 
-				})
 				
 			})
 			uni.$on('UPDATE_MSG',(data) => {
-				this.updateList();
+				this.updateList(false);
 			})
 			
-			
+			this.updateList(true)
 		},
 		onShow() {
 			this.userInfo = uni.getStorageSync('userInfo');
@@ -191,7 +199,7 @@
 			if(this.messageCount <= 0){
 				uni.removeTabBarBadge({index: 0})
 			}
-			this.updateList();
+			this.updateList(false);
 		},
 		
 		methods:{
@@ -207,16 +215,57 @@
 					
 				];
 			},
-			updateList(){
+			updateList(flag){
 				this.$forceUpdate();
 				var messageList = uni.getStorageSync(this.messageListKey);
 				if(String(typeof(messageList)) != 'object'){
 					messageList = [];
 				}
 				this.messageList = messageList?messageList:[];
+				if(flag){
+					for(var i=0;i<messageList.length;i++){
+						var data = messageList[i];
+
+						console.log(data)
+						if(data.type == 'CROWD'){
+							this.getCrowdHeadUrl(data);
+						
+						}
+					}
+				}
 				this.setBadge();
 			},
-			
+			getCrowdHeadUrl(data){
+				this.$http.httpGetToken('/crowd/listUserHeadByCrowdId',{
+					crowdId:data.id
+				},(res) => {
+					var index = this.isExits("CROWD_"+data.id);
+					if(index != -1){
+						console.log("加载群头像")
+						this.messageList[index].imgs = res.data;
+						
+						try{
+							uni.setStorageSync(this.messageListKey,this.messageList);
+						} catch(err){
+							
+						}
+						
+						
+					}
+				},false)
+				
+			},
+			isExits(key){
+				var indexx = -1;
+				this.messageList.find((m,index)=>{
+					
+					if(m.key == key){
+						indexx = index;
+					}
+					
+				})
+				return indexx;
+			},
 			removeItem(index){
 				
 				this.$http.httpPostToken('/user-friend/delFriend',{
@@ -224,7 +273,15 @@
 				},(res)=>{
 					this.messageList.splice(index, 1);
 					console.log(this.messageList);
-					uni.setStorageSync(this.messageListKey,this.messageList);
+					
+					try{
+						uni.setStorageSync(this.messageListKey,this.messageList);
+					} catch(err){
+						
+					}
+					
+					
+					
 				},false);
 			},
 			itemClick(type,id,index){
@@ -238,12 +295,21 @@
 							animationType: 'fade-in'
 						})
 						this.messageList[index].num = 0;
-						uni.setStorageSync(this.messageListKey,this.messageList);
+						
+						try{
+							uni.setStorageSync(this.messageListKey,this.messageList);
+						} catch(err){
+							
+						}
 						this.setBadge();
 					},true);
 				}else{
-					this.messageList[index].num = 0;	
-					uni.setStorageSync(this.messageListKey,this.messageList);
+					this.messageList[index].num = 0;
+					try{
+						uni.setStorageSync(this.messageListKey,this.messageList);
+					} catch(err){
+						
+					}
 					this.setBadge();
 					uni.navigateTo({
 						url:'../tabbar-2/qunliao/gerenliao?userId='+id+'&nickName='+this.messageList[index].title,
