@@ -171,9 +171,9 @@
 							redMinAmount: this.redMinAmount, //扫雷红包最少金额
 							redOdds: this.redOdds, //赔率
 							
-							redRebate: this.redRebate, //红包返点
-							referrerRebate: this.referrerRebate, //推荐人返点
-							referrerUpRebate: this.referrerUpRebate, //推荐人上级返点
+							redRebate: Number(this.redRebate)/100, //红包返点
+							referrerRebate:  Number(this.referrerRebate)/100, //推荐人返点
+							referrerUpRebate: Number(this.referrerUpRebate)/100, //推荐人上级返点
 							wxAccount: this.wxAccount, //申请人微信账号
 						},(res)=>{
 						uni.showToast({
@@ -198,9 +198,9 @@
 							redOddsTwo: this.oddsTwo, //赔率
 							redOddsThree: this.oddsThree, //赔率
 							redOddsFour: this.oddsFour, //赔率
-							redRebate: this.redRebate, //红包返点
-							referrerRebate: this.referrerRebate, //推荐人返点
-							referrerUpRebate: this.referrerUpRebate, //推荐人上级返点
+							redRebate: Number(this.redRebate)/100, //红包返点
+							referrerRebate: Number(this.referrerRebate)/100, //推荐人返点
+							referrerUpRebate: Number(this.referrerUpRebate)/100,//推荐人上级返点
 							wxAccount: this.wxAccount, //申请人微信账号
 						},(res)=>{
 						uni.showToast({

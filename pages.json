@@ -193,7 +193,8 @@
 								
 							}
 						]
-					}
+					},
+					"bounce":"vertical"
 				}
 			}
 		},
@@ -204,11 +205,12 @@
 				"navigationBarTitleText": "收到的红包",
 				"navigationBarBackgroundColor":"#F35543",
 				"app-plus":{
+				
 					"titleNView":{
 						"titleColor":"#EDD3A2"
-						
 					}
-				}
+				},
+				"enablePullDownRefresh":true
 			}
 		},
 		{
@@ -231,8 +233,10 @@
 					"titleNView":{
 						"backgroundColor":"#EEEEEE",
 						"splitLine":{}
-					}
-				}
+					},
+					"bounce":"vertical"
+				},
+				"enablePullDownRefresh":false
 			}
 		},
 		{

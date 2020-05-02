@@ -143,7 +143,7 @@
 						</navigator>
 					</view>
 					<view class="pageItem">
-						<navigator url="/pages/tabbar/tabbar-2/qunliao/zhangdanmingxi/zhangdanmingxi" open-type="navigate" hover-class="">
+						<navigator :url="'/pages/tabbar/tabbar-2/qunliao/zhangdanmingxi/zhangdanmingxi?crowdId='+crowdInfo.id" open-type="navigate" hover-class="">
 							<view class="c-item">
 							<image src="/static/liaotian/icon_zd.png"></image>
 							<text>账单</text>
@@ -555,12 +555,12 @@
 				if(obj){
 					this.msgList.push(obj);
 					console.log("isBottom:"+this.isBottom)
-					if(this.isBottom){
+					// if(this.isBottom){
 						this.$nextTick(function() {
 							// 滚动到底
 								this.scrollToView = 'msg'+obj.msg.id
 						});			
-					}
+					// }
 				}
 			},
 			
@@ -1080,7 +1080,7 @@
 							// 积分不足
 							// 跳转至积分不足
 							this.redenvelopeData={
-								rid:res.data.data.id,	//红包ID
+								rid: rid,	//红包ID
 								from:msg.userinfo.username,
 								face:msg.userinfo.face,
 								blessing:"手慢了，红包派完了",
@@ -1104,7 +1104,7 @@
 						// 积分不足
 						// 跳转至积分不足
 						this.redenvelopeData={
-							rid:res.data.data.id,	//红包ID
+							rid:rid,	//红包ID
 							from:msg.userinfo.username,
 							face:msg.userinfo.face,
 							blessing:"您的积分不足，请充值",
@@ -1154,8 +1154,22 @@
 					success:(res)=>{
 						if(res.data.success){
 							this.msgList[this.redenvelopeData.index].msg.content.status = 3;
-							this.closeRedEnvelope();
-							this.toRedRecord(rid);
+							const innerAudioContext = uni.createInnerAudioContext();
+							innerAudioContext.autoplay = true;
+							innerAudioContext.src = '/static/audio/open_hb_msg.mp3';
+							innerAudioContext.onPlay(() => {
+							  // console.log('开始播放');
+							});
+							innerAudioContext.onError((res) => {
+							  console.log(res.errMsg);
+							  console.log(res.errCode);
+							});
+							setTimeout(()=>{
+								this.closeRedEnvelope();
+								this.toRedRecord(rid);
+								
+							},500)
+							
 						}else{
 							this.errorRed(res,msg,rid);
 						}
@@ -1178,7 +1192,7 @@
 			},
 			toRedRecord(rid){
 				uni.navigateTo({
-					url:'./hongbaoxiangqing/hongbaoxiangqing?rid='+rid,
+					url:'./hongbaoxiangqing/hongbaoxiangqing?rid='+rid + "&crowdId="+this.crowdInfo.id,
 				})
 			},
 			// 关闭红包弹窗

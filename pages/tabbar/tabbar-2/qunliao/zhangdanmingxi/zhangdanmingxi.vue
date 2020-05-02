@@ -4,12 +4,12 @@
 			<view class="navItem">
 				<text>总资产</text>
 				<br>
-				<text>789.97</text>
+				<text>{{aAmount}}</text>
 			</view>
 			<view class="navItem">
 				<text>冻结积分</text>
 				<br>
-				<text>789.97</text>
+				<text>{{bAmount}}</text>
 			</view>
 			<view class="navItem" @click="open('start')">
 				<text>开始时间</text>
@@ -28,7 +28,7 @@
 			<view class="navItem">
 				<text>今日输赢</text>
 				<br>
-				<text>789.97</text>
+				<text>{{cAmount}}</text>
 			</view>
 			<view class="navItem" @click="open('class')">
 				<text>选择分类</text>
@@ -40,33 +40,21 @@
 		</view>
 		<view class="title">
 			<text>提现</text>
-			<text class="red">累积：0.55</text>
+			<text class="red">累积：{{totalAmount}}</text>
 		</view>
 		
-		<scroll-view 
-			:scroll-y="isScroll" 
-			:style="{height:scrollHei+'px'}"
-			:refresher-enabled="isActive"
-			:refresher-threshold="80"
-			refresher-default-style="white"
-			@scroll="scroll"
-			@scrolltoupper="scrolltoupper"
-			:refresher-triggered="triggered"
-			@refresherpulling="onPulling"
-			@refresherrefresh="onRefresh"
-			@refresherrestore="onRestore"
-			@refresherabort="onAbort"
-			>
-			<view v-for="(item,index) in infos" :key="index" class="scrollItem">
+		<view>
+			<view v-for="(item,index) in dataList" :key="index" class="scrollItem">
 				<view class="minView">
-					<text>"上分/1200"</text>
-					<text>2018-456</text>
+					<text>{{item.mark}}</text>
+					<text>{{item.createTime}}</text>
 				</view>
 				<view class="right">
-					<text>+1200</text>
+					<text>{{item.flag}}{{item.tradeAmount.toFixed(2)}}</text>
 				</view>
 			</view>
-		</scroll-view>
+			<uni-load-more :status="more"></uni-load-more>
+		</view>
 		
 		<uni-popup ref="popup" type="bottom" :maskClick="false" >
 			<view class="pickerViewBox" v-if="type=='start'||type=='end'">
@@ -103,8 +91,9 @@
 <script>
 	import TabMask from '@/components/chunLei-modal/tabMask'
 	import uniPopup from "@/components/uni-popup/uni-popup.vue"
-	export default{
-		components: {uniPopup},
+	import uniLoadMore from "@/components/uni-load-more/uni-load-more.vue"
+	export default {
+	    components: {uniPopup,uniLoadMore},
 		data(){
 			const date = new Date()
 			const years = []
@@ -113,7 +102,7 @@
 			const month = date.getMonth() + 1
 			const days = []
 			const day = date.getDate()
-			for (let i = 2014; i <= date.getFullYear(); i++) {
+			for (let i = 2018; i <= date.getFullYear(); i++) {
 				years.push(i)
 			}
 			for (let i = 1; i <= 12; i++) {
@@ -124,8 +113,20 @@
 			}
 			// console.log(year,month,day)
 			return{
-				classList:['充值',"提现","红包发布","好友转账","红包奖励","红包领取","推荐返点","中了雷包","股份收益","中雷扣除","发包流水"],
+				more:"more",
+				pageNo:1,
+				pageSize:20,
+				totalPage:2,
+				reload:false,
+				lock: false,
+				crowdId:null,
+				aAmount:'-',
+				bAmount:'-',
+				cAmount:'-',
+				totalAmount:'-',
+				classList:['充值',"提现","红包发布","红包奖励","红包领取","推荐返点","中了雷包","股份收益","中雷扣除","发包流水"],
 				classIndex:0,
+				typeList:["SHANG_FEN","XIA_FEN","FA_BAO","ZHONG_JIANG","GRAD_BAO","TUI_JIAN_FAN_LI","GRAD_BAO_IS_BOOM_RETURN","GU_FEN","GRAD_BAO_IS_BOOM","FA_BAO_LIU_SHUI"],
 				modalValue:false,
 				tabMask:null,
 				defaultYearS: date.getFullYear(),
@@ -143,62 +144,30 @@
 				type:null,
 				visible:true,
 				indicatorStyle: `height: ${Math.round(uni.getSystemInfoSync().screenWidth/(750/100))}px;`,
-				scrollHei:uni.getSystemInfoSync().windowHeight - 180 - 35,
-				triggered:true,
-				is_freshing:false,//
-				isScroll:true,
-				isActive:true,
-				infos:[
-					{
-						text:'上分1200',
-						textRight:'+1000',
-						time:'2019-7898-57'
-					},
-					{
-						text:'上分1200',
-						textRight:'+1000',
-						time:'2019-7898-57'
-					},
-					{
-						text:'上分1200',
-						textRight:'+1000',
-						time:'2019-7898-57'
-					},
-					{
-						text:'上分1200',
-						textRight:'+1000',
-						time:'2019-7898-57'
-					},
-					{
-						text:'上分1200',
-						textRight:'+1000',
-						time:'2019-7898-57'
-					},
-					{
-						text:'上分1200',
-						textRight:'+1000',
-						time:'2019-7898-57'
-					},
-					{
-						text:'上分1200',
-						textRight:'+1000',
-						time:'2019-7898-57'
-					},
-					{
-						text:'上分1200',
-						textRight:'+1000',
-						time:'2019-7898-57'
-					},
-					{
-						text:'上分1200',
-						textRight:'+1000',
-						time:'2019-7898-57'
-					},
-				]
+				dataList:[]
 			}
 			
 		},
-		
+		onPullDownRefresh(){
+			if(this.lock){
+				return;
+			}
+			this.pageNo = 1;
+			this.reload = true;
+			this.loadData();
+			
+		},
+		onReachBottom(){
+			if(this.lock){
+				return;
+			}
+			if(this.pageNo > this.totalPage){
+				this.more="noMore"
+				return false;
+			}
+			this.reload = false;
+			this.loadData();
+		},
 		computed:{
 			SelectValueS(){
 				let year,month,day
@@ -254,15 +223,17 @@
 				return false
 			}
 		},
-		onLoad() {
-			console.log('scrollHie',this.scrollHei)
+		onLoad(option) {
+			this.crowdId = option.crowdId;
+			
+			
+			
+			console.log('crowdId',this.crowdId)
 			let height
 			uni.getSystemInfo({
 				success: (e) => {
-				  
 				  // #ifdef APP-PLUS
 				  // console.log('app-plus', e)
-				  
 				  height = e.statusBarHeight + 44
 				  // #endif
 				}
@@ -278,44 +249,77 @@
 				fn
 			})
 			
+			this.loadAmount();
+			this.today();
+			this.reload = true;
+			this.loadData();
 		},
 		methods:{
-			scrolltoupper(){
-				setTimeout(()=>{
-					// console.log("到顶部")
-					this.isActive = true
-				},100)
-			},
-			scroll(e){
-				// console.log("滚动",e.detail.scrollTop,e.detail.deltaY)
-				if(e.detail.scrollTop == 0) {
-					this.isActive = true
-				}
-				if(e.detail.deltaY < 0){
-					this.isActive = false
-				}
-			},
-			onPulling(e) { //下拉
-				// console.log("onpulling", e);
+			loadData(){
+				
+				var sMonth =Number(this.defaultMonthS) < 10?"0"+this.defaultMonthS:this.defaultMonthS;
+				var Sday = Number(this.defaultDayS) < 10?"0"+this.defaultDayS:this.defaultDayS;
+				
+				var eMonth =Number(this.defaultMonthE) < 10?"0"+this.defaultMonthE:this.defaultMonthE;
+				var da = Number(this.defaultDayE) + 1;
+				var eday = da < 10?"0"+ da : da;
+				
+				var startTime = this.defaultYearS+'-'+sMonth+"-"+Sday + " 00:00:00";
+				var endTime = this.defaultYearE+'-'+eMonth+"-"+eday + " 00:00:00";
+				var tradeType = this.typeList[this.classIndex];
+				
+				this.lock = true;
+				this.more = "loading";
+				this.$http.httpGetToken("/crowd-account-trade-record/page",{
+					crowdId:this.crowdId,
+					pageNo:this.pageNo,
+					pageSize:this.pageSize,
+					tradeType:tradeType,
+					startTime:startTime,
+					endTime:endTime,
+				},(res)=>{
+					this.lock = false;
+					var list = res.data.records;
+					this.dataList = this.reload ? list : this.dataList.concat(list);
+					this.pageNo = res.data.current;
+					this.totalPage = res.data.pages;
+					if(this.pageNo == this.totalPage || this.totalPage == 0){
+						this.more="noMore"
+					}else{
+						this.more="more"
+					}
+					this.pageNo++;
+					uni.stopPullDownRefresh();
+				},false)
+				
+				this.$http.httpGetToken("/crowd-account-trade-record/pageSum",{
+					crowdId:this.crowdId,
+					tradeType:tradeType,
+					startTime:startTime,
+					endTime:endTime,
+				},(res)=>{
+					this.totalAmount = res.data.toFixed(2);
+				},false)
+				
 				
 			},
-			onRefresh() { //触发下拉
-				console.log("触发下拉",this.is_freshing)
-				this.isScroll = false
-				if (this.is_freshing) return;
-				this.is_freshing = true;
-				setTimeout(() => {
-					this.triggered = false;
-					this.is_freshing = false;
-				}, 3000)
+			
+			loadAmount(){
+				this.$http.httpPostToken("/crowd-account-trade-record/balance",{
+					crowdId:this.crowdId,
+				},(res)=>{
+					console.log(res)
+					this.aAmount = res.data.blance.toFixed(2);
+					this.bAmount = res.data.freezeBlance.toFixed(2);
+				},false)
 			},
-			onRestore() { // 需要重置
-				this.triggered = 'restore'; 
-				this.isScroll = true
-				console.log("onRestore");
-			},
-			onAbort() { // 中止
-				console.log("onAbort");
+			today(){
+				this.$http.httpPostToken("/crowd-account-trade-record/today",{
+					crowdId:this.crowdId,
+				},(res)=>{
+					console.log(res)
+					this.cAmount = res.data.toFixed(2);
+				},false)
 			},
 			show(){
 				this.modalValue = true
@@ -361,7 +365,11 @@
 						this.classIndex = index
 					}
 					
+					
 				}
+				this.pageNo = 1;
+				this.reload = true;
+				this.loadData();
 				this.hide()
 				this.$refs.popup.close()
 				this.visible = false
@@ -380,6 +388,15 @@
 
 <style lang="scss" scoped>
 	.navBox{
+		position: sticky;
+		width: 100%;
+		left: 0;
+		right: 0;
+		top:0;
+		z-index: 1;
+		border-top: 1px solid #EEEEEE;
+		background-color: #FFFFFF;
+		
 		.navItem{
 			float: left;
 			width: 375upx;
@@ -387,6 +404,7 @@
 			height: 60px;
 			text-align: center;
 			padding: 10px 0;
+			
 			text{
 				height: 20px;
 				line-height: 20px;
@@ -394,25 +412,25 @@
 			}
 		}
 		.navItem:nth-of-type(1){
-			border-right: 1upx solid #EEEEEE;
-			border-bottom: 1upx solid #EEEEEE;
+			border-right: 1px solid #EEEEEE;
+			border-bottom: 1px solid #EEEEEE;
 		}
 		.navItem:nth-of-type(2){
-			border-bottom: 1upx solid #EEEEEE;
+			border-bottom: 1px solid #EEEEEE;
 		}
 		.navItem:nth-of-type(3){
-			border-right: 1upx solid #EEEEEE;
-			border-bottom: 1upx solid #EEEEEE;
+			border-right: 1px solid #EEEEEE;
+			border-bottom: 1px solid #EEEEEE;
 		}
 		.navItem:nth-of-type(4){
-			border-bottom: 1upx solid #EEEEEE;
+			border-bottom: 1px solid #EEEEEE;
 		}
 		.navItem:nth-of-type(5){
-			border-right: 1upx solid #EEEEEE;
-			border-bottom: 1upx solid #EEEEEE;
+			border-right: 1px solid #EEEEEE;
+			border-bottom: 1px solid #EEEEEE;
 		}
 		.navItem:nth-of-type(6){
-			border-bottom: 1upx solid #EEEEEE;
+			border-bottom: 1px solid #EEEEEE;
 		}
 	}
 	.navBox::after{
@@ -432,11 +450,14 @@
 		}
 	}
 	.scrollItem{
+		display: flex;
 		height: 50px;
 		padding: 0 15px;
-		border-bottom: 1upx solid #EEEEEE;
+		border-bottom: 1px solid #EEEEEE;
 		.minView{
-			display: inline-block;
+			display: flex;
+			flex-direction: column;
+			flex: 1;
 			width: calc(50% - 15px);
 			text:first-of-type{
 				display: block;
@@ -501,7 +522,7 @@
 			height: 100upx;
 			line-height: 100upx;
 			text-align: center;
-			border-bottom: 1upx solid #eee;
+			border-bottom: 1px solid #eee;
 			box-sizing: border-box;
 		}
 		.content{
@@ -541,7 +562,7 @@
 			clear: both;
 		}
 		.bottom{
-			border-top: 1upx solid #eee;
+			border-top: 1px solid #eee;
 			box-sizing: border-box;
 			height: 100upx;
 			line-height: 100upx;

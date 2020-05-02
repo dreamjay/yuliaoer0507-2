@@ -27,7 +27,7 @@ const error = (res) => {
 	}else{
 		
 		uni.showToast({
-			title:res.msg,
+			title:"系统繁忙，稍后再试！",
 			icon:"none"
 		})
 	}

@@ -1,10 +1,10 @@
 <template>
 	<view>
 		<view class="hongbao" :class="succeed ? 'hongbaoActive' : null">
-			<image class="hongbaoBody"  :src="headUrl?headUrl:'/static/liaotian/bg_hb_success.png'"></image>
+			<image class="hongbaoBody"  src="/static/liaotian/bg_hb_success.png"></image>
 			<view class="messageInfo">
 				<view class="userHBInfo">
-					<image src="/static/moren.png"></image>
+					<image :src="headUrl?headUrl:'/static/moren.png'"></image>
 					<text>来自{{nickName}}的红包</text>
 					<image src="/static/liaotian/icon_ping.png"></image>
 				</view>
@@ -26,9 +26,9 @@
 			<ul>
 				<li class="SelectList" v-for="(item,index) in list" :key="index">
 					<image class="headImage" :src="item.headUrl?item.headUrl:'/static/moren.png'" mode=""></image>
-					<view >
+					<view style="flex: 1;">
 						<p class='bold'>{{item.nickName}}</p>
-						<text style="font-size: 12px;">{{item.gradTime}}</text>
+						<text style="font-size: 12px; width: 150px;">{{item.gradTime}}</text>
 					</view>
 					<view>
 						<text class="bold">{{item.amountName}}元</text>
@@ -59,18 +59,23 @@
 				a:'',
 				sec:'',
 				isGradNull:false,
-				list:[]
+				list:[],
+				crowdId:null,
+				height:0
 			}
 		},
 		onLoad(option) {
+
+			
 			this.userInfo = uni.getStorageSync("userInfo");
+			this.crowdId = option.crowdId;
 			this.rid = option.rid;
 			this.$http.httpPostTokenPush('/push/listRed',{id:this.rid},(res)=>{
 				console.log(res);
 				var obj = res.data;
 				this.headUrl = obj.userHeadUrl;
 				this.nickName= obj.userNickName;
-				this.title = obj.redPackage.amount+ "-" + obj.redPackage.num;
+				this.title = obj.redPackage.amount+ "-" + obj.redPackage.boomNum;
 				this.num = obj.redPackage.num;
 				this.a = obj.list.length;
 				this.isGradNull = obj.list.length == obj.redPackage.num;
@@ -87,7 +92,7 @@
 		onNavigationBarButtonTap:function() {
 			
 			uni.navigateTo({
-				url:"../hongbaojilu/hongbaojilu"
+				url:"../hongbaojilu/hongbaojilu?crowdId="+this.crowdId
 			})
 		},
 	}
@@ -168,6 +173,7 @@
 		border-bottom: 1px solid #eee;
 	}
 	.myList .SelectList{
+		display: flex;
 		position: relative;
 		height: 80upx;
 		padding: 20upx 50upx;

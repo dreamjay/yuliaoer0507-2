@@ -10,23 +10,25 @@
 			<br>
 			<text style="line-height: 60upx;">抢红包共收到</text>
 			<br>
-			<text class="money">879</text>
+			<text class="money">{{totalAmount}}</text>
 			<text>元</text>
 		</view>
 		
 		<view class="myList">
 			<ul>
-				<li class="SelectList" v-for="(item,index) in 10" :key="index">
-					<view>
-						<p class='bold'>群主设置</p>
-						<text>2015-5456sd </text>
+				<li class="SelectList" style="display: flex;" v-for="(item,index) in dataList" :key="index">
+					<view style="flex: 1;display: flex;flex-direction: column;">
+						<text style="font-size: 16px;color: #000;font-weight: 400;">{{item.mark}}</text>
+						<text style="font-size: 12px;color: #999999;">{{item.createTime}}</text>
 					</view>
 					<view>
-						<text class="bold">16.89元</text>
+						<text class="bold">{{item.tradeAmount}}元</text>
 						
 					</view>
 				</li>
 			</ul>
+			
+			<uni-load-more :status="more"></uni-load-more>
 		</view>
 		
 		<uni-popup ref="popup" type="bottom" :maskClick="false" >
@@ -41,27 +43,38 @@
 				</picker-view>
 			</view>
 		</uni-popup>
+	
 	</view>
 </template>
 
 <script>
 	import TabMask from '@/components/chunLei-modal/tabMask'
 	import uniPopup from "@/components/uni-popup/uni-popup.vue"
+	import uniLoadMore from "@/components/uni-load-more/uni-load-more.vue"
 	export default {
-	    components: {uniPopup},
+	    components: {uniPopup,uniLoadMore},
 		data(){
 			let years = []
 			let date = new Date()
-			for (let i = 2014; i <= date.getFullYear(); i++) {
+			for (let i = 2018; i <= date.getFullYear(); i++) {
 				years.push(i)
 			}
 			return{
+				more:"more",
+				pageNo:1,
+				pageSize:20,
+				totalPage:2,
+				reload:false,
+				lock: false,
+				crowdId:null,
+				totalAmount:'',
 				modalValue:false,
 				tabMask:null,
 				year: date.getFullYear(),
 				defaultYear: date.getFullYear(),
 				years:years,
 				visible:true,
+				dataList:[],
 				indicatorStyle: `height: ${Math.round(uni.getSystemInfoSync().screenWidth/(750/100))}px;`
 			}
 		},
@@ -90,7 +103,30 @@
 				return false
 			}
 		},
-		onLoad() {
+		onPullDownRefresh(){
+			if(this.lock){
+				return;
+			}
+			this.pageNo = 1;
+			this.reload = true;
+			this.loadData();
+			
+		},
+		onReachBottom(){
+			if(this.lock){
+				return;
+			}
+			if(this.pageNo > this.totalPage){
+				this.more="noMore"
+				return false;
+			}
+			this.reload = false;
+			this.loadData();
+		},
+		onLoad(option) {
+			console.log(option)
+			
+			this.crowdId = option.crowdId;
 			let height
 			uni.getSystemInfo({
 			    success: (e) => {
@@ -112,10 +148,46 @@
 				opacity:0.4,
 				fn
 			})
-			
+			this.reload = true;
+			this.loadData();
 		},
 		methods:{
-			
+			loadData(){
+				
+				this.lock = true;
+				this.more = "loading";
+				console.log(this.defaultYear);
+				this.$http.httpGetToken("/red-record/page",{
+					crowdId:this.crowdId,
+					pageNo:this.pageNo,
+					pageSize:this.pageSize,
+					startTime:this.defaultYear+'-01-01',
+					endTime:Number(this.defaultYear+1)+'-01-01',
+				},(res)=>{
+					this.lock = false;
+					var list = res.data.records;
+					this.dataList = this.reload ? list : this.dataList.concat(list);
+					this.pageNo = res.data.current;
+					this.totalPage = res.data.pages;
+					if(this.pageNo == this.totalPage || this.totalPage == 0){
+						this.more="noMore"
+					}else{
+						this.more="more"
+					}
+					this.pageNo++;
+					uni.stopPullDownRefresh();
+				},false)
+				
+				
+				this.$http.httpGetToken("/red-record/totalAmount",{
+					crowdId:this.crowdId,
+					startTime:this.defaultYear+'-01-01',
+					endTime:Number(this.defaultYear+1)+'-01-01',
+				},(res)=>{
+					this.totalAmount = res.data;
+				},false)
+				
+			},
 			show(){
 				this.modalValue = true
 				this.tabMask.show(600)  //展示动画时间
@@ -136,6 +208,9 @@
 				
 				if(is){
 					this.defaultYear = this.year
+					this.pageNo = 1;
+					this.reload = true;
+					this.loadData();
 				}
 				this.hide()
 				this.$refs.popup.close()
@@ -152,11 +227,17 @@
 
 <style lang="scss">
 	.infoBox{
-		position: relative;
 		padding: 120upx 0 0 0;
 		height: 300upx;
 		background-color: #eee;
 		text-align: center;
+		position: sticky;
+		width: 100%;
+		left: 0;
+		right: 0;
+		top:0;
+		z-index: 1;
+		
 		image{
 			width: 100upx;
 			height: 100upx;
