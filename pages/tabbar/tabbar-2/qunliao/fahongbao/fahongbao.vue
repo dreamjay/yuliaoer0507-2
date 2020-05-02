@@ -20,12 +20,12 @@
 		<view class="inputItem" style="margin-top: 40upx;">
 			<text>雷数</text>
 			<view class="right">
-				<input type="number" :placeholder="crowdInfo.playerType=='SAO_LEI'?'请输入单雷':'请输入多雷,例：123'" :maxlength="crowdInfo.playerType=='SAO_LEI'?1:4" v-model="lei">
+				<input type="number" @input="onReset" :placeholder="crowdInfo.playerType=='SAO_LEI'?'请输入单雷':'请输入不重复雷,例：123'" :maxlength="crowdInfo.playerType=='SAO_LEI'?1:4" v-model="lei">
 				<!-- <text>个</text> -->
 			</view>
 		</view>
 		<view class="inputItem hintBox">
-			<text class="hint">单个雷数存在0到9</text>
+			<text class="hint">{{crowdInfo.playerType=='SAO_LEI'?'单个雷数存在0到9':'2~4个雷，单个雷数存在0到9，重复数字只算一个雷'}}</text>
 		</view>
 		<h1 class="boldMoney">￥{{money ? (Number(money)).toFixed(2) : '0.00'}}</h1>
 		
@@ -126,6 +126,12 @@
 			}
 		},
 		methods:{
+			onReset(e){
+				var str  = e.detail.value+"";
+				var s = [].filter.call(str,function(s,i,o){return o.indexOf(s)==i;}).join('');
+				 var a = s.split("").sort().join("");
+				setTimeout(() => { this.lei = a }, 0)
+			},
 			close(){
 				this.password = null;
 				this.value = false;
@@ -189,8 +195,11 @@
 					return
 				}
 				
+				
 				if(this.crowdInfo.playerType=='MORE_SAO_LEI'){
-					if(this.lei.length <2 || this.lei > 4){
+					this.lei = [].filter.call(this.lei,(s,i,o)=>o.indexOf(s)==i).join('');
+					
+					if(this.lei.length <2 || this.lei.length > 4){
 						uni.showToast({
 							title:"请输入2~4个雷",
 							icon:'none'

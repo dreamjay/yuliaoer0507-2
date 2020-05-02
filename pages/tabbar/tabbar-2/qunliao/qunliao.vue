@@ -15,7 +15,7 @@
 			 :upper-threshold="50" >
 				
 				<!-- 加载历史数据waitingUI -->
-				<view class="loading">
+				<view class="loading" v-show="isHistoryLoading">
 					<view class="spinner">
 						<view class="rect1"></view>
 						<view class="rect2"></view>
@@ -68,7 +68,7 @@
 											<image  :src="row.msg.content.status != 0 ?'/static/liaotian/bg_hb_right_sel.png':'/static/liaotian/_bg_from_hongbao.png'" style="" mode="aspectFit"></image>
 											<text>{{row.msg.content.blessing}}</text>
 											<text>{{row.msg.content.status == 1 ? '已抢完':row.msg.content.status == 3?'已领取':'领取红包'}}</text>
-											<text>扫雷红包</text>
+											<text>扫雷红包{{crowdInfo.playerType=='MORE_SAO_LEI'?'(多雷)':''}}</text>
 										</view>
 									</view>
 								</view>
@@ -110,7 +110,7 @@
 											<image  :src="row.msg.content.status == 0 ?'/static/liaotian/_bg_to_hongbao.png':'/static/liaotian/bg_hb_left_sel.png'" style="" mode="aspectFit"></image>
 											<text>{{row.msg.content.blessing}}</text>
 											<text>{{row.msg.content.status == 1 ? '已抢完':row.msg.content.status == 3?'已领取': '领取红包'}}</text>
-											<text>扫雷红包</text>
+											<text>扫雷红包{{crowdInfo.playerType=='MORE_SAO_LEI'?'(多雷)':''}}</text>
 										</view>
 									</view>
 								</view>

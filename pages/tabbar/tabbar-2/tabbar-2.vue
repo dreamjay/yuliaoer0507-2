@@ -1,7 +1,7 @@
 <template>
     <view >
 		
-		<uni-indexed-list  :options="list" :showSelect="false" @click="bindClick">
+		<uni-indexed-list  :options="dataList" :showSelect="false" @click="bindClick">
 			
 			
 		</uni-indexed-list>
@@ -25,134 +25,14 @@
 </template>
 <script>
 	import uniIndexedList from "@/components/uni-indexed-list/uni-indexed-list.vue"
+	import pyUtils from '@/common/pyUtils.js';
 	export default {
 		components: {uniIndexedList},
 		data(){
 			return{
 				zhuangtailan:0,
 				show:false,
-				list:[{
-						"letter":"",
-						data:[
-							{
-							headImg:"/static/icon_ql.png",
-							text:"群聊",	
-							}
-						],
-					},
-					{
-					"letter": "A",
-					"data": [
-							{
-								headImg:"/static/img/weixin.png",
-								text:"阿克苏机场",
-							},
-							{
-								headImg:"/static/img/weixin.png",
-								text:"阿克苏机场",
-							},
-							{
-								headImg:"/static/img/weixin.png",
-								text:"阿克苏机场",
-							},
-							{
-								headImg:"/static/img/weixin.png",
-								text:"阿克苏机场",
-							},
-							{
-								headImg:"/static/img/weixin.png",
-								text:"阿克苏机场",
-							},
-							{
-								headImg:"/static/img/weixin.png",
-								text:"阿克苏机场",
-							}
-						]
-					},
-					{
-						"letter": "B",
-						"data": [
-							{
-								headImg:"/static/img/weixin.png",
-								text:"保山机场",
-							},
-							{
-								headImg:"/static/img/weixin.png",
-								text:"保山机场",
-							},
-							{
-								headImg:"/static/img/weixin.png",
-								text:"保山机场",
-							},
-							{
-								headImg:"/static/img/weixin.png",
-								text:"保山机场",
-							},
-							{
-								headImg:"/static/img/weixin.png",
-								text:"保山机场",
-							}
-						]
-					},
-					{
-					"letter": "A",
-					"data": [
-							{
-								headImg:"/static/img/weixin.png",
-								text:"阿克苏机场",
-							},
-							{
-								headImg:"/static/img/weixin.png",
-								text:"阿克苏机场",
-							},
-							{
-								headImg:"/static/img/weixin.png",
-								text:"阿克苏机场",
-							},
-							{
-								headImg:"/static/img/weixin.png",
-								text:"阿克苏机场",
-							},
-							{
-								headImg:"/static/img/weixin.png",
-								text:"阿克苏机场",
-							},
-							{
-								headImg:"/static/img/weixin.png",
-								text:"阿克苏机场",
-							}
-						]
-					},
-					{
-					"letter": "A",
-					"data": [
-							{
-								headImg:"/static/img/weixin.png",
-								text:"阿克苏机场",
-							},
-							{
-								headImg:"/static/img/weixin.png",
-								text:"阿克苏机场",
-							},
-							{
-								headImg:"/static/img/weixin.png",
-								text:"阿克苏机场",
-							},
-							{
-								headImg:"/static/img/weixin.png",
-								text:"阿克苏机场",
-							},
-							{
-								headImg:"/static/img/weixin.png",
-								text:"阿克苏机场",
-							},
-							{
-								headImg:"/static/img/weixin.png",
-								text:"阿克苏机场",
-							}
-						]
-					},
-				]
+				dataList:[],
 			}
 		},
 		mounted() {
@@ -177,14 +57,66 @@
 			
 			// #endif
 		},
+		onShow(){
+			this.$http.httpGetToken("/user-friend/listByUser",{},(res) =>{
+				var data = res.data;
+				var dataList = [{
+						"letter":"",
+						data:[
+							{
+							headImg:"/static/icon_ql.png",
+							text:"群聊",	
+							}
+						]
+					}];
+				this.dataList = dataList.concat(this.convertList(data))
+				console.log(this.dataList)
+			},false)
+		},
 		
 		methods:{
+			convertList(obj){
+				var arr = new Array();
+				var letter = new Array();
+				for(var i=0;i<obj.length;i++){
+					obj[i].letter = this.getFirstLetter(obj[i].nickName);
+					 if(letter.indexOf(obj[i].letter) == -1){
+						letter.push(obj[i].letter);
+					}
+				}
+				letter.sort();
+				console.log(letter);
+				for(var i=0;i<letter.length;i++){
+					var barr = new Array();
+					for(var j=0;j<obj.length;j++){
+						if(letter[i] == obj[j].letter){
+							barr.push({
+								headImg:obj[j].headUrl,
+								text:obj[j].nickName,
+								userId:obj[j].id
+							});
+						}
+						
+					}
+					var s = {
+						letter:letter[i],
+						data:barr
+					};
+					arr.push(s);
+				}
+				console.log(arr)
+				return arr;
+			},
+			getFirstLetter(nickName){
+				var a = nickName.substring(0,1);
+				var b = pyUtils.getFirst(a);
+				return b;
+			},
 			bindClick(e){
 				console.log(e)
 				if(e.item.name == '群聊'){
 					uni.navigateTo({
-						url:'../tabbar-5/qunliao/qunliao',
-						animationType:'slide-in-right'
+						url:'../tabbar-5/qunliao/qunliao'
 					})
 				}
 			},

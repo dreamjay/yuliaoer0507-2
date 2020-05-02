@@ -6,13 +6,14 @@
 				<br>
 				<text  class="uni-icon uni-icon-arrowdown"></text>
 			</view>
-			<image src="../../../../../static/moren.png"></image>
+			<image :src="userInfo.headUrl?userInfo.headUrl:'../../../../../static/moren.png'"></image>
 			<br>
-			<text style="line-height: 60upx;">抢红包共收到</text>
+			<text style="line-height: 60upx;">来抢红包的共收到</text>
 			<br>
 			<text class="money">{{totalAmount}}</text>
 			<text>元</text>
 		</view>
+		
 		
 		<view class="myList">
 			<ul>
@@ -125,7 +126,7 @@
 		},
 		onLoad(option) {
 			console.log(option)
-			
+			this.userInfo = uni.getStorageSync("userInfo");
 			this.crowdId = option.crowdId;
 			let height
 			uni.getSystemInfo({

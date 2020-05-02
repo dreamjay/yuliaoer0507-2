@@ -11,7 +11,7 @@
 						<view v-if="showSelect" style="margin-right: 20rpx;">
 							<uni-icons :type="item.checked ? 'checkbox-filled' : 'circle'" :color="item.checked ? '#007aff' : '#aaa'" size="24" />
 						</view>
-						<image :src="item.src" style="width: 70upx; height: 70upx; display: inline-block; margin-right: 20upx;"></image>
+						<image :src="item.src?item.src:'/static/moren.png'" style="width: 70upx; height: 70upx; display: inline-block; margin-right: 20upx;"></image>
 						<text class="uni-indexed-list__item-content">{{ item.name }}</text>
 					</view>
 				</view>
@@ -51,7 +51,7 @@
 			
 		},
 		methods: {
-			onClick(idx, index) {
+			onClick(idx, index,item) {
 				this.$emit("itemClick", {
 					idx,
 					index

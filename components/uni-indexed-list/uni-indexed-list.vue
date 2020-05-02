@@ -150,6 +150,7 @@
 						obj['name'] = item.text
 						obj['src'] = item.headImg
 						obj['itemIndex'] = index
+						obj['userId'] = item.userId
 						index++
 						obj.checked = item.text.checked ? item.text.checked : false
 						return obj
