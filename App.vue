@@ -133,13 +133,22 @@ export default {
 					that.addAlone(obj);
 					uni.$emit('ALONE',obj)
 					that.createMessage(obj);
+					var aloneList = uni.getStorageSync("aloneList");
+					if(!aloneList){
+						aloneList = new Array();
+					}
+					aloneList.push(obj);
+					uni.setStorageSync("aloneList",aloneList);
 				}
 			  
 			})
 		},
 		createMessage(data){
 			var content = this.formtContent(data.body);
+			
+			//#ifdef APP-PLUS  
 			plus.push.createMessage( content,'',{cover:true});
+			//#endif
 		},
 		resetConnection(){
 			console.log(socketTask)

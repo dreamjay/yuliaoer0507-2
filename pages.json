@@ -175,6 +175,22 @@
 			}
 		},
 		{
+			"path":"pages/tabbar/tabbar-2/qunliao/gerenliao",
+			"style":{
+				"scrollIndicator":"none",
+				"navigationBarTitleText": "",
+				"app-plus":{
+					"softinputMode":"adjustResize",
+					 "titleNView": {
+						"backgroundColor":"#EEEEEE",
+						"splitLine":{}
+					}
+				},
+				"enablePullDownRefresh":false
+			}
+		},
+	
+		{
 			"path":"pages/tabbar/tabbar-2/qunliao/hongbaoxiangqing/hongbaoxiangqing",
 			"style":{
 				"navigationBarTitleText": "",

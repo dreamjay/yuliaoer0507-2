@@ -32,7 +32,15 @@
 			return{
 				zhuangtailan:0,
 				show:false,
-				dataList:[],
+				dataList:[{
+						"letter":"",
+						data:[
+							{
+							headImg:"/static/icon_ql.png",
+							text:"群聊",	
+							}
+						]
+					}],
 			}
 		},
 		mounted() {
@@ -56,36 +64,59 @@
 			this.zhuangtailan = plus.navigator.getStatusbarHeight();
 			
 			// #endif
+			
+			this.refreshFried();
+			
+			
 		},
 		onShow(){
-			this.$http.httpGetToken("/user-friend/listByUser",{},(res) =>{
-				var data = res.data;
-				var dataList = [{
-						"letter":"",
-						data:[
-							{
-							headImg:"/static/icon_ql.png",
-							text:"群聊",	
-							}
-						]
-					}];
-				this.dataList = dataList.concat(this.convertList(data))
-				console.log(this.dataList)
-			},false)
+			
+			uni.getStorage({
+				key:"friendList",
+				success(dataList) {
+					this.dataList = dataList;
+				}
+			})
+			
 		},
 		
 		methods:{
+			refreshFried(){
+				this.$http.httpGetToken("/user-friend/listByUser",{},(res) =>{
+					console.log(res)
+					var data = res.data;
+					var dataList = [{
+							"letter":"",
+							data:[
+								{
+								headImg:"/static/icon_ql.png",
+								text:"群聊",	
+								}
+							]
+						}];
+					this.dataList = dataList.concat(this.convertList(data))
+					uni.setStorage({
+						key:"friendList",
+						data:this.dataList
+						
+					})
+					console.log(this.dataList)
+				},false)
+			},
 			convertList(obj){
 				var arr = new Array();
 				var letter = new Array();
 				for(var i=0;i<obj.length;i++){
+					console.log(obj[i])
+					if(!obj[i].nickName){
+						continue;
+					}
 					obj[i].letter = this.getFirstLetter(obj[i].nickName);
 					 if(letter.indexOf(obj[i].letter) == -1){
 						letter.push(obj[i].letter);
 					}
 				}
 				letter.sort();
-				console.log(letter);
 				for(var i=0;i<letter.length;i++){
 					var barr = new Array();
 					for(var j=0;j<obj.length;j++){
@@ -93,7 +124,7 @@
 							barr.push({
 								headImg:obj[j].headUrl,
 								text:obj[j].nickName,
-								userId:obj[j].id
+								userId:obj[j].friendUserId
 							});
 						}
 						
@@ -108,15 +139,21 @@
 				return arr;
 			},
 			getFirstLetter(nickName){
+				console.log(nickName)
 				var a = nickName.substring(0,1);
 				var b = pyUtils.getFirst(a);
 				return b;
 			},
 			bindClick(e){
-				console.log(e)
 				if(e.item.name == '群聊'){
 					uni.navigateTo({
 						url:'../tabbar-5/qunliao/qunliao'
+					})
+				}else{
+					
+					uni.navigateTo({
+						url:'../tabbar-2/qunliao/gerenliao?userId='+e.item.userId+'&nickName='+e.item.name,
+						animationType:'fade-in'
 					})
 				}
 			},
@@ -125,7 +162,8 @@
 				this.show = !this.show
 				if(is) {
 					uni.navigateTo({
-						url:'/pages/tabbar/tabbar-2/newCrowd/newCrowd'
+						url:'/pages/tabbar/tabbar-2/newCrowd/newCrowd',
+						animationType:"fade-in"
 					})
 				}
 				

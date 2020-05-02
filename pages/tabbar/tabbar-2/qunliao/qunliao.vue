@@ -553,7 +553,7 @@
 				}
 				var obj = this.convertMsg(data);
 				if(obj){
-					this.msgList.push(obj);
+					this.screenMsg(obj);
 					console.log("isBottom:"+this.isBottom)
 					// if(this.isBottom){
 						this.$nextTick(function() {

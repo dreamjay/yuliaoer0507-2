@@ -178,20 +178,6 @@
 				})
 				
 			})
-			// 个人消息
-			uni.$on('ALONE',(data) => {
-				
-			})
-			
-			
-			
-			
-			// 群消息
-			uni.$on('CROWD',(data) => {
-				this.messageCount++;
-				
-			})
-			
 			uni.$on('UPDATE_MSG',(data) => {
 				this.updateList();
 			})
@@ -242,7 +228,7 @@
 				},false);
 			},
 			itemClick(type,id,index){
-				console.log(type);
+				console.log(this.messageList[index]);
 				if(type == 'CROWD'){
 					this.$http.httpGetToken('/crowd/getById',{
 						crowdId: id
@@ -259,6 +245,10 @@
 					this.messageList[index].num = 0;	
 					uni.setStorageSync(this.messageListKey,this.messageList);
 					this.setBadge();
+					uni.navigateTo({
+						url:'../tabbar-2/qunliao/gerenliao?userId='+id+'&nickName='+this.messageList[index].title,
+						animationType:'fade-in'
+					})
 				}
 		
 			},
