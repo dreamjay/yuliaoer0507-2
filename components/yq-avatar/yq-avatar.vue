@@ -1,16 +1,17 @@
 <template name="yq-avatar">
 	<view>
-		<image :src="imgSrc.imgSrc" @click="fSelect" :style="[ imgStyle ]" class="my-avatar"></image>
+		<image :src="imgSrc.imgSrc"  :style="[ imgStyle ]" class="my-avatar"></image>
+		
 		<canvas canvas-id="avatar-canvas" id="avatar-canvas" class="my-canvas" :style="{top: styleTop, height: cvsStyleHeight}" disable-scroll="false"></canvas>
 		<canvas canvas-id="oper-canvas" id="oper-canvas" class="oper-canvas" :style="{top: styleTop, height: cvsStyleHeight}" disable-scroll="false" @touchstart="fStart" @touchmove="fMove" @touchend="fEnd"></canvas>
 		<canvas canvas-id="prv-canvas" id="prv-canvas" class="prv-canvas" disable-scroll="false" @touchstart="fHideImg"	:style="{ height: cvsStyleHeight, top: prvTop }"></canvas>
 		<view class="oper-wrapper" :style="{display: styleDisplay}">
 			<view class="oper">
 				<view class="btn-wrapper" v-if="showOper">
-					<view @click="fSelect"  hover-class="hover" :style="{width: btnWidth}"><text>重选</text></view>
+					<view @click="fReset"  hover-class="hover" :style="{width: btnWidth}"><text>重选</text></view>
 					<view @click="fClose"  hover-class="hover" :style="{width: btnWidth}"><text>关闭</text></view>
 					<view @click="fRotate"  hover-class="hover" :style="{width: btnWidth, display: btnDsp}"><text>旋转</text></view>
-					<view @click="fPreview" hover-class="hover" :style="{width: btnWidth}"><text>预览</text></view>
+					<!-- <view @click="fPreview" hover-class="hover" :style="{width: btnWidth}"><text>预览</text></view> -->
 					<view @click="fUpload"  hover-class="hover" :style="{width: btnWidth}"><text>上传</text></view>
 				</view>
 				<view class="clr-wrapper" v-else>
@@ -22,6 +23,7 @@
 		</view>
 	</view>
 </template>
+
 	
 <script>
 	"use strict";
@@ -170,7 +172,13 @@
 				}
 				this.fHideImg();
 			},
+			fReset(){
+				this.fSelect();
+				this.fSelecting = true;
+				setTimeout(()=>{ this.fSelecting = false; }, 500);
+			},
 			fSelect() {
+				
 				if(this.fSelecting) return;
 				this.fSelecting = true;
 				setTimeout(()=>{ this.fSelecting = false; }, 500);
@@ -180,11 +188,17 @@
 					sizeType: ['original', 'compressed'],
 					sourceType: ['album', 'camera'],
 					success: (r)=>{
-						// #ifdef MP-ALIPAY
-						uni.showLoading();
-						// #endif
-						// #ifndef MP-ALIPAY
-						uni.showLoading({ mask: true });
+						console.log("选择图片")
+						uni.setNavigationBarTitle({
+							title:"修改头像"
+						})
+						// #ifdef APP-PLUS
+						var currentWebview = this.$mp.page.$getAppWebview();
+						var tn = currentWebview.getStyle().titleNView;  
+						tn.buttons[0].text ='';      
+						currentWebview.setStyle({ 
+							titleNView: tn 
+						});
 						// #endif
 						
 						let path = this.imgPath = r.tempFilePaths[0];
@@ -230,13 +244,18 @@
 								})
 							},
 							complete() {
-								uni.hideLoading();
+								
 							}
 						});
 					}
 				})
 			},
 			fUpload() {
+				console.log("上传")
+				
+				this.fSelecting = true;
+				setTimeout(()=>{ this.fSelecting = false; }, 500);
+				
 				if(this.fUploading)	return;
 				this.fUploading = true;
 				setTimeout(()=>{ this.fUploading = false; }, 1000)
@@ -276,12 +295,11 @@
 					},
 					fail: (res)=>{
 						uni.showToast({
-							title: "error1",
+							title: "裁剪错误",
 							duration: 2000,
 						})
 					},
 					complete: () => {
-						uni.hideLoading();
 						this.noBar || uni.showTabBar();
 					}
 				});
@@ -326,7 +344,7 @@
 											},
 											fail: ()=>{
 												uni.showToast({
-													title: "error0",
+													title: "裁剪错误",
 													duration: 2000,
 												})
 											}
@@ -343,12 +361,11 @@
 						},
 						fail: (res)=>{
 							uni.showToast({
-								title: "error1",
+								title: "裁剪错误",
 								duration: 2000,
 							})
 						},
 						complete: () => {
-							uni.hideLoading();
 							this.noBar || uni.showTabBar();
 						}
 					}, this);
@@ -418,6 +435,8 @@
 					fileType: 'png',
 					quality: this.qlty,
 					success: (r)=>{
+						
+						
 						r = r.tempFilePath;
 						// #ifdef H5
 						this.btop(r).then((r)=> {
@@ -1005,6 +1024,20 @@
 				this.target = null;
 			},
 			fClose() {
+				
+				// #ifdef APP-PLUS
+				var currentWebview = this.$mp.page.$getAppWebview();
+				var tn = currentWebview.getStyle().titleNView;  
+				tn.buttons[0].text ='';      
+				currentWebview.setStyle({ 
+					titleNView: tn 
+				});
+				// #endif
+				
+				this.fSelecting = true;
+				setTimeout(()=>{ this.fSelecting = false; }, 500);
+			
+				
 				this.styleDisplay = 'none';
 				this.styleTop = '-10000px';
 				this.hasSel = false;

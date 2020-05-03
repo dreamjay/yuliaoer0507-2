@@ -82,7 +82,6 @@
 				},(res) =>{
 					uni.navigateTo({
 						url:'/pages/tabbar/tabbar-2/qunliao/qunliao?crowdInfo='+JSON.stringify(res.data),
-						animationType: 'fade-in'
 					})
 				},true);
 		

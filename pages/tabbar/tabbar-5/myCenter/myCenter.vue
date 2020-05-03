@@ -2,7 +2,8 @@
 	<view>
 		<!-- 一般用法 -->
 		<uni-list >
-		    <uni-list-item title="头像" >
+			
+		    <uni-list-item title="头像"  @click="showHeadImg" >
 		        <template v-slot:right="">
 					<avatar selWidth="500upx" selHeight="500upx"   @upload="doUpload" @avtinit="doBefore" quality="1" ref="avatar" :avatarSrc="touxiang"
 					 avatarStyle="width: 100upx; height: 100upx; border-radius: 6%;"
@@ -53,15 +54,19 @@
 				this.touxiang = this.userInfo.headUrl;
 			}
 			this.token = uni.getStorageSync('token');
-		},
-		onNavigationBarButtonTap:function() {
-			this.save()
+			
+			
 			
 		},
+		onNavigationBarButtonTap:function(e) {
+			this.save()
+		},
 		computed:{
-		
 		},
 		methods: {
+			showHeadImg(){
+				this.$refs.avatar.fSelect() ;
+			},
 			confirm(){
 				this.save()
 			},
@@ -121,6 +126,20 @@
 			},
 			
 			doUpload(rsp) {
+				console.log("正在上传 ..")
+				
+				uni.setNavigationBarTitle({
+					title:"个人信息"
+				})
+				// #ifdef APP-PLUS
+				var currentWebview = this.$mp.page.$getAppWebview();
+				var tn = currentWebview.getStyle().titleNView;  
+				tn.buttons[0].text ='保存';    
+				currentWebview.setStyle({ 
+					titleNView: tn 
+				});
+				// #endif
+				
 				let then = this
 				this.touxiang = rsp.path;
 				uni.showLoading({
@@ -145,7 +164,7 @@
 								}catch(err){
 									
 								}
-								this.touxiang =  obj.data;
+								// this.touxiang =  obj.data;
 								uni.showToast({
 									title:'修改头像成功',
 									icon:'none',
@@ -159,11 +178,9 @@
 								})
 							}
 						}
-						
-					
 					},
 					complete(res) {
-						uni.hideLoading();
+						
 					}
 				});
 			}

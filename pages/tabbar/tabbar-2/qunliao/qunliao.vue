@@ -76,14 +76,18 @@
 							</view>
 							<!-- 右-头像 -->
 							<view class="right">
-								<image :src="row.msg.userinfo.face"></image>
+								<!-- <image :src="row.msg.userinfo.face"></image> -->
+								
+								<org-image :src="userInfo.headUrl"></org-image>
 							</view>
 						</view>
 						<!-- 别人发出的消息 -->
 						<view class="other" v-if="row.msg.userinfo.uid!=myuid">
 							<!-- 左-头像 -->
 							<view class="left">
-								<image :src="row.msg.userinfo.face"></image>
+								<!-- <image :src="row.msg.userinfo.face"></image> -->
+								
+								<org-image :src="row.msg.userinfo.face"></org-image>
 							</view>
 							<!-- 右-用户名称-时间-消息 -->
 							<view class="right">
@@ -267,9 +271,10 @@
 </template>
 <script>
 	
-	
+	import orgImage from '@/components/org-image/org-image.vue'
 	export default {
 		components: {
+			orgImage
 		},
 		data() {
 			return {

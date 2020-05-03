@@ -59,7 +59,7 @@
 					<uni-swipe-action>
 						<uni-swipe-action-item :options="calcData(index)" @click="onClick" @change="change">
 							<view class="img">
-								<image  :src="item.headUrl?item.headUrl:'/static/moren.png'" mode="scaleToFill" ></image>
+								<org-image  :src="item.headUrl"   mode="scaleToFill"></org-image>
 								<span class="after" v-if="item.num>0" :style="{backgroundColor:'red'}">{{item.num > 99?"99":item.num}}</span>
 							</view>
 							<view class="left">
@@ -292,7 +292,6 @@
 					},(res) =>{
 						uni.navigateTo({
 							url:'/pages/tabbar/tabbar-2/qunliao/qunliao?crowdInfo='+JSON.stringify(res.data),
-							animationType: 'fade-in'
 						})
 						this.messageList[index].num = 0;
 						
@@ -313,7 +312,6 @@
 					this.setBadge();
 					uni.navigateTo({
 						url:'../tabbar-2/qunliao/gerenliao?userId='+id+'&nickName='+this.messageList[index].title,
-						animationType:'fade-in'
 					})
 				}
 		

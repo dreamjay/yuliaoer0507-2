@@ -6,7 +6,8 @@
 		 class="uni-list-item" @click="onClick">
 			<view class="uni-list-item__container" :class="{'uni-list-item--first':isFirstChild}">
 				<view v-if="thumb" class="uni-list-item__icon">
-					<image :src="thumb" class="uni-list-item__icon-img" />
+			
+					<org-image  :src="thumb"  :css="'uni-list-item__icon-img'"></org-image>
 				</view>
 				<view v-else-if="showExtraIcon" class="uni-list-item__icon">
 					<uni-icons :color="extraIcon.color" :size="extraIcon.size" :type="extraIcon.type" class="uni-icon-wrapper" />
@@ -33,7 +34,7 @@
 <script>
 	import uniIcons from '../uni-icons/uni-icons.vue'
 	import uniBadge from '../uni-badge/uni-badge.vue'
-
+	import orgImage from '../org-image/org-image.vue'
 	/**
 	 * ListItem 列表子组件
 	 * @description 列表子组件
@@ -59,7 +60,8 @@
 		name: 'UniListItem',
 		components: {
 			uniIcons,
-			uniBadge
+			uniBadge,
+			orgImage
 		},
 		props: {
 			title: {

@@ -2,7 +2,7 @@
 	<view class="content">
 		<view class="myCenter">
 			<navigator url="./myCenter/myCenter" open-type="navigate" hover-class="">
-				<image class="touxiang" :src="userInfo.headUrl ? userInfo.headUrl : '/static/moren.png'" mode="aspectFill"></image>
+					<image  class="touxiang" :src="userInfo.headUrl?userInfo.headUrl:'/static/moren.png'"   mode="aspectFill"></image>
 				<view class="text">
 					<p>{{userInfo.nickName ? userInfo.nickName : '新用户'}}</p>
 					<p>推荐码：{{userInfo.referralCode}}</p>
@@ -46,13 +46,13 @@
 </template>
 
 <script>
-	
 
 	export default {
 		data() {
 			return {
 				title: 'Hello',
-				userInfo: ''
+				userInfo: {},
+				headUrl:''
 			}
 		},
 		onLoad() {
