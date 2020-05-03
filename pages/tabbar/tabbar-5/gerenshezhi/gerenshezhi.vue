@@ -54,9 +54,6 @@
 					content: '是否退出登录',
 					success:  (res)=> {
 						if (res.confirm) {
-							uni.reLaunch({
-								url: '/pages/login/login'
-							});
 							uni.$emit("logout");
 						}
 					}

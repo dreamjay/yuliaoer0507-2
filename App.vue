@@ -1,53 +1,41 @@
 
 <script>
 
-let socketTask = null;	
-let timer = null;
-let connectionStatus = false;
+
 export default {
 	
 	data(){
 		return{
+			connectionStatus:false,
+			timer:null
 		}
 	},
 	
 	onLaunch: function() {
 		
 		// 登录成功，重置连接
-		uni.$on("loginSuccess",this.resetConnection)
+		uni.$on("loginSuccess",this.loginSuccess)
 		
 		uni.$on("logout",this.logout)
 		
-	// uni.showTabBarRedDot({
-	// 	index: 3
-	// });
-		
-		// setInterval(()=>{
-		// 	let arr = [
-		// 		'上分/500',
-		// 		'中雷/抢了100',
-		// 		'@会飞的鱼儿'
-		// 	]
-		// 	let str = arr[Math.floor(Math.random() * 3)]
-		// 	plus.push.createMessage( str,'',{cover:true});
-			
-		// },5000)
-		
-	
-		// 检测token
-		
-		if(!timer){
-			timer = setInterval(this.ping,5000)
+		if(!this.timer){
+			this.timer = setInterval(this.ping,5000)
 		}
+		// 检测token
+		this.checkToken();
 	},
 	onShow: function() {
 		console.log('App Show');
-		this.checkToken();
-	
 		
 	},
+	
 	onHide: function() {
 		console.log('App Hide');
+		// this.close()
+	},
+	// 关闭websocket【必须在实例销毁之前关闭,否则会是underfined错误】
+	beforeDestroy() {
+		console.log("beforeDestroy")
 	},
 	methods:{
 		checkToken(){
@@ -57,67 +45,87 @@ export default {
 				return;
 			}
 			this.$http.httpPostToken('/user/checkToken',{},(res) => {
-		
 				this.connection();
 			},false);
 			
 		},
 		ping(){
-			if(!connectionStatus){
+			if(!this.connectionStatus){
 				console.log("开始重新连接")
 				this.resetConnection();
 			}
 			
 		},
-		connection(){
-			var that = this;
-			if(socketTask){
-				console.log("已连接")
+		resetConnection(){
+			
+			if(this.connectionStatus){
+				console.log("连接状态：",this.connectionStatus);
 				return;
 			}
+			this.connection();
+			
+		},
+		// 强制连接
+		connection(){
+			// 检测是token否为空
 			var token = uni.getStorageSync("token");
 			if(!token){
+				console.log("token为空：",token)
 				return;
 			}
 			
-			socketTask = uni.connectSocket({ //连接
-			    url: 'ws://zc.vip3gz.idcfengye.com/yuliao?token='+token,
-				fail(err){
-					console.log(err)
-				}
+			uni.connectSocket({ //连接
+			    url: this.$http.wsUrl+token
 			});
-			socketTask.onOpen(function (res) {
-			  console.log('WebSocket连接已打开！');
-			  connectionStatus = true;
-			})
 			
-			socketTask.onClose(function(){
-				  console.log('WebSocket连接已关闭！');
-				   connectionStatus = false;
-			})
+			uni.onSocketOpen( (res)=> {
+				this.connectionStatus = true;
+			    console.log('WebSocket连接已打开！connectionStatus:',this.connectionStatus);
+			  
+			});
+			uni.onSocketError((res)=> {
+				this.connectionStatus = false;
+			    console.log('WebSocket连接打开失败，请检查！',JSON.stringify(res));
+			});
 			
-			socketTask.onError(function(err){
-				  console.log('WebSocket连接错误',err);
-				    connectionStatus = false;
+			uni.onSocketClose((res)=>{
+				this.connectionStatus = false;
+				console.log('WebSocket 已关闭！',JSON.stringify(res));
+			});
+			
+			uni.onSocketMessage((res)=> {
+			  console.log('收到服务器内容：' + res.data);
+			  if(!res.data){
+			  	return
+			  }
+			  var obj = JSON.parse(res.data);
+			  this.messageDetail(obj);
+			});
+			
+		
+		},
+		close(){
+			uni.closeSocket({
+				success() {
+					console.log("关闭连接成功")
+				},
+				fail(err){
+					console.log("关闭连接失败，",JSON.stringify(err))
+				}
 			})
-					
-			socketTask.onMessage(function (res) {
-				console.log('收到服务器内容：' + res.data);
+		},
+		messageDetail(obj){
+			var that = this;
+			if(obj.messageType == 'CROWD'){
+				console.log("群消息来了")
+				that.addCrowd(obj);
+				uni.$emit('CROWD',obj)
 				
-				if(!res.data){
-					return
-				}
-				var obj = JSON.parse(res.data);
-				if(obj.messageType == 'CROWD'){
-					console.log("群消息来了")
-					that.addCrowd(obj);
-					uni.$emit('CROWD',obj)
-					
-					that.createMessage(obj);
-					
-					
-				}
-				if(obj.messageType == 'SYSTEM'){
+				that.createMessage(obj);
+								
+								
+			}
+			if(obj.messageType == 'SYSTEM'){
 					console.log("系统消息来了")
 					if(obj.body.eventType == 'JIAN_QUN_SUCCES'){
 						var userInfo = uni.getStorageSync("userInfo");
@@ -130,29 +138,27 @@ export default {
 						}
 					}
 					uni.$emit('SYSTEM',obj)
-	
-					that.createMessage(obj);
-				}
-				if(obj.messageType == 'ALONE'){
-					console.log("个人消息来了")
-					that.addAlone(obj);
-					uni.$emit('ALONE',obj)
-					that.createMessage(obj);
-					var aloneList = uni.getStorageSync("aloneList");
-					if(!aloneList){
-						aloneList = new Array();
-					}
-					aloneList.push(obj);
 					
-					
-					try{
-						uni.setStorageSync("aloneList",aloneList);
-					}catch(err){
-						
-					}
+					that.createMessage(obj);
+			}
+			if(obj.messageType == 'ALONE'){
+				console.log("个人消息来了")
+				that.addAlone(obj);
+				uni.$emit('ALONE',obj)
+				that.createMessage(obj);
+				var aloneList = uni.getStorageSync("aloneList");
+				if(!aloneList){
+					aloneList = new Array();
 				}
-			  
-			})
+				aloneList.push(obj);
+				
+				
+				try{
+					uni.setStorageSync("aloneList",aloneList);
+				}catch(err){
+					
+				}
+			}
 		},
 		createMessage(data){
 			var content = this.formtContent(data.body);
@@ -161,15 +167,7 @@ export default {
 			plus.push.createMessage( content,'',{cover:true});
 			//#endif
 		},
-		resetConnection(){
-			console.log(socketTask)
-			// 如果已经连接，就直接关闭
-			if(socketTask){
-				uni.closeSocket();
-				socketTask = null;
-			}
-			this.connection();
-		},
+		
 		toLogin(){
 			uni.reLaunch({
 				url: '/pages/login/login'
@@ -177,10 +175,20 @@ export default {
 		},
 		// 退出
 		logout(){
+			// 清空用户数据
 			uni.removeStorageSync("userInfo");
 			uni.removeStorageSync("token");
-			this.resetConnection();
+			// 关闭原来的连接
+			this.close();
+			// 跳转去登录页
 			this.toLogin();
+		},
+		// 登录成功
+		loginSuccess(){
+			// 关闭原来的连接
+			this.close();
+			// 重新连接
+			this.connection();
 		},
 		addAlone(data){
 		

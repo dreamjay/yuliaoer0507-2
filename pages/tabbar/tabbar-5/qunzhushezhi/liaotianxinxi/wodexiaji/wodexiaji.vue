@@ -2,7 +2,7 @@
 	<view>
 		<view class="ulBox" >
 			<ul class="userList">
-				<li v-for="(item,index) in showUserList" :key="index">
+				<li v-for="(item,index) in showUserList" :key="index" @tap="toGeren(item.userId,item.nickName)">
 					<image :src="item.headUrl ? item.headUrl : '/static/moren.png'" style="" mode="aspectFill"></image>
 					<text>{{item.nickName}}</text>
 				</li>
@@ -33,10 +33,16 @@
 				this.$http.httpGetToken('/crowd/listByParentUserId',{
 					crowdId:this.crowdId
 				},(res)=>{
-					this.$forceUpdate();
 					this.showUserList = res.data;
+					console.log(this.showUserList )
 				},true)
-			}
+			},
+			toGeren(id,nickName){
+				uni.navigateTo({
+					url:'../../../../tabbar-2/qunliao/gerenliao?userId='+id+'&nickName='+nickName
+				})
+				
+			},
 		}
 	}
 </script>

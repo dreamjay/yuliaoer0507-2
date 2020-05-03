@@ -3,7 +3,7 @@
 		<view style="margin-left: 50upx; width: 650upx;">
 			<view class="uni-form-item uni-column" >
 				<text class="title" style="display: inline-block;">手机号：</text>
-				<input  type="number" placeholder="请输入手机号" style="display: inline-block;  width: 250upx; vertical-align: middle;" v-model="shoujihaoVal" />
+				<input  type="number" placeholder="请输入手机号" maxlength="11" style="display: inline-block;  width: 250upx; vertical-align: middle;" v-model="shoujihaoVal" />
 				
 			</view>
 			<view class="uni-form-item uni-column" >

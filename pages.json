@@ -442,7 +442,27 @@
 			"path": "pages/tabbar/tabbar-5/fenxiang/fenxiang",
 			"style": {
 				"navigationBarTitleText": "",
-				"transparentTitle": "always"
+				"transparentTitle": "always",
+				
+				"app-plus":{
+					"titleNView":{
+						"backgroundColor":"rgba(255,255,255,0)",
+						"splitLine":null
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/tabbar/tabbar-5/fenxiang/qunList",
+			"style": {
+				"navigationBarTitleText": "选择群ID",
+				"app-plus":{
+					"titleNView":{
+						"backgroundColor":"rgba(255,255,255,0)",
+						 "splitLine":{}
+					}
+					
+				}
 				
 			}
 		},

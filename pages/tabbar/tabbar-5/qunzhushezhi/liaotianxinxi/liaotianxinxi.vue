@@ -27,7 +27,7 @@
 						</navigator>
 					</li>
 					<li class="SelectList">
-						<navigator :url="'../../fenxiang/fenxiang?crowdId='+(crowdInfo && crowdInfo.id)+'&val='+(crowdInfo && crowdInfo.crowdCode)+''" open-type="navigate" hover-class="">
+						<navigator :url="'../../fenxiang/fenxiang?crowdId='+(crowdInfo && crowdInfo.id)+'&crowdCode='+(crowdInfo && crowdInfo.crowdCode)+''" open-type="navigate" hover-class="">
 							<text>分享群ID</text><text>{{crowdInfo && crowdInfo.crowdCode}}</text><image src="/static/img/wo/youjiantou.png"></image>
 						</navigator>
 					</li>

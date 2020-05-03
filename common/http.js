@@ -2,6 +2,7 @@ import store from '../store/store.js'
 
 const baseUrl = 'http://z3t.vip3gz.idcfengye.com'
 const baseUrlMeg = 'http://zc.vip3gz.idcfengye.com'
+const wsUrl = 'ws://zc.vip3gz.idcfengye.com/yuliao?token=';
 var count = 0
 
 const error = (res) => {
@@ -40,7 +41,8 @@ const httpPost = (url, data, success,isLoading ) => {
 	
 	if(isLoading){
 		  uni.showLoading({
-		  	title:"正在提交..."
+		  	title:"正在提交...",
+			mask:true
 		  })
 	}
   
@@ -56,11 +58,9 @@ const httpPost = (url, data, success,isLoading ) => {
 		sslVerify: false,
 		success: function(res){
 			if(res.data.success){
+				
 				if(isLoading){
-					uni.showToast({
-						title:"提交成功",
-						icon:"none"
-					})
+					 uni.hideLoading();
 				}
 				success(res.data)
 			}else{
@@ -275,6 +275,7 @@ const httpGetToken = (url, data, success,isLoading ) => {
 
 export default {
 	baseUrl,
+	wsUrl,
 	baseUrlMeg,
 	httpPostTokenPush,
 	httpGet,

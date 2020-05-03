@@ -4,29 +4,29 @@
 		<view style="margin-left: 50upx; width: 650upx;">
 			<view class="uni-form-item uni-column" >
 				<text class="title" style="display: inline-block;">手机号：</text>
-				<input  type="number" placeholder="请输入手机号" style="display: inline-block;  width: 250upx; vertical-align: middle;" v-model="shoujihaoVal" />
+				<input  type="number" placeholder="请输入手机号" maxlength="11" style="display: inline-block;  width: 250upx; vertical-align: middle;" v-model="shoujihaoVal" />
 				
 			</view>
 			<view class="uni-form-item uni-column" >
 				<text class="title" style="display: inline-block;">图形验证码：</text>
-				<input  type="text" placeholder="请输入验证码" style="display: inline-block; width: 250upx; vertical-align: middle;" v-model="yanzhengmaVal"/>
+				<input  type="text" placeholder="请输入验证码" maxlength="4" style="display: inline-block; width: 250upx; vertical-align: middle;" v-model="yanzhengmaVal"/>
 				<image :src="yanzhengma" class="yanzhengma" @click="yanzhengmaClick"></image>
 			</view>
 			<view class="uni-form-item uni-column" >
 				<text class="title" style="display: inline-block;">验证码：</text>
-				<input  type="number" placeholder="请输入验证码" style="display: inline-block;  width: 250upx; vertical-align: middle;" v-model="shoujiYanzhengmaVal"/>
+				<input  type="number" placeholder="请输入验证码"  maxlength="4"  style="display: inline-block;  width: 250upx; vertical-align: middle;" v-model="shoujiYanzhengmaVal"/>
 				<button @click="shoujiYanzhengma" class="shoujiYanzhengma" type="primary" >{{isSend ? sendText : "获取验证码"}}</button>
 			</view>
 			
 			
 			<view class="uni-form-item uni-column" >
 				<text class="title" style="display: inline-block;">登录密码：</text>
-				<input  type="password" placeholder="请输入新密码" style="display: inline-block; width: 250upx; vertical-align: middle;" v-model="denglumimaVal"/>
+				<input  type="password" placeholder="请输入新密码"  maxlength="18"   style="display: inline-block; width: 250upx; vertical-align: middle;" v-model="denglumimaVal"/>
 				
 			</view>
 			<view class="uni-form-item uni-column" >
 				<text class="title" style="display: inline-block;">确认密码：</text>
-				<input  type="password" placeholder="请确认新密码" style="display: inline-block; width: 250upx; vertical-align: middle;" v-model="querenmimaVal"/>
+				<input  type="password" placeholder="请确认新密码"  maxlength="18"  style="display: inline-block; width: 250upx; vertical-align: middle;" v-model="querenmimaVal"/>
 				
 			</view>
 		</view>
@@ -156,13 +156,28 @@
 					password:this.denglumimaVal,
 					yzm:this.shoujiYanzhengmaVal
 				},(res) =>{
-				
-					uni.showToast({
-						title:"注册成功",
-					})
-					setTimeout(()=>{
-						uni.navigateBack()
-					},1500)
+					
+					this.$http.httpPost('/user/phoneLogin',{
+						password:this.denglumimaVal,
+						phone:this.shoujihaoVal
+					},(res)=>{
+							try {
+								uni.setStorageSync("userInfo",res.data.user);
+							} catch(err){
+								
+							}
+							try{
+								uni.setStorageSync("token",res.data.token);
+							} catch(err){
+								
+							}
+							uni.$emit('loginSuccess');
+							uni.switchTab({
+								url:'../tabbar/tabbar-5/tabbar-5'
+							})
+						
+					},true);
+					
 				},true);
 			}
 		}
