@@ -39,7 +39,7 @@
 			</view>
 		</view>
 		<view class="title">
-			<text>提现</text>
+			<text>{{classList[classIndex]}}</text>
 			<text class="red">累积：{{totalAmount}}</text>
 		</view>
 		
@@ -124,9 +124,9 @@
 				bAmount:'-',
 				cAmount:'-',
 				totalAmount:'-',
-				classList:['充值',"提现","红包发布","红包奖励","红包领取","推荐返点","中了雷包","股份收益","中雷扣除","发包流水"],
+				classList:['充值',"提现","红包发布","红包奖励","红包领取","推荐返点","中了雷包","股份收益","中雷扣除","发包流水","红包失效"],
 				classIndex:0,
-				typeList:["SHANG_FEN","XIA_FEN","FA_BAO","ZHONG_JIANG","GRAD_BAO","TUI_JIAN_FAN_LI","GRAD_BAO_IS_BOOM_RETURN","GU_FEN","GRAD_BAO_IS_BOOM","FA_BAO_LIU_SHUI"],
+				typeList:["SHANG_FEN","XIA_FEN","FA_BAO","ZHONG_JIANG","GRAD_BAO","TUI_JIAN_FAN_LI","GRAD_BAO_IS_BOOM_RETURN","GU_FEN","GRAD_BAO_IS_BOOM","FA_BAO_LIU_SHUI","RED_RETURN"],
 				modalValue:false,
 				tabMask:null,
 				defaultYearS: date.getFullYear(),

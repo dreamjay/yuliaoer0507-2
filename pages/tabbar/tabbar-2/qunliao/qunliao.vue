@@ -146,8 +146,17 @@
 							</view>
 						</navigator>
 					</view>
-					<view class="pageItem">
+					
+					<view class="pageItem" v-if="!isQunzhu">
 						<navigator :url="'/pages/tabbar/tabbar-2/qunliao/zhangdanmingxi/zhangdanmingxi?crowdId='+crowdInfo.id" open-type="navigate" hover-class="">
+							<view class="c-item">
+							<image src="/static/liaotian/icon_zd.png"></image>
+							<text>账单</text>
+							</view>
+						</navigator>
+					</view>
+					<view class="pageItem" v-if="isQunzhu">
+						<navigator :url="'/pages/tabbar/tabbar-2/qunliao/zhangdanmingxi/zhangdanmingxiQZ?crowdId='+crowdInfo.id" open-type="navigate" hover-class="">
 							<view class="c-item">
 							<image src="/static/liaotian/icon_zd.png"></image>
 							<text>账单</text>
@@ -305,7 +314,7 @@
 				// this.msgList = list;
 				
 				
-				
+				isQunzhu:false,
 				//文字消息
 				textMsg:'',
 				//消息列表
@@ -510,6 +519,18 @@
 				// 用户信息
 				this.userInfo =  uni.getStorageSync('userInfo')
 				this.myuid = this.userInfo.id;
+				
+				this.isQunzhu = this.crowdInfo.userId == this.userInfo.id;
+				if(!this.isQunzhu){
+					this.$http.httpGetToken("/crowd/getCrowdInfoById",{
+						crowdId:this.crowdInfo.id,
+						userId:this.userInfo.id
+					},(res)=>{
+						if(res.data.role == 'CAI_WU'){
+							this.isQunzhu =  true;
+						}
+					},false)
+				}
 				
 				uni.getSystemInfo({
 				    success: (e) => {
