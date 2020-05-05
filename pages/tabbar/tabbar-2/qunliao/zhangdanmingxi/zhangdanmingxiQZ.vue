@@ -29,10 +29,22 @@
 				<text  class="uni-icon uni-icon-arrowdown" style="font-size: 14px; color:#999;vertical-align: middle;"></text>
 			</view>
 		</view>
-		<view class="title">
+		<view class="title" v-if="!isGudongXiaji">
 			<text>{{classList[classIndex]}}</text>
-			<text class="red">累积：{{totalAmount}}</text>
+			<text class="red">累计：{{totalAmount}}</text>
 		</view>
+		
+		<view class="title" v-if="isGudongXiaji">
+			<text>股东下级盈亏</text>
+			<text class="red">累计：{{totalAmount2}}</text>
+			
+		</view>
+		<view class="title" v-if="isGudongXiaji">
+			<text>返福利之后下级总盈亏</text>
+			<text class="red">累计：{{totalAmount3}}</text>
+			
+		</view>
+		
 		
 		<view>
 			<view v-if="!isYufen && !isJinriyingkui && !isGudongXiaji " v-for="(item,index) in dataList" :key="index" class="scrollItem">
@@ -66,14 +78,85 @@
 			</view>
 			
 			
-			<view v-if="isGudongXiaji"  class="scrollItem">
-				<view class="minView">
-					<text>总盈亏</text>
-					<text>总盈亏</text>
+			<view v-if="isGudongXiaji" v-for="(item,index) in dataList2" :key="index"  class="scrollItem2">
+				<view class="s_head">
+					<view><org-image :css="'s_img'" :src="item.headUrl"></org-image></view>
+					<view class="s_center"><text>{{item.nickName}}</text></view>
+					<view class="s_text" @tap="toInfo(item.userId)"><text>查看顾客收益 ></text></view>
 				</view>
-				<view class="right">
+				
+				<view class="body">
+					<view class="b_left">
+						<text>充值：{{item.rechargeAmount.toFixed(2)}}</text>
+					</view>
+					<view class="b_right">
+						<text>提现：{{item.withdrawAmount.toFixed(2)}}</text>
+					</view>
+				</view>
+				
+				<view class="body">
+					<view class="b_left">
+						<text>发包流水：{{item.fabaoAmount.toFixed(2)}}</text>
+					</view>
+					<view class="b_right">
+						<text>所抢红包：{{item.gradBaoAmount.toFixed(2)}}</text>
+					</view>
+				</view>
+				
+				<view class="body">
+					<view class="b_left">
+						<text>派发福利：{{item.zhongJiangReturnAmount.toFixed(2)}}</text>
+					</view>
+					<view class="b_right">
+						<text>盈亏：：{{  ( item.gradBaoAmount + item.redReturnAmount + item.gradBaoReturnAmount  - item.fabaoAmount - item.zhongleiAmount)  .toFixed(2)  }}</text>
+					</view>
+				</view>
+				
+				<view class="body">
+					<view class="b_left">
+						<text>推荐返水：{{item.tuijianReturnAmount.toFixed(2)}}</text>
+					</view>
+					<view class="b_right">
+						<text>总余分：{{(item.blance + item.freezeBlance).toFixed(2)}}</text>
+					</view>
+				</view>
+				
+				<view class="body">
+					<view class="b_left">
+						<text>返福利后总盈亏{{ ( item.gradBaoAmount + item.redReturnAmount + item.gradBaoReturnAmount + item.zhongJiangReturnAmount + item.tuijianReturnAmount + item.fabaoAmount * redRebate  - item.fabaoAmount - item.zhongleiAmount  ).toFixed(2)  }}</text>
+					</view>
+					<view class="b_right">
+					</view>
+				</view>
+				
+				<view class="body2" style="color: #4CD964;">
+							免死号抢号：{{item.miansiAmount.toFixed(2)}} X {{(item.bili * 100).toFixed(2)}}% = {{(item.miansiAmount * item.bili).toFixed(2)}}
+				</view>
+				
+				<view class="body2" style="color: #4CD964;">
+							流水({{(item.fabaoAmount * redRebate * item.bili).toFixed(2)}}) + 福利({{(item.zhongJiangReturnAmount* item.bili).toFixed(2)}}} + 上级返({{(item.tuijianReturnAmount * item.bili).toFixed(2)}}) = {{((item.zhongJiangReturnAmount + item.tuijianReturnAmount + item.fabaoAmount * redRebate)*item.bili).toFixed(2)}}
+				</view>
+				
+				
+				<view class="body2" style="color: #007AFF;">
+							股东收益：{{((item.miansiAmount - item.zhongJiangReturnAmount - item.tuijianReturnAmount - item.fabaoAmount * redRebate)*item.bili).toFixed(2)}}
+				</view>
+				
+				<view class="body" >
+						<view>
+						  调整赚取点数
+						  </view>
+							 <view>
+								 <input type="number" :id="index" @input="changeBili" style="width: 100rpx;text-align: center;border-bottom: 1px solid #333333;" :value="item.bili * 100"/>
+							</view>%
+							
+						 <view>	
+							<button type="primary" class="" size="mini" @click="okBili(index,item.userId,item.crowdId)">确定</button>
+						</view>
 				</view>
 			</view>
+			
+			
 			
 			<uni-load-more :status="more"></uni-load-more>
 		</view>
@@ -114,8 +197,9 @@
 	import TabMask from '@/components/chunLei-modal/tabMask'
 	import uniPopup from "@/components/uni-popup/uni-popup.vue"
 	import uniLoadMore from "@/components/uni-load-more/uni-load-more.vue"
+	import orgImage from '@/components/org-image/org-image';
 	export default {
-	    components: {uniPopup,uniLoadMore},
+	    components: {uniPopup,uniLoadMore,orgImage},
 		data(){
 			const date = new Date()
 			const years = []
@@ -146,6 +230,8 @@
 				bAmount:'-',
 				cAmount:'-',
 				totalAmount:'-',
+				totalAmount2:'-',
+				totalAmount3:'-',
 				classList:['充值记录',"提现记录","发福利明细","免死号抢包明细","代理流水福利","股东下级盈亏","每日总收益","当日总流水","顾客余分"],
 				classIndex:0,
 				typeList:["SHANG_FEN","XIA_FEN","ZHONG_JIANG","MIAN_SI_GRAD_BAO","TUI_JIAN_FAN_LI","GUDONG_XIA_JI","JIN_RI_YING_KUI","FA_BAO","GU_KE"],
@@ -167,12 +253,15 @@
 				visible:true,
 				indicatorStyle: `height: ${Math.round(uni.getSystemInfoSync().screenWidth/(750/100))}px;`,
 				dataList:[],
+				dataList2:[],
 				start_time:'',
 				end_time:'',
 				yingkui:0,
 				isYufen:false,
 				isJinriyingkui:false,
-				isGudongXiaji:false
+				isGudongXiaji:false,
+				redRebate:0,
+				dataBili:[]
 			}
 			
 		},
@@ -253,6 +342,8 @@
 		},
 		onLoad(option) {
 			this.crowdId = option.crowdId;
+			this.redRebate = Number(option.redRebate);
+			
 			
 			
 			
@@ -301,7 +392,15 @@
 				this.lock = true;
 				this.more = "loading";
 				
+				
+				
+				this.isGudongXiaji = false;
+				this.isJinriyingkui = false;
+				this.isYufen = false;
+				
+				
 				if(tradeType == 'GU_KE'){
+					this.dataList = [];
 					this.isYufen = true;
 					// 这是顾客余分
 					this.$http.httpGetToken("/crowd-account-trade-record/pageByYuFen",{
@@ -358,7 +457,6 @@
 				
 				if(tradeType == 'GUDONG_XIA_JI'){
 					this.isGudongXiaji = true;
-				
 					this.$http.httpGetToken("/crowd-account-trade-record/gudongList",{
 						crowdId:this.crowdId,
 						startTime:startTime,
@@ -366,6 +464,17 @@
 					},(res)=>{
 						this.lock = false;
 						var list = res.data;
+						this.dataList2 = list;
+						var a = 0;
+						var b = 0;
+						for(var i=0;i<list.length;i++){
+							 var item = list[i];
+							 a = a + Number(( item.gradBaoAmount + item.redReturnAmount + item.gradBaoReturnAmount  - item.fabaoAmount - item.zhongleiAmount  ).toFixed(2));
+							 b = b + Number(( item.gradBaoAmount + item.redReturnAmount + item.gradBaoReturnAmount + item.zhongJiangReturnAmount + item.tuijianReturnAmount + item.fabaoAmount * this.redRebate  - item.fabaoAmount - item.zhongleiAmount  ).toFixed(2));
+						
+						}
+						this.totalAmount2 = a.toFixed(2);
+						this.totalAmount3 = b.toFixed(2);
 						console.log(list)
 						this.more="noMore"
 						uni.stopPullDownRefresh();
@@ -381,10 +490,6 @@
 				
 				
 				
-				this.isGudongXiaji = false;
-				this.isJinriyingkui = false;
-				this.isYufen = false;
-
 				this.$http.httpGetToken("/crowd-account-trade-record/pageByQunzhu",{
 					crowdId:this.crowdId,
 					pageNo:this.pageNo,
@@ -422,8 +527,42 @@
 				
 			},
 			
+			toInfo(userId){
+				console.log("查看顾客详情,",userId)
+			},
+			
 			loadAmount(){
 				
+			},
+			okBili(index,userId,crowdId){
+				var bili = this.dataList2[index].bili;
+				if(Number(bili)  < 0 || Number(bili) > 1){
+					uni.showToast({
+						icon:"none",
+						title:"股东占比只能是0~100"
+					})
+					return;
+				}
+				
+				this.$http.httpPostToken('/shareholder-apply/updateBili',{
+					crowdId:crowdId,
+					userId:userId,
+					bili:bili
+				},(res) =>{
+					uni.showToast({
+						icon:"none",
+						title:"修改成功"
+					})
+				},true)
+				
+			},
+			changeBili(e){
+				if(e.detail.value){
+					var index = Number(e.currentTarget.id);
+				  this.dataList2[index].bili = Number(e.detail.value) / 100;
+				}
+					console.log(e)
+		
 			},
 			today(){
 				this.$http.httpGetToken("/crowd-account-trade-record/qunzhuToday",{
@@ -700,4 +839,56 @@
 			text-align: center;
 		}
 	}
+	
+	
+.scrollItem2{
+	display: flex;
+	padding:  15px;
+	border-bottom: 1px solid #EEEEEE;
+	flex-direction: column;
+	
+	
+	
+}	
+.s_head{
+	height: 40px;
+	display: flex;
+
+}
+.s_img{
+	margin-top: 8px;
+	width: 24px;
+	height: 24px;
+}
+.s_center{
+	flex: 1;
+	padding-left: 10px;
+	line-height: 40px;
+}
+.s_text{
+	width: 200rpx;
+	font-size: 12px;
+	color: #999999;
+		line-height: 40px;
+}
+	
+.body{
+	display: flex;
+	height: 20px;
+	font-size: 12px;
+	line-height: 20px;
+}
+.body2{
+	display: flex;
+	height: 20px;
+	font-size: 12px;
+	line-height: 20px;
+	
+}
+.b_left{
+	width: 50%;
+}
+.b_right{
+	width: 50%;
+}
 </style>

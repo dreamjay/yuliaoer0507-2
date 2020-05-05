@@ -156,7 +156,7 @@
 						</navigator>
 					</view>
 					<view class="pageItem" v-if="isQunzhu">
-						<navigator :url="'/pages/tabbar/tabbar-2/qunliao/zhangdanmingxi/zhangdanmingxiQZ?crowdId='+crowdInfo.id" open-type="navigate" hover-class="">
+						<navigator :url="'/pages/tabbar/tabbar-2/qunliao/zhangdanmingxi/zhangdanmingxiQZ?crowdId='+crowdInfo.id + '&redRebate='+crowdInfo.redRebate" open-type="navigate" hover-class="">
 							<view class="c-item">
 							<image src="/static/liaotian/icon_zd.png"></image>
 							<text>账单</text>

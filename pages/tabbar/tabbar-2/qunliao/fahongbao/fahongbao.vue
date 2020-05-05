@@ -134,7 +134,8 @@
 				var str  = e.detail.value+"";
 				var s = [].filter.call(str,function(s,i,o){return o.indexOf(s)==i;}).join('');
 				 var a = s.split("").sort().join("");
-				setTimeout(() => { this.lei = a }, 0)
+				 
+				setTimeout(() => { this.lei = a }, 10)
 			},
 			close(){
 				this.password = null;
