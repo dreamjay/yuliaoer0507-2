@@ -270,6 +270,20 @@
 			}
 		},
 		{
+			"path":"pages/tabbar/tabbar-2/qunliao/zhangdanmingxi/guke",
+			"style":{
+				"navigationBarTitleText": "账单明细",
+				"app-plus":{
+					"titleNView":{
+						"backgroundColor":"#EEEEEE",
+						"splitLine":{}
+					},
+					"bounce":"vertical"
+				},
+				"enablePullDownRefresh":false
+			}
+		},
+		{
 			"path":"pages/tabbar/tabbar-2/qunliao/chongzhi/chongzhi",
 			"style":{
 				"navigationBarTitleText": "充值",

@@ -82,7 +82,7 @@
 				<view class="s_head">
 					<view><org-image :css="'s_img'" :src="item.headUrl"></org-image></view>
 					<view class="s_center"><text>{{item.nickName}}</text></view>
-					<view class="s_text" @tap="toInfo(item.userId)"><text>查看顾客收益 ></text></view>
+					<view class="s_text" @tap="toInfo(item.userId,item.crowdId)"><text>查看顾客收益 ></text></view>
 				</view>
 				
 				<view class="body">
@@ -123,7 +123,7 @@
 				
 				<view class="body">
 					<view class="b_left">
-						<text>返福利后总盈亏{{ ( item.gradBaoAmount + item.redReturnAmount + item.gradBaoReturnAmount + item.zhongJiangReturnAmount + item.tuijianReturnAmount + item.fabaoAmount * redRebate  - item.fabaoAmount - item.zhongleiAmount  ).toFixed(2)  }}</text>
+						<text>返福利后总盈亏：{{ ( item.gradBaoAmount + item.redReturnAmount + item.gradBaoReturnAmount + item.zhongJiangReturnAmount + item.tuijianReturnAmount + item.fabaoAmount * redRebate  - item.fabaoAmount - item.zhongleiAmount  ).toFixed(2)  }}</text>
 					</view>
 					<view class="b_right">
 					</view>
@@ -527,8 +527,22 @@
 				
 			},
 			
-			toInfo(userId){
+			toInfo(userId,crowdId){
+				
+				
+				var sMonth =Number(this.defaultMonthS) < 10?"0"+this.defaultMonthS:this.defaultMonthS;
+				var Sday = Number(this.defaultDayS) < 10?"0"+this.defaultDayS:this.defaultDayS;
+				
+				var eMonth =Number(this.defaultMonthE) < 10?"0"+this.defaultMonthE:this.defaultMonthE;
+				var da = Number(this.defaultDayE) + 1;
+				var eday = da < 10?"0"+ da : da;
+				
+				var startTime = this.defaultYearS+'-'+sMonth+"-"+Sday + " 00:00:00";
+				var endTime = this.defaultYearE+'-'+eMonth+"-"+eday + " 00:00:00";
 				console.log("查看顾客详情,",userId)
+				uni.navigateTo({
+					url:"./guke?userId="+userId+"&crowdId="+crowdId + '&startTime='+ startTime + "&endTime="+endTime + "&redRebate=" + this.redRebate
+				})
 			},
 			
 			loadAmount(){
