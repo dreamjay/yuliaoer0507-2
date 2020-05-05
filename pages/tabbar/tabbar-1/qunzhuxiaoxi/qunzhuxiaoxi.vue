@@ -308,6 +308,7 @@
 								id:id
 							},(res)=>{
 								that.recordsSF.find((item,index)=>(item.id==id)).status = status;		
+								that.httpBadge();
 							},true);
 						} 
 					}
@@ -370,6 +371,7 @@
 								id:id
 							},(res)=>{
 								that.recordsXF.find((item,index)=>(item.id==id)).status = status;		
+								that.httpBadge();
 							},true);
 						} 
 					}
@@ -431,6 +433,7 @@
 								status:status
 							},(res)=>{
 								that.recordsGD.find((item,index)=>(item.id==id)).status = status;		
+								that.httpBadge();
 							},true);
 						} 
 					}

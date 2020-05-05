@@ -287,6 +287,11 @@
 			itemClick(type,id,index){
 				console.log(this.messageList[index]);
 				if(type == 'CROWD'){
+					if(this.lock){
+						return;
+					}
+					this.lock = true;
+					
 					this.$http.httpGetToken('/crowd/getById',{
 						crowdId: id
 					},(res) =>{
@@ -301,7 +306,8 @@
 							
 						}
 						this.setBadge();
-					},true);
+						this.lock = false;
+					},false);
 				}else{
 					this.messageList[index].num = 0;
 					try{
