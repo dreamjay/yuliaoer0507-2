@@ -35,7 +35,7 @@
 		</view>
 		
 		<view>
-			<view v-for="(item,index) in dataList" :key="index" class="scrollItem">
+			<view v-if="!isYufen" v-for="(item,index) in dataList" :key="index" class="scrollItem">
 				<view class="minView">
 					<text>{{item.mark}}</text>
 					<text>{{item.createTime}}</text>
@@ -44,6 +44,18 @@
 					<text>{{item.flag}}{{item.tradeAmount.toFixed(2)}}</text>
 				</view>
 			</view>
+			
+			<view v-if="isYufen" v-for="(item,index) in dataList" :key="index" class="scrollItem">
+				<view class="minView">
+					<text>{{item.nickName}}</text>
+					<text>{{ convertRole(item.role) }}</text>
+				</view>
+				<view class="right">
+					<text>{{item.blance.toFixed(2)}}积分</text>
+				</view>
+			</view>
+			
+			
 			<uni-load-more :status="more"></uni-load-more>
 		</view>
 		
@@ -135,7 +147,8 @@
 				type:null,
 				visible:true,
 				indicatorStyle: `height: ${Math.round(uni.getSystemInfoSync().screenWidth/(750/100))}px;`,
-				dataList:[]
+				dataList:[],
+				isYufen:false
 			}
 			
 		},
@@ -248,6 +261,9 @@
 		methods:{
 			loadData(){
 				
+				
+				
+				
 				var sMonth =Number(this.defaultMonthS) < 10?"0"+this.defaultMonthS:this.defaultMonthS;
 				var Sday = Number(this.defaultDayS) < 10?"0"+this.defaultDayS:this.defaultDayS;
 				
@@ -258,9 +274,45 @@
 				var startTime = this.defaultYearS+'-'+sMonth+"-"+Sday + " 00:00:00";
 				var endTime = this.defaultYearE+'-'+eMonth+"-"+eday + " 00:00:00";
 				var tradeType = this.typeList[this.classIndex];
-				
 				this.lock = true;
 				this.more = "loading";
+				
+				if(tradeType == 'GU_KE'){
+					this.isYufen = true;
+					// 这是顾客余分
+					this.$http.httpGetToken("/crowd-account-trade-record/pageByYuFen",{
+						crowdId:this.crowdId,
+						pageNo:this.pageNo,
+						pageSize:this.pageSize
+					},(res)=>{
+						this.lock = false;
+						var list = res.data.records;
+						this.dataList = this.reload ? list : this.dataList.concat(list);
+						this.pageNo = res.data.current;
+						this.totalPage = res.data.pages;
+						if(this.pageNo == this.totalPage || this.totalPage == 0){
+							this.more="noMore"
+						}else{
+							this.more="more"
+						}
+						this.pageNo++;
+						uni.stopPullDownRefresh();
+					},false)
+					
+					this.$http.httpGetToken("/crowd-account-trade-record/pageByYuFenSum",{
+						crowdId:this.crowdId
+					},(res)=>{
+						this.totalAmount = res.data.toFixed(2);
+					},false)
+					
+					
+					return;
+				}
+				
+			
+				
+				this.isYufen = false;
+
 				this.$http.httpGetToken("/crowd-account-trade-record/pageByQunzhu",{
 					crowdId:this.crowdId,
 					pageNo:this.pageNo,
@@ -293,6 +345,9 @@
 				},false)
 				
 				
+				
+				
+				
 			},
 			
 			loadAmount(){
@@ -315,6 +370,25 @@
 				setTimeout(()=>{
 					this.tabMask.hide()
 				},22)
+			},
+			convertRole(role){
+				
+				switch(role){
+					case 'GU_KE':
+						return "顾客";
+					case 'QUN_ZHU':
+						return "群主";
+					case 'CAI_WU':
+						return "财务";
+					case 'MIAN_SI':
+						return "免死";
+					case 'GU_DONG':
+						return "股东";
+					case 'KE_FU':
+						return "客服";
+				
+				}
+				return "";
 			},
 			open(type,index){
 				this.type = type
