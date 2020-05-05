@@ -35,7 +35,7 @@
 		</view>
 		
 		<view>
-			<view v-if="!isYufen && !isJinriyingkui" v-for="(item,index) in dataList" :key="index" class="scrollItem">
+			<view v-if="!isYufen && !isJinriyingkui && !isGudongXiaji " v-for="(item,index) in dataList" :key="index" class="scrollItem">
 				<view class="minView">
 					<text>{{item.mark}}</text>
 					<text>{{item.createTime}}</text>
@@ -65,6 +65,15 @@
 				</view>
 			</view>
 			
+			
+			<view v-if="isGudongXiaji"  class="scrollItem">
+				<view class="minView">
+					<text>总盈亏</text>
+					<text>总盈亏</text>
+				</view>
+				<view class="right">
+				</view>
+			</view>
 			
 			<uni-load-more :status="more"></uni-load-more>
 		</view>
@@ -162,7 +171,8 @@
 				end_time:'',
 				yingkui:0,
 				isYufen:false,
-				isJinriyingkui:false
+				isJinriyingkui:false,
+				isGudongXiaji:false
 			}
 			
 		},
@@ -343,7 +353,35 @@
 					
 					return;
 				}
-			
+				
+				
+				
+				if(tradeType == 'GUDONG_XIA_JI'){
+					this.isGudongXiaji = true;
+				
+					this.$http.httpGetToken("/crowd-account-trade-record/gudongList",{
+						crowdId:this.crowdId,
+						startTime:startTime,
+						endTime:endTime,
+					},(res)=>{
+						this.lock = false;
+						var list = res.data;
+						console.log(list)
+						this.more="noMore"
+						uni.stopPullDownRefresh();
+					},false)
+					
+					return;
+				}
+				
+				
+				
+				
+				
+				
+				
+				
+				this.isGudongXiaji = false;
 				this.isJinriyingkui = false;
 				this.isYufen = false;
 
