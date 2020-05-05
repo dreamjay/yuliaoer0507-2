@@ -19,12 +19,16 @@ const error = (res) => {
 				})
 			},1500)
 			
+		}else if(res.data.code == 'TOKEN_INVALID'){
+			uni.$emit("logout");
+		}else{
+			
+			uni.showToast({
+				title:res.msg,
+				icon:"none"
+			})
 		}
 		
-		uni.showToast({
-			title:res.msg,
-			icon:"none"
-		})
 	}else{
 		
 		uni.showToast({

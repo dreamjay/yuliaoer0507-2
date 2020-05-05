@@ -13187,24 +13187,56 @@ var render = function() {
                 )
               : _vm._e()
           }),
-          _c("uni-load-more", { attrs: { _i: 37 } })
+          _vm._$g(37, "i")
+            ? _c(
+                "v-uni-view",
+                { staticClass: _vm._$g(37, "sc"), attrs: { _i: 37 } },
+                [
+                  _c(
+                    "v-uni-view",
+                    { staticClass: _vm._$g(38, "sc"), attrs: { _i: 38 } },
+                    [
+                      _c("v-uni-text", { attrs: { _i: 39 } }, [
+                        _vm._v("总盈亏")
+                      ]),
+                      _c("v-uni-text", { attrs: { _i: 40 } }, [
+                        _vm._v(_vm._$g(40, "t0-0") + "至" + _vm._$g(40, "t0-1"))
+                      ])
+                    ],
+                    1
+                  ),
+                  _c(
+                    "v-uni-view",
+                    { staticClass: _vm._$g(41, "sc"), attrs: { _i: 41 } },
+                    [
+                      _c("v-uni-text", { attrs: { _i: 42 } }, [
+                        _vm._v(_vm._$g(42, "t0-0") + "积分")
+                      ])
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            : _vm._e(),
+          _c("uni-load-more", { attrs: { _i: 43 } })
         ],
         2
       ),
       _c(
         "uni-popup",
-        { ref: "popup", attrs: { _i: 38 } },
+        { ref: "popup", attrs: { _i: 44 } },
         [
-          _vm._$g(39, "i")
+          _vm._$g(45, "i")
             ? _c(
                 "v-uni-view",
-                { staticClass: _vm._$g(39, "sc"), attrs: { _i: 39 } },
+                { staticClass: _vm._$g(45, "sc"), attrs: { _i: 45 } },
                 [
                   _c(
                     "v-uni-text",
                     {
-                      staticClass: _vm._$g(40, "sc"),
-                      attrs: { _i: 40 },
+                      staticClass: _vm._$g(46, "sc"),
+                      attrs: { _i: 46 },
                       on: {
                         click: function($event) {
                           return _vm.$handleViewEvent($event)
@@ -13216,8 +13248,8 @@ var render = function() {
                   _c(
                     "v-uni-text",
                     {
-                      staticClass: _vm._$g(41, "sc"),
-                      attrs: { _i: 41 },
+                      staticClass: _vm._$g(47, "sc"),
+                      attrs: { _i: 47 },
                       on: {
                         click: function($event) {
                           return _vm.$handleViewEvent($event)
@@ -13226,15 +13258,15 @@ var render = function() {
                     },
                     [_vm._v("确定")]
                   ),
-                  _vm._$g(42, "i")
+                  _vm._$g(48, "i")
                     ? _c(
                         "v-uni-picker-view",
                         {
-                          staticClass: _vm._$g(42, "sc"),
+                          staticClass: _vm._$g(48, "sc"),
                           attrs: {
-                            "indicator-style": _vm._$g(42, "a-indicator-style"),
-                            value: _vm._$g(42, "a-value"),
-                            _i: 42
+                            "indicator-style": _vm._$g(48, "a-indicator-style"),
+                            value: _vm._$g(48, "a-value"),
+                            _i: 48
                           },
                           on: {
                             change: function($event) {
@@ -13245,8 +13277,8 @@ var render = function() {
                         [
                           _c(
                             "v-uni-picker-view-column",
-                            { attrs: { _i: 43 } },
-                            _vm._l(_vm._$g(44, "f"), function(
+                            { attrs: { _i: 49 } },
+                            _vm._l(_vm._$g(50, "f"), function(
                               item,
                               index,
                               $22,
@@ -13256,18 +13288,18 @@ var render = function() {
                                 "v-uni-view",
                                 {
                                   key: item,
-                                  staticClass: _vm._$g("44-" + $32, "sc"),
-                                  attrs: { _i: "44-" + $32 }
+                                  staticClass: _vm._$g("50-" + $32, "sc"),
+                                  attrs: { _i: "50-" + $32 }
                                 },
-                                [_vm._v(_vm._$g("44-" + $32, "t0-0") + "年")]
+                                [_vm._v(_vm._$g("50-" + $32, "t0-0") + "年")]
                               )
                             }),
                             1
                           ),
                           _c(
                             "v-uni-picker-view-column",
-                            { attrs: { _i: 45 } },
-                            _vm._l(_vm._$g(46, "f"), function(
+                            { attrs: { _i: 51 } },
+                            _vm._l(_vm._$g(52, "f"), function(
                               item,
                               index,
                               $23,
@@ -13277,18 +13309,18 @@ var render = function() {
                                 "v-uni-view",
                                 {
                                   key: item,
-                                  staticClass: _vm._$g("46-" + $33, "sc"),
-                                  attrs: { _i: "46-" + $33 }
+                                  staticClass: _vm._$g("52-" + $33, "sc"),
+                                  attrs: { _i: "52-" + $33 }
                                 },
-                                [_vm._v(_vm._$g("46-" + $33, "t0-0") + "月")]
+                                [_vm._v(_vm._$g("52-" + $33, "t0-0") + "月")]
                               )
                             }),
                             1
                           ),
                           _c(
                             "v-uni-picker-view-column",
-                            { attrs: { _i: 47 } },
-                            _vm._l(_vm._$g(48, "f"), function(
+                            { attrs: { _i: 53 } },
+                            _vm._l(_vm._$g(54, "f"), function(
                               item,
                               index,
                               $24,
@@ -13298,10 +13330,10 @@ var render = function() {
                                 "v-uni-view",
                                 {
                                   key: item,
-                                  staticClass: _vm._$g("48-" + $34, "sc"),
-                                  attrs: { _i: "48-" + $34 }
+                                  staticClass: _vm._$g("54-" + $34, "sc"),
+                                  attrs: { _i: "54-" + $34 }
                                 },
-                                [_vm._v(_vm._$g("48-" + $34, "t0-0") + "日")]
+                                [_vm._v(_vm._$g("54-" + $34, "t0-0") + "日")]
                               )
                             }),
                             1
@@ -13314,16 +13346,16 @@ var render = function() {
                 1
               )
             : _vm._e(),
-          _vm._$g(49, "i")
+          _vm._$g(55, "i")
             ? _c(
                 "v-uni-view",
-                { staticClass: _vm._$g(49, "sc"), attrs: { _i: 49 } },
+                { staticClass: _vm._$g(55, "sc"), attrs: { _i: 55 } },
                 [
                   _c(
                     "v-uni-view",
-                    { staticClass: _vm._$g(50, "sc"), attrs: { _i: 50 } },
+                    { staticClass: _vm._$g(56, "sc"), attrs: { _i: 56 } },
                     [
-                      _c("v-uni-text", { attrs: { _i: 51 } }, [
+                      _c("v-uni-text", { attrs: { _i: 57 } }, [
                         _vm._v("选择交易类型")
                       ])
                     ],
@@ -13331,14 +13363,14 @@ var render = function() {
                   ),
                   _c(
                     "v-uni-view",
-                    { staticClass: _vm._$g(52, "sc"), attrs: { _i: 52 } },
-                    _vm._l(_vm._$g(53, "f"), function(item, index, $25, $35) {
+                    { staticClass: _vm._$g(58, "sc"), attrs: { _i: 58 } },
+                    _vm._l(_vm._$g(59, "f"), function(item, index, $25, $35) {
                       return _c(
                         "v-uni-view",
                         {
                           key: item,
-                          class: _vm._$g("53-" + $35, "c"),
-                          attrs: { _i: "53-" + $35 },
+                          class: _vm._$g("59-" + $35, "c"),
+                          attrs: { _i: "59-" + $35 },
                           on: {
                             click: function($event) {
                               return _vm.$handleViewEvent($event)
@@ -13346,8 +13378,8 @@ var render = function() {
                           }
                         },
                         [
-                          _c("v-uni-text", { attrs: { _i: "54-" + $35 } }, [
-                            _vm._v(_vm._$g("54-" + $35, "t0-0"))
+                          _c("v-uni-text", { attrs: { _i: "60-" + $35 } }, [
+                            _vm._v(_vm._$g("60-" + $35, "t0-0"))
                           ])
                         ],
                         1
@@ -13358,15 +13390,15 @@ var render = function() {
                   _c(
                     "v-uni-view",
                     {
-                      staticClass: _vm._$g(55, "sc"),
-                      attrs: { _i: 55 },
+                      staticClass: _vm._$g(61, "sc"),
+                      attrs: { _i: 61 },
                       on: {
                         click: function($event) {
                           return _vm.$handleViewEvent($event)
                         }
                       }
                     },
-                    [_c("v-uni-text", { attrs: { _i: 56 } }, [_vm._v("取消")])],
+                    [_c("v-uni-text", { attrs: { _i: 62 } }, [_vm._v("取消")])],
                     1
                   )
                 ],

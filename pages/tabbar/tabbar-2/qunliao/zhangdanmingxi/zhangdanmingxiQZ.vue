@@ -35,13 +35,13 @@
 		</view>
 		
 		<view>
-			<view v-if="!isYufen" v-for="(item,index) in dataList" :key="index" class="scrollItem">
+			<view v-if="!isYufen && !isJinriyingkui" v-for="(item,index) in dataList" :key="index" class="scrollItem">
 				<view class="minView">
 					<text>{{item.mark}}</text>
 					<text>{{item.createTime}}</text>
 				</view>
 				<view class="right">
-					<text>{{item.flag}}{{item.tradeAmount.toFixed(2)}}</text>
+					<text>{{item.flag}}{{item.tradeAmount}}</text>
 				</view>
 			</view>
 			
@@ -52,6 +52,16 @@
 				</view>
 				<view class="right">
 					<text>{{item.blance.toFixed(2)}}积分</text>
+				</view>
+			</view>
+			
+			<view v-if="isJinriyingkui"  class="scrollItem">
+				<view class="minView">
+					<text>总盈亏</text>
+					<text>{{start_time}}至{{end_time}}</text>
+				</view>
+				<view class="right">
+					<text>{{yingkui}}积分</text>
 				</view>
 			</view>
 			
@@ -148,7 +158,11 @@
 				visible:true,
 				indicatorStyle: `height: ${Math.round(uni.getSystemInfoSync().screenWidth/(750/100))}px;`,
 				dataList:[],
-				isYufen:false
+				start_time:'',
+				end_time:'',
+				yingkui:0,
+				isYufen:false,
+				isJinriyingkui:false
 			}
 			
 		},
@@ -302,15 +316,35 @@
 					this.$http.httpGetToken("/crowd-account-trade-record/pageByYuFenSum",{
 						crowdId:this.crowdId
 					},(res)=>{
-						this.totalAmount = res.data.toFixed(2);
+						this.totalAmount = Number(res.data).toFixed(2);
 					},false)
 					
 					
 					return;
 				}
 				
+				// 今日盈亏
+				if(tradeType == 'JIN_RI_YING_KUI'){
+					this.isJinriyingkui = true;
+					this.start_time = this.defaultYearS + "-" + this.defaultMonthS + "-" + this.defaultDayS;
+					this.end_time = this.defaultYearE + "-" + this.defaultMonthE + "-" + this.defaultDayE;
+					
+					this.$http.httpGetToken("/crowd-account-trade-record/qunzhuYingKui",{
+						crowdId:this.crowdId,
+						startTime:startTime,
+						endTime:endTime
+					},(res)=>{
+						console.log(res.data)
+						this.yingkui = Number(res.data).toFixed(2);
+						this.totalAmount = Number(res.data).toFixed(2);
+						uni.stopPullDownRefresh();
+						this.more="noMore"
+					},false)
+					
+					return;
+				}
 			
-				
+				this.isJinriyingkui = false;
 				this.isYufen = false;
 
 				this.$http.httpGetToken("/crowd-account-trade-record/pageByQunzhu",{
@@ -341,7 +375,7 @@
 					startTime:startTime,
 					endTime:endTime,
 				},(res)=>{
-					this.totalAmount = res.data.toFixed(2);
+					this.totalAmount = Number(res.data).toFixed(2);
 				},false)
 				
 				
@@ -354,7 +388,7 @@
 				
 			},
 			today(){
-				this.$http.httpPostToken("/crowd-account-trade-record/today",{
+				this.$http.httpGetToken("/crowd-account-trade-record/qunzhuToday",{
 					crowdId:this.crowdId,
 				},(res)=>{
 					console.log(res)
