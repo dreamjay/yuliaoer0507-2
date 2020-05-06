@@ -799,7 +799,7 @@
 					complete:function(){
 						setTimeout(()=>{
 							this.willStop = false;
-						},1000)
+						},2500)
 					}
 				});
 				// // onProgressUpdate 上传对象更新的方法
