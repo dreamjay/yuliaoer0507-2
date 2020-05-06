@@ -193,13 +193,16 @@
 			this.updateList(true)
 		},
 		onShow() {
-			this.userInfo = uni.getStorageSync('userInfo');
-			this.isQunzhu = !!this.userInfo.showCrowd;
-			
-			if(this.messageCount <= 0){
-				uni.removeTabBarBadge({index: 0})
+			try{
+				this.userInfo = uni.getStorageSync('userInfo');
+				this.isQunzhu = this.userInfo.showCrowd == 1;
+				
+				this.updateList(false);
+			}catch(err){
+				console.log(err)
 			}
-			this.updateList(false);
+
+			uni.$emit("isPush",true);
 		},
 		
 		methods:{
@@ -287,27 +290,19 @@
 			itemClick(type,id,index){
 				console.log(this.messageList[index]);
 				if(type == 'CROWD'){
-					if(this.lock){
-						return;
-					}
-					this.lock = true;
+					uni.navigateTo({
+						url:'/pages/tabbar/tabbar-2/qunliao/qunliao?crowdId='+id,
+					})
 					
-					this.$http.httpGetToken('/crowd/getById',{
-						crowdId: id
-					},(res) =>{
-						uni.navigateTo({
-							url:'/pages/tabbar/tabbar-2/qunliao/qunliao?crowdInfo='+JSON.stringify(res.data),
-						})
-						this.messageList[index].num = 0;
+					this.messageList[index].num = 0;
+					this.setBadge();
+					
+					try{
+						uni.setStorageSync(this.messageListKey,this.messageList);
+					} catch(err){
 						
-						try{
-							uni.setStorageSync(this.messageListKey,this.messageList);
-						} catch(err){
-							
-						}
-						this.setBadge();
-						this.lock = false;
-					},false);
+					}
+					
 				}else{
 					this.messageList[index].num = 0;
 					try{

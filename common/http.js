@@ -14,6 +14,7 @@ const wsUrl = 'ws://101.132.76.92:9001/yuliao?token=';
 var count = 0
 
 const error = (res) => {
+	console.log("error:",res)
 	if(res.data){
 		if( res.data.code === 'USER_NO_ACCOUNT'){
 			uni.showToast({
@@ -38,11 +39,18 @@ const error = (res) => {
 		}
 		
 	}else{
-		
-		uni.showToast({
-			title:"系统繁忙，稍后再试！",
-			icon:"none"
-		})
+		if(res.msg){
+			uni.showToast({
+				title:res.msg,
+				icon:"none"
+			})
+		}else{
+			uni.showToast({
+				title:"系统繁忙，稍后再试！",
+				icon:"none"
+			})
+		}
+	
 	}
 	
 

@@ -7,7 +7,9 @@ export default {
 	data(){
 		return{
 			connectionStatus:false,
-			timer:null
+			timer:null,
+			isPush:true,
+			offSwith:true
 		}
 	},
 	
@@ -18,6 +20,11 @@ export default {
 		
 		uni.$on("logout",this.logout)
 		
+		uni.$on("isPush",this.pushData)
+		
+		uni.$on("pushStatus",this.pushStatus)
+		
+		
 		if(!this.timer){
 			this.timer = setInterval(this.ping,5000)
 		}
@@ -26,7 +33,7 @@ export default {
 	},
 	onShow: function() {
 		console.log('App Show');
-		
+		this.pushStatus();
 	},
 	
 	onHide: function() {
@@ -56,6 +63,7 @@ export default {
 			}
 			
 		},
+
 		resetConnection(){
 			
 			if(this.connectionStatus){
@@ -73,6 +81,7 @@ export default {
 				console.log("token为空：",token)
 				return;
 			}
+			
 			
 			uni.connectSocket({ //连接
 			    url: this.$http.wsUrl+token
@@ -117,10 +126,9 @@ export default {
 		messageDetail(obj){
 			var that = this;
 			if(obj.messageType == 'CROWD'){
+				uni.$emit('CROWD',obj)
 				console.log("群消息来了")
 				that.addCrowd(obj);
-				uni.$emit('CROWD',obj)
-				
 				that.createMessage(obj);
 								
 								
@@ -143,8 +151,9 @@ export default {
 			}
 			if(obj.messageType == 'ALONE'){
 				console.log("个人消息来了")
-				that.addAlone(obj);
 				uni.$emit('ALONE',obj)
+				that.addAlone(obj);
+				
 				that.createMessage(obj);
 				var aloneList = uni.getStorageSync("aloneList");
 				if(!aloneList){
@@ -161,11 +170,28 @@ export default {
 			}
 		},
 		createMessage(data){
-			var content = this.formtContent(data.body);
 			
-			//#ifdef APP-PLUS  
-			plus.push.createMessage( content,'',{cover:true});
-			//#endif
+			if(this.offSwith){
+				if(this.isPush){
+					var content = this.formtContent(data.body);
+					
+					//#ifdef APP-PLUS  
+					plus.push.createMessage( content,'',{cover:true});
+					//#endif
+				}
+				
+			}
+			
+		},
+		pushStatus(){
+			var pushStatus =uni.getStorageSync("pushStatus");
+			if(String(typeof(pushStatus)) == 'boolean'){
+				this.offSwith = pushStatus;
+			}
+			
+		},
+		pushData(data){
+			this.isPush = data;
 		},
 		
 		toLogin(){
@@ -229,7 +255,7 @@ export default {
 			
 			this.refreshMessageList();
 			
-			if(data.crowdId){
+			if(data.crowdId ){
 					
 				var index = this.isExits("CROWD_"+data.crowdId);
 				

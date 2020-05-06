@@ -313,7 +313,7 @@
 				// }
 				// this.msgList = list;
 				
-				
+				crowdInfo:{},
 				isQunzhu:false,
 				//文字消息
 				textMsg:'',
@@ -373,8 +373,7 @@
 			
 			// 初始化数据
 			this.init(option);
-			// 设置标题
-			this.setTitle(this.crowdInfo.name);
+			
 			// 开启消息监听
 			this.startListener();
 			this.getMsgList();
@@ -399,11 +398,12 @@
 		},
 		onShow(){
 			console.log("onShow")
+			uni.$emit("isPush",false);
 			this.scrollTop = 9999999;
 		},
 		onNavigationBarButtonTap:function() {
 			uni.navigateTo({
-				url:'/pages/tabbar/tabbar-5/qunzhushezhi/liaotianxinxi/liaotianxinxi?crowdId='+this.crowdInfo.id+''
+				url:'/pages/tabbar/tabbar-5/qunzhushezhi/liaotianxinxi/liaotianxinxi?crowdId='+this.crowdId+''
 			})
 		},
 		methods:{
@@ -433,7 +433,7 @@
 				
 					
 					this.$http.httpGetToken('/crowd-message/page',{
-						crowdId:this.crowdInfo.id,
+						crowdId:this.crowdId,
 						pageNo:1,
 						pageSize:20,
 						crowdMessageId:crowdMessageId
@@ -477,7 +477,7 @@
 				}
 				this.isHistoryLoading = true;
 				this.$http.httpGetToken('/crowd-message/page',{
-					crowdId:this.crowdInfo.id,
+					crowdId:this.crowdId,
 					pageNo:1,
 					pageSize:15,
 					crowdMessageId:crowdMessageId
@@ -515,44 +515,43 @@
 			init(option){
 				console.log('群信息',option)
 				// 群信息
-				this.crowdInfo = JSON.parse(option.crowdInfo)
+				this.crowdId = option.crowdId;
 				// 用户信息
 				this.userInfo =  uni.getStorageSync('userInfo')
 				this.myuid = this.userInfo.id;
 				
-				this.isQunzhu = this.crowdInfo.userId == this.userInfo.id;
-				if(!this.isQunzhu){
-					this.$http.httpGetToken("/crowd/getCrowdInfoById",{
-						crowdId:this.crowdInfo.id,
-						userId:this.userInfo.id
-					},(res)=>{
-						if(res.data.role == 'CAI_WU'){
-							this.isQunzhu =  true;
-						}
-					},false)
-				}
 				
-				uni.getSystemInfo({
-				    success: (e) => {
-				      
-				      // #ifdef APP-PLUS
-				      // console.log('app-plus', e)
-				      
-				      this.height = e.statusBarHeight + 44
-				      // #endif
+
+				this.$http.httpGetToken('/crowd/getById',{
+					crowdId: this.crowdId
+				},(res) =>{
+					this.crowdInfo = res.data;
+					// 设置标题
+					this.isQunzhu = this.crowdInfo.userId == this.userInfo.id;
+					
+					if(!this.isQunzhu){
+						this.$http.httpGetToken("/crowd/getCrowdInfoById",{
+							crowdId:this.crowdId,
+							userId:this.userInfo.id
+						},(res)=>{
+							if(res.data.role == 'CAI_WU'){
+								this.isQunzhu =  true;
+							}
+						},false)
 					}
-				})
+					
+					this.setTitle();
+					
+				},false);
 				
 				var o = uni.getSystemInfoSync();
 				this.windowHeight = o.windowHeight;
 				this.statusBarHeight = o.statusBarHeight;
 			},
-			setTitle(title){
-				uni.setNavigationBarTitle({
-					title: title
-				})
+			setTitle(){
+				
 				this.$http.httpGetToken("/crowd/countByCrowdId",{
-					crowdId:this.crowdInfo.id
+					crowdId:this.crowdId
 				},(res)=>{
 					uni.setNavigationBarTitle({
 						title: this.crowdInfo.name + "("+res.data+")"
@@ -561,7 +560,7 @@
 			},
 			startListener(){
 				uni.$on('CROWD',(data)=>{
-					if(data.crowdId != this.crowdInfo.id){
+					if(data.crowdId != this.crowdId){
 						return;
 					}
 					this.onMessage(data);
@@ -866,7 +865,7 @@
 					}
 					
 					this.$http.httpPostTokenPush('/push/sendToCrowd',{
-						crowdId:this.crowdInfo.id,
+						crowdId:this.crowdId,
 						message:info
 					},(res)=>{
 						let c = this.replaceEmoji(info);
@@ -878,14 +877,14 @@
 			
 			cha(){
 				this.$http.httpPostTokenPush('/push/cha',{
-					crowdId:this.crowdInfo.id
+					crowdId:this.crowdId
 				},(res)=>{
 						this.sendCommonMsg("查");
 				},false);
 			},
 			xiafen(val){ //下分
 				this.$http.httpPostTokenPush('/push/withdraw',{
-					crowdId:this.crowdInfo.id,
+					crowdId:this.crowdId,
 					amount:val
 				},(res)=>{
 						this.sendCommonMsg("下分/"+val);
@@ -893,7 +892,7 @@
 			},
 			shangfen(val){ //上分
 				this.$http.httpPostTokenPush('/push/recharge',{
-					crowdId:this.crowdInfo.id,
+					crowdId:this.crowdId,
 					amount:val
 				},(res)=>{
 					// 发送消息
@@ -1089,8 +1088,10 @@
 				if(error){
 					switch(error.code){
 						case "NO_GRAD_BAO":
-							this.toRedRecord(rid);
-							
+							uni.showToast({
+								icon:'none',
+								title:"此角色禁止抢包"
+							})
 							break;
 						// 已经抢过红包
 						case "ALREADY_GRAD_RED":
@@ -1218,7 +1219,7 @@
 			},
 			toRedRecord(rid){
 				uni.navigateTo({
-					url:'./hongbaoxiangqing/hongbaoxiangqing?rid='+rid + "&crowdId="+this.crowdInfo.id,
+					url:'./hongbaoxiangqing/hongbaoxiangqing?rid='+rid + "&crowdId="+this.crowdId,
 				})
 			},
 			// 关闭红包弹窗

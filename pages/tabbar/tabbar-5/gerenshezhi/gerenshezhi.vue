@@ -14,7 +14,7 @@
 			</navigator>
 		</uni-list>
 		<uni-list class="listBorderTop">
-			<uni-list-item title="接受新消息通知" :show-switch="true" :showArrow="false" :switchChecked="isSwitch"></uni-list-item>
+			<uni-list-item title="接收新消息通知" :show-switch="true" :showArrow="false" :switchChecked="isSwitch" @switchChange="setPushStatus"></uni-list-item>
 		</uni-list>
 		
 		<button @click="quitLogin" style="background-color:#4cb964; position:absolute; bottom: 50upx; width: 690upx; left:30upx;" type="primary">退出登录</button>
@@ -41,9 +41,12 @@
 			this.userInfo = uni.getStorageSync('userInfo');
 			this.account = this.userInfo.nickName
 			this.mobile = this.userInfo.phone
-			
-		},
 		
+		},
+		onShow() {
+				this.isSwitch =	uni.getStorageSync("pushStatus");
+				uni.$emit("pushStatus");
+		},
 		created() {  
 			
 		},  
@@ -58,6 +61,11 @@
 						}
 					}
 				})
+			},
+			setPushStatus(){
+				this.isSwitch = !this.isSwitch;
+				uni.setStorageSync("pushStatus",this.isSwitch);
+					uni.$emit("pushStatus");
 			}
 		}
 	}

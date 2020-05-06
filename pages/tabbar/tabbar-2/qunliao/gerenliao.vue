@@ -253,6 +253,8 @@
 		onShow(){
 			console.log("onShow")
 			this.scrollTop = 9999999;
+			
+			uni.$emit("isPush",false);
 		},
 	
 		methods:{

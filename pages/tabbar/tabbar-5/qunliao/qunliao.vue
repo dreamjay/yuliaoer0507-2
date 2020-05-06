@@ -77,14 +77,9 @@
 			},
 			toUrl(crowdId){
 			
-				this.$http.httpGetToken('/crowd/getById',{
-					crowdId: crowdId
-				},(res) =>{
-					uni.navigateTo({
-						url:'/pages/tabbar/tabbar-2/qunliao/qunliao?crowdInfo='+JSON.stringify(res.data),
-					})
-				},true);
-		
+				uni.navigateTo({
+					url:'/pages/tabbar/tabbar-2/qunliao/qunliao?crowdId='+crowdId,
+				})
 			}
 		}
 	}

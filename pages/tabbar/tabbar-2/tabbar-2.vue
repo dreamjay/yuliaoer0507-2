@@ -65,8 +65,6 @@
 			
 			// #endif
 			
-			this.refreshFried();
-			
 			
 		},
 		onShow(){
@@ -77,6 +75,8 @@
 					this.dataList = dataList;
 				}
 			})
+			
+			this.refreshFried();
 			
 		},
 		
