@@ -40,17 +40,17 @@
 								<br>
 								<text class="color fontMax">上分{{item.amount}}</text>
 								<br>
-								<div v-if="item.type == 'wx'">
+								<div v-if="item.wxAccount">
 									<text>微信：</text><text>{{item.wxAccount}}</text><text class="copy" @click="copy(item.wxAccount)">复制</text>
 									<br>
 									<text>用户名：{{item.wxUsername}}</text>
 								</div>
-								<div v-if="item.type == 'zfb'">
+								<div v-else-if="item.zfbAccount">
 									<text>支付宝：</text><text>{{item.zfbAccount}}</text><text class="copy" @click="copy(item.zfbAccount)">复制</text>
 									<br>
 									<text>用户名：{{item.zfbUsername}}</text>
 								</div>
-								<div v-if="item.type == 'yhk'">
+								<div v-else-if="item.bankCard">
 									<text>银行卡：</text><text>{{item.bankCard}}</text><text class="copy" @click="copy(item.bankCard)">复制</text>
 									<br>
 									<text>{{item.bankName}}</text>
@@ -99,17 +99,17 @@
 								<br>
 								<text class="color fontMax">下分{{item.amount}}</text>
 								<br>
-								<div v-if="item.type == 'wx'">
+								<div v-if="item.wxAccount">
 									<text>微信：</text><text>{{item.wxAccount}}</text><text class="copy" @click="copy(item.wxAccount)">复制</text>
 									<br>
 									<text>用户名：{{item.wxUsername}}</text>
 								</div>
-								<div v-if="item.type == 'zfb'">
+								<div v-else-if="item.zfbAccount">
 									<text>支付宝：</text><text>{{item.zfbAccount}}</text><text class="copy" @click="copy(item.zfbAccount)">复制</text>
 									<br>
 									<text>用户名：{{item.zfbUsername}}</text>
 								</div>
-								<div v-if="item.type == 'yhk'">
+								<div v-else-if ="item.bankCard">
 									<text>银行卡：</text><text>{{item.bankCard}}</text><text class="copy" @click="copy(item.bankCard)">复制</text>
 									<br>
 									<text>{{item.bankName}}</text>

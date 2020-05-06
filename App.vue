@@ -151,6 +151,23 @@ export default {
 			}
 			if(obj.messageType == 'ALONE'){
 				console.log("个人消息来了")
+				if(obj.body.eventType == 'LOGIN_OTHER'){
+						var token = uni.getStorageSync("token");
+						if(obj.body.text == token){
+							uni.showToast({
+								icon:"none",
+								title:"您的账号在别的地方登陆",
+											
+							})
+							
+							setTimeout(()=>{
+								uni.$emit("logout")
+							},2000)
+						}
+					return;
+				}
+				
+				
 				uni.$emit('ALONE',obj)
 				that.addAlone(obj);
 				

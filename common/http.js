@@ -30,7 +30,7 @@ const error = (res) => {
 			
 		}else if(res.data.code == 'TOKEN_INVALID'){
 			uni.$emit("logout");
-		}else if(res.data.code == '"USER_NOT_EXISTS"'){
+		}else if(res.data.code == 'USER_NOT_EXISTS'){
 			
 			uni.showToast({
 				title:"系统繁忙，稍后再试！",

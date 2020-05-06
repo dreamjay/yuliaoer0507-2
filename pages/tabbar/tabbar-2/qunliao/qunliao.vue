@@ -570,6 +570,18 @@
 					this.hideDrawer();//隐藏抽屉
 					this.sendRedpacket(data);
 				})
+				
+				uni.$on("gradAll",(data)=>{
+					this.msgList.forEach((item,index)=>{
+						if(item.msg){
+							if(item.msg.type == 'redEnvelope'){
+								if(item.msg.content.rid == data.rid){
+									item.msg.content.status = data.status;
+								}
+							}
+						}
+					})
+				})
 			},
 			onMessage(data){
 				//自己发送的消息，这里不需要处理
@@ -645,6 +657,14 @@
 									};
 								return msg;
 								
+							}
+							
+							case "GRAD_ALL":{
+								var rid = data.body.text;
+								
+								uni.$emit("gradAll",{rid:rid,status:1})
+								
+								return null;
 							}
 							
 						
@@ -1051,9 +1071,13 @@
 							}
 							this.windowsState = 'show';
 						}else{
+							
 							this.errorRed(res,msg,rid);
 							
 						}
+						
+						
+					
 						
 					},
 					fail: function(err) {
@@ -1116,10 +1140,14 @@
 							uni.hideLoading();
 							// 跳转至抢包详情页
 							this.toRedRecord(rid);
+							
+							uni.$emit("gradAll",{rid:rid,status:3})
+							
 							break;
 						// 红包已抢光
 						case "RED_IS_NULL":
 						case "RED_IS_EXPIRE":
+							uni.$emit("gradAll",{rid:rid,status:1})
 							// 手慢了
 							uni.hideLoading();
 							// 积分不足
