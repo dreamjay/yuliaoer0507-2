@@ -7,9 +7,9 @@ export default {
 	data(){
 		return{
 			connectionStatus:false,
-			timer:null,
 			isPush:true,
-			offSwith:true
+			offSwith:true,
+			socketTask:null
 		}
 	},
 	
@@ -24,10 +24,10 @@ export default {
 		
 		uni.$on("pushStatus",this.pushStatus)
 		
+		uni.$on("ping",this.ping)
 		
-		if(!this.timer){
-			this.timer = setInterval(this.ping,5000)
-		}
+		uni.$on("MESSAGE",this.messageDetail)
+		
 		// 检测token
 		this.checkToken();
 	},
@@ -58,7 +58,7 @@ export default {
 		},
 		ping(){
 			if(!this.connectionStatus){
-				console.log("开始重新连接")
+				console.log("网络断开...")
 				this.resetConnection();
 			}
 			
@@ -71,10 +71,10 @@ export default {
 				return;
 			}
 			this.connection();
-			
 		},
 		// 强制连接
 		connection(){
+			var that = this;
 			// 检测是token否为空
 			var token = uni.getStorageSync("token");
 			if(!token){
@@ -82,35 +82,61 @@ export default {
 				return;
 			}
 			
-			
-			uni.connectSocket({ //连接
-			    url: this.$http.wsUrl+token
+			this.socketTask = uni.connectSocket({
+				// 【非常重要】必须确保你的服务器是成功的,如果是手机测试千万别使用ws://127.0.0.1:9099【特别容易犯的错误】
+				url: this.$http.wsUrl+token,
+				success(data) {
+					console.log("websocket连接成功");
+				},
 			});
-			
-			uni.onSocketOpen( (res)=> {
+
+
+		  this.socketTask.onOpen((res) => {
+				console.log("WebSocket连接正常打开中...！");
 				this.connectionStatus = true;
-			    console.log('WebSocket连接已打开！connectionStatus:',this.connectionStatus);
-			  
-			});
-			uni.onSocketError((res)=> {
+				// 注：只有连接正常打开中 ，才能正常成功发送消息
+				// this.socketTask.send({
+				// 	data: "uni-app发送一条消息",
+				// 	async success() {
+				// 		console.log("消息发送成功");
+				// 	},
+				// });
+				// 注：只有连接正常打开中 ，才能正常收到消息
+				this.socketTask.onMessage((res) => {
+					console.log('收到服务器内容：' + res.data);
+					if(!res.data){
+						return
+					}
+					var obj = JSON.parse(res.data);
+					uni.$emit("MESSAGE",obj);
+					
+					
+					
+				});
+			})
+			// 这里仅是事件监听【如果socket关闭了会执行】
+			this.socketTask.onClose(() => {
 				this.connectionStatus = false;
-			    console.log('WebSocket连接打开失败，请检查！',JSON.stringify(res));
-			});
-			
-			uni.onSocketClose((res)=>{
-				this.connectionStatus = false;
-				console.log('WebSocket 已关闭！',JSON.stringify(res));
-			});
-			
-			uni.onSocketMessage((res)=> {
-			  console.log('收到服务器内容：' + res.data);
-			  if(!res.data){
-			  	return
-			  }
-			  var obj = JSON.parse(res.data);
-			  this.messageDetail(obj);
-			});
-			
+				console.log("已经被关闭了")
+			})
+			this.socketTask.onError(()=>{
+					this.connectionStatus = false;
+			})
+
+		
+			// uni.onSocketError((res)=> {
+			// 	this.connectionStatus = false;
+			// 	uni.closeSocket({
+			// 		success() {
+			// 			console.log("关闭连接成功")
+			// 		},
+			// 		fail(err){
+			// 			console.log("关闭连接失败，",JSON.stringify(err))
+			// 		}
+			// 	})
+			//     console.log('WebSocket连接打开失败，请检查！',JSON.stringify(res));
+			// });
+
 		
 		},
 		close(){
@@ -154,6 +180,7 @@ export default {
 				if(obj.body.eventType == 'LOGIN_OTHER'){
 						var token = uni.getStorageSync("token");
 						if(obj.body.text == token){
+							
 							uni.showToast({
 								icon:"none",
 								title:"您的账号在别的地方登陆",
@@ -230,8 +257,12 @@ export default {
 		loginSuccess(){
 			// 关闭原来的连接
 			this.close();
-			// 重新连接
-			this.connection();
+			// 1秒钟之后连接websocket,重新连接
+			setTimeout(()=>{
+				console.log("开始连接")
+				this.connection()
+			},3000);
+			
 		},
 		addAlone(data){
 		

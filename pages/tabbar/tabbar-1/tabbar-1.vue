@@ -135,6 +135,7 @@
 				isQunzhu:false,
 				show:false,
 				messageList:[],
+				timer:null,
 				options:[
 					{
 						text: '删除',
@@ -191,6 +192,9 @@
 			})
 			
 			this.updateList(true)
+			
+			
+
 		},
 		onShow() {
 			try{
@@ -202,9 +206,22 @@
 				console.log(err)
 			}
 
+			
+			uni.$emit("ping")
+			this.timer = setInterval(()=>{
+				uni.$emit("ping")
+			},5000);
+			
+			
 			uni.$emit("isPush",true);
+			
+			
 		},
-		
+		onHide() {
+			if(this.timer){
+				clearInterval(this.timer)
+			}
+		},
 		methods:{
 			calcData(index){
 				return [

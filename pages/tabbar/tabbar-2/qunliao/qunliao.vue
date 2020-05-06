@@ -399,6 +399,7 @@
 		onShow(){
 			console.log("onShow")
 			uni.$emit("isPush",false);
+			uni.$emit("ping")
 			this.scrollTop = 9999999;
 		},
 		onNavigationBarButtonTap:function() {
