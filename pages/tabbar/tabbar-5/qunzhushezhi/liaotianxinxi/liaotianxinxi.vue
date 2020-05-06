@@ -83,11 +83,14 @@
 							<text>上传收款码及微信号</text><image src="/static/img/wo/youjiantou.png"></image>
 						</navigator>
 					</li>
+					
+					<!-- 
 					<li class="SelectList">
 						
 						<text>消息免打扰</text> <switch :checked='switchStatus.miandarao' @change="miandarao"/>
 						
 					</li>
+					-->
 					<li class="SelectList" v-if="isSet">
 						
 						<text>开启群禁言</text> <switch :checked='!(crowdInfo && Number(crowdInfo.bannedPost))' @change="qunjinyan"/>
@@ -103,11 +106,15 @@
 						<text>开启查功能</text> <switch :checked='(crowdInfo && Number(crowdInfo.bannedCha))' @change="quncha"/>
 						
 					</li>
+					
+					<!-- 
 					<li class="SelectList">
 						
 						<text>置顶聊天</text> <switch :checked='switchStatus.zhiding' @change="zhiding"/>
 						
 					</li>
+					-->
+					
 					<li class="SelectList" v-if="isSet">
 						
 						<text>中雷提示</text> <switch :checked='(crowdInfo && Number(crowdInfo.bannedLei))' @change="zhonglei"/>

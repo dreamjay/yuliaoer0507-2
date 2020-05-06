@@ -2,12 +2,13 @@
 	<view>
 		<ul class="ulBox">
 			<li v-for="(item,index) in xuanran" :key="index" @click='popupOpen(item)'>
-				<view class="imageBox" :class="headimgClass(item.imgs? item.imgs.length : null)">
-					<image v-for="(itemm,indexx) in item.imgs" :key="indexx" :src="itemm ? itemm : '/static/moren.png'" mode="scaleToFill"></image>
+				<view  class="imageBox"   :class="headimgClass(item.imgs? item.imgs.length : null)">
+					<org-image   css="imgBox" v-for="(itemm,indexx) in item.imgs" :key="indexx" :src="itemm" mode="scaleToFill"></org-image>
 				</view>
-				
 				<text>{{item.name}}</text>
 			</li>
+			
+			
 			
 		</ul>
 		<!-- 隐藏的用来自动聚焦 -->
@@ -29,8 +30,9 @@
 <script>
 	
 	import chunLeiModal from '@/components/chunLei-modal/chunLei-modal.vue'
+		import orgImage from '@/components/org-image/org-image';
 	export default{
-		components: {chunLeiModal},
+		components: {chunLeiModal,orgImage},
 		data(){
 			return{
 				data:{},
@@ -215,10 +217,6 @@
 				overflow: hidden;
 				position: relative;
 				vertical-align: middle;
-				image{
-					box-sizing: border-box;
-					
-				}
 				
 			}
 			

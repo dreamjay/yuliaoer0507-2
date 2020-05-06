@@ -629,7 +629,25 @@
 										},
 									};
 								return msg;
+								
 							}
+							
+							case "JIN_YAN":{
+								var msg = {
+									type:"system",
+									msg:{
+										id:msgId,
+										type:"text",
+										content:{
+											text: data.body.text,
+											},
+										},
+									};
+								return msg;
+								
+							}
+							
+						
 						}
 						break
 					}

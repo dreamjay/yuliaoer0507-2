@@ -1,14 +1,14 @@
 import store from '../store/store.js'
 
 // 本地映射
-// const baseUrl = 'http://z3t.vip3gz.idcfengye.com'
-// const baseUrlMeg = 'http://zc.vip3gz.idcfengye.com'
-// const wsUrl = 'ws://zc.vip3gz.idcfengye.com/yuliao?token=';
+const baseUrl = 'http://z3t.vip3gz.idcfengye.com'
+const baseUrlMeg = 'http://zc.vip3gz.idcfengye.com'
+const wsUrl = 'ws://zc.vip3gz.idcfengye.com/yuliao?token=';
 
 // 测试环境
-const baseUrl = 'http://101.132.76.92:6001'
-const baseUrlMeg = 'http://101.132.76.92:9001'
-const wsUrl = 'ws://101.132.76.92:9001/yuliao?token=';
+// const baseUrl = 'http://101.132.76.92:6001'
+// const baseUrlMeg = 'http://101.132.76.92:9001'
+// const wsUrl = 'ws://101.132.76.92:9001/yuliao?token=';
 
 
 var count = 0
@@ -30,6 +30,12 @@ const error = (res) => {
 			
 		}else if(res.data.code == 'TOKEN_INVALID'){
 			uni.$emit("logout");
+		}else if(res.data.code == '"USER_NOT_EXISTS"'){
+			
+			uni.showToast({
+				title:"系统繁忙，稍后再试！",
+				icon:"none"
+			})
 		}else{
 			
 			uni.showToast({

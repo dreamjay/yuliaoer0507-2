@@ -290,6 +290,10 @@
 				})
 				
 				var aloneList = uni.getStorageSync("aloneList");
+				if(aloneList.length > 300){
+					aloneList.splice(0,aloneList.length - 300);
+					uni.setStorageSync("aloneList",aloneList);
+				}
 				if(aloneList){
 					var lastMsgId;
 					for(var i=0;i<aloneList.length;i++){

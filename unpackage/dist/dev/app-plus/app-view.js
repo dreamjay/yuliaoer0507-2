@@ -6407,6 +6407,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "recyclableRender", function() { return recyclableRender; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "components", function() { return components; });
 var components = {
+  "org-image": __webpack_require__(/*! @/components/org-image/org-image.vue */ 24).default,
   "chunLei-modal": __webpack_require__(/*! @/components/chunLei-modal/chunLei-modal.vue */ 136)
     .default
 }
@@ -6447,13 +6448,9 @@ var render = function() {
                   $21,
                   $31
                 ) {
-                  return _c("v-uni-image", {
+                  return _c("org-image", {
                     key: itemm,
-                    attrs: {
-                      src: _vm._$g("4-" + $30 + "-" + $31, "a-src"),
-                      mode: "scaleToFill",
-                      _i: "4-" + $30 + "-" + $31
-                    }
+                    attrs: { _i: "4-" + $30 + "-" + $31 }
                   })
                 }),
                 1
@@ -7320,7 +7317,8 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;
-var _chunLeiModal = _interopRequireDefault(__webpack_require__(/*! @/components/chunLei-modal/chunLei-modal.vue */ 136));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var _default =
+var _chunLeiModal = _interopRequireDefault(__webpack_require__(/*! @/components/chunLei-modal/chunLei-modal.vue */ 136));
+var _orgImage = _interopRequireDefault(__webpack_require__(/*! @/components/org-image/org-image */ 24));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var _default =
 {
 
   data: function data() {
@@ -7329,7 +7327,8 @@ var _chunLeiModal = _interopRequireDefault(__webpack_require__(/*! @/components/
 
   },
   components: {
-    'chunLeiModal': _chunLeiModal.default } };exports.default = _default;
+    'chunLeiModal': _chunLeiModal.default,
+    'orgImage': _orgImage.default } };exports.default = _default;
 
 /***/ }),
 /* 146 */
@@ -7378,7 +7377,7 @@ if(false) {}
 var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ./node_modules/css-loader/dist/runtime/api.js */ 19);
 exports = ___CSS_LOADER_API_IMPORT___(false);
 // Module
-exports.push([module.i, "@charset \"UTF-8\";\n/**\r\n * 这里是uni-app内置的常用样式变量\r\n *\r\n * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量\r\n * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App\r\n *\r\n */\n/**\r\n * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能\r\n *\r\n * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件\r\n */\n/* 颜色变量 */\n/* 行为相关颜色 */\n/* 文字基本颜色 */\n/* 背景颜色 */\n/* 边框颜色 */\n/* 尺寸变量 */\n/* 文字尺寸 */\n/* 图片尺寸 */\n/* Border Radius */\n/* 水平间距 */\n/* 垂直间距 */\n/* 透明度 */\n/* 文章场景相关 */\n.custom-view[data-v-c91702c2] {\n  overflow: hidden;\n  z-index: 999;\n  position: absolute;\n  top: 5%;\n}\n.custom-view .hongbao[data-v-c91702c2] {\n    width: 500upx;\n    height: 380upx;\n    border-radius: 5px;\n    background: #fff;\n    padding-top: 50upx;\n}\n.custom-view .hongbao uni-input[data-v-c91702c2] {\n      border-bottom: 1px solid #4cb964;\n      width: 400upx;\n      margin-left: 50upx;\n      margin-top: 50upx;\n}\n.ulBox[data-v-c91702c2] {\n  border-top: 1upx solid #eee;\n}\n.ulBox li[data-v-c91702c2] {\n    height: 150upx;\n    padding: 0 15upx;\n    border-bottom: 1upx solid #eee;\n    line-height: 120upx;\n}\n.ulBox li .imageBox[data-v-c91702c2] {\n      margin-top: 20upx;\n      width: 110upx;\n      height: 110upx;\n      display: inline-block;\n      border-radius: 5px;\n      background-color: #eee;\n      overflow: hidden;\n      position: relative;\n      vertical-align: middle;\n}\n.ulBox li .imageBox uni-image[data-v-c91702c2] {\n        box-sizing: border-box;\n}\n.ulBox li uni-text[data-v-c91702c2] {\n      margin-left: 20upx;\n      vertical-align: sub;\n}\n", ""]);
+exports.push([module.i, "@charset \"UTF-8\";\n/**\r\n * 这里是uni-app内置的常用样式变量\r\n *\r\n * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量\r\n * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App\r\n *\r\n */\n/**\r\n * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能\r\n *\r\n * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件\r\n */\n/* 颜色变量 */\n/* 行为相关颜色 */\n/* 文字基本颜色 */\n/* 背景颜色 */\n/* 边框颜色 */\n/* 尺寸变量 */\n/* 文字尺寸 */\n/* 图片尺寸 */\n/* Border Radius */\n/* 水平间距 */\n/* 垂直间距 */\n/* 透明度 */\n/* 文章场景相关 */\n.custom-view[data-v-c91702c2] {\n  overflow: hidden;\n  z-index: 999;\n  position: absolute;\n  top: 5%;\n}\n.custom-view .hongbao[data-v-c91702c2] {\n    width: 500upx;\n    height: 380upx;\n    border-radius: 5px;\n    background: #fff;\n    padding-top: 50upx;\n}\n.custom-view .hongbao uni-input[data-v-c91702c2] {\n      border-bottom: 1px solid #4cb964;\n      width: 400upx;\n      margin-left: 50upx;\n      margin-top: 50upx;\n}\n.ulBox[data-v-c91702c2] {\n  border-top: 1upx solid #eee;\n}\n.ulBox li[data-v-c91702c2] {\n    height: 150upx;\n    padding: 0 15upx;\n    border-bottom: 1upx solid #eee;\n    line-height: 120upx;\n}\n.ulBox li .imageBox[data-v-c91702c2] {\n      margin-top: 20upx;\n      width: 110upx;\n      height: 110upx;\n      display: inline-block;\n      border-radius: 5px;\n      background-color: #eee;\n      overflow: hidden;\n      position: relative;\n      vertical-align: middle;\n}\n.ulBox li uni-text[data-v-c91702c2] {\n      margin-left: 20upx;\n      vertical-align: sub;\n}\n", ""]);
 // Exports
 module.exports = exports;
 
@@ -21973,31 +21972,36 @@ var render = function() {
                         1
                       )
                     : _vm._e(),
-                  _c(
-                    "li",
-                    { staticClass: _vm._$g(60, "sc"), attrs: { _i: 60 } },
-                    [
-                      _c("v-uni-text", { attrs: { _i: 61 } }, [
-                        _vm._v("消息免打扰")
-                      ]),
-                      _c("v-uni-switch", {
-                        attrs: { checked: _vm._$g(62, "a-checked"), _i: 62 },
-                        on: {
-                          change: function($event) {
-                            return _vm.$handleViewEvent($event)
-                          }
-                        }
-                      })
-                    ],
-                    1
-                  ),
+                  _vm._$g(60, "i")
+                    ? _c(
+                        "li",
+                        { staticClass: _vm._$g(60, "sc"), attrs: { _i: 60 } },
+                        [
+                          _c("v-uni-text", { attrs: { _i: 61 } }, [
+                            _vm._v("开启群禁言")
+                          ]),
+                          _c("v-uni-switch", {
+                            attrs: {
+                              checked: _vm._$g(62, "a-checked"),
+                              _i: 62
+                            },
+                            on: {
+                              change: function($event) {
+                                return _vm.$handleViewEvent($event)
+                              }
+                            }
+                          })
+                        ],
+                        1
+                      )
+                    : _vm._e(),
                   _vm._$g(63, "i")
                     ? _c(
                         "li",
                         { staticClass: _vm._$g(63, "sc"), attrs: { _i: 63 } },
                         [
                           _c("v-uni-text", { attrs: { _i: 64 } }, [
-                            _vm._v("开启群禁言")
+                            _vm._v("开启封盘")
                           ]),
                           _c("v-uni-switch", {
                             attrs: {
@@ -22020,7 +22024,7 @@ var render = function() {
                         { staticClass: _vm._$g(66, "sc"), attrs: { _i: 66 } },
                         [
                           _c("v-uni-text", { attrs: { _i: 67 } }, [
-                            _vm._v("开启封盘")
+                            _vm._v("开启查功能")
                           ]),
                           _c("v-uni-switch", {
                             attrs: {
@@ -22043,7 +22047,7 @@ var render = function() {
                         { staticClass: _vm._$g(69, "sc"), attrs: { _i: 69 } },
                         [
                           _c("v-uni-text", { attrs: { _i: 70 } }, [
-                            _vm._v("开启查功能")
+                            _vm._v("中雷提示")
                           ]),
                           _c("v-uni-switch", {
                             attrs: {
@@ -22060,77 +22064,36 @@ var render = function() {
                         1
                       )
                     : _vm._e(),
-                  _c(
-                    "li",
-                    { staticClass: _vm._$g(72, "sc"), attrs: { _i: 72 } },
-                    [
-                      _c("v-uni-text", { attrs: { _i: 73 } }, [
-                        _vm._v("置顶聊天")
-                      ]),
-                      _c("v-uni-switch", {
-                        attrs: { checked: _vm._$g(74, "a-checked"), _i: 74 },
-                        on: {
-                          change: function($event) {
-                            return _vm.$handleViewEvent($event)
-                          }
-                        }
-                      })
-                    ],
-                    1
-                  ),
-                  _vm._$g(75, "i")
+                  _vm._$g(72, "i")
                     ? _c(
                         "li",
-                        { staticClass: _vm._$g(75, "sc"), attrs: { _i: 75 } },
-                        [
-                          _c("v-uni-text", { attrs: { _i: 76 } }, [
-                            _vm._v("中雷提示")
-                          ]),
-                          _c("v-uni-switch", {
-                            attrs: {
-                              checked: _vm._$g(77, "a-checked"),
-                              _i: 77
-                            },
-                            on: {
-                              change: function($event) {
-                                return _vm.$handleViewEvent($event)
-                              }
-                            }
-                          })
-                        ],
-                        1
-                      )
-                    : _vm._e(),
-                  _vm._$g(78, "i")
-                    ? _c(
-                        "li",
-                        { staticClass: _vm._$g(78, "sc"), attrs: { _i: 78 } },
+                        { staticClass: _vm._$g(72, "sc"), attrs: { _i: 72 } },
                         [
                           _c(
                             "v-uni-navigator",
                             {
                               attrs: {
-                                url: _vm._$g(79, "a-url"),
+                                url: _vm._$g(73, "a-url"),
                                 "open-type": "navigate",
                                 "hover-class": "",
-                                _i: 79
+                                _i: 73
                               }
                             },
                             [
-                              _c("v-uni-text", { attrs: { _i: 80 } }, [
+                              _c("v-uni-text", { attrs: { _i: 74 } }, [
                                 _vm._v("发包金额修改")
                               ]),
-                              _c("v-uni-text", { attrs: { _i: 81 } }, [
+                              _c("v-uni-text", { attrs: { _i: 75 } }, [
                                 _vm._v(
-                                  _vm._$g(81, "t0-0") +
+                                  _vm._$g(75, "t0-0") +
                                     " - " +
-                                    _vm._$g(81, "t0-1")
+                                    _vm._$g(75, "t0-1")
                                 )
                               ]),
                               _c("v-uni-image", {
                                 attrs: {
                                   src: "/static/img/wo/youjiantou.png",
-                                  _i: 82
+                                  _i: 76
                                 }
                               })
                             ],
@@ -22140,32 +22103,32 @@ var render = function() {
                         1
                       )
                     : _vm._e(),
-                  _vm._$g(83, "i")
+                  _vm._$g(77, "i")
                     ? _c(
                         "li",
-                        { staticClass: _vm._$g(83, "sc"), attrs: { _i: 83 } },
+                        { staticClass: _vm._$g(77, "sc"), attrs: { _i: 77 } },
                         [
                           _c(
                             "v-uni-navigator",
                             {
                               attrs: {
-                                url: _vm._$g(84, "a-url"),
+                                url: _vm._$g(78, "a-url"),
                                 "open-type": "navigate",
                                 "hover-class": "",
-                                _i: 84
+                                _i: 78
                               }
                             },
                             [
-                              _c("v-uni-text", { attrs: { _i: 85 } }, [
+                              _c("v-uni-text", { attrs: { _i: 79 } }, [
                                 _vm._v("修改群赔率倍数")
                               ]),
-                              _c("v-uni-text", { attrs: { _i: 86 } }, [
-                                _vm._v(_vm._$g(86, "t0-0") + "倍")
+                              _c("v-uni-text", { attrs: { _i: 80 } }, [
+                                _vm._v(_vm._$g(80, "t0-0") + "倍")
                               ]),
                               _c("v-uni-image", {
                                 attrs: {
                                   src: "/static/img/wo/youjiantou.png",
-                                  _i: 87
+                                  _i: 81
                                 }
                               })
                             ],
@@ -22175,32 +22138,32 @@ var render = function() {
                         1
                       )
                     : _vm._e(),
-                  _vm._$g(88, "i")
+                  _vm._$g(82, "i")
                     ? _c(
                         "li",
-                        { staticClass: _vm._$g(88, "sc"), attrs: { _i: 88 } },
+                        { staticClass: _vm._$g(82, "sc"), attrs: { _i: 82 } },
                         [
                           _c(
                             "v-uni-navigator",
                             {
                               attrs: {
-                                url: _vm._$g(89, "a-url"),
+                                url: _vm._$g(83, "a-url"),
                                 "open-type": "navigate",
                                 "hover-class": "",
-                                _i: 89
+                                _i: 83
                               }
                             },
                             [
-                              _c("v-uni-text", { attrs: { _i: 90 } }, [
+                              _c("v-uni-text", { attrs: { _i: 84 } }, [
                                 _vm._v("修改2中2赔率")
                               ]),
-                              _c("v-uni-text", { attrs: { _i: 91 } }, [
-                                _vm._v(_vm._$g(91, "t0-0") + "倍")
+                              _c("v-uni-text", { attrs: { _i: 85 } }, [
+                                _vm._v(_vm._$g(85, "t0-0") + "倍")
                               ]),
                               _c("v-uni-image", {
                                 attrs: {
                                   src: "/static/img/wo/youjiantou.png",
-                                  _i: 92
+                                  _i: 86
                                 }
                               })
                             ],
@@ -22210,32 +22173,32 @@ var render = function() {
                         1
                       )
                     : _vm._e(),
-                  _vm._$g(93, "i")
+                  _vm._$g(87, "i")
                     ? _c(
                         "li",
-                        { staticClass: _vm._$g(93, "sc"), attrs: { _i: 93 } },
+                        { staticClass: _vm._$g(87, "sc"), attrs: { _i: 87 } },
                         [
                           _c(
                             "v-uni-navigator",
                             {
                               attrs: {
-                                url: _vm._$g(94, "a-url"),
+                                url: _vm._$g(88, "a-url"),
                                 "open-type": "navigate",
                                 "hover-class": "",
-                                _i: 94
+                                _i: 88
                               }
                             },
                             [
-                              _c("v-uni-text", { attrs: { _i: 95 } }, [
+                              _c("v-uni-text", { attrs: { _i: 89 } }, [
                                 _vm._v("修改3中3赔率")
                               ]),
-                              _c("v-uni-text", { attrs: { _i: 96 } }, [
-                                _vm._v(_vm._$g(96, "t0-0") + "倍")
+                              _c("v-uni-text", { attrs: { _i: 90 } }, [
+                                _vm._v(_vm._$g(90, "t0-0") + "倍")
                               ]),
                               _c("v-uni-image", {
                                 attrs: {
                                   src: "/static/img/wo/youjiantou.png",
-                                  _i: 97
+                                  _i: 91
                                 }
                               })
                             ],
@@ -22245,32 +22208,32 @@ var render = function() {
                         1
                       )
                     : _vm._e(),
-                  _vm._$g(98, "i")
+                  _vm._$g(92, "i")
                     ? _c(
                         "li",
-                        { staticClass: _vm._$g(98, "sc"), attrs: { _i: 98 } },
+                        { staticClass: _vm._$g(92, "sc"), attrs: { _i: 92 } },
                         [
                           _c(
                             "v-uni-navigator",
                             {
                               attrs: {
-                                url: _vm._$g(99, "a-url"),
+                                url: _vm._$g(93, "a-url"),
                                 "open-type": "navigate",
                                 "hover-class": "",
-                                _i: 99
+                                _i: 93
                               }
                             },
                             [
-                              _c("v-uni-text", { attrs: { _i: 100 } }, [
+                              _c("v-uni-text", { attrs: { _i: 94 } }, [
                                 _vm._v("修改4中4赔率")
                               ]),
-                              _c("v-uni-text", { attrs: { _i: 101 } }, [
-                                _vm._v(_vm._$g(101, "t0-0") + "倍")
+                              _c("v-uni-text", { attrs: { _i: 95 } }, [
+                                _vm._v(_vm._$g(95, "t0-0") + "倍")
                               ]),
                               _c("v-uni-image", {
                                 attrs: {
                                   src: "/static/img/wo/youjiantou.png",
-                                  _i: 102
+                                  _i: 96
                                 }
                               })
                             ],
@@ -22280,32 +22243,32 @@ var render = function() {
                         1
                       )
                     : _vm._e(),
-                  _vm._$g(103, "i")
+                  _vm._$g(97, "i")
                     ? _c(
                         "li",
-                        { staticClass: _vm._$g(103, "sc"), attrs: { _i: 103 } },
+                        { staticClass: _vm._$g(97, "sc"), attrs: { _i: 97 } },
                         [
                           _c(
                             "v-uni-navigator",
                             {
                               attrs: {
-                                url: _vm._$g(104, "a-url"),
+                                url: _vm._$g(98, "a-url"),
                                 "open-type": "navigate",
                                 "hover-class": "",
-                                _i: 104
+                                _i: 98
                               }
                             },
                             [
-                              _c("v-uni-text", { attrs: { _i: 105 } }, [
+                              _c("v-uni-text", { attrs: { _i: 99 } }, [
                                 _vm._v("红包失效时间")
                               ]),
-                              _c("v-uni-text", { attrs: { _i: 106 } }, [
-                                _vm._v(_vm._$g(106, "t0-0") + "分")
+                              _c("v-uni-text", { attrs: { _i: 100 } }, [
+                                _vm._v(_vm._$g(100, "t0-0") + "分")
                               ]),
                               _c("v-uni-image", {
                                 attrs: {
                                   src: "/static/img/wo/youjiantou.png",
-                                  _i: 107
+                                  _i: 101
                                 }
                               })
                             ],
@@ -22315,32 +22278,32 @@ var render = function() {
                         1
                       )
                     : _vm._e(),
-                  _vm._$g(108, "i")
+                  _vm._$g(102, "i")
                     ? _c(
                         "li",
-                        { staticClass: _vm._$g(108, "sc"), attrs: { _i: 108 } },
+                        { staticClass: _vm._$g(102, "sc"), attrs: { _i: 102 } },
                         [
                           _c(
                             "v-uni-navigator",
                             {
                               attrs: {
-                                url: _vm._$g(109, "a-url"),
+                                url: _vm._$g(103, "a-url"),
                                 "open-type": "navigate",
                                 "hover-class": "",
-                                _i: 109
+                                _i: 103
                               }
                             },
                             [
-                              _c("v-uni-text", { attrs: { _i: 110 } }, [
+                              _c("v-uni-text", { attrs: { _i: 104 } }, [
                                 _vm._v("红包返点")
                               ]),
-                              _c("v-uni-text", { attrs: { _i: 111 } }, [
-                                _vm._v(_vm._$g(111, "t0-0") + "%")
+                              _c("v-uni-text", { attrs: { _i: 105 } }, [
+                                _vm._v(_vm._$g(105, "t0-0") + "%")
                               ]),
                               _c("v-uni-image", {
                                 attrs: {
                                   src: "/static/img/wo/youjiantou.png",
-                                  _i: 112
+                                  _i: 106
                                 }
                               })
                             ],
@@ -22350,32 +22313,32 @@ var render = function() {
                         1
                       )
                     : _vm._e(),
-                  _vm._$g(113, "i")
+                  _vm._$g(107, "i")
                     ? _c(
                         "li",
-                        { staticClass: _vm._$g(113, "sc"), attrs: { _i: 113 } },
+                        { staticClass: _vm._$g(107, "sc"), attrs: { _i: 107 } },
                         [
                           _c(
                             "v-uni-navigator",
                             {
                               attrs: {
-                                url: _vm._$g(114, "a-url"),
+                                url: _vm._$g(108, "a-url"),
                                 "open-type": "navigate",
                                 "hover-class": "",
-                                _i: 114
+                                _i: 108
                               }
                             },
                             [
-                              _c("v-uni-text", { attrs: { _i: 115 } }, [
+                              _c("v-uni-text", { attrs: { _i: 109 } }, [
                                 _vm._v("推荐人返点")
                               ]),
-                              _c("v-uni-text", { attrs: { _i: 116 } }, [
-                                _vm._v(_vm._$g(116, "t0-0") + "%")
+                              _c("v-uni-text", { attrs: { _i: 110 } }, [
+                                _vm._v(_vm._$g(110, "t0-0") + "%")
                               ]),
                               _c("v-uni-image", {
                                 attrs: {
                                   src: "/static/img/wo/youjiantou.png",
-                                  _i: 117
+                                  _i: 111
                                 }
                               })
                             ],
@@ -22385,32 +22348,32 @@ var render = function() {
                         1
                       )
                     : _vm._e(),
-                  _vm._$g(118, "i")
+                  _vm._$g(112, "i")
                     ? _c(
                         "li",
-                        { staticClass: _vm._$g(118, "sc"), attrs: { _i: 118 } },
+                        { staticClass: _vm._$g(112, "sc"), attrs: { _i: 112 } },
                         [
                           _c(
                             "v-uni-navigator",
                             {
                               attrs: {
-                                url: _vm._$g(119, "a-url"),
+                                url: _vm._$g(113, "a-url"),
                                 "open-type": "navigate",
                                 "hover-class": "",
-                                _i: 119
+                                _i: 113
                               }
                             },
                             [
-                              _c("v-uni-text", { attrs: { _i: 120 } }, [
+                              _c("v-uni-text", { attrs: { _i: 114 } }, [
                                 _vm._v("推荐人上级返点")
                               ]),
-                              _c("v-uni-text", { attrs: { _i: 121 } }, [
-                                _vm._v(_vm._$g(121, "t0-0") + "%")
+                              _c("v-uni-text", { attrs: { _i: 115 } }, [
+                                _vm._v(_vm._$g(115, "t0-0") + "%")
                               ]),
                               _c("v-uni-image", {
                                 attrs: {
                                   src: "/static/img/wo/youjiantou.png",
-                                  _i: 122
+                                  _i: 116
                                 }
                               })
                             ],
@@ -22420,32 +22383,32 @@ var render = function() {
                         1
                       )
                     : _vm._e(),
-                  _vm._$g(123, "i")
+                  _vm._$g(117, "i")
                     ? _c(
                         "li",
-                        { staticClass: _vm._$g(123, "sc"), attrs: { _i: 123 } },
+                        { staticClass: _vm._$g(117, "sc"), attrs: { _i: 117 } },
                         [
                           _c(
                             "v-uni-navigator",
                             {
                               attrs: {
-                                url: _vm._$g(124, "a-url"),
+                                url: _vm._$g(118, "a-url"),
                                 "open-type": "navigate",
                                 "hover-class": "",
-                                _i: 124
+                                _i: 118
                               }
                             },
                             [
-                              _c("v-uni-text", { attrs: { _i: 125 } }, [
+                              _c("v-uni-text", { attrs: { _i: 119 } }, [
                                 _vm._v("上分最低金额")
                               ]),
-                              _c("v-uni-text", { attrs: { _i: 126 } }, [
-                                _vm._v(_vm._$g(126, "t0-0"))
+                              _c("v-uni-text", { attrs: { _i: 120 } }, [
+                                _vm._v(_vm._$g(120, "t0-0"))
                               ]),
                               _c("v-uni-image", {
                                 attrs: {
                                   src: "/static/img/wo/youjiantou.png",
-                                  _i: 127
+                                  _i: 121
                                 }
                               })
                             ],
@@ -22455,32 +22418,32 @@ var render = function() {
                         1
                       )
                     : _vm._e(),
-                  _vm._$g(128, "i")
+                  _vm._$g(122, "i")
                     ? _c(
                         "li",
-                        { staticClass: _vm._$g(128, "sc"), attrs: { _i: 128 } },
+                        { staticClass: _vm._$g(122, "sc"), attrs: { _i: 122 } },
                         [
                           _c(
                             "v-uni-navigator",
                             {
                               attrs: {
-                                url: _vm._$g(129, "a-url"),
+                                url: _vm._$g(123, "a-url"),
                                 "open-type": "navigate",
                                 "hover-class": "",
-                                _i: 129
+                                _i: 123
                               }
                             },
                             [
-                              _c("v-uni-text", { attrs: { _i: 130 } }, [
+                              _c("v-uni-text", { attrs: { _i: 124 } }, [
                                 _vm._v("下分最低金额")
                               ]),
-                              _c("v-uni-text", { attrs: { _i: 131 } }, [
-                                _vm._v(_vm._$g(131, "t0-0"))
+                              _c("v-uni-text", { attrs: { _i: 125 } }, [
+                                _vm._v(_vm._$g(125, "t0-0"))
                               ]),
                               _c("v-uni-image", {
                                 attrs: {
                                   src: "/static/img/wo/youjiantou.png",
-                                  _i: 132
+                                  _i: 126
                                 }
                               })
                             ],
@@ -22492,32 +22455,32 @@ var render = function() {
                     : _vm._e(),
                   _c(
                     "li",
-                    { staticClass: _vm._$g(133, "sc"), attrs: { _i: 133 } },
+                    { staticClass: _vm._$g(127, "sc"), attrs: { _i: 127 } },
                     [
                       _c(
                         "v-uni-navigator",
                         {
                           attrs: {
-                            url: _vm._$g(134, "a-url"),
-                            "open-type": _vm._$g(134, "a-open-type"),
+                            url: _vm._$g(128, "a-url"),
+                            "open-type": _vm._$g(128, "a-open-type"),
                             "hover-class": "",
-                            _i: 134
+                            _i: 128
                           }
                         },
                         [
-                          _c("v-uni-text", { attrs: { _i: 135 } }, [
+                          _c("v-uni-text", { attrs: { _i: 129 } }, [
                             _vm._v("奖励规则")
                           ]),
-                          _vm._$g(136, "i")
-                            ? _c("v-uni-text", { attrs: { _i: 136 } }, [
+                          _vm._$g(130, "i")
+                            ? _c("v-uni-text", { attrs: { _i: 130 } }, [
                                 _vm._v("调整规则")
                               ])
                             : _vm._e(),
-                          _vm._$g(137, "i")
+                          _vm._$g(131, "i")
                             ? _c("v-uni-image", {
                                 attrs: {
                                   src: "/static/img/wo/youjiantou.png",
-                                  _i: 137
+                                  _i: 131
                                 }
                               })
                             : _vm._e()
@@ -22527,23 +22490,23 @@ var render = function() {
                     ],
                     1
                   ),
-                  _vm._l(_vm._$g(138, "f"), function(item, index, $21, $31) {
+                  _vm._l(_vm._$g(132, "f"), function(item, index, $21, $31) {
                     return _c(
                       "li",
                       {
                         key: item,
-                        staticClass: _vm._$g("138-" + $31, "sc"),
-                        attrs: { _i: "138-" + $31 }
+                        staticClass: _vm._$g("132-" + $31, "sc"),
+                        attrs: { _i: "132-" + $31 }
                       },
                       [
-                        _c("v-uni-text", { attrs: { _i: "139-" + $31 } }, [
-                          _vm._v(_vm._$g("139-" + $31, "t0-0"))
+                        _c("v-uni-text", { attrs: { _i: "133-" + $31 } }, [
+                          _vm._v(_vm._$g("133-" + $31, "t0-0"))
                         ]),
-                        _c("v-uni-text", { attrs: { _i: "140-" + $31 } }, [
-                          _vm._v(_vm._$g("140-" + $31, "t0-0"))
+                        _c("v-uni-text", { attrs: { _i: "134-" + $31 } }, [
+                          _vm._v(_vm._$g("134-" + $31, "t0-0"))
                         ]),
-                        _c("v-uni-text", { attrs: { _i: "141-" + $31 } }, [
-                          _vm._v(_vm._$g("141-" + $31, "t0-0"))
+                        _c("v-uni-text", { attrs: { _i: "135-" + $31 } }, [
+                          _vm._v(_vm._$g("135-" + $31, "t0-0"))
                         ])
                       ],
                       1
@@ -22561,7 +22524,7 @@ var render = function() {
       _c(
         "chunLei-modal",
         {
-          attrs: { _i: 142 },
+          attrs: { _i: 136 },
           on: {
             onConfirm: function($event) {
               return _vm.$handleViewEvent($event)
@@ -22571,7 +22534,7 @@ var render = function() {
             }
           },
           model: {
-            value: _vm._$g(142, "v-model"),
+            value: _vm._$g(136, "v-model"),
             callback: function() {},
             expression: "value"
           }
@@ -22580,8 +22543,8 @@ var render = function() {
           _c(
             "v-uni-view",
             {
-              staticClass: _vm._$g(143, "sc"),
-              attrs: { _i: 143 },
+              staticClass: _vm._$g(137, "sc"),
+              attrs: { _i: 137 },
               on: {
                 click: function($event) {
                   return _vm.$handleViewEvent($event, { stop: true })
@@ -22592,22 +22555,91 @@ var render = function() {
               _c(
                 "v-uni-view",
                 {
-                  staticClass: _vm._$g(144, "sc"),
-                  class: _vm._$g(144, "c"),
+                  staticClass: _vm._$g(138, "sc"),
+                  class: _vm._$g(138, "c"),
                   staticStyle: { "text-align": "center" },
-                  attrs: { _i: 144 }
+                  attrs: { _i: 138 }
                 },
                 [
                   _c(
                     "v-uni-view",
-                    { attrs: { _i: 145 } },
+                    { attrs: { _i: 139 } },
                     [
-                      _c("v-uni-text", { attrs: { _i: 146 } }, [
+                      _c("v-uni-text", { attrs: { _i: 140 } }, [
                         _vm._v("设置权限")
                       ])
                     ],
                     1
                   ),
+                  _vm._$g(141, "i")
+                    ? _c(
+                        "v-uni-view",
+                        { attrs: { _i: 141 } },
+                        [
+                          _c(
+                            "v-uni-button",
+                            {
+                              class: _vm._$g(142, "c"),
+                              staticStyle: { "margin-top": "15upx" },
+                              attrs: { plain: true, size: "mini", _i: 142 },
+                              on: {
+                                click: function($event) {
+                                  return _vm.$handleViewEvent($event)
+                                }
+                              }
+                            },
+                            [_vm._v("设为客服")]
+                          )
+                        ],
+                        1
+                      )
+                    : _vm._e(),
+                  _vm._$g(143, "i")
+                    ? _c(
+                        "v-uni-view",
+                        { attrs: { _i: 143 } },
+                        [
+                          _c(
+                            "v-uni-button",
+                            {
+                              class: _vm._$g(144, "c"),
+                              staticStyle: { "margin-top": "15upx" },
+                              attrs: { plain: true, size: "mini", _i: 144 },
+                              on: {
+                                click: function($event) {
+                                  return _vm.$handleViewEvent($event)
+                                }
+                              }
+                            },
+                            [_vm._v("设为财务")]
+                          )
+                        ],
+                        1
+                      )
+                    : _vm._e(),
+                  _vm._$g(145, "i")
+                    ? _c(
+                        "v-uni-view",
+                        { attrs: { _i: 145 } },
+                        [
+                          _c(
+                            "v-uni-button",
+                            {
+                              class: _vm._$g(146, "c"),
+                              staticStyle: { "margin-top": "15upx" },
+                              attrs: { plain: true, size: "mini", _i: 146 },
+                              on: {
+                                click: function($event) {
+                                  return _vm.$handleViewEvent($event)
+                                }
+                              }
+                            },
+                            [_vm._v("设为免死号")]
+                          )
+                        ],
+                        1
+                      )
+                    : _vm._e(),
                   _vm._$g(147, "i")
                     ? _c(
                         "v-uni-view",
@@ -22625,7 +22657,7 @@ var render = function() {
                                 }
                               }
                             },
-                            [_vm._v("设为客服")]
+                            [_vm._v("设为普通用户")]
                           )
                         ],
                         1
@@ -22648,75 +22680,6 @@ var render = function() {
                                 }
                               }
                             },
-                            [_vm._v("设为财务")]
-                          )
-                        ],
-                        1
-                      )
-                    : _vm._e(),
-                  _vm._$g(151, "i")
-                    ? _c(
-                        "v-uni-view",
-                        { attrs: { _i: 151 } },
-                        [
-                          _c(
-                            "v-uni-button",
-                            {
-                              class: _vm._$g(152, "c"),
-                              staticStyle: { "margin-top": "15upx" },
-                              attrs: { plain: true, size: "mini", _i: 152 },
-                              on: {
-                                click: function($event) {
-                                  return _vm.$handleViewEvent($event)
-                                }
-                              }
-                            },
-                            [_vm._v("设为免死号")]
-                          )
-                        ],
-                        1
-                      )
-                    : _vm._e(),
-                  _vm._$g(153, "i")
-                    ? _c(
-                        "v-uni-view",
-                        { attrs: { _i: 153 } },
-                        [
-                          _c(
-                            "v-uni-button",
-                            {
-                              class: _vm._$g(154, "c"),
-                              staticStyle: { "margin-top": "15upx" },
-                              attrs: { plain: true, size: "mini", _i: 154 },
-                              on: {
-                                click: function($event) {
-                                  return _vm.$handleViewEvent($event)
-                                }
-                              }
-                            },
-                            [_vm._v("设为普通用户")]
-                          )
-                        ],
-                        1
-                      )
-                    : _vm._e(),
-                  _vm._$g(155, "i")
-                    ? _c(
-                        "v-uni-view",
-                        { attrs: { _i: 155 } },
-                        [
-                          _c(
-                            "v-uni-button",
-                            {
-                              class: _vm._$g(156, "c"),
-                              staticStyle: { "margin-top": "15upx" },
-                              attrs: { plain: true, size: "mini", _i: 156 },
-                              on: {
-                                click: function($event) {
-                                  return _vm.$handleViewEvent($event)
-                                }
-                              }
-                            },
                             [_vm._v("设为股东")]
                           )
                         ],
@@ -22725,20 +22688,20 @@ var render = function() {
                     : _vm._e(),
                   _c(
                     "v-uni-view",
-                    { attrs: { _i: 157 } },
+                    { attrs: { _i: 151 } },
                     [
                       _c(
                         "v-uni-button",
                         {
                           staticStyle: { "margin-top": "15upx" },
-                          attrs: { plain: true, size: "mini", _i: 158 },
+                          attrs: { plain: true, size: "mini", _i: 152 },
                           on: {
                             click: function($event) {
                               return _vm.$handleViewEvent($event)
                             }
                           }
                         },
-                        [_vm._v(_vm._$g(158, "t0-0"))]
+                        [_vm._v(_vm._$g(152, "t0-0"))]
                       )
                     ],
                     1
