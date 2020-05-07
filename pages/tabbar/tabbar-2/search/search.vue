@@ -53,9 +53,8 @@
 		onNavigationBarSearchInputChanged(obj){ //值变化
 			// console.log(obj.txt)
 			if(obj.text.length < 2) {
-				return;
 			}
-			// this.seach(obj.text);
+			this.seach(obj.text);
 		},
 		onNavigationBarSearchInputConfirmed(obj){ //点搜索
 
