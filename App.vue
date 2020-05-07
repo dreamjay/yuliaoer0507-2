@@ -1,7 +1,6 @@
 
 <script>
 
-
 export default {
 	
 	data(){
@@ -9,7 +8,8 @@ export default {
 			connectionStatus:false,
 			isPush:true,
 			offSwith:true,
-			socketTask:null
+			socketTask:null,
+			timer:null,
 		}
 	},
 	
@@ -26,10 +26,20 @@ export default {
 		
 		uni.$on("ping",this.ping)
 		
+		uni.$on("xintiao",this.xintiao)
+		
 		uni.$on("MESSAGE",this.messageDetail)
 		
 		// 检测token
 		this.checkToken();
+		
+		if(!this.timer){
+			this.timer = setInterval(()=>{
+				uni.$emit("ping")
+				uni.$emit("xintiao")
+				
+			},5000);
+		}
 	},
 	onShow: function() {
 		console.log('App Show');
@@ -63,6 +73,19 @@ export default {
 			}
 			
 		},
+		
+		xintiao(){
+			var that = this;
+			this.socketTask.send({
+				data: "1",
+				success() {
+					that.connectionStatus =true;
+				},
+				fail() {
+					that.connectionStatus =false;
+				}
+			});
+		},
 
 		resetConnection(){
 			
@@ -75,6 +98,7 @@ export default {
 		// 强制连接
 		connection(){
 			var that = this;
+			
 			// 检测是token否为空
 			var token = uni.getStorageSync("token");
 			if(!token){
@@ -82,12 +106,19 @@ export default {
 				return;
 			}
 			
+		
+			
+			
+			
 			this.socketTask = uni.connectSocket({
 				// 【非常重要】必须确保你的服务器是成功的,如果是手机测试千万别使用ws://127.0.0.1:9099【特别容易犯的错误】
 				url: this.$http.wsUrl+token,
 				success(data) {
-					console.log("websocket连接成功");
+				
 				},
+				fail() {
+					this.connectionStatus = false;
+				}
 			});
 
 
@@ -102,18 +133,20 @@ export default {
 				// 	},
 				// });
 				// 注：只有连接正常打开中 ，才能正常收到消息
-				this.socketTask.onMessage((res) => {
-					console.log('收到服务器内容：' + res.data);
-					if(!res.data){
-						return
-					}
-					var obj = JSON.parse(res.data);
-					uni.$emit("MESSAGE",obj);
-					
-					
-					
-				});
+			
 			})
+			
+			this.socketTask.onMessage((res) => {
+				console.log('收到服务器内容：' + res.data);
+				if(!res.data){
+					return
+				}
+				var obj = JSON.parse(res.data);
+				uni.$emit("MESSAGE",obj);
+				
+				
+				
+			});
 			// 这里仅是事件监听【如果socket关闭了会执行】
 			this.socketTask.onClose(() => {
 				this.connectionStatus = false;
@@ -122,22 +155,7 @@ export default {
 			this.socketTask.onError(()=>{
 					this.connectionStatus = false;
 			})
-
-		
-			// uni.onSocketError((res)=> {
-			// 	this.connectionStatus = false;
-			// 	uni.closeSocket({
-			// 		success() {
-			// 			console.log("关闭连接成功")
-			// 		},
-			// 		fail(err){
-			// 			console.log("关闭连接失败，",JSON.stringify(err))
-			// 		}
-			// 	})
-			//     console.log('WebSocket连接打开失败，请检查！',JSON.stringify(res));
-			// });
-
-		
+			
 		},
 		close(){
 			uni.closeSocket({
